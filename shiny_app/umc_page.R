@@ -1,5 +1,9 @@
 ## Define the page layout
 
+iv_umc <- read_csv(
+    "data/ct-dashboard-intovalue-umc.csv"
+)
+
 umc_page <- tabPanel(
     "One UMC", value = "tabUMC",
     wellPanel(
