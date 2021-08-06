@@ -38,6 +38,7 @@ source("all_umc_plots.R")
 source("start_page.R")
 source("umc_page.R")
 source("all_umcs_page.R")
+source("why_page.R")
 source("methods_page.R")
 source("datasets_page.R")
 source("about_rm.R")
@@ -51,6 +52,7 @@ ui <- tagList(
         start_page,
         all_umcs_page,
         umc_page,
+        why_page,
         methods_page,
         datasets_page,
         faq_page,
