@@ -1398,7 +1398,7 @@ server <- function (input, output, session) {
                                         # Data tables #
     
     output$data_table_eutt_data <- DT::renderDataTable({
-        make_datatable(eutt_data)
+        make_datatable(eutt_hist)
     })
 
     output$data_table_iv_data <- DT::renderDataTable({
