@@ -41,6 +41,7 @@ source("all_umcs_page.R")
 source("methods_page.R")
 source("datasets_page.R")
 source("about_rm.R")
+source("faq_page.R")
 
 ## Define UI
 ui <- tagList(
@@ -52,6 +53,7 @@ ui <- tagList(
         umc_page,
         methods_page,
         datasets_page,
+        faq_page,
         about_rm_page,
         tags$head
         (
