@@ -274,7 +274,7 @@ plot_clinicaltrials_timpub_2a <- function (dataset, rt, color_palette) {
             ) %>%
             nrow()
         all_percentage <- 100*all_numer/all_denom
-
+        
         plot_data <- plot_data %>%
             bind_rows(
                 tribble(
@@ -370,13 +370,20 @@ plot_clinicaltrials_timpub_5a <- function (dataset, rt, color_palette) {
             nrow()
         all_percentage <- 100*all_numer/all_denom
 
-        plot_data <- plot_data %>%
-            bind_rows(
-                tribble(
-                    ~year, ~all_percentage,
-                    current_year, all_percentage
+        
+
+        if (all_denom > 5) { ## This is because we only have 1 data
+                             ## point in 2013 with 5 years of
+                             ## follow-up
+
+            plot_data <- plot_data %>%
+                bind_rows(
+                    tribble(
+                        ~year, ~all_percentage,
+                        current_year, all_percentage
+                    )
                 )
-            )
+        }
         
     }
 
