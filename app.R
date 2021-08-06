@@ -381,7 +381,6 @@ server <- function (input, output, session) {
     output$startreport2a <- renderUI({
 
         iv_data_unique <- iv_all %>%
-            filter(completion_date >= as.Date("2017-01-01")) %>%
             filter(has_followup_2y == TRUE)
 
         all_numer_timpub <- iv_data_unique %>%
@@ -431,7 +430,6 @@ server <- function (input, output, session) {
     output$startreport5a <-  renderUI({
 
         iv_data_unique <- iv_all %>%
-            filter(completion_date >= as.Date("2015-01-01")) %>%
             filter(has_followup_5y == TRUE)
 
         all_numer_timpub5a <- iv_data_unique %>%
@@ -789,7 +787,6 @@ server <- function (input, output, session) {
     output$report2a <- renderUI({
 
         iv_data_unique <- iv_umc %>%
-            filter(completion_date >= as.Date("2017-01-01")) %>%
             filter(city == input$selectUMC) %>%
             filter(has_followup_2y == TRUE)
 
@@ -839,7 +836,6 @@ server <- function (input, output, session) {
 
         iv_data_unique <- iv_umc %>%
             filter(city == input$selectUMC) %>%
-            filter(completion_date >= as.Date("2015-01-01")) %>%
             filter(has_followup_5y == TRUE)
             
         
