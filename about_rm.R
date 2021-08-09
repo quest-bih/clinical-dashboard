@@ -1,5 +1,5 @@
 about_rm_page <- tabPanel(
-    "About Responsible Metrics",
+    "Contributions",
     value = "tabAboutRM",
     h2("Contributions"),
     br(),
