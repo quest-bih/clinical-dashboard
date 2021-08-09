@@ -181,6 +181,7 @@ umc_plot_clinicaltrials_trn <- function (dataset, umc, color_palette) {
 umc_plot_linkage <- function (dataset, umc, color_palette) {
 
     dataset <- dataset %>%
+        filter(publication_type == "journal publication") %>%
         filter (has_pubmed == TRUE | ! is.na (doi))
     
     umcdata <- dataset %>%

@@ -222,10 +222,12 @@ server <- function (input, output, session) {
 
         link_num <- iv_all %>%
             filter(has_reg_pub_link == TRUE) %>%
+            filter(publication_type == "journal publication") %>%
             nrow()
 
         link_den <- iv_all %>%
             filter (has_pubmed == TRUE | ! is.na (doi)) %>%
+            filter(publication_type == "journal publication") %>%
             nrow()
             
         linkage <- paste0(round(100*link_num/link_den), "%")
@@ -624,11 +626,13 @@ server <- function (input, output, session) {
             link_num <- iv_umc %>%
                 filter(city == input$selectUMC) %>%
                 filter(has_reg_pub_link == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
                 nrow()
 
             link_den <- iv_umc %>%
                 filter(city == input$selectUMC) %>%
                 filter (has_pubmed == TRUE | ! is.na (doi)) %>%
+                filter(publication_type == "journal publication") %>%
                 nrow()
 
             linkage <- paste0(round(100*link_num/link_den), "%")
@@ -1015,10 +1019,12 @@ server <- function (input, output, session) {
 
         all_numer_link <- iv_all %>%
             filter(has_reg_pub_link == TRUE) %>%
+            filter(publication_type == "journal publication") %>%
             nrow()
 
         all_denom_link <- iv_all %>%
             filter(has_pubmed == TRUE | ! is.na (doi)) %>%
+            filter(publication_type == "journal publication") %>%
             nrow()
 
         wellPanel(

@@ -136,9 +136,11 @@ plot_linkage <- function (dataset, color_palette) {
 
     numer <- dataset %>%
         filter(has_reg_pub_link == TRUE) %>%
+        filter(publication_type == "journal publication") %>%
         nrow()
     denom <- dataset %>%
         filter(has_pubmed == TRUE | ! is.na (doi)) %>%
+        filter(publication_type == "journal publication") %>%
         nrow()
 
     plot_data <- tribble(
