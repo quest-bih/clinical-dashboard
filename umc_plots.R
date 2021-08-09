@@ -57,9 +57,6 @@ umc_plot_clinicaltrials_prereg <- function (dataset, umc, color_palette) {
         
     }
 
-    plot_data %>%
-        write_csv(paste0(umc, ".csv"))
-
     plot_ly(
         plot_data,
         x = ~year,
