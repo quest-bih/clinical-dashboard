@@ -60,11 +60,11 @@ plot_clinicaltrials_prereg <- function (dataset, color_palette) {
     ) %>%
         layout(
             yaxis = list(
-                title = '<b>Prospective registration (%)</b>',
+                title = '<b>Percentage of trials (%)</b>',
                 range = c(0, 100)
             ),
             xaxis = list(
-                title = '<b>Date</b>',
+                title = '<b>Completion year</b>',
                 dtick = 1
             ),
             paper_bgcolor = color_palette[9],

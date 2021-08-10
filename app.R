@@ -190,12 +190,14 @@ server <- function (input, output, session) {
 
         iv_data_unique <- iv_all %>%
             filter(! is.na (start_date))
-
+        
+        # Filter for 2017 completion date for the pink descriptor text
         all_numer_prereg <- iv_data_unique %>%
             filter(completion_date >= as.Date("2017-01-01")) %>%
             filter(is_prospective) %>%
             nrow()
-
+        
+        # Filter for 2017 completion date for the pink descriptor text
         all_denom_prereg <- iv_data_unique %>%
             filter(completion_date >= as.Date("2017-01-01")) %>%
             nrow()
@@ -205,7 +207,7 @@ server <- function (input, output, session) {
             preregvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
         } else {
             preregval <- paste0(round(100*all_numer_prereg/all_denom_prereg), "%")
-            preregvaltext <- "of registered clinical trials that completed in 2017 were prospectively registered"
+            preregvaltext <- "of registered clinical trials completed in 2017 were prospectively registered"
         }
 
         ## Value for TRN
@@ -591,12 +593,14 @@ server <- function (input, output, session) {
             iv_data_unique <- iv_umc %>%
                 filter(city == input$selectUMC) %>%
                 filter(! is.na (start_date))
-
+            
+            # Filter for 2017 completion date for the pink descriptor text
             all_numer_prereg <- iv_data_unique %>%
                 filter(completion_date >= as.Date("2017-01-01")) %>%
                 filter(is_prospective) %>%
                 nrow()
-
+            
+            # Filter for 2017 completion date for the pink descriptor text
             all_denom_prereg <- iv_data_unique %>%
                 filter(completion_date >= as.Date("2017-01-01")) %>%
                 nrow()
@@ -606,7 +610,7 @@ server <- function (input, output, session) {
                 preregvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
             } else {
                 preregval <- paste0(round(100*all_numer_prereg/all_denom_prereg), "%")
-                preregvaltext <- "of registered clinical trials that completed in 2017 were prospectively registered"
+                preregvaltext <- "of registered clinical trials completed in 2017 were prospectively registered"
             }
 
             ## Value for TRN
@@ -1036,7 +1040,7 @@ server <- function (input, output, session) {
                     metric_box(
                         title = "Prospective registration",
                         value = paste0(round(100*all_numer_prereg/all_denom_prereg), "%"),
-                        value_text = "of clinical trials were prospectively registered in ClinicalTrials.gov",
+                        value_text = "of clinical trials were prospectively registered",
                         plot = plotlyOutput('plot_allumc_clinicaltrials_prereg', height="300px"),
                         info_id = "infoALLUMCPreReg",
                         info_title = "Prospective registration (All UMCs)",

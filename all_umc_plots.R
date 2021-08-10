@@ -53,7 +53,7 @@ plot_allumc_clinicaltrials_prereg <- function (dataset, color_palette, color_pal
                 title = '<b>UMC</b>'
             ),
             yaxis = list(
-                title = '<b>Prospective registration (%)</b>',
+                title = '<b>Percentage of trials (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],

@@ -79,11 +79,11 @@ umc_plot_clinicaltrials_prereg <- function (dataset, umc, color_palette) {
         ) %>%
         layout(
             xaxis = list(
-                title = '<b>Year</b>',
+                title = '<b>Completion year</b>',
                 dtick = 1
             ),
             yaxis = list(
-                title = '<b>Prospective registration (%)</b>',
+                title = '<b>Percentage of trials (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],
