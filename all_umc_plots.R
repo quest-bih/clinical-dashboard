@@ -92,12 +92,20 @@ plot_allumc_clinicaltrials_trn <- function (dataset, color_palette) {
 
         umc_ft_denom <- dataset %>%
             filter(city == umc) %>%
-            filter(! is.na(has_iv_trn_ft_pdf)) %>%
+            filter(has_publication,
+                   publication_type == "journal publication",
+                   has_ft_pdf,
+                   ! is.na(has_iv_trn_ft_pdf)
+                   ) %>%
             nrow()
         
         umc_abs_denom <- dataset %>%
             filter(city == umc) %>%
-            filter(! is.na(has_iv_trn_abstract)) %>%
+            filter(has_publication,
+                   publication_type == "journal publication",
+                   has_pubmed,
+                   ! is.na(has_iv_trn_abstract)
+                   ) %>%
             nrow()
         
         plot_data <- plot_data %>%
@@ -133,7 +141,7 @@ plot_allumc_clinicaltrials_trn <- function (dataset, color_palette) {
                 title = '<b>UMC</b>'
             ),
             yaxis = list(
-                title = '<b>TRN reporting (%)</b>',
+                title = '<b>Trials with publication (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],

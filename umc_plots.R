@@ -97,36 +97,44 @@ umc_plot_clinicaltrials_prereg <- function (dataset, umc, color_palette) {
 
 umc_plot_clinicaltrials_trn <- function (dataset, umc, color_palette) {
 
-    plot_data <- dataset %>%
-        filter(has_pubmed == TRUE)
+    plot_data_abs <- dataset %>%
+        filter(has_publication,
+               publication_type == "journal publication",
+               has_pubmed == TRUE)
     
-    all_numer_abs <- sum(plot_data$has_iv_trn_abstract, na.rm=TRUE)
-    abs_denom <- plot_data %>%
+    plot_data_ft <- dataset %>%
+        filter(has_publication,
+               publication_type == "journal publication",
+               has_ft_pdf == TRUE)
+    
+    all_numer_abs <- sum(plot_data_abs$has_iv_trn_abstract, na.rm=TRUE)
+    abs_denom <- plot_data_abs %>%
         filter(! is.na(has_iv_trn_abstract)) %>%
         nrow()
-    all_numer_ft <- sum(plot_data$has_iv_trn_ft_pdf, na.rm=TRUE)
-    ft_denom <- plot_data %>%
+    
+    all_numer_ft <- sum(plot_data_ft$has_iv_trn_ft_pdf, na.rm=TRUE)
+    ft_denom <- plot_data_ft %>%
         filter(! is.na(has_iv_trn_ft_pdf)) %>%
         nrow()
 
-    umc_abs_denom <- plot_data %>%
+    umc_abs_denom <- plot_data_abs %>%
         filter(city == umc) %>%
         filter(! is.na(has_iv_trn_abstract)) %>%
         nrow()
 
-    umc_numer_abs <- plot_data %>%
+    umc_numer_abs <- plot_data_abs %>%
         filter(city == umc) %>%
         select(has_iv_trn_abstract) %>%
         filter(has_iv_trn_abstract == TRUE) %>%
         nrow()
 
-    umc_numer_ft <- plot_data %>%
+    umc_numer_ft <- plot_data_ft %>%
         filter(city == umc) %>%
         select(has_iv_trn_ft_pdf) %>%
         filter(has_iv_trn_ft_pdf == TRUE) %>%
         nrow()
 
-    umc_ft_denom <- plot_data %>%
+    umc_ft_denom <- plot_data_ft %>%
         filter(city == umc) %>%
         filter(! is.na(has_iv_trn_ft_pdf)) %>%
         nrow()
@@ -164,7 +172,7 @@ umc_plot_clinicaltrials_trn <- function (dataset, umc, color_palette) {
                 title = '<b>UMC</b>'
             ),
             yaxis = list(
-                title = '<b>TRN reporting (%)</b>',
+                title = '<b>Trials with publication (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],

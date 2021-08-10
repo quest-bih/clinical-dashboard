@@ -210,14 +210,16 @@ server <- function (input, output, session) {
             preregvaltext <- "of registered clinical trials completed in 2017 were prospectively registered"
         }
 
-        ## Value for TRN
+        ## Value for TRN in abstract
         
         all_numer_trn <- iv_all %>%
             filter(has_iv_trn_abstract == TRUE) %>%
             nrow()
         
         all_denom_trn <- iv_all %>%
-            filter(has_pubmed == TRUE) %>%
+            filter(has_publication,
+                   publication_type == "journal publication",
+                   has_pubmed == TRUE) %>%
             nrow()
 
         ## Value for linkage
@@ -258,7 +260,7 @@ server <- function (input, output, session) {
                     metric_box(
                         title = "Reporting of Trial Registration Number in publications",
                         value = paste0(round(100*all_numer_trn/all_denom_trn), "%"),
-                        value_text = "of clinical trials reported a trial registration number in the abstract",
+                        value_text = "of trials with a publication reported a trial registration number in the abstract",
                         plot = plotlyOutput('plot_clinicaltrials_trn', height="300px"),
                         info_id = "infoTRN",
                         info_title = "Reporting of Trial Registration Number in publications",
@@ -613,7 +615,7 @@ server <- function (input, output, session) {
                 preregvaltext <- "of registered clinical trials completed in 2017 were prospectively registered"
             }
 
-            ## Value for TRN
+            ## Value for TRN in abstract
 
             all_numer_trn <- iv_umc %>%
                 filter(city == input$selectUMC) %>%
@@ -622,7 +624,9 @@ server <- function (input, output, session) {
             
             all_denom_trn <- iv_umc %>%
                 filter(city == input$selectUMC) %>%
-                filter(has_pubmed == TRUE) %>%
+                filter(has_publication,
+                       publication_type == "journal publication",
+                       has_pubmed == TRUE) %>%
                 nrow()
 
             ## Value for linkage
@@ -665,7 +669,7 @@ server <- function (input, output, session) {
                         metric_box(
                             title = "Reporting of Trial Registration Number in publications",
                             value = paste0(round(100*all_numer_trn/all_denom_trn), "%"),
-                            value_text = "of clinical trials reported a trial registration number in the abstract",
+                            value_text = "of trials with a publication reported a trial registration number in the abstract",
                             plot = plotlyOutput('umc_plot_clinicaltrials_trn', height="300px"),
                             info_id = "UMCinfoTRN",
                             info_title = "Reporting of Trial Registration Number in publications",
@@ -1009,14 +1013,17 @@ server <- function (input, output, session) {
             filter(! is.na(start_date)) %>%
             nrow()
 
-        ## Value for All UMC TRN
+        ## Value for All UMC TRN in abstract
 
         all_numer_trn <- iv_all %>%
             filter(has_iv_trn_abstract == TRUE) %>%
             nrow()
         
         all_denom_trn <- iv_all %>%
-            filter(has_pubmed == TRUE) %>%
+            filter(
+                has_publication,
+                publication_type == "journal publication",
+                has_pubmed == TRUE) %>%
             nrow()
 
         ## Value for linkage
@@ -1057,7 +1064,7 @@ server <- function (input, output, session) {
                     metric_box(
                         title = "Reporting of Trial Registration Number in publications",
                         value = paste0(round(100*all_numer_trn/all_denom_trn), "%"),
-                        value_text = "of clinical trials reported a trial registration number in the abstract",
+                        value_text = "of trials with a publication reported a trial registration number in the abstract",
                         plot = plotlyOutput('plot_allumc_clinicaltrials_trn', height="300px"),
                         info_id = "infoALLUMCTRN",
                         info_title = "TRN reporting (All UMCs)",

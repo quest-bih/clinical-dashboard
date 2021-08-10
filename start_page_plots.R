@@ -83,14 +83,18 @@ plot_clinicaltrials_trn <- function (dataset, color_palette) {
         filter(has_iv_trn_abstract == TRUE) %>%
         nrow()
     abs_denom <- dataset %>%
-        filter(has_pubmed == TRUE) %>%
+        filter(has_publication,
+               publication_type == "journal publication",
+               has_pubmed == TRUE) %>%
         nrow()
     
     all_numer_ft <- dataset %>%
         filter(has_iv_trn_ft_pdf == TRUE) %>%
         nrow()
     ft_denom <- dataset %>%
-        filter(has_ft_pdf == TRUE) %>%
+        filter(has_publication,
+               publication_type == "journal publication",
+               has_ft_pdf == TRUE) %>%
         nrow()
     
     plot_data <- tribble(
@@ -122,7 +126,7 @@ plot_clinicaltrials_trn <- function (dataset, color_palette) {
                 title = '<b>UMC</b>'
             ),
             yaxis = list(
-                title = '<b>TRN reporting (%)</b>',
+                title = '<b>Trials with publication (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],
