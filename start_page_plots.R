@@ -143,8 +143,9 @@ plot_linkage <- function (dataset, color_palette) {
         filter(publication_type == "journal publication") %>%
         nrow()
     denom <- dataset %>%
-        filter(has_pubmed == TRUE | ! is.na (doi)) %>%
+        filter(has_publication) %>%
         filter(publication_type == "journal publication") %>%
+        filter(has_pubmed == TRUE | ! is.na (doi)) %>%
         nrow()
 
     plot_data <- tribble(
@@ -153,7 +154,7 @@ plot_linkage <- function (dataset, color_palette) {
     )
 
     upperlimit <- 100
-    ylabel <- "Percentage of publications (%)"
+    ylabel <- "Trials with publication (%)"
 
     plot_ly(
         plot_data,

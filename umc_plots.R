@@ -186,8 +186,9 @@ umc_plot_clinicaltrials_trn <- function (dataset, umc, color_palette) {
 umc_plot_linkage <- function (dataset, umc, color_palette) {
 
     dataset <- dataset %>%
+        filter(has_publication) %>%
         filter(publication_type == "journal publication") %>%
-        filter (has_pubmed == TRUE | ! is.na (doi))
+        filter(has_pubmed == TRUE | ! is.na (doi))
     
     umcdata <- dataset %>%
         filter (city == umc)
@@ -199,7 +200,7 @@ umc_plot_linkage <- function (dataset, umc, color_palette) {
     )
 
     upperlimit <- 100
-    ylabel <- "Percentage of publications (%)"
+    ylabel <- "Trials with publication (%)"
 
      plot_ly(
         plot_data,

@@ -230,8 +230,9 @@ server <- function (input, output, session) {
             nrow()
 
         link_den <- iv_all %>%
-            filter (has_pubmed == TRUE | ! is.na (doi)) %>%
+            filter(has_publication) %>%
             filter(publication_type == "journal publication") %>%
+            filter(has_pubmed == TRUE | ! is.na (doi)) %>%
             nrow()
             
         linkage <- paste0(round(100*link_num/link_den), "%")
@@ -276,7 +277,7 @@ server <- function (input, output, session) {
                     metric_box(
                         title = "Publication link in registry",
                         value = linkage,
-                        value_text = "of clinical trial registry entries link to the journal publication",
+                        value_text = "of trials with a publication provide a link to this publication in the registry entry",
                         plot = plotlyOutput('plot_linkage', height="300px"),
                         info_id = "infoLinkage",
                         info_title = "Publication link in registry",
@@ -639,8 +640,9 @@ server <- function (input, output, session) {
 
             link_den <- iv_umc %>%
                 filter(city == input$selectUMC) %>%
-                filter (has_pubmed == TRUE | ! is.na (doi)) %>%
+                filter(has_publication) %>%
                 filter(publication_type == "journal publication") %>%
+                filter (has_pubmed == TRUE | ! is.na (doi)) %>%
                 nrow()
 
             linkage <- paste0(round(100*link_num/link_den), "%")
@@ -684,7 +686,7 @@ server <- function (input, output, session) {
                         metric_box(
                             title = "Publication link in registry",
                             value = linkage,
-                            value_text = "of clinical trial registry entries link to the journal publication",
+                            value_text = "of trials with a publication provide a link to this publication in the registry entry",
                             plot = plotlyOutput('umc_plot_linkage', height="300px"),
                             info_id = "UMCinfoLinkage",
                             info_title = "Publication link in registry",
@@ -1034,8 +1036,9 @@ server <- function (input, output, session) {
             nrow()
 
         all_denom_link <- iv_all %>%
-            filter(has_pubmed == TRUE | ! is.na (doi)) %>%
+            filter(has_publication) %>%
             filter(publication_type == "journal publication") %>%
+            filter(has_pubmed == TRUE | ! is.na(doi)) %>%
             nrow()
 
         wellPanel(
@@ -1081,7 +1084,7 @@ server <- function (input, output, session) {
                     metric_box(
                         title = "Publication link in registry",
                         value = paste0(round(100*all_numer_link/all_denom_link), "%"),
-                        value_text = "of clinical trial registry entries link to the journal publication",
+                        value_text = "of trials with a publication provide a link to this publication in the registry entry",
                         plot = plotlyOutput('plot_allumc_linkage', height="300px"),
                         info_id = "infoALLUMCLinkage",
                         info_title = "Linkage (All UMCs)",

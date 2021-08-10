@@ -154,6 +154,7 @@ plot_allumc_clinicaltrials_trn <- function (dataset, color_palette) {
 plot_allumc_linkage <- function (dataset, color_palette, color_palette_bars) {
 
     dataset <- dataset %>%
+        filter(has_publication) %>%
         filter(publication_type == "journal publication") %>%
         filter (has_pubmed == TRUE | ! is.na (doi))
 
@@ -199,7 +200,7 @@ plot_allumc_linkage <- function (dataset, color_palette, color_palette_bars) {
                 title = '<b>UMC</b>'
             ),
             yaxis = list(
-                title = '<b>Linked publications in registry (%)</b>',
+                title = '<b>Trials with publication (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],
