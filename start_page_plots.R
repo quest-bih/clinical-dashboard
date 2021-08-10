@@ -454,7 +454,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
         filter( color == "hybrid") %>%
         nrow()
 
-    all_na <- dataset %>%
+    all_na <- plot_data %>%
         filter( is.na(color) ) %>%
         nrow()
 
@@ -539,7 +539,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
             y = ~na,
             name = "No data",
             marker = list(
-                color = color_palette[11],
+                color = color_palette[6],
                 line = list(
                     color = 'rgb(0,0,0)',
                     width = 1.5
@@ -628,14 +628,18 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
 plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
 
     umc <- "All"
-
-    all_closed_with_potential <- dataset %>%
-        filter(
-            is_closed_archivable == TRUE
-        ) %>%
+    
+    oa_set <- dataset %>%
+        filter(has_publication,
+               publication_type == "journal publication",
+               !is.na(doi))
+    
+    all_closed_with_potential <- oa_set %>%
+        filter(is_closed_archivable == TRUE
+               ) %>%
         nrow()
     
-    all_greenoa_only <- dataset %>%
+    all_greenoa_only <- oa_set %>%
         filter(
             color_green_only == "green"
         ) %>%
@@ -647,13 +651,13 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
     
     all_can_archive <- all_closed_with_potential
     
-    all_cant_archive <- dataset %>%
+    all_cant_archive <- oa_set %>%
         filter(
             is_closed_archivable == FALSE
         ) %>%
         nrow()
     
-    all_no_data <- dataset %>%
+    all_no_data <- oa_set %>%
         filter(
             color == "bronze" | color == "closed",
             is.na(is_closed_archivable)
@@ -679,7 +683,7 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
         )
         
         upperlimit <- 100
-        ylabel <- "Percentage of publications"
+        ylabel <- "Percentage of publications (%)"
         
     }
              
@@ -692,7 +696,7 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
             name = "Archived",
             type = 'bar',
             marker = list(
-                color = color_palette[3],
+                color = color_palette[8],
                 line = list(
                     color = 'rgb(0,0,0)',
                     width = 1.5
@@ -701,7 +705,7 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
         ) %>%
             add_trace(
                 y = ~can_archive,
-                name = "Can archive",
+                name = "Could archive",
                 marker = list(
                     color = color_palette[12],
                     line = list(
@@ -714,7 +718,7 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
                 y = ~cant_archive,
                 name = "Cannot archive",
                 marker = list(
-                    color = color_palette[7],
+                    color = color_palette[13],
                     line = list(
                         color = 'rgb(0,0,0)',
                         width = 1.5
@@ -753,7 +757,7 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
             y = ~percentage,
             type = 'bar',
             marker = list(
-                color = color_palette[3],
+                color = color_palette[8],
                 line = list(
                     color = 'rgb(0,0,0)',
                     width = 1.5

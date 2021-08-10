@@ -468,7 +468,7 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
                 title = '<b>UMC</b>'
             ),
             yaxis = list(
-                title = '<b>Percentage of publications (%)</b>',
+                title = '<b>Percentage Open Access (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],
@@ -480,23 +480,25 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
 ## Green OA
 plot_allumc_greenoa <- function (dataset, color_palette, color_palette_bars) {
 
-    dataset <- dataset %>%
-        filter( ! is.na (color) )
-
+    oa_set <- dataset %>%
+        filter(has_publication,
+               publication_type == "journal publication",
+               !is.na(doi))
+    
     plot_data <- tribble(
         ~x_label, ~percentage
     )
 
-    for (umc in unique(dataset$city)) {
+    for (umc in unique(oa_set$city)) {
 
-        umc_closed_with_potential <- dataset %>%
+        umc_closed_with_potential <- oa_set %>%
             filter(
                 city == umc,
                 is_closed_archivable == TRUE
             ) %>%
             nrow()
 
-        umc_numer <- dataset %>%
+        umc_numer <- oa_set %>%
             filter(
                 city == umc,
                 color_green_only == "green"
@@ -537,7 +539,7 @@ plot_allumc_greenoa <- function (dataset, color_palette, color_palette_bars) {
                 title = '<b>UMC</b>'
             ),
             yaxis = list(
-                title = '<b>Potential Green OA (%)</b>',
+                title = '<b>Percentage of publications (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],

@@ -500,27 +500,28 @@ server <- function (input, output, session) {
 
         ## Value for Open Access
             
-        all_numer_oa <- iv_all %>%
-            filter(
-                color == "gold" | color == "green" | color == "hybrid"
-                
-            ) %>%
+        oa_set <- iv_all %>%
+            filter(has_publication,
+                   publication_type == "journal publication",
+                   ! is.na(doi)
+                   )
+        
+        all_numer_oa <- oa_set %>%
+            filter(color == "gold" | color == "green" | color == "hybrid"
+                   ) %>%
             nrow()
 
-        all_denom_oa <- iv_all %>%
-            filter(
-                ! is.na(color)
-                
-            ) %>%
+        # Keep pubs with NA color for now 
+        all_denom_oa <- oa_set %>%
             nrow()
         
-        closed_with_potential <- iv_all %>%
+        closed_with_potential <- oa_set %>%
             filter(
                 is_closed_archivable == TRUE
             ) %>%
             nrow()
         
-        greenoa_only <- iv_all %>%
+        greenoa_only <- oa_set %>%
             filter(
                 color_green_only == "green"
                 ) %>%
@@ -921,33 +922,36 @@ server <- function (input, output, session) {
             }
 
             ## Value for Open Access
+            
+            oa_set <- iv_umc %>%
+                filter(has_publication,
+                       publication_type == "journal publication",
+                       ! is.na(doi)
+                       )
 
-            all_numer_oa <- iv_umc %>%
+            all_numer_oa <- oa_set %>%
                 filter(city == input$selectUMC) %>%
                 filter(
                     color == "gold" | color == "green" | color == "hybrid"
-                    
-                ) %>%
+                    ) %>%
                 nrow()
 
-            all_denom_oa <- iv_umc %>%
-                filter(city == input$selectUMC) %>%
+            all_denom_oa <- oa_set %>%
                 filter(
-                    ! is.na(color)
-                    
-                ) %>%
+                    city == input$selectUMC
+                    ) %>%
                 nrow()
 
             ##
                 
-            closed_with_potential <- iv_umc %>%
+            closed_with_potential <- oa_set %>%
                 filter(city == input$selectUMC) %>%
                 filter(
                     is_closed_archivable == TRUE
                 ) %>%
                 nrow()
             
-            greenoa_only <- iv_umc %>%
+            greenoa_only <- oa_set %>%
                 filter(city == input$selectUMC) %>%
                 filter(
                     color_green_only == "green"
@@ -1211,26 +1215,29 @@ server <- function (input, output, session) {
 
         ## Value for All UMC Open Access
         
-        all_numer_oa <- iv_all %>%
+        oa_set <- iv_all %>%
+            filter(has_publication,
+                   publication_type == "journal publication",
+                   ! is.na(doi)
+            )
+        
+        all_numer_oa <- oa_set %>%
             filter(
                 color == "gold" | color == "green" | color == "hybrid"
             ) %>%
             nrow()
 
-        all_denom_oa <- iv_all %>%
-            filter(
-                ! is.na(color)
-                
-            ) %>%
+        # Keep NA color for now
+        all_denom_oa <- oa_set %>%
             nrow()
 
         ## Value for Green OA
 
-        closed_with_potential <- iv_all %>%
+        closed_with_potential <- oa_set %>%
                 filter(is_closed_archivable == TRUE) %>%
                 nrow()
             
-        greenoa_only <- iv_all %>%
+        greenoa_only <- oa_set %>%
             filter(
                 color_green_only == "green"
             ) %>%

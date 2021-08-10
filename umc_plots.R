@@ -586,7 +586,7 @@ umc_plot_opensci_oa <- function (dataset, umc, absnum, color_palette) {
         filter( color == "hybrid") %>%
         nrow()
 
-    all_na <- dataset %>%
+    all_na <- plot_data %>%
         filter( is.na(color) ) %>%
         nrow()
 
@@ -624,7 +624,7 @@ umc_plot_opensci_oa <- function (dataset, umc, absnum, color_palette) {
         ) %>%
         nrow()
 
-    umc_na <- dataset %>%
+    umc_na <- plot_data %>%
         filter(
             is.na(color),
             city == umc
@@ -718,7 +718,7 @@ umc_plot_opensci_oa <- function (dataset, umc, absnum, color_palette) {
             y = ~na,
             name = "No data",
             marker = list(
-                color = color_palette[11],
+                color = color_palette[6],
                 line = list(
                     color = 'rgb(0,0,0)',
                     width = 1.5
@@ -751,7 +751,7 @@ umc_plot_opensci_oa <- function (dataset, umc, absnum, color_palette) {
         plot_data$x_label <- fct_relevel(plot_data$x_label, "All", after= Inf)
 
         upperlimit <- 100
-        ylabel <- "Percentage of publications"
+        ylabel <- "Percentage Open Access (%)"
 
         
     plot_ly(
@@ -811,13 +811,18 @@ umc_plot_opensci_oa <- function (dataset, umc, absnum, color_palette) {
 
 umc_plot_opensci_green_oa <- function (dataset, umc, absnum, color_palette) {
 
-    all_closed_with_potential <- dataset %>%
+    oa_set <- dataset %>%
+        filter(has_publication,
+               publication_type == "journal publication",
+               !is.na(doi))
+    
+    all_closed_with_potential <- oa_set %>%
         filter(
             is_closed_archivable == TRUE
         ) %>%
         nrow()
     
-    all_greenoa_only <- dataset %>%
+    all_greenoa_only <- oa_set %>%
         filter(
             color_green_only == "green"
         ) %>%
@@ -829,27 +834,27 @@ umc_plot_opensci_green_oa <- function (dataset, umc, absnum, color_palette) {
     
     all_can_archive <- all_closed_with_potential
     
-    all_cant_archive <- dataset %>%
+    all_cant_archive <- oa_set %>%
         filter(
             is_closed_archivable == FALSE
         ) %>%
         nrow()
     
-    all_no_data <- dataset %>%
+    all_no_data <- oa_set %>%
         filter(
             color == "bronze" | color == "closed",
             is.na(is_closed_archivable)
         ) %>%
         nrow()
 
-    umc_closed_with_potential <- dataset %>%
+    umc_closed_with_potential <- oa_set %>%
         filter(
             city == umc,
             is_closed_archivable == TRUE
         ) %>%
         nrow()
     
-    umc_greenoa_only <- dataset %>%
+    umc_greenoa_only <- oa_set %>%
         filter(
             city == umc,
             color_green_only == "green"
@@ -862,14 +867,14 @@ umc_plot_opensci_green_oa <- function (dataset, umc, absnum, color_palette) {
     
     umc_can_archive <- umc_closed_with_potential
     
-    umc_cant_archive <- dataset %>%
+    umc_cant_archive <- oa_set %>%
         filter(
             city == umc,
             is_closed_archivable == FALSE
         ) %>%
         nrow()
     
-    umc_no_data <- dataset %>%
+    umc_no_data <- oa_set %>%
         filter(
             city == umc,
             color == "bronze" | color == "closed",
@@ -898,7 +903,7 @@ umc_plot_opensci_green_oa <- function (dataset, umc, absnum, color_palette) {
         plot_data$x_label <- fct_relevel(plot_data$x_label, "All", after= Inf)
         
         upperlimit <- 100
-        ylabel <- "Percentage of publications"
+        ylabel <- "Percentage of publications (%)"
         
     }
     
@@ -911,7 +916,7 @@ umc_plot_opensci_green_oa <- function (dataset, umc, absnum, color_palette) {
             name = "Archived",
             type = 'bar',
             marker = list(
-                color = color_palette[3],
+                color = color_palette[8],
                 line = list(
                     color = 'rgb(0,0,0)',
                     width = 1.5
@@ -920,7 +925,7 @@ umc_plot_opensci_green_oa <- function (dataset, umc, absnum, color_palette) {
         ) %>%
             add_trace(
                 y = ~can_archive,
-                name = "Can archive",
+                name = "Could archive",
                 marker = list(
                     color = color_palette[12],
                     line = list(
@@ -933,7 +938,7 @@ umc_plot_opensci_green_oa <- function (dataset, umc, absnum, color_palette) {
                 y = ~cant_archive,
                 name = "Cannot archive",
                 marker = list(
-                    color = color_palette[7],
+                    color = color_palette[13],
                     line = list(
                         color = 'rgb(0,0,0)',
                         width = 1.5
@@ -972,7 +977,7 @@ umc_plot_opensci_green_oa <- function (dataset, umc, absnum, color_palette) {
             y = ~percentage,
             type = 'bar',
             marker = list(
-                color = color_palette[3],
+                color = color_palette[8],
                 line = list(
                     color = 'rgb(0,0,0)',
                     width = 1.5
