@@ -48,7 +48,7 @@ source("faq_page.R")
 ui <- tagList(
     tags$head(tags$script(type="text/javascript", src = "code.js")),
     navbarPage(
-        "Open science in clinical research", theme = shinytheme("flatly"), id = "navbarTabs",
+        "Dashboard for clinical research transparency", theme = shinytheme("flatly"), id = "navbarTabs",
         start_page,
         all_umcs_page,
         umc_page,
@@ -122,7 +122,7 @@ server <- function (input, output, session) {
             fluidRow(
                 column(
                     8,
-                    h1(style = "margin-left:0cm", strong("Dashboard for open science in clinical research"), align = "left"),
+                    h1(style = "margin-left:0cm", strong("Dashboard for clinical research transparency"), align = "left"),
                     h4(style = "margin-left:0cm",
                        "This is a proof-of-principle dashboard for Open Science in clinical research at University
                        Medical Centers (UMCs) in Germany. This dashboard is a pilot that is still under development,
