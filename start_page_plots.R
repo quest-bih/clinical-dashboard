@@ -218,7 +218,7 @@ plot_clinicaltrials_sumres <- function (dataset, color_palette) {
                 title = '<b>Date</b>'
             ),
             yaxis = list(
-                title = '<b>Reported within 1 year (%)</b>',
+                title = '<b>Percentage of trials (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],

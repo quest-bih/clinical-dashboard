@@ -328,7 +328,7 @@ server <- function (input, output, session) {
             sumresvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
         } else {
             sumresval <- paste0(sumres_percent, "%")
-            sumresvaltext <- paste("of due clinical trials registered in EUCTR reported summary results as of", eutt_date)
+            sumresvaltext <- paste("of due clinical trials registered in EUCTR reported summary results within 1 year (as of:", eutt_date, ")")
         }
 
         wellPanel(
@@ -740,7 +740,7 @@ server <- function (input, output, session) {
                 sumresvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
             } else {
                 sumresval <- paste0(sumres_percent, "%")
-                sumresvaltext <- paste("of due clinical trials registered in EUCTR reported summary results as of", eutt_date)
+                sumresvaltext <- paste("of due clinical trials registered in EUCTR reported summary results within 1 year (as of:", eutt_date, ")")
             }
             
             wellPanel(
@@ -1149,7 +1149,7 @@ server <- function (input, output, session) {
                     metric_box(
                         title = "Summary Results Reporting in EUCTR",
                         value = paste0(round(sumres_percent), "%"),
-                        value_text = paste("of due clinical trials registered in EUCTR reported summary results as of", eutt_date),
+                        value_text = paste("of due clinical trials registered in EUCTR reported summary results within 1 year (as of:", eutt_date, ")"),
                         plot = plotlyOutput('plot_allumc_clinicaltrials_sumres', height="300px"),
                         info_id = "infoALLUMCSumRes",
                         info_title = "Summary results reporting in EUCTR (All UMCs)",
