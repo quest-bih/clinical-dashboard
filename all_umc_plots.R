@@ -53,7 +53,7 @@ plot_allumc_clinicaltrials_prereg <- function (dataset, color_palette, color_pal
                 title = '<b>UMC</b>'
             ),
             yaxis = list(
-                title = '<b>Prospective registration (%)</b>',
+                title = '<b>Percentage of trials (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],
@@ -92,12 +92,20 @@ plot_allumc_clinicaltrials_trn <- function (dataset, color_palette) {
 
         umc_ft_denom <- dataset %>%
             filter(city == umc) %>%
-            filter(! is.na(has_iv_trn_ft_pdf)) %>%
+            filter(has_publication,
+                   publication_type == "journal publication",
+                   has_ft_pdf,
+                   ! is.na(has_iv_trn_ft_pdf)
+                   ) %>%
             nrow()
         
         umc_abs_denom <- dataset %>%
             filter(city == umc) %>%
-            filter(! is.na(has_iv_trn_abstract)) %>%
+            filter(has_publication,
+                   publication_type == "journal publication",
+                   has_pubmed,
+                   ! is.na(has_iv_trn_abstract)
+                   ) %>%
             nrow()
         
         plot_data <- plot_data %>%
@@ -133,7 +141,7 @@ plot_allumc_clinicaltrials_trn <- function (dataset, color_palette) {
                 title = '<b>UMC</b>'
             ),
             yaxis = list(
-                title = '<b>TRN reporting (%)</b>',
+                title = '<b>Trials with publication (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],
@@ -146,6 +154,7 @@ plot_allumc_clinicaltrials_trn <- function (dataset, color_palette) {
 plot_allumc_linkage <- function (dataset, color_palette, color_palette_bars) {
 
     dataset <- dataset %>%
+        filter(has_publication) %>%
         filter(publication_type == "journal publication") %>%
         filter (has_pubmed == TRUE | ! is.na (doi))
 
@@ -191,7 +200,7 @@ plot_allumc_linkage <- function (dataset, color_palette, color_palette_bars) {
                 title = '<b>UMC</b>'
             ),
             yaxis = list(
-                title = '<b>Linked publications in registry (%)</b>',
+                title = '<b>Trials with publication (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],
@@ -237,7 +246,7 @@ plot_allumc_clinicaltrials_sumres <- function (dataset, color_palette, color_pal
                 title = '<b>UMC</b>'
             ),
             yaxis = list(
-                title = '<b>Summary results reporting (%)</b>',
+                title = '<b>Percentage of trials (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],
@@ -301,7 +310,7 @@ plot_allumc_clinicaltrials_timpub <- function (dataset, color_palette, color_pal
                 title = '<b>UMC</b>'
             ),
             yaxis = list(
-                title = '<b>Published within 2 years (%)</b>',
+                title = '<b>Percentage of trials (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],
@@ -366,7 +375,7 @@ plot_allumc_timpub_5a <- function (dataset, color_palette, color_palette_bars) {
                 title = '<b>UMC</b>'
             ),
             yaxis = list(
-                title = '<b>Published within 5 years (%)</b>',
+                title = '<b>Percentage of trials (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],
@@ -459,7 +468,7 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
                 title = '<b>UMC</b>'
             ),
             yaxis = list(
-                title = '<b>Percentage of publications (%)</b>',
+                title = '<b>Percentage Open Access (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],
@@ -471,23 +480,25 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
 ## Green OA
 plot_allumc_greenoa <- function (dataset, color_palette, color_palette_bars) {
 
-    dataset <- dataset %>%
-        filter( ! is.na (color) )
-
+    oa_set <- dataset %>%
+        filter(has_publication,
+               publication_type == "journal publication",
+               !is.na(doi))
+    
     plot_data <- tribble(
         ~x_label, ~percentage
     )
 
-    for (umc in unique(dataset$city)) {
+    for (umc in unique(oa_set$city)) {
 
-        umc_closed_with_potential <- dataset %>%
+        umc_closed_with_potential <- oa_set %>%
             filter(
                 city == umc,
                 is_closed_archivable == TRUE
             ) %>%
             nrow()
 
-        umc_numer <- dataset %>%
+        umc_numer <- oa_set %>%
             filter(
                 city == umc,
                 color_green_only == "green"
@@ -528,7 +539,7 @@ plot_allumc_greenoa <- function (dataset, color_palette, color_palette_bars) {
                 title = '<b>UMC</b>'
             ),
             yaxis = list(
-                title = '<b>Potential Green OA (%)</b>',
+                title = '<b>Percentage of publications (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],

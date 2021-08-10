@@ -48,7 +48,7 @@ source("faq_page.R")
 ui <- tagList(
     tags$head(tags$script(type="text/javascript", src = "code.js")),
     navbarPage(
-        "Open science in clinical research", theme = shinytheme("flatly"), id = "navbarTabs",
+        "Dashboard for clinical research transparency", theme = shinytheme("flatly"), id = "navbarTabs",
         start_page,
         all_umcs_page,
         umc_page,
@@ -122,21 +122,37 @@ server <- function (input, output, session) {
             fluidRow(
                 column(
                     8,
-                    h1(style = "margin-left:0cm", strong("Dashboard for open science in clinical research"), align = "left"),
+                    h1(style = "margin-left:0cm", strong("Dashboard for clinical research transparency"), align = "left"),
                     h4(style = "margin-left:0cm",
-                       "This is a proof-of-principle dashboard for Open Science in clinical research at University
-                       Medical Centers (UMCs) in Germany. This dashboard is a pilot that is still under development,
-                       and should not be used to compare UMCs or inform policy. More metrics may be added in the future."),
+                       "This is a dashboard of clinical research transparency at
+                       University Medical Centers (UMCs) in Germany. It displays
+                       data relating to clinical trials conducted at UMCs
+                       in Germany and completed between 2009 - 2017. Metrics
+                       included relate to the registration and reporting of these
+                       trials. With the exception of summary results reporting in
+                       EUCTR, the data in this dashboard relates to trials registered
+                       in ClinicalTrials.gov and/or DRKS. The dashboard was
+                       developed as part of a scientific research project with the
+                       overall aim to support the adoption of responsible research
+                       practices at UMCs. The dashboard is a pilot and continues
+                       to be updated. More metrics may be added in the future."),
                     h4(style = "margin-left:0cm",
-                       "The dashboard includes data relating to clinical trials of UMCs in Germany. While the dashboard
-                       displays the average across all UMCs, you can also view the data for a given UMC by selecting
-                       it in the drop-down menu. Once selected, you will see this UMC's data contextualized to the average
-                       of all included UMCs. For the Open Access metrics, the data can be viewed as either 1) the percentage
-                       of analyzable publications which display the given metric; or 2) the absolute number of eligible
-                       publications which display the given metric (click on the toggle to visualise both options). For
-                       each metric, you can find an overview of the methods and limitations by clicking on the relevant
-                       symbols. For more detailed information on the methods and underlying datasets used to calculate
-                       those metrics, visit the Methods or Datasets pages."),
+                       "The \"Start page\" displays the average data across all
+                       included UMCs. The \"All UMCs\" page displays the data
+                       of all UMCs side-by-side. The \"One UMC\" page allows you
+                       to focus on any given UMC by selecting it in the drop-down
+                       menu. The data for this UMC is then contextualized to the
+                       average of all included UMCs. Besides each plot, you can
+                       find an overview of the methods and limitations by clicking
+                       on the associated widgets. For more detailed information
+                       on the methods and underlying datasets used to calculate
+                       the metrics displayed in this dashboard, visit the Methods
+                       and Datasets pages. The \"FAQ\" and \"Why these metrics?\"
+                       pages provide more general information about this
+                       dashboard and our selection of metrics."),
+                    h4(style = "margin-left:0cm; color: purple",
+                       "More information on the overall aim and methodology can be
+                       found in the associated publication [enter DOI]. "),
                     br()
                 ),
                 column(
@@ -190,12 +206,14 @@ server <- function (input, output, session) {
 
         iv_data_unique <- iv_all %>%
             filter(! is.na (start_date))
-
+        
+        # Filter for 2017 completion date for the pink descriptor text
         all_numer_prereg <- iv_data_unique %>%
             filter(completion_date >= as.Date("2017-01-01")) %>%
             filter(is_prospective) %>%
             nrow()
-
+        
+        # Filter for 2017 completion date for the pink descriptor text
         all_denom_prereg <- iv_data_unique %>%
             filter(completion_date >= as.Date("2017-01-01")) %>%
             nrow()
@@ -205,17 +223,19 @@ server <- function (input, output, session) {
             preregvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
         } else {
             preregval <- paste0(round(100*all_numer_prereg/all_denom_prereg), "%")
-            preregvaltext <- "of registered clinical trials that completed in 2017 were prospectively registered"
+            preregvaltext <- "of registered clinical trials completed in 2017 were prospectively registered"
         }
 
-        ## Value for TRN
+        ## Value for TRN in abstract
         
         all_numer_trn <- iv_all %>%
             filter(has_iv_trn_abstract == TRUE) %>%
             nrow()
         
         all_denom_trn <- iv_all %>%
-            filter(has_pubmed == TRUE) %>%
+            filter(has_publication,
+                   publication_type == "journal publication",
+                   has_pubmed == TRUE) %>%
             nrow()
 
         ## Value for linkage
@@ -226,8 +246,9 @@ server <- function (input, output, session) {
             nrow()
 
         link_den <- iv_all %>%
-            filter (has_pubmed == TRUE | ! is.na (doi)) %>%
+            filter(has_publication) %>%
             filter(publication_type == "journal publication") %>%
+            filter(has_pubmed == TRUE | ! is.na (doi)) %>%
             nrow()
             
         linkage <- paste0(round(100*link_num/link_den), "%")
@@ -256,7 +277,7 @@ server <- function (input, output, session) {
                     metric_box(
                         title = "Reporting of Trial Registration Number in publications",
                         value = paste0(round(100*all_numer_trn/all_denom_trn), "%"),
-                        value_text = "of clinical trials reported a trial registration number in the abstract",
+                        value_text = "of trials with a publication reported a trial registration number in the abstract",
                         plot = plotlyOutput('plot_clinicaltrials_trn', height="300px"),
                         info_id = "infoTRN",
                         info_title = "Reporting of Trial Registration Number in publications",
@@ -272,7 +293,7 @@ server <- function (input, output, session) {
                     metric_box(
                         title = "Publication link in registry",
                         value = linkage,
-                        value_text = "of clinical trial registry entries link to the journal publication",
+                        value_text = "of trials with a publication provide a link to this publication in the registry entry",
                         plot = plotlyOutput('plot_linkage', height="300px"),
                         info_id = "infoLinkage",
                         info_title = "Publication link in registry",
@@ -323,7 +344,7 @@ server <- function (input, output, session) {
             sumresvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
         } else {
             sumresval <- paste0(sumres_percent, "%")
-            sumresvaltext <- paste("of due clinical trials registered in EUCTR reported summary results as of", eutt_date)
+            sumresvaltext <- paste("of due clinical trials registered in EUCTR reported summary results within 1 year (as of:", eutt_date, ")")
         }
 
         wellPanel(
@@ -381,8 +402,10 @@ server <- function (input, output, session) {
 
     ## Start page 2 year reporting toggle
     output$startreport2a <- renderUI({
-
+        
+        # Filter for 2017 completion date for pink descriptor text
         iv_data_unique <- iv_all %>%
+            filter(completion_date >= as.Date("2017-01-01")) %>%
             filter(has_followup_2y == TRUE)
 
         all_numer_timpub <- iv_data_unique %>%
@@ -411,7 +434,7 @@ server <- function (input, output, session) {
         } else {
                         
             timpubval <- paste0(round(100*all_numer_timpub/all_denom_timpub), "%")
-            timpubvaltext <- "of clinical trials registered in ClinicalTrials.gov or DRKS and completed in 2017 reported results within 2 years"
+            timpubvaltext <- "of clinical trials completed in 2017 reported results within 2 years"
         }
         
         metric_box(
@@ -430,8 +453,10 @@ server <- function (input, output, session) {
 
     ## Start page 5 year reporting toggle
     output$startreport5a <-  renderUI({
-
+        
+        # Filter for 2015 completion date for pink descriptor text
         iv_data_unique <- iv_all %>%
+            filter(completion_date >= as.Date("2015-01-01")) %>%
             filter(has_followup_5y == TRUE)
 
         all_numer_timpub5a <- iv_data_unique %>%
@@ -458,7 +483,7 @@ server <- function (input, output, session) {
             timpubvaltext5a <- "No clinical trials for this metric were captured by this method for this UMC"
         } else {
             timpubval5a <- paste0(round(100*all_numer_timpub5a/all_denom_timpub5a), "%")
-            timpubvaltext5a <- "of clinical trials registered in ClinicalTrials.gov or DRKS and completed in 2015 reported results within 5 years"
+            timpubvaltext5a <- "of clinical trials completed in 2015 reported results within 5 years"
         }
 
         metric_box(
@@ -491,27 +516,28 @@ server <- function (input, output, session) {
 
         ## Value for Open Access
             
-        all_numer_oa <- iv_all %>%
-            filter(
-                color == "gold" | color == "green" | color == "hybrid"
-                
-            ) %>%
+        oa_set <- iv_all %>%
+            filter(has_publication,
+                   publication_type == "journal publication",
+                   ! is.na(doi)
+                   )
+        
+        all_numer_oa <- oa_set %>%
+            filter(color == "gold" | color == "green" | color == "hybrid"
+                   ) %>%
             nrow()
 
-        all_denom_oa <- iv_all %>%
-            filter(
-                ! is.na(color)
-                
-            ) %>%
+        # Keep pubs with NA color for now 
+        all_denom_oa <- oa_set %>%
             nrow()
         
-        closed_with_potential <- iv_all %>%
+        closed_with_potential <- oa_set %>%
             filter(
                 is_closed_archivable == TRUE
             ) %>%
             nrow()
         
-        greenoa_only <- iv_all %>%
+        greenoa_only <- oa_set %>%
             filter(
                 color_green_only == "green"
                 ) %>%
@@ -591,12 +617,14 @@ server <- function (input, output, session) {
             iv_data_unique <- iv_umc %>%
                 filter(city == input$selectUMC) %>%
                 filter(! is.na (start_date))
-
+            
+            # Filter for 2017 completion date for the pink descriptor text
             all_numer_prereg <- iv_data_unique %>%
                 filter(completion_date >= as.Date("2017-01-01")) %>%
                 filter(is_prospective) %>%
                 nrow()
-
+            
+            # Filter for 2017 completion date for the pink descriptor text
             all_denom_prereg <- iv_data_unique %>%
                 filter(completion_date >= as.Date("2017-01-01")) %>%
                 nrow()
@@ -606,10 +634,10 @@ server <- function (input, output, session) {
                 preregvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
             } else {
                 preregval <- paste0(round(100*all_numer_prereg/all_denom_prereg), "%")
-                preregvaltext <- "of registered clinical trials that completed in 2017 were prospectively registered"
+                preregvaltext <- "of registered clinical trials completed in 2017 were prospectively registered"
             }
 
-            ## Value for TRN
+            ## Value for TRN in abstract
 
             all_numer_trn <- iv_umc %>%
                 filter(city == input$selectUMC) %>%
@@ -618,7 +646,9 @@ server <- function (input, output, session) {
             
             all_denom_trn <- iv_umc %>%
                 filter(city == input$selectUMC) %>%
-                filter(has_pubmed == TRUE) %>%
+                filter(has_publication,
+                       publication_type == "journal publication",
+                       has_pubmed == TRUE) %>%
                 nrow()
 
             ## Value for linkage
@@ -631,8 +661,9 @@ server <- function (input, output, session) {
 
             link_den <- iv_umc %>%
                 filter(city == input$selectUMC) %>%
-                filter (has_pubmed == TRUE | ! is.na (doi)) %>%
+                filter(has_publication) %>%
                 filter(publication_type == "journal publication") %>%
+                filter (has_pubmed == TRUE | ! is.na (doi)) %>%
                 nrow()
 
             linkage <- paste0(round(100*link_num/link_den), "%")
@@ -661,7 +692,7 @@ server <- function (input, output, session) {
                         metric_box(
                             title = "Reporting of Trial Registration Number in publications",
                             value = paste0(round(100*all_numer_trn/all_denom_trn), "%"),
-                            value_text = "of clinical trials reported a trial registration number in the abstract",
+                            value_text = "of trials with a publication reported a trial registration number in the abstract",
                             plot = plotlyOutput('umc_plot_clinicaltrials_trn', height="300px"),
                             info_id = "UMCinfoTRN",
                             info_title = "Reporting of Trial Registration Number in publications",
@@ -676,7 +707,7 @@ server <- function (input, output, session) {
                         metric_box(
                             title = "Publication link in registry",
                             value = linkage,
-                            value_text = "of clinical trial registry entries link to the journal publication",
+                            value_text = "of trials with a publication provide a link to this publication in the registry entry",
                             plot = plotlyOutput('umc_plot_linkage', height="300px"),
                             info_id = "UMCinfoLinkage",
                             info_title = "Publication link in registry",
@@ -730,7 +761,7 @@ server <- function (input, output, session) {
                 sumresvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
             } else {
                 sumresval <- paste0(sumres_percent, "%")
-                sumresvaltext <- paste("of due clinical trials registered in EUCTR reported summary results as of", eutt_date)
+                sumresvaltext <- paste("of due clinical trials registered in EUCTR reported summary results within 1 year (as of:", eutt_date, ")")
             }
             
             wellPanel(
@@ -789,8 +820,10 @@ server <- function (input, output, session) {
 
     ## One UMC page 2 year reporting toggle
     output$report2a <- renderUI({
-
+        
+        # Filter for 2017 completion date for the pink descriptor text
         iv_data_unique <- iv_umc %>%
+            filter(completion_date >= as.Date("2017-01-01")) %>%
             filter(city == input$selectUMC) %>%
             filter(has_followup_2y == TRUE)
 
@@ -818,7 +851,7 @@ server <- function (input, output, session) {
             timpubvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
         } else {
             timpubval <- paste0(round(100*all_numer_timpub/all_denom_timpub), "%")
-            timpubvaltext <- "of clinical trials registered in ClinicalTrials.gov or DRKS and completed in 2017 reported results within 2 years"
+            timpubvaltext <- "of clinical trials completed in 2017 reported results within 2 years"
         }
         
         metric_box(
@@ -837,8 +870,10 @@ server <- function (input, output, session) {
 
     ## One UMC page 5 year reporting toggle
     output$report5a <- renderUI({
-
+        
+        # Filter for 2015 completion date for the pink descriptor text
         iv_data_unique <- iv_umc %>%
+            filter(completion_date >= as.Date("2015-01-01")) %>%
             filter(city == input$selectUMC) %>%
             filter(has_followup_5y == TRUE)
             
@@ -867,7 +902,7 @@ server <- function (input, output, session) {
             timpubvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
         } else {
             timpubval <- paste0(round(100*all_numer_timpub/all_denom_timpub), "%")
-            timpubvaltext <- "of clinical trials registered in ClinicalTrials.gov or DRKS and completed in 2015 reported results within 5 years"
+            timpubvaltext <- "of clinical trials completed in 2015 reported results within 5 years"
         }
         
         metric_box(
@@ -903,33 +938,36 @@ server <- function (input, output, session) {
             }
 
             ## Value for Open Access
+            
+            oa_set <- iv_umc %>%
+                filter(has_publication,
+                       publication_type == "journal publication",
+                       ! is.na(doi)
+                       )
 
-            all_numer_oa <- iv_umc %>%
+            all_numer_oa <- oa_set %>%
                 filter(city == input$selectUMC) %>%
                 filter(
                     color == "gold" | color == "green" | color == "hybrid"
-                    
-                ) %>%
+                    ) %>%
                 nrow()
 
-            all_denom_oa <- iv_umc %>%
-                filter(city == input$selectUMC) %>%
+            all_denom_oa <- oa_set %>%
                 filter(
-                    ! is.na(color)
-                    
-                ) %>%
+                    city == input$selectUMC
+                    ) %>%
                 nrow()
 
             ##
                 
-            closed_with_potential <- iv_umc %>%
+            closed_with_potential <- oa_set %>%
                 filter(city == input$selectUMC) %>%
                 filter(
                     is_closed_archivable == TRUE
                 ) %>%
                 nrow()
             
-            greenoa_only <- iv_umc %>%
+            greenoa_only <- oa_set %>%
                 filter(city == input$selectUMC) %>%
                 filter(
                     color_green_only == "green"
@@ -1005,14 +1043,17 @@ server <- function (input, output, session) {
             filter(! is.na(start_date)) %>%
             nrow()
 
-        ## Value for All UMC TRN
+        ## Value for All UMC TRN in abstract
 
         all_numer_trn <- iv_all %>%
             filter(has_iv_trn_abstract == TRUE) %>%
             nrow()
         
         all_denom_trn <- iv_all %>%
-            filter(has_pubmed == TRUE) %>%
+            filter(
+                has_publication,
+                publication_type == "journal publication",
+                has_pubmed == TRUE) %>%
             nrow()
 
         ## Value for linkage
@@ -1023,8 +1064,9 @@ server <- function (input, output, session) {
             nrow()
 
         all_denom_link <- iv_all %>%
-            filter(has_pubmed == TRUE | ! is.na (doi)) %>%
+            filter(has_publication) %>%
             filter(publication_type == "journal publication") %>%
+            filter(has_pubmed == TRUE | ! is.na(doi)) %>%
             nrow()
 
         wellPanel(
@@ -1036,7 +1078,7 @@ server <- function (input, output, session) {
                     metric_box(
                         title = "Prospective registration",
                         value = paste0(round(100*all_numer_prereg/all_denom_prereg), "%"),
-                        value_text = "of clinical trials were prospectively registered in ClinicalTrials.gov",
+                        value_text = "of clinical trials were prospectively registered",
                         plot = plotlyOutput('plot_allumc_clinicaltrials_prereg', height="300px"),
                         info_id = "infoALLUMCPreReg",
                         info_title = "Prospective registration (All UMCs)",
@@ -1053,7 +1095,7 @@ server <- function (input, output, session) {
                     metric_box(
                         title = "Reporting of Trial Registration Number in publications",
                         value = paste0(round(100*all_numer_trn/all_denom_trn), "%"),
-                        value_text = "of clinical trials reported a trial registration number in the abstract",
+                        value_text = "of trials with a publication reported a trial registration number in the abstract",
                         plot = plotlyOutput('plot_allumc_clinicaltrials_trn', height="300px"),
                         info_id = "infoALLUMCTRN",
                         info_title = "TRN reporting (All UMCs)",
@@ -1070,7 +1112,7 @@ server <- function (input, output, session) {
                     metric_box(
                         title = "Publication link in registry",
                         value = paste0(round(100*all_numer_link/all_denom_link), "%"),
-                        value_text = "of clinical trial registry entries link to the journal publication",
+                        value_text = "of trials with a publication provide a link to this publication in the registry entry",
                         plot = plotlyOutput('plot_allumc_linkage', height="300px"),
                         info_id = "infoALLUMCLinkage",
                         info_title = "Linkage (All UMCs)",
@@ -1135,7 +1177,7 @@ server <- function (input, output, session) {
                     metric_box(
                         title = "Summary Results Reporting in EUCTR",
                         value = paste0(round(sumres_percent), "%"),
-                        value_text = paste("of due clinical trials registered in EUCTR reported summary results as of", eutt_date),
+                        value_text = paste("of due clinical trials registered in EUCTR reported summary results within 1 year (as of:", eutt_date, ")"),
                         plot = plotlyOutput('plot_allumc_clinicaltrials_sumres', height="300px"),
                         info_id = "infoALLUMCSumRes",
                         info_title = "Summary results reporting in EUCTR (All UMCs)",
@@ -1189,26 +1231,29 @@ server <- function (input, output, session) {
 
         ## Value for All UMC Open Access
         
-        all_numer_oa <- iv_all %>%
+        oa_set <- iv_all %>%
+            filter(has_publication,
+                   publication_type == "journal publication",
+                   ! is.na(doi)
+            )
+        
+        all_numer_oa <- oa_set %>%
             filter(
                 color == "gold" | color == "green" | color == "hybrid"
             ) %>%
             nrow()
 
-        all_denom_oa <- iv_all %>%
-            filter(
-                ! is.na(color)
-                
-            ) %>%
+        # Keep NA color for now
+        all_denom_oa <- oa_set %>%
             nrow()
 
         ## Value for Green OA
 
-        closed_with_potential <- iv_all %>%
+        closed_with_potential <- oa_set %>%
                 filter(is_closed_archivable == TRUE) %>%
                 nrow()
             
-        greenoa_only <- iv_all %>%
+        greenoa_only <- oa_set %>%
             filter(
                 color_green_only == "green"
             ) %>%
@@ -1267,8 +1312,9 @@ server <- function (input, output, session) {
                      "#DCE3E5")
     
     color_palette_delwen <- c("#B6B6B6", "#879C9D", "#F1BA50", "#cf9188",  
-                              "#303A3E", "#2f4858", "#158376", "#007265", 
-                              "#DCE3E5", "#634587", "#000000", "#539d66")
+                              "#303A3E", "#20303b", "#158376", "#007265", 
+                              "#DCE3E5", "#634587", "#000000", "#539d66",
+                              "#ab880c")
 
     color_palette_bars <- c("#AA1C7D", "#879C9D", "#F1BA50", "#AA493A", "#303A3E", "#007265", "#634587", "#AA1C7D", "#879C9D", "#F1BA50", "#AA493A", "#303A3E", "#007265", "#634587", "#AA1C7D", "#879C9D", "#F1BA50", "#AA493A", "#303A3E", "#007265", "#634587", "#AA1C7D", "#879C9D", "#F1BA50", "#AA493A", "#303A3E", "#007265", "#634587", "#AA1C7D", "#879C9D", "#F1BA50", "#AA493A", "#303A3E", "#007265", "#634587", "#AA1C7D")
 

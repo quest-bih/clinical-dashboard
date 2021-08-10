@@ -60,11 +60,11 @@ plot_clinicaltrials_prereg <- function (dataset, color_palette) {
     ) %>%
         layout(
             yaxis = list(
-                title = '<b>Prospective registration (%)</b>',
+                title = '<b>Percentage of trials (%)</b>',
                 range = c(0, 100)
             ),
             xaxis = list(
-                title = '<b>Date</b>',
+                title = '<b>Completion year</b>',
                 dtick = 1
             ),
             paper_bgcolor = color_palette[9],
@@ -83,14 +83,18 @@ plot_clinicaltrials_trn <- function (dataset, color_palette) {
         filter(has_iv_trn_abstract == TRUE) %>%
         nrow()
     abs_denom <- dataset %>%
-        filter(has_pubmed == TRUE) %>%
+        filter(has_publication,
+               publication_type == "journal publication",
+               has_pubmed == TRUE) %>%
         nrow()
     
     all_numer_ft <- dataset %>%
         filter(has_iv_trn_ft_pdf == TRUE) %>%
         nrow()
     ft_denom <- dataset %>%
-        filter(has_ft_pdf == TRUE) %>%
+        filter(has_publication,
+               publication_type == "journal publication",
+               has_ft_pdf == TRUE) %>%
         nrow()
     
     plot_data <- tribble(
@@ -122,7 +126,7 @@ plot_clinicaltrials_trn <- function (dataset, color_palette) {
                 title = '<b>UMC</b>'
             ),
             yaxis = list(
-                title = '<b>TRN reporting (%)</b>',
+                title = '<b>Trials with publication (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],
@@ -139,8 +143,9 @@ plot_linkage <- function (dataset, color_palette) {
         filter(publication_type == "journal publication") %>%
         nrow()
     denom <- dataset %>%
-        filter(has_pubmed == TRUE | ! is.na (doi)) %>%
+        filter(has_publication) %>%
         filter(publication_type == "journal publication") %>%
+        filter(has_pubmed == TRUE | ! is.na (doi)) %>%
         nrow()
 
     plot_data <- tribble(
@@ -149,7 +154,7 @@ plot_linkage <- function (dataset, color_palette) {
     )
 
     upperlimit <- 100
-    ylabel <- "Percentage of publications (%)"
+    ylabel <- "Trials with publication (%)"
 
     plot_ly(
         plot_data,
@@ -213,7 +218,7 @@ plot_clinicaltrials_sumres <- function (dataset, color_palette) {
                 title = '<b>Date</b>'
             ),
             yaxis = list(
-                title = '<b>Reported within 1 year (%)</b>',
+                title = '<b>Percentage of trials (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],
@@ -304,11 +309,11 @@ plot_clinicaltrials_timpub_2a <- function (dataset, rt, color_palette) {
     ) %>%
         layout(
             xaxis = list(
-                title = '<b>Date</b>',
+                title = '<b>Completion year</b>',
                 dtick = 1
             ),
             yaxis = list(
-                title = '<b>Published within 2 years (%)</b>',
+                title = '<b>Percentage of trials (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],
@@ -406,11 +411,11 @@ plot_clinicaltrials_timpub_5a <- function (dataset, rt, color_palette) {
     ) %>%
         layout(
             xaxis = list(
-                title = '<b>Date</b>',
+                title = '<b>Completion year</b>',
                 dtick = 1
             ),
             yaxis = list(
-                title = '<b>Reported within 5 years (%)</b>',
+                title = '<b>Percentage of trials (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],
@@ -449,7 +454,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
         filter( color == "hybrid") %>%
         nrow()
 
-    all_na <- dataset %>%
+    all_na <- plot_data %>%
         filter( is.na(color) ) %>%
         nrow()
 
@@ -534,7 +539,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
             y = ~na,
             name = "No data",
             marker = list(
-                color = color_palette[11],
+                color = color_palette[6],
                 line = list(
                     color = 'rgb(0,0,0)',
                     width = 1.5
@@ -623,14 +628,18 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
 plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
 
     umc <- "All"
-
-    all_closed_with_potential <- dataset %>%
-        filter(
-            is_closed_archivable == TRUE
-        ) %>%
+    
+    oa_set <- dataset %>%
+        filter(has_publication,
+               publication_type == "journal publication",
+               !is.na(doi))
+    
+    all_closed_with_potential <- oa_set %>%
+        filter(is_closed_archivable == TRUE
+               ) %>%
         nrow()
     
-    all_greenoa_only <- dataset %>%
+    all_greenoa_only <- oa_set %>%
         filter(
             color_green_only == "green"
         ) %>%
@@ -642,13 +651,13 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
     
     all_can_archive <- all_closed_with_potential
     
-    all_cant_archive <- dataset %>%
+    all_cant_archive <- oa_set %>%
         filter(
             is_closed_archivable == FALSE
         ) %>%
         nrow()
     
-    all_no_data <- dataset %>%
+    all_no_data <- oa_set %>%
         filter(
             color == "bronze" | color == "closed",
             is.na(is_closed_archivable)
@@ -674,7 +683,7 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
         )
         
         upperlimit <- 100
-        ylabel <- "Percentage of publications"
+        ylabel <- "Percentage of publications (%)"
         
     }
              
@@ -687,7 +696,7 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
             name = "Archived",
             type = 'bar',
             marker = list(
-                color = color_palette[3],
+                color = color_palette[8],
                 line = list(
                     color = 'rgb(0,0,0)',
                     width = 1.5
@@ -696,7 +705,7 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
         ) %>%
             add_trace(
                 y = ~can_archive,
-                name = "Can archive",
+                name = "Could archive",
                 marker = list(
                     color = color_palette[12],
                     line = list(
@@ -709,7 +718,7 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
                 y = ~cant_archive,
                 name = "Cannot archive",
                 marker = list(
-                    color = color_palette[7],
+                    color = color_palette[13],
                     line = list(
                         color = 'rgb(0,0,0)',
                         width = 1.5
@@ -748,7 +757,7 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
             y = ~percentage,
             type = 'bar',
             marker = list(
-                color = color_palette[3],
+                color = color_palette[8],
                 line = list(
                     color = 'rgb(0,0,0)',
                     width = 1.5
