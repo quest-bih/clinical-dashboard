@@ -427,7 +427,7 @@ umc_plot_clinicaltrials_timpub_2a <- function (dataset, umc, rt, color_palette) 
                 dtick = 1
             ),
             yaxis = list(
-                title = '<b>Reported within 2 years (%)</b>',
+                title = '<b>Percentage of trials (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],

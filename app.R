@@ -386,8 +386,10 @@ server <- function (input, output, session) {
 
     ## Start page 2 year reporting toggle
     output$startreport2a <- renderUI({
-
+        
+        # Filter for 2017 completion date for pink descriptor text
         iv_data_unique <- iv_all %>%
+            filter(completion_date >= as.Date("2017-01-01")) %>%
             filter(has_followup_2y == TRUE)
 
         all_numer_timpub <- iv_data_unique %>%
@@ -416,7 +418,7 @@ server <- function (input, output, session) {
         } else {
                         
             timpubval <- paste0(round(100*all_numer_timpub/all_denom_timpub), "%")
-            timpubvaltext <- "of clinical trials registered in ClinicalTrials.gov or DRKS and completed in 2017 reported results within 2 years"
+            timpubvaltext <- "of clinical trials completed in 2017 reported results within 2 years"
         }
         
         metric_box(
@@ -799,8 +801,10 @@ server <- function (input, output, session) {
 
     ## One UMC page 2 year reporting toggle
     output$report2a <- renderUI({
-
+        
+        # Filter for 2017 completion date for the pink descriptor text
         iv_data_unique <- iv_umc %>%
+            filter(completion_date >= as.Date("2017-01-01")) %>%
             filter(city == input$selectUMC) %>%
             filter(has_followup_2y == TRUE)
 
@@ -828,7 +832,7 @@ server <- function (input, output, session) {
             timpubvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
         } else {
             timpubval <- paste0(round(100*all_numer_timpub/all_denom_timpub), "%")
-            timpubvaltext <- "of clinical trials registered in ClinicalTrials.gov or DRKS and completed in 2017 reported results within 2 years"
+            timpubvaltext <- "of clinical trials completed in 2017 reported results within 2 years"
         }
         
         metric_box(
