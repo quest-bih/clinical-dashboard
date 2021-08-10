@@ -98,14 +98,18 @@ umc_plot_clinicaltrials_prereg <- function (dataset, umc, color_palette) {
 umc_plot_clinicaltrials_trn <- function (dataset, umc, color_palette) {
 
     plot_data_abs <- dataset %>%
-        filter(has_publication,
-               publication_type == "journal publication",
-               has_pubmed == TRUE)
+        filter(
+            has_publication == TRUE,
+            publication_type == "journal publication",
+            has_pubmed == TRUE
+        )
     
     plot_data_ft <- dataset %>%
-        filter(has_publication,
-               publication_type == "journal publication",
-               has_ft_pdf == TRUE)
+        filter(
+            has_publication == TRUE,
+            publication_type == "journal publication",
+            has_ft_pdf == TRUE
+        )
     
     all_numer_abs <- sum(plot_data_abs$has_iv_trn_abstract, na.rm=TRUE)
     abs_denom <- plot_data_abs %>%
@@ -186,7 +190,7 @@ umc_plot_clinicaltrials_trn <- function (dataset, umc, color_palette) {
 umc_plot_linkage <- function (dataset, umc, color_palette) {
 
     dataset <- dataset %>%
-        filter(has_publication) %>%
+        filter(has_publication == TRUE) %>%
         filter(publication_type == "journal publication") %>%
         filter(has_pubmed == TRUE | ! is.na (doi))
     
@@ -566,7 +570,7 @@ umc_plot_opensci_oa <- function (dataset, umc, absnum, color_palette) {
 
     plot_data <- dataset %>%
         filter(
-            has_publication,
+            has_publication == TRUE,
             publication_type == "journal publication",
             !is.na(doi)
         )
@@ -812,9 +816,11 @@ umc_plot_opensci_oa <- function (dataset, umc, absnum, color_palette) {
 umc_plot_opensci_green_oa <- function (dataset, umc, absnum, color_palette) {
 
     oa_set <- dataset %>%
-        filter(has_publication,
-               publication_type == "journal publication",
-               !is.na(doi))
+        filter(
+            has_publication == TRUE,
+            publication_type == "journal publication",
+            !is.na(doi)
+        )
     
     all_closed_with_potential <- oa_set %>%
         filter(

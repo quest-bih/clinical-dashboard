@@ -92,20 +92,22 @@ plot_allumc_clinicaltrials_trn <- function (dataset, color_palette) {
 
         umc_ft_denom <- dataset %>%
             filter(city == umc) %>%
-            filter(has_publication,
-                   publication_type == "journal publication",
-                   has_ft_pdf,
-                   ! is.na(has_iv_trn_ft_pdf)
-                   ) %>%
+            filter(
+                has_publication == TRUE,
+                publication_type == "journal publication",
+                has_ft_pdf,
+                ! is.na(has_iv_trn_ft_pdf)
+            ) %>%
             nrow()
         
         umc_abs_denom <- dataset %>%
             filter(city == umc) %>%
-            filter(has_publication,
-                   publication_type == "journal publication",
-                   has_pubmed,
-                   ! is.na(has_iv_trn_abstract)
-                   ) %>%
+            filter(
+                has_publication == TRUE,
+                publication_type == "journal publication",
+                has_pubmed,
+                ! is.na(has_iv_trn_abstract)
+            ) %>%
             nrow()
         
         plot_data <- plot_data %>%
@@ -154,7 +156,7 @@ plot_allumc_clinicaltrials_trn <- function (dataset, color_palette) {
 plot_allumc_linkage <- function (dataset, color_palette, color_palette_bars) {
 
     dataset <- dataset %>%
-        filter(has_publication) %>%
+        filter(has_publication == TRUE) %>%
         filter(publication_type == "journal publication") %>%
         filter (has_pubmed == TRUE | ! is.na (doi))
 
@@ -389,7 +391,7 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
 
     dataset <- dataset %>%
         filter(
-            has_publication,
+            has_publication == TRUE,
             publication_type == "journal publication",
             !is.na(doi)
         )
@@ -481,9 +483,11 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
 plot_allumc_greenoa <- function (dataset, color_palette, color_palette_bars) {
 
     oa_set <- dataset %>%
-        filter(has_publication,
-               publication_type == "journal publication",
-               !is.na(doi))
+        filter(
+            has_publication == TRUE,
+            publication_type == "journal publication",
+            !is.na(doi)
+        )
     
     plot_data <- tribble(
         ~x_label, ~percentage

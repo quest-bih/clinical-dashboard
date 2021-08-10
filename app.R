@@ -233,9 +233,11 @@ server <- function (input, output, session) {
             nrow()
         
         all_denom_trn <- iv_all %>%
-            filter(has_publication,
-                   publication_type == "journal publication",
-                   has_pubmed == TRUE) %>%
+            filter(
+                has_publication == TRUE,
+                publication_type == "journal publication",
+                has_pubmed == TRUE
+            ) %>%
             nrow()
 
         ## Value for linkage
@@ -246,7 +248,7 @@ server <- function (input, output, session) {
             nrow()
 
         link_den <- iv_all %>%
-            filter(has_publication) %>%
+            filter(has_publication == TRUE) %>%
             filter(publication_type == "journal publication") %>%
             filter(has_pubmed == TRUE | ! is.na (doi)) %>%
             nrow()
@@ -515,12 +517,13 @@ server <- function (input, output, session) {
         }
 
         ## Value for Open Access
-            
+        
         oa_set <- iv_all %>%
-            filter(has_publication,
-                   publication_type == "journal publication",
-                   ! is.na(doi)
-                   )
+            filter(
+                has_publication == TRUE,
+                publication_type == "journal publication",
+                ! is.na(doi)
+            )
         
         all_numer_oa <- oa_set %>%
             filter(color == "gold" | color == "green" | color == "hybrid"
@@ -646,9 +649,11 @@ server <- function (input, output, session) {
             
             all_denom_trn <- iv_umc %>%
                 filter(city == input$selectUMC) %>%
-                filter(has_publication,
-                       publication_type == "journal publication",
-                       has_pubmed == TRUE) %>%
+                filter(
+                    has_publication == TRUE,
+                    publication_type == "journal publication",
+                    has_pubmed == TRUE
+                ) %>%
                 nrow()
 
             ## Value for linkage
@@ -661,7 +666,7 @@ server <- function (input, output, session) {
 
             link_den <- iv_umc %>%
                 filter(city == input$selectUMC) %>%
-                filter(has_publication) %>%
+                filter(has_publication == TRUE) %>%
                 filter(publication_type == "journal publication") %>%
                 filter (has_pubmed == TRUE | ! is.na (doi)) %>%
                 nrow()
@@ -940,10 +945,11 @@ server <- function (input, output, session) {
             ## Value for Open Access
             
             oa_set <- iv_umc %>%
-                filter(has_publication,
-                       publication_type == "journal publication",
-                       ! is.na(doi)
-                       )
+                filter(
+                    has_publication == TRUE,
+                    publication_type == "journal publication",
+                    ! is.na(doi)
+                )
 
             all_numer_oa <- oa_set %>%
                 filter(city == input$selectUMC) %>%
@@ -1051,7 +1057,7 @@ server <- function (input, output, session) {
         
         all_denom_trn <- iv_all %>%
             filter(
-                has_publication,
+                has_publication == TRUE,
                 publication_type == "journal publication",
                 has_pubmed == TRUE) %>%
             nrow()
@@ -1064,7 +1070,7 @@ server <- function (input, output, session) {
             nrow()
 
         all_denom_link <- iv_all %>%
-            filter(has_publication) %>%
+            filter(has_publication == TRUE) %>%
             filter(publication_type == "journal publication") %>%
             filter(has_pubmed == TRUE | ! is.na(doi)) %>%
             nrow()
@@ -1232,9 +1238,10 @@ server <- function (input, output, session) {
         ## Value for All UMC Open Access
         
         oa_set <- iv_all %>%
-            filter(has_publication,
-                   publication_type == "journal publication",
-                   ! is.na(doi)
+            filter(
+                has_publication == TRUE,
+                publication_type == "journal publication",
+                ! is.na(doi)
             )
         
         all_numer_oa <- oa_set %>%

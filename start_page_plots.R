@@ -83,18 +83,22 @@ plot_clinicaltrials_trn <- function (dataset, color_palette) {
         filter(has_iv_trn_abstract == TRUE) %>%
         nrow()
     abs_denom <- dataset %>%
-        filter(has_publication,
-               publication_type == "journal publication",
-               has_pubmed == TRUE) %>%
+        filter(
+            has_publication == TRUE,
+            publication_type == "journal publication",
+            has_pubmed == TRUE
+        ) %>%
         nrow()
     
     all_numer_ft <- dataset %>%
         filter(has_iv_trn_ft_pdf == TRUE) %>%
         nrow()
     ft_denom <- dataset %>%
-        filter(has_publication,
-               publication_type == "journal publication",
-               has_ft_pdf == TRUE) %>%
+        filter(
+            has_publication == TRUE,
+            publication_type == "journal publication",
+            has_ft_pdf == TRUE
+        ) %>%
         nrow()
     
     plot_data <- tribble(
@@ -143,7 +147,7 @@ plot_linkage <- function (dataset, color_palette) {
         filter(publication_type == "journal publication") %>%
         nrow()
     denom <- dataset %>%
-        filter(has_publication) %>%
+        filter(has_publication == TRUE) %>%
         filter(publication_type == "journal publication") %>%
         filter(has_pubmed == TRUE | ! is.na (doi)) %>%
         nrow()
@@ -434,7 +438,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
 
     plot_data <- dataset %>%
         filter(
-            has_publication,
+            has_publication == TRUE,
             publication_type == "journal publication",
             !is.na(doi)
         )
@@ -630,9 +634,11 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
     umc <- "All"
     
     oa_set <- dataset %>%
-        filter(has_publication,
-               publication_type == "journal publication",
-               !is.na(doi))
+        filter(
+            has_publication == TRUE,
+            publication_type == "journal publication",
+            !is.na(doi)
+        )
     
     all_closed_with_potential <- oa_set %>%
         filter(is_closed_archivable == TRUE
