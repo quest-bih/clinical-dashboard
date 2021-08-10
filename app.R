@@ -124,19 +124,35 @@ server <- function (input, output, session) {
                     8,
                     h1(style = "margin-left:0cm", strong("Dashboard for clinical research transparency"), align = "left"),
                     h4(style = "margin-left:0cm",
-                       "This is a proof-of-principle dashboard for Open Science in clinical research at University
-                       Medical Centers (UMCs) in Germany. This dashboard is a pilot that is still under development,
-                       and should not be used to compare UMCs or inform policy. More metrics may be added in the future."),
+                       "This is a dashboard of clinical research transparency at
+                       University Medical Centers (UMCs) in Germany. It displays
+                       data relating to clinical trials conducted at UMCs
+                       in Germany and completed between 2009 - 2017. Metrics
+                       included relate to the registration and reporting of these
+                       trials. With the exception of summary results reporting in
+                       EUCTR, the data in this dashboard relates to trials registered
+                       in ClinicalTrials.gov and/or DRKS. The dashboard was
+                       developed as part of a scientific research project with the
+                       overall aim to support the adoption of responsible research
+                       practices at UMCs. The dashboard is a pilot and continues
+                       to be updated. More metrics may be added in the future."),
                     h4(style = "margin-left:0cm",
-                       "The dashboard includes data relating to clinical trials of UMCs in Germany. While the dashboard
-                       displays the average across all UMCs, you can also view the data for a given UMC by selecting
-                       it in the drop-down menu. Once selected, you will see this UMC's data contextualized to the average
-                       of all included UMCs. For the Open Access metrics, the data can be viewed as either 1) the percentage
-                       of analyzable publications which display the given metric; or 2) the absolute number of eligible
-                       publications which display the given metric (click on the toggle to visualise both options). For
-                       each metric, you can find an overview of the methods and limitations by clicking on the relevant
-                       symbols. For more detailed information on the methods and underlying datasets used to calculate
-                       those metrics, visit the Methods or Datasets pages."),
+                       "The \"Start page\" displays the average data across all
+                       included UMCs. The \"All UMCs\" page displays the data
+                       of all UMCs side-by-side. The \"One UMC\" page allows you
+                       to focus on any given UMC by selecting it in the drop-down
+                       menu. The data for this UMC is then contextualized to the
+                       average of all included UMCs. Besides each plot, you can
+                       find an overview of the methods and limitations by clicking
+                       on the associated widgets. For more detailed information
+                       on the methods and underlying datasets used to calculate
+                       the metrics displayed in this dashboard, visit the Methods
+                       and Datasets pages. The \"FAQ\" and \"Why these metrics?\"
+                       pages provide more general information about this
+                       dashboard and our selection of metrics."),
+                    h4(style = "margin-left:0cm; color: purple",
+                       "More information on the overall aim and methodology can be
+                       found in the associated publication [enter DOI]. "),
                     br()
                 ),
                 column(
