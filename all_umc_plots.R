@@ -375,7 +375,7 @@ plot_allumc_timpub_5a <- function (dataset, color_palette, color_palette_bars) {
                 title = '<b>UMC</b>'
             ),
             yaxis = list(
-                title = '<b>Published within 5 years (%)</b>',
+                title = '<b>Percentage of trials (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],

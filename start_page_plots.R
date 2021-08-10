@@ -411,11 +411,11 @@ plot_clinicaltrials_timpub_5a <- function (dataset, rt, color_palette) {
     ) %>%
         layout(
             xaxis = list(
-                title = '<b>Date</b>',
+                title = '<b>Completion year</b>',
                 dtick = 1
             ),
             yaxis = list(
-                title = '<b>Reported within 5 years (%)</b>',
+                title = '<b>Percentage of trials (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],

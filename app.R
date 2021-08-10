@@ -437,8 +437,10 @@ server <- function (input, output, session) {
 
     ## Start page 5 year reporting toggle
     output$startreport5a <-  renderUI({
-
+        
+        # Filter for 2015 completion date for pink descriptor text
         iv_data_unique <- iv_all %>%
+            filter(completion_date >= as.Date("2015-01-01")) %>%
             filter(has_followup_5y == TRUE)
 
         all_numer_timpub5a <- iv_data_unique %>%
@@ -465,7 +467,7 @@ server <- function (input, output, session) {
             timpubvaltext5a <- "No clinical trials for this metric were captured by this method for this UMC"
         } else {
             timpubval5a <- paste0(round(100*all_numer_timpub5a/all_denom_timpub5a), "%")
-            timpubvaltext5a <- "of clinical trials registered in ClinicalTrials.gov or DRKS and completed in 2015 reported results within 5 years"
+            timpubvaltext5a <- "of clinical trials completed in 2015 reported results within 5 years"
         }
 
         metric_box(
@@ -851,8 +853,10 @@ server <- function (input, output, session) {
 
     ## One UMC page 5 year reporting toggle
     output$report5a <- renderUI({
-
+        
+        # Filter for 2015 completion date for the pink descriptor text
         iv_data_unique <- iv_umc %>%
+            filter(completion_date >= as.Date("2015-01-01")) %>%
             filter(city == input$selectUMC) %>%
             filter(has_followup_5y == TRUE)
             
@@ -881,7 +885,7 @@ server <- function (input, output, session) {
             timpubvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
         } else {
             timpubval <- paste0(round(100*all_numer_timpub/all_denom_timpub), "%")
-            timpubvaltext <- "of clinical trials registered in ClinicalTrials.gov or DRKS and completed in 2015 reported results within 5 years"
+            timpubvaltext <- "of clinical trials completed in 2015 reported results within 5 years"
         }
         
         metric_box(
