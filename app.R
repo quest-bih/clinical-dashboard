@@ -150,7 +150,7 @@ server <- function (input, output, session) {
                        and Datasets pages. The \"FAQ\" and \"Why these metrics?\"
                        pages provide more general information about this
                        dashboard and our selection of metrics."),
-                    h4(style = "margin-left:0cm; color: purple",
+                    h3(style = "margin-left:0cm; color: purple",
                        "More information on the overall aim and methodology can be
                        found in the associated publication [enter DOI]. "),
                     br()
