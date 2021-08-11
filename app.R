@@ -196,10 +196,10 @@ server <- function (input, output, session) {
 
         if (input$width < 1400) {
             col_width <- 6
-            alignment <- "left"
+            first_lim_align <- "left"
         } else {
             col_width <- 3
-            alignment <- "right"
+            first_lim_align <- "right"
         }
 
         ## Value for prereg
@@ -271,7 +271,8 @@ server <- function (input, output, session) {
                         info_text = prereg_tooltip,
                         lim_id = "limPreReg",
                         lim_title = "Limitations: Prospective registration",
-                        lim_text = lim_prereg_tooltip
+                        lim_text = lim_prereg_tooltip,
+                        lim_align = first_lim_align
                     )
                 ),
                 column(
@@ -320,10 +321,10 @@ server <- function (input, output, session) {
 
         if (input$width < 1400) {
             col_width <- 6
-            alignment <- "left"
+            first_lim_align <- "left"
         } else {
             col_width <- 3
-            alignment <- "right"
+            first_lim_align <- "right"
         }
         
         ## Value for summary results
@@ -365,7 +366,8 @@ server <- function (input, output, session) {
                         info_text = sumres_tooltip,
                         lim_id = "limSumRes",
                         lim_title = "Limitations: Summary Results Reporting in EUCTR",
-                        lim_text = lim_sumres_tooltip
+                        lim_text = lim_sumres_tooltip,
+                        lim_align = first_lim_align
                     )
                 ),
                 column(
@@ -510,10 +512,10 @@ server <- function (input, output, session) {
 
         if (input$width < 1400) {
             col_width <- 6
-            alignment <- "left"
+            first_lim_align <- "left"
         } else {
             col_width <- 3
-            alignment <- "right"
+            first_lim_align <- "right"
         }
 
         ## Value for Open Access
@@ -571,7 +573,8 @@ server <- function (input, output, session) {
                         info_text = openaccess_tooltip,
                         lim_id = "limOpenAccess",
                         lim_title = "Limitations: Open Access",
-                        lim_text = lim_openaccess_tooltip
+                        lim_text = lim_openaccess_tooltip,
+                        lim_align = first_lim_align
                     )
                 ),
                 column(
@@ -609,10 +612,10 @@ server <- function (input, output, session) {
 
             if (input$width < 1400) {
                 col_width <- 6
-                alignment <- "left"
+                first_lim_align <- "left"
             } else {
                 col_width <- 3
-                alignment <- "right"
+                first_lim_align <- "right"
             }
 
             ## Value for prereg
@@ -689,7 +692,8 @@ server <- function (input, output, session) {
                             info_text = prereg_tooltip,
                             lim_id = "UMClimPreReg",
                             lim_title = "Limitations: Prospective registration",
-                            lim_text = lim_prereg_tooltip
+                            lim_text = lim_prereg_tooltip,
+                            lim_align = first_lim_align
                         )
                     ),
                     column(
@@ -743,10 +747,10 @@ server <- function (input, output, session) {
 
             if (input$width < 1400) {
                 col_width <- 6
-                alignment <- "left"
+                first_lim_align <- "left"
             } else {
                 col_width <- 3
-                alignment <- "right"
+                first_lim_align <- "right"
             }
 
             ## Value for summary results
@@ -785,7 +789,8 @@ server <- function (input, output, session) {
                             info_text = sumres_tooltip,
                             lim_id = "UMClimSumRes",
                             lim_title = "Limitations: Summary Results Reporting in EUCTR",
-                            lim_text = lim_sumres_tooltip
+                            lim_text = lim_sumres_tooltip,
+                            lim_align = first_lim_align
                         )
                     ),
                     column(
@@ -936,10 +941,10 @@ server <- function (input, output, session) {
 
             if (input$width < 1400) {
                 col_width <- 6
-                alignment <- "left"
+                first_lim_align <- "left"
             } else {
                 col_width <- 3
-                alignment <- "right"
+                first_lim_align <- "right"
             }
 
             ## Value for Open Access
@@ -1005,7 +1010,8 @@ server <- function (input, output, session) {
                             info_text = openaccess_tooltip,
                             lim_id = "UMClimOpenAccess",
                             lim_title = "Limitations: Open Access",
-                            lim_text = lim_openaccess_tooltip
+                            lim_text = lim_openaccess_tooltip,
+                            lim_align = first_lim_align
                         )
                     ),
                     column(
