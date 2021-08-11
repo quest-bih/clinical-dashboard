@@ -237,15 +237,14 @@ iv_all %>%
     prop = num/denom
   )
 
+# absolute numbers
 iv_all %>%
 
   filter(
     has_publication,
     publication_type == "journal publication",
     !is.na(doi),
-    # is_closed_archivable | color_green_only == "green"
   ) %>%
-  # count(color)
 
   summarise(
     archived = sum(color_green_only == "green", na.rm = TRUE),
