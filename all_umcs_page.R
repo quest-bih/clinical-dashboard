@@ -1,11 +1,48 @@
-allumc_openaccess_tooltip <- strwrap("The Open Access metric shows the percentage of research publications that are
-                             published as Open Access (OA) articles. Gold OA denotes publication in a pure
-                             OA journal. Green OA denotes a freely available repository version. Hybrid OA
-                             denotes an OA publication in a journal with offers both a subscription based
-                             model as well as an Open Access option. For some articles no Open Access
-                             information was available.")
+allumc_openaccess_tooltip <- strwrap("The Open Access (OA) metric shows the percentage of
+                              research publications that are OA. This analysis was
+                              limited to trials with a
+                              journal publication for which a DOI has been assigned.
+                              We only considered the following categories as OA
+                              in this dashboard: Gold OA, Green OA, and Hybrid OA.
+                              Gold OA denotes publication
+                              in a pure OA journal. Green OA denotes a freely
+                              available repository version. Hybrid OA denotes an
+                              OA publication in a journal which offers both a
+                              subscription based model as well as an OA option.
+                              The number of publications and their OA
+                              status can be visualised by clicking on the toggle
+                              next to the plot. Here, further categories are
+                              included: Bronze denotes a publication which is
+                              freely available on the journal page, but without a
+                              clear open license; Closed publications are not freely
+                              available; \"No data\" refers to publications which
+                              could not be resolvd in Unpaywall. As one publication
+                              can have several OA versions, we define a hierarchy
+                              and for each publication only assign the OA category
+                              with the highest priority. Here, we
+                              used a hierarchy of gold - hybrid - green. More
+                              information can be found in the Methods page.")
 
-allumc_greenoa_tooltip <- strwrap("")
+allumc_greenoa_tooltip <- strwrap("This metric measures how many paywalled publications
+                            with the potential for green OA have been made available
+                            via this route. This analysis was limited to trials
+                            with a journal publication for which a DOI has been assigned.
+                            In a first step, we identified publications which are
+                             only accessible via Green OA (in a repository). To do
+                             so, we queried the Unpaywall API  with the following
+                             hierarchy: gold - hybrid - bronze - green - 
+                             closed. We then identified how many paywalled publications
+                             could technically be made openly accessible based on
+                             self-archiving permissions. We obtained this information
+                             by querying the Shareyourpaper.org permissions API (OA.Works).
+                             Publications were considered to have the potential
+                             for green OA if a \"best permission\" was found for
+                             archiving the accepted or published version in an
+                             institutional repository, and if the embargo had elapsed
+                             (if applicable). Click on the toggle on the left to
+                             view the number of paywalled publications and their
+                             potential for self-archiving. More information can be
+                             found in the Methods page.")
 
 allumc_opendata_tooltip <- strwrap("The Open Data metric measures the percentage of publications in English and for
                             which the full text could be screened that mention sharing of data.
