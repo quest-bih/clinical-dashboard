@@ -1,10 +1,8 @@
 library(tidyverse)
+library(rio)
 
-## Get intovalue.rds from here:
-## https://github.com/maia-sh/intovalue-data/blob/main/data/processed/intovalue.rds
-## Save it in the prep/ folder in this repo
-
-intovalue <- read_rds("intovalue.rds")
+## Get intovalue.rds from https://github.com/maia-sh/intovalue-data/
+intovalue <- rio::import("https://github.com/maia-sh/intovalue-data/blob/main/data/processed/intovalue.rds?raw=true")
 
 ## Apply the IntoValue exclusion criteria
 intovalue <- intovalue %>%
