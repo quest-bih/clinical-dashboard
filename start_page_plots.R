@@ -633,37 +633,51 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
 
     umc <- "All"
     
+    # Denom for percentage plot
     oa_set <- dataset %>%
+        filter(
+            has_publication == TRUE,
+            publication_type == "journal publication",
+            !is.na(doi),
+            is_closed_archivable == TRUE | color_green_only == "green"
+        )
+    
+    all_denom <- oa_set %>%
+        nrow()
+    
+    all_numer <- oa_set %>%
+        filter(
+            color_green_only == "green"
+        ) %>%
+        nrow()
+    
+    # Denom for absolute number plot
+    oa_set_abs <- dataset %>%
         filter(
             has_publication == TRUE,
             publication_type == "journal publication",
             !is.na(doi)
         )
     
-    all_closed_with_potential <- oa_set %>%
-        filter(is_closed_archivable == TRUE
-               ) %>%
-        nrow()
-    
-    all_greenoa_only <- oa_set %>%
+    all_archived <- oa_set_abs %>%
         filter(
             color_green_only == "green"
         ) %>%
         nrow()
     
-    all_denom <- all_closed_with_potential + all_greenoa_only
+    all_can_archive <- oa_set_abs %>%
+        filter(
+            is_closed_archivable == TRUE
+        ) %>%
+        nrow()
     
-    all_numer <- all_greenoa_only
-    
-    all_can_archive <- all_closed_with_potential
-    
-    all_cant_archive <- oa_set %>%
+    all_cant_archive <- oa_set_abs %>%
         filter(
             is_closed_archivable == FALSE
         ) %>%
         nrow()
     
-    all_no_data <- oa_set %>%
+    all_no_data <- oa_set_abs %>%
         filter(
             color == "bronze" | color == "closed",
             is.na(is_closed_archivable)
@@ -675,10 +689,10 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
         
         plot_data <- tribble(
             ~x_label, ~percentage, ~can_archive,   ~cant_archive,    ~no_data,
-            "All",    all_numer,   all_can_archive, all_cant_archive, all_no_data
+            "All",    all_archived,   all_can_archive, all_cant_archive, all_no_data
         )
         
-        upperlimit <- 1.1 * sum(all_numer, all_can_archive, all_cant_archive, all_no_data)
+        upperlimit <- 1.1 * sum(all_archived, all_can_archive, all_cant_archive, all_no_data)
         ylabel <- "Number of publications"
         
     } else {

@@ -520,6 +520,7 @@ server <- function (input, output, session) {
 
         ## Value for Open Access
         
+        #Create set for OA percentage plot
         oa_set <- iv_all %>%
             filter(
                 has_publication == TRUE,
@@ -536,21 +537,23 @@ server <- function (input, output, session) {
         all_denom_oa <- oa_set %>%
             nrow()
         
-        closed_with_potential <- oa_set %>%
+        #Create set for Green OA percentage plot
+        oa_set_green <- iv_all %>%
             filter(
-                is_closed_archivable == TRUE
-            ) %>%
+                has_publication == TRUE,
+                publication_type == "journal publication",
+                ! is.na(doi),
+                is_closed_archivable == TRUE | color_green_only == "green"
+            )
+        
+        denom_greenoa <- oa_set_green %>%
             nrow()
         
-        greenoa_only <- oa_set %>%
+        numer_greenoa <- oa_set_green %>%
             filter(
                 color_green_only == "green"
-                ) %>%
+            ) %>%
             nrow()
-        
-        denom_greenoa <- closed_with_potential + greenoa_only
-        
-        numer_greenoa <- greenoa_only
         
         wellPanel(
             style="padding-top: 0px; padding-bottom: 0px;",
@@ -949,6 +952,7 @@ server <- function (input, output, session) {
 
             ## Value for Open Access
             
+            #Create set for OA percentage plot
             oa_set <- iv_umc %>%
                 filter(
                     has_publication == TRUE,
@@ -957,8 +961,8 @@ server <- function (input, output, session) {
                 )
 
             all_numer_oa <- oa_set %>%
-                filter(city == input$selectUMC) %>%
                 filter(
+                    city == input$selectUMC,
                     color == "gold" | color == "green" | color == "hybrid"
                     ) %>%
                 nrow()
@@ -970,24 +974,29 @@ server <- function (input, output, session) {
                 nrow()
 
             ##
-                
-            closed_with_potential <- oa_set %>%
-                filter(city == input$selectUMC) %>%
+            
+            #Create set for Green OA percentage plot
+            oa_set_green <- iv_umc %>%
                 filter(
-                    is_closed_archivable == TRUE
-                ) %>%
+                    has_publication == TRUE,
+                    publication_type == "journal publication",
+                    ! is.na(doi),
+                    is_closed_archivable == TRUE | color_green_only == "green"
+                )
+            
+            denom_greenoa <- oa_set_green %>%
+                filter(
+                    city == input$selectUMC
+                    ) %>%
                 nrow()
             
-            greenoa_only <- oa_set %>%
-                filter(city == input$selectUMC) %>%
+            numer_greenoa <- oa_set_green %>%
                 filter(
+                    city == input$selectUMC,
                     color_green_only == "green"
-                ) %>%
+                    ) %>%
                 nrow()
-            
-            denom_greenoa <- closed_with_potential + greenoa_only
-            
-            numer_greenoa <- greenoa_only
+                
 
             wellPanel(
                 style="padding-top: 0px; padding-bottom: 0px;",
@@ -1243,6 +1252,7 @@ server <- function (input, output, session) {
 
         ## Value for All UMC Open Access
         
+        #Create set for OA percentage plot
         oa_set <- iv_all %>%
             filter(
                 has_publication == TRUE,
@@ -1260,21 +1270,23 @@ server <- function (input, output, session) {
         all_denom_oa <- oa_set %>%
             nrow()
 
-        ## Value for Green OA
+        #Create set for Green OA percentage plot
+        oa_set_green <- iv_all %>%
+            filter(
+                has_publication == TRUE,
+                publication_type == "journal publication",
+                ! is.na(doi),
+                is_closed_archivable | color_green_only == "green"
+            )
 
-        closed_with_potential <- oa_set %>%
-                filter(is_closed_archivable == TRUE) %>%
-                nrow()
-            
-        greenoa_only <- oa_set %>%
+        denom_greenoa <- oa_set_green %>%
+            nrow()
+        
+        numer_greenoa <- oa_set_green %>%
             filter(
                 color_green_only == "green"
             ) %>%
             nrow()
-        
-        denom_greenoa <- closed_with_potential + greenoa_only
-        
-        numer_greenoa <- greenoa_only
         
         wellPanel(
             style="padding-top: 0px; padding-bottom: 0px;",
