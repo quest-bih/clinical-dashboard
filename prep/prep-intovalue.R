@@ -1,5 +1,7 @@
 library(tidyverse)
 library(rio)
+library(here)
+library(fs)
 
 ## Get intovalue.rds from https://github.com/maia-sh/intovalue-data/
 intovalue <- rio::import("https://github.com/maia-sh/intovalue-data/blob/main/data/processed/intovalue.rds?raw=true")
@@ -23,15 +25,18 @@ iv_umc <- intovalue %>%
     tidyr::unnest(lead_cities)
 
 ## This is the library of transformations
-transforms <- read_csv("intovalue-city-transforms.csv")
+transforms <- read_csv(here("prep", "intovalue-city-transforms.csv"))
 
 ## This will apply the transformations
 iv_umc <- iv_umc %>%
     left_join(transforms)
 
+## This creates a data folder, if it doesn't exist already
+dir_create("data")
+
 ## This writes the final CSVs out
 iv_all %>%
-    write_csv("../data/ct-dashboard-intovalue-all.csv")
+    write_csv(here("data", "ct-dashboard-intovalue-all.csv"))
 
 iv_umc %>%
-    write_csv("../data/ct-dashboard-intovalue-umc.csv")
+    write_csv(here("data", "ct-dashboard-intovalue-umc.csv"))
