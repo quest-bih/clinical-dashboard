@@ -6,30 +6,77 @@ methods_page <- tabPanel(
                        University Medical Centers (UMCs) in Germany. It displays
                        data relating to clinical trials conducted at UMCs
                        in Germany and completed between 2009 - 2017. Metrics
-                       included relate to the registration and reporting of these
+                       included refer to the registration and reporting of these
                        trials. With the exception of summary results reporting in
-                       EUCTR, the data in this dashboard relates to trials registered
-                       in ClinicalTrials.gov and/or DRKS. The dashboard was
-                       developed as part of a scientific research project with the
-                       overall aim to support the adoption of responsible research
-                       practices at UMCs.')),
+                       EUCTR, we focused on trials registered in ClinicalTrials.gov
+                       and/or the German Clinical Trials Registry (DRKS). The
+                       dashboard was developed as part of a scientific research
+                       project with the overall aim to support the adoption of
+            responsible research practices at UMCs.')),
                        
     h4(HTML('You can find more information on our methods for individual metrics
     by extending the panels below. You can also find a list of tools used for data
-            collection at the bottom of this page.')),
+            collection at the bottom of this page. The \"FAQ\" and \"Why these
+            metrics?\" pages provide more general information about this dashboard
+            and our selection of metrics."')),
+    
+    h4(style = "margin-left:0cm; color: purple",
+       HTML("More information on the overall aim and methodology can be
+                       found in the publication asssociated with this dashboard
+            [enter DOI]. ")),
     
     h3("Identification of clinical trials"),
     bsCollapse(id = "methodsPanels_IdentificationTrials",
                bsCollapsePanel(strong("Identification of clinical trials"),
-                               p(HTML("The dashboard displays data relating to clinical
-                               trials conducted at German UMCs and completed between
-                                      2009 - 2017. The underlying dataset is openly
-                                      accessible on <a href=https://zenodo.org/record/5141343#.YRJuSS0RrfY>Zenodo</a>.
-                                      All UMCs were included except for Bielefeld, which was founded after the start
-                                      of data collection. The data in this dashboard differs from this dataset in
-                                      the following ways: (a) we queried updated data from ClinicalTrials.gov and
-                                      DRKS in May 2021; (b) summary results dates for trials registered in DRKS
-                                      were extracted manually from the registry based on the change history.")),
+                               p(HTML("With the exception of summary results
+                               reporting in EUCTR, the data presented in this
+                               dashboard is based on a previously developed dataset,
+                               IntoValue. This dataset contains data on clinical
+                               trials conducted at one of 35 German UMCs and registered
+                               on ClinicalTrials.gov and/or the German Clinical Trials
+                               Registry (DRKS). Trials were associated with a German UMC
+                               by searching these registries for trials with a UMC listed as responsible
+                               party or lead sponsor, or with a principle investigator (PI)
+                               from a UMC. Trials include all interventional
+                               studies and are not limited to investigational medical
+                               product trials, as regulated by the EU's Clinical Trials
+                               Directive or Germany's Arzneimittelgesetz (AMG) or Novelle
+                               des Medizinproduktegesetzes (MPG). All trials were
+                               reported as complete between 2009 and 2017 on the
+                               trial registry at the time of data collection. The
+                               dataset includes the results of both automated extractions
+                               from registries (e.g., prospective registration) and
+                               manual searches (e.g., timely reporting). The full IntoValue
+                               dataset is openly accessible on
+                               <a href=https://zenodo.org/record/5141343#.YRJuSS0RrfY>Zenodo</a>.
+                               More information on how this dataset was developed can
+                               be found in <a href=https://github.com/quest-bih/IntoValue2>GitHub</a>
+                               and in the publications associated with this IntoValue dataset
+                               (<a href=https://doi.org/10.1016/j.jclinepi.2019.06.002>IntoValue 1
+                               publication</a> and <a href=https://www.medrxiv.org/content/10.1101/2021.08.05.21261624v2
+                               >the follow-up IntoValue 2 study</a> now available as a pre-print).
+                               <br>
+                               <br>The IntoValue dataset was adapted in the following ways
+                               for the development of this dashboard: (1) we extracted updated
+                               registry data from ClinicalTrials.gov and DRKS in
+                               May 2021; (2) summary results reporting for trials
+                               registered in DRKS was extracted manually from the
+                               registry using the registry's change history; (3)
+                               we included additional information on the reporting
+                               of trial registration numbers in trial results
+                               publications, publication linkage in the registry,
+                               and Open Access; (4) while the original IntoValue
+                               dataset considered both journal publications and
+                               dissertations as results publications, we focused
+                               on journal publications in this dashboard. More
+                               information on how the IntoValue dataset was adapted
+                               for use in this dashboard can be found in the
+                               <a href=https://github.com/maia-sh/intovalue-data>
+                               associated code repository in GitHub</a>.<br>
+                               
+                               <br>The following German UMCs are not currently included
+                               in this dashboard: Augsburg, Bielefeld, and Oldenburg. These
+                               UMCs were founded after the start of data collection.")),
                                value = "methodsPanels_IdentificationTrials",
                                style = "default")),
     
@@ -38,27 +85,31 @@ methods_page <- tabPanel(
                methods_panel("Prospective registration",
                              
                              "This metric measures if a clinical trial is registered before the
-                        start date of the study, according to the information given on ClinicalTrials.gov and/or DRKS.
-                        Prospective registration allows the trial specifications,
+                        start date of the study, according to the information given on ClinicalTrials.gov
+                        and/or DRKS. Prospective registration helps to make trial specifications,
                         including primary and secondary outcomes, publicly available before study start.
                         Prospective registration adds transparency and helps protect against outcome switching.",
                              
-                             "To assess if a study has been prospectively registered, we compare
-                        the date the study was first submitted to the registry with the
-                        start date given in the registry. As some of the earlier dates in the registries
-                        only state the month rather than an exact day and to account for other possible delays,
-                        we defined a trial to be prospectively registered if the trial was registered in the
+                             "This analysis was limited to trials registered in ClinicalTrials.gov and/or
+                             DRKS with a start date given in the registry. To assess if a
+                             study was prospectively registered, we compared the date the study was
+                             first submitted to the registry with the start date given in the registry.
+                             As in some cases only the month rather than an exact date is provided in
+                             the registry, and to account for other possible delays, we defined a trial
+                             to be prospectively registered if the trial was registered in the
                              same month or in a previous month to the trial start date.",
                              
-                             "Trial registration was assessed for clinical trials registered in ClinicalTrials.gov
-                             and/or DRKS. The data presented depends on the information on ClinicalTrials.gov and
-                             DRKS being accurate. Trials without a start date in the registry were excluded from
-                             this analysis. We did not evaluate trials registered in other registries."),
+                             "Trial registration was assessed for clinical trials registered in
+                             ClinicalTrials.gov and/or DRKS. We did not evaluate trials in further
+                             registries. The data presented relies on the information in registry
+                             entries being accurate and complete. Finally, trials without
+                             a start date in the registry were excluded from this analysis. "),
                
                methods_panel("Reporting of Trial Registration Number (TRN)",
                              
-                             HTML("Reporting of clinical trial registration numbers (TRNs) in related publications
-                             facilitates transparent linkage between registration and publication. The <a 
+                             HTML("Reporting of clinical trial registration numbers (TRNs) in
+                             trial results publications facilitates transparent linkage between
+                             registration and publication. The <a 
                              href=https://www.sciencedirect.com/science/article/pii/S0140673607618352?via%3Dihub>
                              Consolidated Standards of Reporting Trials (CONSORT)</a>
                              as well as the <a href=http://www.icmje.org/recommendations/>ICMJE Recommendations
@@ -66,101 +117,125 @@ methods_page <- tabPanel(
                              Journals</a> call for reporting <i>&#39trial registration number and name of the
                              trial register&#39</i> in both the full-text and abstract."),
                              
-                             HTML('We developed an <a href="https://github.com/maia-sh/ctregistries">open source R
-                                  package</a> to detect clinical TRNs. Our regular-expression-based
-                                  algorithm searches text strings for matches to TRN patterns for all PubMed-indexed
-                                  and ICTRP-network registries. We limited this analysis to trials with a journal
-                                  publication. We further filtered this subset for publications
-                                  indexed in PubMed (detection of TRN in abstract) and for publications for which
-                                  we could obtain the full text (detection of TRN in full text). We then applied the
-                                  aforementioned package to detect and classify TRNs in the publication abstract
-                                  and full text.'),
+                             HTML('We developed <a href="https://github.com/maia-sh/ctregistries">
+                             open source R sripts</a> to detect clinical TRNs. Our regular-expression-based
+                             algorithm searches text strings for matches to TRN patterns for all PubMed-indexed
+                             and ICTRP-network registries. More information on this package and its
+                             application can be found in this pre-print [enter DOI to TRN paper]. This
+                             analysis was limited to trials registered in ClinicalTrials.gov and/or DRKS
+                             for which a journal publication was found. The analysis was further restricted
+                             to publications indexed in PubMed (detection of TRN in abstract) and
+                             publications for which we could obtain the full text (detection of TRN in
+                             full text). We then applied the aforementioned algorithm to detect and
+                                  classify TRNs in the publication abstract and full text.'),
                              
-                             HTML("Our algorithm does not distinguish true TRNs that do not resolve to a registration.
-                             Moreover, the algorithm does not distinguish between cases where a TRN is reported as a
-                             registration for the publication&#39s study (i.e., clinical trial result) or is otherwise
-                                  mentioned (i.e., in a review, reference to other clinical trials, etc.)")),
+                             HTML("The aforementioned algorithm does not distinguish true TRNs that do
+                             not resolve to a registration. Moreover, the algorithm does not distinguish
+                             between cases where a TRN is reported as a registration for the publication&#39s
+                             study (i.e., clinical trial result) or is otherwise mentioned (i.e., in a review,
+                                  reference to other clinical trials, etc.). Finally, this analysis was
+                                  limited to journal publications indexed in PubMed (TRN in abstract)
+                                  and for which we could obtain the full text (TRN in full text).")),
                
                methods_panel("Linkage of journal publications in the registry",
                              
                              HTML("Linking to the publication in the registration increases findability and
                                   threaded evidence."),
                              
-                             HTML('We queried the ClinicalTrials.gov and DRKS APIs (May 2021) to obtain publication
-                             links in these registries. We limited this analysis to trials with a journal publication
-                             with a DOI and/or indexed in PubMed. We considered a publication “linked” if the PMID
-                             or DOI was included in the trial registration. Note that some publications are included
-                             in a registration without a PMID or DOI (i.e., publication title and/or URL only).'),
+                             HTML('This analysis was limited to trials registered in ClinicalTrials.gov and/or
+                             DRKS for which a journal publication was found. The analysis was further
+                             restricted to publications with a DOI or that are indexed in PubMed. We
+                             queried the ClinicalTrials.gov and DRKS APIs (May 2021) to obtain
+                             linked publications in these registries. We considered a publication “linked”
+                                  if the PMID or DOI was included in the trial registration.'),
                              
-                             HTML("<i>Registry limitations:</i> ClinicalTrials.gov includes a often-used PMID field
-                             for references. In addition, ClinicalTrials.gov automatically indexes publications from
-                             PubMed using TRN in the secondary identifier field. In contrast, DRKS includes references
-                             as a free-text field, leaving trialists to decide whether to enter any publication
-                                  identifiers."))),
+                             HTML("<i>Registry limitations:</i> ClinicalTrials.gov includes a often-used
+                             PMID field for references. In addition, ClinicalTrials.gov automatically
+                             indexes publications from PubMed using TRN in the secondary identifier field.
+                             In contrast, DRKS includes references as a free-text field, leaving trialists
+                             to decide whether to enter any publication identifiers. Finally, this analysis
+                                  was limited to trials with a journal publication which have a DOI or are
+                                  indexed in PubMed"))),
     
     h3("Trial Reporting"),
     bsCollapse(id = "methodsPanels_TrialReporting",
                methods_panel("Summary results reporting in EUCTR",
                              
-                             HTML("This metric measures how many clinical trials registered in EudraCT and that are
-                             due to report their results in the EU Clinical Trials Register (EUCTR) have already
-                             done so. Interventional clinical trials using investigational medicinal products
-                             conducted in the EU/EEA are required to be registered in EudraCT. According to the
-                             <a href=https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52012XC1006(01)&from=EN>
-                             Commission guideline 2012/C 302/03</a>, sponsors of these trials are required to provide
-                             summary results within 12 months of trial completion. Clinical trials are expensive
-                             and have often many contributing patients. A fast dissemination of the trial results
-                             is crucial to make the evidence gained in those trials available. Beyond EU-level
-                             requirements, the World Health Organization recommends publishing summary results
-                             in the registry within 12 months of trial completion."),
+                             HTML("This metric measures how many clinical trials registered in EudraCT and
+                             that are due to report results in the EU Clinical Trials Register (EUCTR) have
+                             already done so. Interventional clinical trials using investigational medicinal
+                             products conducted in the EU/EEA are required to be registered in EudraCT.
+                             According to the <a href=https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52012XC1006(01)&from=EN>
+                             Commission guideline 2012/C 302/03</a>, sponsors of these trials are required
+                             to provide summary results within 12 months of trial completion. Clinical trials
+                             are expensive and have often many contributing patients. A fast dissemination
+                             of the trial results is crucial to make the evidence gained in those trials
+                             available. Beyond EU-level requirements, the
+                             <a href=https://www.who.int/news/item/18-05-2017-joint-statement-on-registration>
+                             World Health Organization</a> recommends publishing summary results in the
+                             registry within 12 months of trial completion."),
                              
-                             HTML('Summary results reporting rate in EUCTR were retrieved from the
-                        <a href="https://eu.trialstracker.net">EU Trials Tracker</a> by the EBM DataLab. For
-                                  each UMC in our dataset, we searched the corresponding sponsor name in the
-                                  EU Trials Tracker. With the exception of one UMC (Mannheim), we found at least
-                                  one sponsor name for each UMC in the EU Trials Tracker. If more than one
-                                  corresponding sponsor name was found for a given UMC, we only selected the
-                                  sponsor name was with the most trials. The list of selected sponsor names
-                                  can be found <a href=https://github.com/quest-bih/clinical-dashboard/blob/main/prep/eutt-sponsors-of-interest.csv
-                                  >here</a>.'),
+                             HTML('This analysis is limited to trials listed in the
+                             <a href="https://eu.trialstracker.net">EU Trials Tracker</a> (and therefore
+                             registered in EudraCT) with a sponsor name corresponding to one of the UMCs
+                             included in this dashboard. Summary results reporting rates in EUCTR were
+                             retrieved from the EU Trials Tracker&#39s (EBM DataLab) 
+                             <a href=https://github.com/ebmdatalab/euctr-tracker-data>code repository</a>.
+                             For each UMC in our dataset, we searched the corresponding sponsor name in the
+                             EU Trials Tracker. With the exception of one UMC (Mannheim), we found at least
+                             one sponsor name for each UMC in the EU Trials Tracker. If more than one 
+                             corresponding sponsor name was found for a given UMC, we only selected the 
+                             sponsor name with the most trials. The list of selected sponsor names can be 
+                             found <a href=https://github.com/quest-bih/clinical-dashboard/blob/main/prep/eutt-sponsors-of-interest.csv
+                                  >here</a>. Note that some trials registered in EudraCT and captured in
+                                  this analysis may be cross-registered in ClinicalTrials.gov and/or DRKS.
+                                  However, this plot only displays summary results reporting in EUCTR as
+                                  listed in the EU Trials Tracker.'),
                              
-                             "The EU Trials Tracker does not measure for how long the trials have
-                             been due. Some trials registered in EudraCT may also registered in ClinicalTrials.gov
-                             and/or DRKS. However, this plot only displays summary results reporting in
-                             EUCTR as determined by the EU Trials Tracker."),
+                             "The EU Trials Tracker does not measure for how long trials have been due to
+                             report results. For UMCs with more than one corresponding sponsor name in the
+                             EU Trials Tracker, some trials may have been missed since we only selected
+                             maximum one sponsor name per UMC."),
                
                methods_panel("Results reporting (2-year and 5-year reporting)",
                              
-                             HTML("This metric measures how many clinical trials in our dataset that are registered in
-                             ClinicalTrials.gov and/or DRKS reported results as (a) a journal publication or
-                             (b) summary results in the registry within 2 and 5 years of trial completion. A fast
-                        dissemination of the trial results is crucial to make the evidence gained
-                        in those trials available. The <a href=https://www.who.int/news/item/18-05-2017-joint-statement-on-registration>
+                             HTML("This metric measures how many clinical trials in our dataset that
+                             are registered in ClinicalTrials.gov and/or DRKS reported results within
+                             2 and 5 years of trial completion as (a) a journal publication and 
+                             (b) summary results in the registry. A fast dissemination of trial
+                             results is crucial to make the evidence gained in those trials available.
+                             The <a href=https://www.who.int/news/item/18-05-2017-joint-statement-on-registration>
                         World Health Organization</a> recommends publishing registry summary results within
                         12 months and a publication within 24 months of trial completion."),
                              
-                             HTML('ClinicalTrials.gov and DRKS.de were searched for studies with one of the UMCs
-                             as the responsible party/sponsor or with a principal investigator from one of the
-                             UMCs. A manual search for published results was done, searching the
-                        registry, PubMed, and Google. When calculating the 2-year and 5-year reporting rates,
-                        we only considered trials for which we had 2 and 5 years follow-up time since trial
-                        completion, respectively. The results were previously
-                        published as part of the <a href=https://www.sciencedirect.com/science/article/abs/pii/S0895435618310631?via%3Dihub>
-                        IntoValue 1 study</a>. A follow-up study, <a href=https://www.medrxiv.org/content/10.1101/2021.08.05.21261624v2>
-                        IntoValue 2</a>, is now available as a pre-print.'),
+                             HTML('This data is the result of automated and manual searches and was
+                             previously published as part of the 
+                             <a href=https://www.sciencedirect.com/science/article/abs/pii/S0895435618310631?via%3Dihub>
+                             IntoValue 1 study</a> and the follow-up 
+                             <a href=https://www.medrxiv.org/content/10.1101/2021.08.05.21261624v2>
+                             IntoValue 2 study</a> (available as a pre-print). This analysis was limited
+                             to trials registered in ClinicalTrials.gov and/or DRKS. Both registries were
+                             searched for studies with one of the UMCs as
+                             the responsible party/sponsor or with a principal investigator from one of
+                             the UMCs. A manual search for published results was done, searching the
+                             registry, PubMed, and Google. If multiple results publications were found,
+                             the earliest was included. When calculating the 2-year and 5-year reporting
+                             rates, we only considered trials for which we had 2 and 5 years follow-up
+                             time since trial completion, respectively.'),
                              
-                             HTML("We only considered the earliest evidence of results reporting from trial completion (as
-                             either reporting of summary results in the registry or as a journal publication). The data
-                             presented in this dashboard therefore does not reflect all result publications of a given
-                             trial. Moreover, some of the publications may have been missed in the manual search 
-                             procedure as we only searched a limited number of scientific databases and did not 
-                             contact the responsible parties. We did not include observational clinical studies in
-                             our sample. Finally, we might overestimate the time to publication for some studies
-                             as we stopped the manual search after the first detected publication. <i>Further
-                             registry limitations</i>: ClinicalTrials.gov includes a structured summary results field. In contrast,
-                             DRKS includes summary results with other references, and summary results were inferred
-                             based on keywords, such as \"Ergebnisbericht\" or \"Abschlussbericht\", in the reference
-                             title."))),
+                             HTML("Only the earliest evidence of results reporting from trial completion
+                             was considered for both reporting of summary results in the registry and
+                             as a journal publication. The data presented in this dashboard therefore
+                             does not reflect all result publications of a given trial. Moreover, some of
+                             the publications may have been missed in the manual search procedure as the
+                             search was restricted to a limited number of scientific databases and the 
+                             responsible parties were not contacted. Observational clinical studies were
+                             not included in this sample. <i>Further registry limitations</i>:
+                             ClinicalTrials.gov includes a structured summary results field. In contrast,
+                             DRKS includes summary results with other references, and summary results were
+                             inferred based on keywords, such as \"Ergebnisbericht\" or \"Abschlussbericht\",
+                             in the reference title. The data presented relies on the information in registry
+                             entries being accurate and complete."))),
     
     hr(),
     h3("Open Access"),
@@ -249,12 +324,21 @@ methods_page <- tabPanel(
                              openly accessible via self-archiving depends on the publication date and the
                              length of the embargo (if any). Therefore, the number of paywalled publications
                              with the potential for green OA will change over time.")),
+    
+    h3("Dashboard development"),
+    bsCollapse(id = "methodsPanels_DashboardDevelopment",
+               bsCollapsePanel(strong("Dashboard development"),
+                               p(HTML("The dashboard was developed using the Shiny R package
+                               (version 1.6.0). The <a href=https://github.com/quest-bih/clinical-dashboard
+                                      >underlying code</a> is openly available in GitHub under
+                                      an AGPL license and may be adapted for further use."),
+                               style = "default"))),
                    
     h3("Tools used for data collection"),
     helpText(HTML('<a href="https://github.com/NicoRiedel/unpaywallR"> UnpaywallR </a>')),
     helpText(HTML('<a href="https://shareyourpaper.org/permissions/about">
                   ShareYourPaper permissions checker API</a> from OA.Works')),
-    helpText(HTML('<a href="https://github.com/maia-sh/ctregistries"> ctregistries R package </a>')),
+    helpText(HTML('<a href="https://github.com/maia-sh/ctregistries">ctregistries repository</a>')),
     helpText(HTML('<a href="https://eu.trialstracker.net/">EU Trials Tracker </a>'))
 )
 
