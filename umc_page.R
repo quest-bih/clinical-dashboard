@@ -13,15 +13,23 @@ umc_page <- tabPanel(
                 12,
                 h1(
                     style = "margin-left: 0",
-                    strong("Proof-of-principle Responsible Metrics Dashboard: Individual UMC data"),
+                    strong("Dashboard for clinical research transparency: Individual UMC data"),
                     align = "left"
                 ),
                 h4(
                     style = "margin-left: 0",
-                    "This dashboard provides an overview of the performance of one German University Medical Centre (UMC) at a time on several metrics of open and responsible research. For more detailed information on the methods used to calculate those metrics, view the Methods page."
+                    "This dashboard provides an overview of the performance of UMCs
+                    in Germany on a set of practices relating to clinical research
+                    transparency. Select the UMC of interest from the drop-down
+                    menu below. More detailed information on the underlying
+                    methods can be found by clicking on the methods and limitations
+                    widgets next to each plot, or by consulting the Methods page."
                 ),
                 h4(style = "margin-left:0cm",
-                   "This dashboard is a pilot that is still under development, and should not be used to compare UMCs or inform policy. More metrics may be added in the future."),
+                   "The dashboard was developed as part of a scientific research
+                   project with the overall aim to support the adoption of responsible
+                   research practices at UMCs. The dashboard is a pilot and continues
+                       to be updated. More metrics may be added in the future."),
                 br()
             )
         ),
@@ -32,7 +40,7 @@ umc_page <- tabPanel(
                 br(),
                 selectInput(
                     "selectUMC",
-                    strong("Select a UMC to view details"),
+                    strong("Select a UMC from the drop-down menu"),
                     choices = c(
                         "Select a UMC",
                         iv_umc %>%

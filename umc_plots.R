@@ -815,72 +815,94 @@ umc_plot_opensci_oa <- function (dataset, umc, absnum, color_palette) {
 
 umc_plot_opensci_green_oa <- function (dataset, umc, absnum, color_palette) {
 
+    #Denom for percentage plot
     oa_set <- dataset %>%
+        filter(
+            has_publication == TRUE,
+            publication_type == "journal publication",
+            !is.na(doi),
+            is_closed_archivable == TRUE | color_green_only == "green"
+        )
+    
+    all_denom <- oa_set %>%
+        nrow()
+    
+    all_numer <- oa_set %>%
+        filter(
+            color_green_only == "green"
+        ) %>%
+        nrow()
+    
+    #Denom for absolute number plot
+    oa_set_abs <- dataset %>%
         filter(
             has_publication == TRUE,
             publication_type == "journal publication",
             !is.na(doi)
         )
     
-    all_closed_with_potential <- oa_set %>%
-        filter(
-            is_closed_archivable == TRUE
-        ) %>%
-        nrow()
-    
-    all_greenoa_only <- oa_set %>%
+    all_archived <- oa_set_abs %>%
         filter(
             color_green_only == "green"
         ) %>%
         nrow()
     
-    all_denom <- all_closed_with_potential + all_greenoa_only
+    all_can_archive <- oa_set_abs %>%
+        filter(
+            is_closed_archivable == TRUE
+        ) %>%
+        nrow()
     
-    all_numer <- all_greenoa_only
-    
-    all_can_archive <- all_closed_with_potential
-    
-    all_cant_archive <- oa_set %>%
+    all_cant_archive <- oa_set_abs %>%
         filter(
             is_closed_archivable == FALSE
         ) %>%
         nrow()
     
-    all_no_data <- oa_set %>%
+    all_no_data <- oa_set_abs %>%
         filter(
             color == "bronze" | color == "closed",
             is.na(is_closed_archivable)
         ) %>%
         nrow()
 
-    umc_closed_with_potential <- oa_set %>%
+    #Again use the denominator for the percentage plot
+    umc_denom <- oa_set %>%
         filter(
-            city == umc,
-            is_closed_archivable == TRUE
+            city == umc
         ) %>%
         nrow()
     
-    umc_greenoa_only <- oa_set %>%
+    umc_numer <- oa_set %>%
         filter(
             city == umc,
             color_green_only == "green"
         ) %>%
         nrow()
     
-    umc_denom <- umc_closed_with_potential + umc_greenoa_only
+    #Again use the denominator for the absolute number plot
+    umc_archived <- oa_set_abs %>%
+        filter(
+            city == umc,
+            color_green_only == "green"
+        ) %>%
+        nrow()
     
-    umc_numer <- umc_greenoa_only
+    umc_can_archive <- oa_set_abs %>%
+        filter(
+            city == umc,
+            is_closed_archivable == TRUE
+        ) %>%
+        nrow()
     
-    umc_can_archive <- umc_closed_with_potential
-    
-    umc_cant_archive <- oa_set %>%
+    umc_cant_archive <- oa_set_abs %>%
         filter(
             city == umc,
             is_closed_archivable == FALSE
         ) %>%
         nrow()
     
-    umc_no_data <- oa_set %>%
+    umc_no_data <- oa_set_abs %>%
         filter(
             city == umc,
             color == "bronze" | color == "closed",
@@ -892,10 +914,10 @@ umc_plot_opensci_green_oa <- function (dataset, umc, absnum, color_palette) {
         
         plot_data <- tribble(
             ~x_label, ~percentage, ~can_archive,   ~cant_archive,    ~no_data,
-            umc,      umc_numer,   umc_can_archive, umc_cant_archive, umc_no_data
+            umc,      umc_archived,   umc_can_archive, umc_cant_archive, umc_no_data
         )
         
-        upperlimit <- 1.1 * sum(umc_numer, umc_can_archive, umc_cant_archive, umc_no_data)
+        upperlimit <- 1.1 * sum(umc_archived, umc_can_archive, umc_cant_archive, umc_no_data)
         ylabel <- "Number of publications"
         
     } else {

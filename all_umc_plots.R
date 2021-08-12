@@ -190,7 +190,7 @@ plot_allumc_linkage <- function (dataset, color_palette, color_palette_bars) {
         y = ~percentage,
         type = 'bar',
         marker = list(
-            color = "#634587",
+            color = "#3d754b",
             line = list(
                 color = 'rgb(0,0,0)',
                 width = 1.5
@@ -236,7 +236,7 @@ plot_allumc_clinicaltrials_sumres <- function (dataset, color_palette, color_pal
         y = ~percentage,
         type = 'bar',
         marker = list(
-            color = color_palette_bars,
+            color = "#F1BA50",
             line = list(
                 color = 'rgb(0,0,0)',
                 width = 1.5
@@ -300,7 +300,7 @@ plot_allumc_clinicaltrials_timpub <- function (dataset, color_palette, color_pal
         y = ~percentage,
         type = 'bar',
         marker = list(
-            color = color_palette_bars[3],
+            color = "#639196",
             line = list(
                 color = 'rgb(0,0,0)',
                 width = 1.5
@@ -365,7 +365,7 @@ plot_allumc_timpub_5a <- function (dataset, color_palette, color_palette_bars) {
         y = ~percentage,
         type = 'bar',
         marker = list(
-            color = color_palette_bars[4],
+            color = "#20303b",
             line = list(
                 color = 'rgb(0,0,0)',
                 width = 1.5
@@ -486,7 +486,8 @@ plot_allumc_greenoa <- function (dataset, color_palette, color_palette_bars) {
         filter(
             has_publication == TRUE,
             publication_type == "journal publication",
-            !is.na(doi)
+            !is.na(doi),
+            is_closed_archivable == TRUE | color_green_only == "green"
         )
     
     plot_data <- tribble(
@@ -495,13 +496,6 @@ plot_allumc_greenoa <- function (dataset, color_palette, color_palette_bars) {
 
     for (umc in unique(oa_set$city)) {
 
-        umc_closed_with_potential <- oa_set %>%
-            filter(
-                city == umc,
-                is_closed_archivable == TRUE
-            ) %>%
-            nrow()
-
         umc_numer <- oa_set %>%
             filter(
                 city == umc,
@@ -509,7 +503,11 @@ plot_allumc_greenoa <- function (dataset, color_palette, color_palette_bars) {
             ) %>%
             nrow()
 
-        umc_denom <- umc_numer + umc_closed_with_potential
+        umc_denom <- oa_set %>%
+            filter(
+                city == umc
+            ) %>%
+            nrow()
 
         plot_data <- plot_data %>%
             bind_rows(

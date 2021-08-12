@@ -176,62 +176,79 @@ methods_page <- tabPanel(
                              on existing knowledge. Research funders are increasingly encouraging OA
                              to maximise the value and impact of research discoveries.",
                              
-                             HTML('In a first step, we filtered the dataset for trials with a journal publication
-                             for which a DOI could be found. Using this set of publications as basis, we queried the
+                             HTML('This analysis was limited to trials with a journal publication for which
+                             a DOI has been assigned. Using this set of publications as basis, we queried the
                         Unpaywall database via its <a href="https://unpaywall.org/products/api">API</a>
-                        to obtain information on the OA status of the publications. Unpaywall is today the
+                        to obtain information on the OA status of publications. Unpaywall is today the
                         most comprehensive database of OA information on research articles. It can be queried
                         using publication DOIs. Publications can have different OA statuses which are
                         color-coded. Gold OA denotes a publication in an OA journal. Green OA denotes a
                         freely available repository version. Hybrid OA denotes an OA publication in a journal
-                        which offers both a subscription based model as well as an OA option. Bronze OA denotes
-                        a publication which is freely available on the journal page, but without a clear open
-                        license. These can be articles in a non-OA journal which have been made available
-                        voluntarily by the journal, but which might at some stage lose their OA status again.
-                        Thus, we only consider the OA categories gold, green, and hybrid for this dashboard.
-                        As one publication can have several OA versions (e.g. a gold version in an OA journal
-                        as well as a green version in a repository), we define a hierarchy for the OA categories
-                        and for each publication only assign the OA category with the highest priority. We use
-                        a hierarchy of gold - hybrid - green (journal version before repository version), as
-                        also implemented in the Unpaywall database itself.
-                        After querying the Unpaywall API for all publication DOIs, we group
-                        the results by OA status.
+                        which offers both a subscription based model as well as an OA option. The category
+                        \"Bronze\" denotes a publication which is freely available on the journal page,
+                        but without a clear open license. These can be articles in a non-OA journal which
+                        have been made available voluntarily by the journal, but which might at some stage
+                        lose their OA status again. We only considered the following categories as OA in this
+                        dashboard: Gold OA, Green OA, and Hybrid OA. As a publication can have several OA
+                        versions (e.g. a gold version in an OA journal as well as a green version in a repository),
+                        we define a hierarchy for the OA categories and for each publication only assign the
+                        OA category with the highest priority. We use a hierarchy of gold - hybrid - green
+                        (journal version before repository version), as also implemented in the Unpaywall
+                        database itself. After querying the Unpaywall API for all publication DOIs, we
+                        group the results by OA status.
                         <br>
                         <br>One important point that has to be considered with OA data is that
                         the OA percentage is not a fixed number, but changes over time. This is due to the fact
                         that repository versions are often made available with a delay, such that the OA
                         percentage for a given year typically rises retrospectively. Thus, the point in time
                         at which the OA status is retrieved is important for the OA percentage. The current
-                        OA data was retrieved using (with <a href="https://github.com/NicoRiedel/unpaywallR">
-                             UnpaywallR</a>) on: 15/07/2021.'),
+                        OA data was retrieved with <a href="https://github.com/NicoRiedel/unpaywallR">
+                             UnpaywallR</a> on: 15/07/2021.'),
                              
                              "Unpaywall only stores information for publications which have a DOI assigned by
                         Crossref. Articles without a Crossref DOI have to be excluded from the OA analysis."),
                
                methods_panel("Potential Green Open Access",
                              
-                             "This metric measures how many paywalled publications with the potential for green OA
-                             have been made available via this route. In many cases, journal or publisher
-                             self-archiving policies allow researchers to make the accepted version of their
-                             publication openly accessible in a repository after an embargo period.",
+                             HTML("In many cases, journal or publisher self-archiving policies allow researchers
+                             to make the accepted or published version of their publication openly
+                             accessible in an institutional repository upon publication or after an
+                             embargo period (Green OA). This helps broaden the dissemination of research discoveries.
+                             However, several factors appear to limit the use of self-archiving: permissions
+                             for self-archiving vary based on the <i>version</i> of the publication to be
+                             deposited, <i>where</i> the publication is to be deposited, and <i>when</i>
+                             it is to be deposited. Moreover, in many cases only the accepted version
+                             of the publication can be archived after an embargo period of 6 or 12 months.
+                             It can be difficult to retrieve the correct version of the publication after this
+                             delay. This metric measures how many paywalled publications with the potential
+                             for green OA have been made available via this route."),
                              
-                             HTML('We queried the Unpaywall API (with <a href="https://github.com/NicoRiedel/unpaywallR">
-                             UnpaywallR</a>) and applied the following hierarchy to identify 
-                             publications only accessible via green OA: gold - hybrid - bronze - green - closed.
-                             We then queried the <a href="https://openaccessbutton.org/api">
-                             Shareyourpaper.org permissions API</a> (OA.Works) to obtain article-level
-                             self-archiving permissions based on journal and/or publisher policies. Publications
-                             were considered to have the potential for green OA if a \"best permission\" was
-                             found for archiving the accepted or published version of the publication in an
-                             institutional repository. We did not consider permissions relating to the submitted
-                                  version.'),
+                             HTML('This analysis was limited to trials with a journal publication for which
+                             a DOI has been assigned. In a first step, we identified publications which are
+                             only accessible in a repository (Green OA only). To do so, we queried the
+                             Unpaywall API (with <a href="https://github.com/NicoRiedel/unpaywallR">
+                             UnpaywallR</a>) with the following hierarchy: gold - hybrid - bronze - green - 
+                             closed. These are previously paywalled publications which have been made
+                             available in a repository (either through self-archiving or via the journal).
+                             In a second step, we identified how many paywalled publications could technically
+                             be made openly accessible based on self-archiving permissions. To obtain this information,
+                             we queried the <a href="https://openaccessbutton.org/api">
+                             Shareyourpaper.org permissions API</a> (OA.Works) which combines publication
+                             metadata and policy information to provide permissions. Publications
+                             were considered to have the potential for green OA if: (1) a \"best permission\" was
+                             found; (2) this permission relates to either the accepted or published version of
+                             the publication; (3) this permission relates to archiving in an institutional repository;
+                             and (4) the embargo linked to this permission had elapsed (if applicable). we did
+                             not consider permissions relating to the submitted version. The Unpaywall database
+                                  was queried on 15/07/2021. The Shareyourpaper permissions API was queried on
+                                  23/07/2021.'),
                              
-                             "This measure depends on the Shareyourpaper.org permissions database being up-to-date. We
-                             only included publications which have a best permission in the Shareyourpaper.org
-                             database. The date at which a publication can be made openly accessible via self-archiving
-                             depends on the publication date and the length of the embargo (if any). Therefore, the
-                             number of potential green OA research articles will change over time. The Shareyourpaper
-                             permissions API was queried on 23/07/2021. The Unpaywall database was queried on 15/07/2021.")),
+                             "Not all publications queried were resolved in Unpaywall and ShareYourPaper. We also
+                             only extracted permissions data for publications which have a \"best permission\"
+                             in the Shareyourpaper.org database. The date at which a publication can be made
+                             openly accessible via self-archiving depends on the publication date and the
+                             length of the embargo (if any). Therefore, the number of paywalled publications
+                             with the potential for green OA will change over time.")),
                    
     h3("Tools used for data collection"),
     helpText(HTML('<a href="https://github.com/NicoRiedel/unpaywallR"> UnpaywallR </a>')),
@@ -244,7 +261,52 @@ methods_page <- tabPanel(
 
 ## Tooltips for Open Science metrics
 
-openaccess_tooltip <- strwrap("The Open Access metric shows the percentage of research publications that are published as Open Access (OA) articles. Gold OA denotes publication in a pure OA journal. Green OA denotes a freely available repository version. Hybrid OA denotes an OA publication in a journal which offers both a subscription based model as well as an Open Access option. Bronze OA denotes a publication which is freely available on the journal page, but without a clear open license. Closed articles are not freely available. For some articles no Open Access information was available.") %>%
+openaccess_tooltip <- strwrap("The Open Access (OA) metric shows the percentage of
+                              research publications that are OA. This analysis was
+                              limited to trials with a
+                              journal publication for which a DOI has been assigned.
+                              We only considered the following categories as OA
+                              in this dashboard: Gold OA, Green OA, and Hybrid OA.
+                              Gold OA denotes publication
+                              in a pure OA journal. Green OA denotes a freely
+                              available repository version. Hybrid OA denotes an
+                              OA publication in a journal which offers both a
+                              subscription based model as well as an OA option.
+                              The number of publications and their OA
+                              status can be visualised by clicking on the toggle
+                              next to the plot. Here, further categories are
+                              included: Bronze denotes a publication which is
+                              freely available on the journal page, but without a
+                              clear open license; Closed publications are not freely
+                              available; \"No data\" refers to publications which
+                              could not be resolvd in Unpaywall. As one publication
+                              can have several OA versions, we define a hierarchy
+                              and for each publication only assign the OA category
+                              with the highest priority. Here, we
+                              used a hierarchy of gold - hybrid - green. More
+                              information can be found in the Methods page.") %>%
+    paste(collapse = " ")
+
+greenopenaccess_tooltip <- strwrap('This metric measures how many paywalled publications
+                            with the potential for green OA have been made available
+                            via this route. This analysis was limited to trials
+                            with a journal publication for which a DOI has been assigned.
+                            In a first step, we identified publications which are
+                             only accessible via Green OA (in a repository). To do
+                             so, we queried the Unpaywall API  with the following
+                             hierarchy: gold - hybrid - bronze - green - 
+                             closed. We then identified how many paywalled publications
+                             could technically be made openly accessible based on
+                             self-archiving permissions. We obtained this information
+                             by querying the Shareyourpaper.org permissions API (OA.Works).
+                             Publications were considered to have the potential
+                             for green OA if a \"best permission\" was found for
+                             archiving the accepted or published version in an
+                             institutional repository, and if the embargo had elapsed
+                             (if applicable). Click on the toggle on the left to
+                             view the number of paywalled publications and their
+                             potential for self-archiving. More information can be
+                             found in the Methods page.') %>%
     paste(collapse = " ")
 
 opendata_tooltip <- strwrap("This metric measures the percentage of screened publications that state
@@ -362,15 +424,7 @@ power_tooltip <- strwrap("This metric measures how many animal studies report a 
     
 paste(collapse = " ")
 
-greenopenaccess_tooltip <- strwrap("This metric measures how many paywalled publications with the potential for green OA
-                             have been made openly accessible in a repository. In many cases, journal or publisher
-                             self-archiving policies allow researchers to make the accepted version of their
-                             publication openly accessible in a repository after an embargo period. We queried the
-                             Shareyourpaper.org permissions API (OA.Works) to obtain article-level
-                             self-archiving permissions. Publications were considered to have the potential
-                             for green OA if an authoritative permission was found for archiving the accepted
-                             version of the publication in an institutional repository.") %>%
-paste(collapse = " ")
+
                                         # iacuc_tooltip <- strwrap("This metric measures how many animal studies report an Institutional animal care and
 #                          use committee statement.") %>%
 #     
@@ -385,11 +439,36 @@ lim_timpub_tooltip2 <- strwrap("Some detected publications might be missed in th
 lim_timpub_tooltip5 <- strwrap("Some detected publications might be missed in the manual search procedure as we only searched a limited number of scientific databases and did not contact the responsible parties. Furthermore, we did not include observational clinical studies in our sample. Additionally, we might overestimate the time to publication for some studies as we stopped the manual search after the first detected publication.")
 lim_trn_tooltip <- strwrap(HTML("We identified human clinical trials based on the following search term in PubMed: &#39clinical trial&#39[pt] NOT (animals [mh] NOT humans [mh]). However, we have not tested (1) the sensitivity of this PubMed search term; (2) the precision of this search term. Our algorithm does not distinguish true TRNs that do not resolve to a registration. Our algorithm does not determine whether the TRN is reported as a registration for the publication&#39s study."))
 
-lim_openaccess_tooltip <- strwrap("Unpaywall only stores information for publications which have a DOI assigned by Crossref. Articles without a Crossref DOI have to be excluded from the OA analysis. The OA percentage is not a fixed number, but changes over time as some publications become accessible with a delay. The current data was retrieved on: 28/02/2021.")
-lim_greenopenaccess_tooltip <- strwrap("Not all publications had an authoritative permission when the query was made. This metric relies on the permissions database being up-to-date. Moreover, the date at which a publication can be made openly accessible via self-archiving depends on the publication date and the length of the embargo (if any). Therefore, the number of potential green OA publications will change over time. The Shareyourpaper.org permissions API was queried on 28/02/2021.")
+lim_openaccess_tooltip <- strwrap("Unpaywall only stores information for publications
+                                  which have a DOI assigned by Crossref. Publications
+                                  without a Crossref DOI had to be excluded from
+                                  the OA analysis. The OA percentage is not a fixed
+                                  number, but changes over time as some publications
+                                  become accessible with a delay. The current data
+                                  was retrieved on: 15/07/2021.")
+
+lim_greenopenaccess_tooltip <- strwrap("Not all publications queried were resolved
+                                in Unpaywall and ShareYourPaper. We also only extracted
+                                permissions data for publications which have a
+                                \"best permission\" in the Shareyourpaper.org database.
+                                The date at which a publication can be made openly
+                                accessible via self-archiving depends on the publication
+                                date and the length of the embargo (if any). Therefore,
+                                the number of paywalled publications with the potential
+                                for green OA will change over time. The Shareyourpaper
+                                permissions API was queried on 23/07/2021.")
+
 lim_opendata_tooltip <- strwrap("This analysis could only be performed on articles for which we could access the full text. ODDPub only finds ~75% of all Open Data publications and finds false positive cases (no manual check of the results). ODDPub also does not verify that the dataset is available and whether it fulfills our definition of Open Data. Finally, Open Data is not relevant for all publications.")
 lim_opencode_tooltip <- strwrap("This analysis could only be performed on articles for which we could access the full text. ODDPub only finds ~75% of all publications with Open Code and finds false positive cases (no manual check of the results). ODDPub also does not verify that the code is available and whether it fulfills our definition of Open Code Finally, Open Code is not relevant for all publications.")
-lim_allumc_openaccess_tooltip <- strwrap("Unpaywall only stores information for publications which have a DOI assigned by Crossref. Articles without a Crossref DOI have to be excluded from the OA analysis. The OA percentage is not a fixed number, but changes over time as some publications become accessible with a delay. The current data was retrieved on: 28/02/2021.")
+
+lim_allumc_openaccess_tooltip <- strwrap("Unpaywall only stores information for publications
+                                  which have a DOI assigned by Crossref. Publications
+                                  without a Crossref DOI had to be excluded from
+                                  the OA analysis. The OA percentage is not a fixed
+                                  number, but changes over time as some publications
+                                  become accessible with a delay. The current data
+                                  was retrieved on: 15/07/2021.")
+
 lim_allumc_opendata_tooltip <- strwrap("This analysis could only be performed on articles for which we could access the full text. ODDPub only finds ~75% of all Open Data publications and finds false positive cases (no manual check of the results). ODDPub also does not verify that the dataset is available and whether it fulfills our definition of Open Data. Finally, Open Data is not relevant for all publications.")
 lim_allumc_opencode_tooltip <- strwrap("This analysis could only be performed on articles for which we could access the full text. ODDPub only finds ~75% of all publications with Open Code and finds false positive cases (no manual check of the results). ODDPub also does not verify that the code is available and whether it fulfills our definition of Open Code Finally, Open Code is not relevant for all publications.")
 
@@ -401,4 +480,14 @@ lim_allumc_clinicaltrials_timpub_tooltip5a <- strwrap("Some detected publication
 lim_allumc_animal_rando_tooltip <- strwrap("We did not test the sensitivity and precision of the approach used to identify animal studies in our dataset, nor the data obtained from SciScore. Moreover, we do not have SciScore data for all studies in our publication set. Finally, randomization may not always apply, especially in early-stage exploratory research (hypothesis-generating experiments).")
 lim_allumc_animal_blind_tooltip <- strwrap("We did not test the sensitivity and precision of the approach used to identify animal studies in our dataset, nor the data obtained from SciScore. Moreover, we do not have SciScore data for all studies in our publication set. Finally, blinding may not always apply, especially in early-stage exploratory research (hypothesis-generating experiments).")
 lim_allumc_animal_power_tooltip <- strwrap("We did not test the sensitivity and precision of the approach used to identify animal studies in our dataset, nor the data obtained from SciScore. Moreover, we do not have SciScore data for all studies in our publication set. Finally, sample size calculation may not always apply, especially in early-stage exploratory research (hypothesis-generating experiments).")
-lim_allumc_greenoa_tooltip <- strwrap("")
+
+lim_allumc_greenoa_tooltip <- strwrap("Not all publications queried were resolved
+                                in Unpaywall and ShareYourPaper. We also only extracted
+                                permissions data for publications which have a
+                                \"best permission\" in the Shareyourpaper.org database.
+                                The date at which a publication can be made openly
+                                accessible via self-archiving depends on the publication
+                                date and the length of the embargo (if any). Therefore,
+                                the number of paywalled publications with the potential
+                                for green OA will change over time. The Shareyourpaper
+                                permissions API was queried on 23/07/2021.")
