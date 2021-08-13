@@ -1389,27 +1389,27 @@ server <- function (input, output, session) {
 
     ## Preregistration plot
     output$umc_plot_clinicaltrials_prereg <- renderPlotly({
-        return (umc_plot_clinicaltrials_prereg(iv_umc, input$selectUMC, color_palette))
+        return (umc_plot_clinicaltrials_prereg(iv_umc, iv_all, input$selectUMC, color_palette))
     })
     
     ## TRN plot
     output$umc_plot_clinicaltrials_trn <- renderPlotly({
-        return (umc_plot_clinicaltrials_trn(iv_umc, input$selectUMC, color_palette))
+        return (umc_plot_clinicaltrials_trn(iv_umc, iv_all, input$selectUMC, color_palette))
     })
 
     ## Linkage plot
     output$umc_plot_linkage <- renderPlotly({
-        return (umc_plot_linkage(iv_umc, input$selectUMC, color_palette))
+        return (umc_plot_linkage(iv_umc, iv_all, input$selectUMC, color_palette))
     })
     
     ## Open Access plot
     output$umc_plot_opensci_oa <- renderPlotly({
-        return (umc_plot_opensci_oa(iv_umc, input$selectUMC, input$umc_opensci_absnum, color_palette_delwen))
+        return (umc_plot_opensci_oa(iv_umc, iv_all, input$selectUMC, input$umc_opensci_absnum, color_palette_delwen))
     })
     
     ## Green Open Access plot
     output$umc_plot_opensci_green_oa <- renderPlotly({
-        return (umc_plot_opensci_green_oa(iv_umc, input$selectUMC, input$umc_opensci_absnum, color_palette_delwen))
+        return (umc_plot_opensci_green_oa(iv_umc, iv_all, input$selectUMC, input$umc_opensci_absnum, color_palette_delwen))
     })
     
     ## Summary results plot
@@ -1419,12 +1419,12 @@ server <- function (input, output, session) {
     
     ## Timely Publication plot 2a
     output$umc_plot_clinicaltrials_timpub_2a <- renderPlotly({
-        return (umc_plot_clinicaltrials_timpub_2a(iv_umc, input$selectUMC, input$reporttype2a, color_palette))
+        return (umc_plot_clinicaltrials_timpub_2a(iv_umc, iv_all, input$selectUMC, input$reporttype2a, color_palette))
     })
     
     ## Timely Publication plot 5a
     output$umc_plot_clinicaltrials_timpub_5a <- renderPlotly({
-        return (umc_plot_clinicaltrials_timpub_5a(iv_umc, input$selectUMC, input$reporttype5a, color_palette))
+        return (umc_plot_clinicaltrials_timpub_5a(iv_umc, iv_all, input$selectUMC, input$reporttype5a, color_palette))
     })
 
                                         # All UMC's page plots #
