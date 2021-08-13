@@ -86,9 +86,9 @@ methods_page <- tabPanel(
                              
                              "This metric measures if a clinical trial is registered before the
                         start date of the study, according to the information given on ClinicalTrials.gov
-                        and/or DRKS. Prospective registration helps to make trial specifications,
-                        including primary and secondary outcomes, publicly available before study start.
-                        Prospective registration adds transparency and helps protect against outcome switching.",
+                        and/or DRKS. Prospective registration makes trial specifications,
+                        including primary and secondary outcomes, publicly available before study start,
+                        adds transparency and helps protect against outcome switching.",
                              
                              "This analysis was limited to trials registered in ClinicalTrials.gov and/or
                              DRKS with a start date given in the registry. To assess if a
@@ -118,7 +118,7 @@ methods_page <- tabPanel(
                              trial register&#39</i> in both the full-text and abstract."),
                              
                              HTML('We developed <a href="https://github.com/maia-sh/ctregistries">
-                             open source R sripts</a> to detect clinical TRNs. Our regular-expression-based
+                             open source R sripts</a> to detect TRNs. Our regular-expression-based
                              algorithm searches text strings for matches to TRN patterns for all PubMed-indexed
                              and ICTRP-network registries. More information on this package and its
                              application can be found in this pre-print [enter DOI to TRN paper]. This
@@ -139,8 +139,9 @@ methods_page <- tabPanel(
                
                methods_panel("Linkage of journal publications in the registry",
                              
-                             HTML("Linking to the publication in the registration increases findability and
-                                  threaded evidence."),
+                             HTML("This metric measures links to the published journal article in clinical trial
+                             registry entries. Linking to the publication in the registration increases findability and
+                             aids in evidence synthesis."),
                              
                              HTML('This analysis was limited to trials registered in ClinicalTrials.gov and/or
                              DRKS for which a journal publication was found. The analysis was further
@@ -168,7 +169,7 @@ methods_page <- tabPanel(
                              According to the <a href=https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52012XC1006(01)&from=EN>
                              Commission guideline 2012/C 302/03</a>, sponsors of these trials are required
                              to provide summary results within 12 months of trial completion. Clinical trials
-                             are expensive and have often many contributing patients. A fast dissemination
+                             are expensive and have often many contributing patients. Timely dissemination
                              of the trial results is crucial to make the evidence gained in those trials
                              available. Beyond EU-level requirements, the
                              <a href=https://www.who.int/news/item/18-05-2017-joint-statement-on-registration>
@@ -249,7 +250,8 @@ methods_page <- tabPanel(
                              research articles accelerates and broadens the dissemination of research discoveries.
                              OA also enables greater visibility of research and makes it easier to build
                              on existing knowledge. Research funders are increasingly encouraging OA
-                             to maximise the value and impact of research discoveries.",
+                             to maximise the value and impact of research discoveries. This metric measures
+                             the OA status of publications in our sample.",
                              
                              HTML('This analysis was limited to trials with a journal publication for which
                              a DOI has been assigned. Using this set of publications as basis, we queried the
