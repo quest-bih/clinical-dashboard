@@ -215,7 +215,7 @@ methods_page <- tabPanel(
                              registry, PubMed, and Google. If multiple results publications were found,
                              the earliest was included. When calculating the 2-year and 5-year reporting
                              rates, we only considered trials for which we had 2 and 5 years follow-up
-                             time since trial completion, respectively.'),
+                             time since trial completion, respectively. Publication dates were manually entered during publication searches.'),
                              
                              HTML("Only the earliest evidence of results reporting from trial completion
                              was considered for both reporting of summary results in the registry and
