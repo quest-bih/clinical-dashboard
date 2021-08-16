@@ -12,7 +12,7 @@ methods_page <- tabPanel(
                        and/or the German Clinical Trials Registry (DRKS). The
                        dashboard was developed as part of a scientific research
                        project with the overall aim to support the adoption of
-            responsible research practices at UMCs.')),
+            responsible research practices at German UMCs.')),
                        
     h4(HTML('You can find more information on our methods for individual metrics
     by extending the panels below. You can also find a list of tools used for data
@@ -47,14 +47,12 @@ methods_page <- tabPanel(
                                dataset includes the results of both automated extractions
                                from registries (e.g., prospective registration) and
                                manual searches (e.g., timely reporting). The full IntoValue
-                               dataset is openly accessible on
+                               dataset is openly accessible at
                                <a href=https://zenodo.org/record/5141343#.YRJuSS0RrfY>Zenodo</a>.
                                More information on how this dataset was developed can
-                               be found in <a href=https://github.com/quest-bih/IntoValue2>GitHub</a>
-                               and in the publications associated with this IntoValue dataset
-                               (<a href=https://doi.org/10.1016/j.jclinepi.2019.06.002>IntoValue 1
+                               be found in the associated (<a href=https://doi.org/10.1016/j.jclinepi.2019.06.002>IntoValue 1
                                publication</a> and <a href=https://www.medrxiv.org/content/10.1101/2021.08.05.21261624v2
-                               >the follow-up IntoValue 2 study</a> now available as a pre-print).
+                               >the follow-up IntoValue 2 study</a> now available as a preprint).
                                <br>
                                <br>The IntoValue dataset was adapted in the following ways
                                for the development of this dashboard: (1) we extracted updated
@@ -84,31 +82,29 @@ methods_page <- tabPanel(
     bsCollapse(id = "methodsPanels_TrialRegistration",
                methods_panel("Prospective registration",
                              
-                             "This metric measures if a clinical trial is registered before the
+                             "This metric reflects whether a clinical trial was registered before the
                         start date of the study, according to the information given on ClinicalTrials.gov
                         and/or DRKS. Prospective registration makes trial specifications,
                         including primary and secondary outcomes, publicly available before study start,
-                        adds transparency and helps protect against outcome switching.",
+                        adds transparency and accountability, and helps protect against outcome switching.",
                              
                              "This analysis was limited to trials registered in ClinicalTrials.gov and/or
-                             DRKS with a start date given in the registry. To assess if a
+                             DRKS with a start date given in the registry. To assess whether a
                              study was prospectively registered, we compared the date the study was
                              first submitted to the registry with the start date given in the registry.
-                             As in some cases only the month rather than an exact date is provided in
-                             the registry, and to account for other possible delays, we defined a trial
-                             to be prospectively registered if the trial was registered in the
-                             same month or in a previous month to the trial start date.",
+                             We defined a trial to be prospectively registered if the trial was registered in the
+                             same or a previous month to the trial start date, as some registrstions provide only a start month rather than an exact date.",
                              
                              "Trial registration was assessed for clinical trials registered in
                              ClinicalTrials.gov and/or DRKS. We did not evaluate trials in further
                              registries. The data presented relies on the information in registry
                              entries being accurate and complete. Finally, trials without
-                             a start date in the registry were excluded from this analysis. "),
+                             a start date in the registry were excluded from this analysis."),
                
                methods_panel("Reporting of Trial Registration Number (TRN)",
                              
                              HTML("Reporting of clinical trial registration numbers (TRNs) in
-                             trial results publications facilitates transparent linkage between
+                             trial results publications facilitates transparent linking between
                              registration and publication. The <a 
                              href=https://www.sciencedirect.com/science/article/pii/S0140673607618352?via%3Dihub>
                              Consolidated Standards of Reporting Trials (CONSORT)</a>
@@ -119,28 +115,25 @@ methods_page <- tabPanel(
                              
                              HTML('We developed <a href="https://github.com/maia-sh/ctregistries">
                              open source R sripts</a> to detect TRNs. Our regular-expression-based
-                             algorithm searches text strings for matches to TRN patterns for all PubMed-indexed
+                             approach searches text strings for matches to TRN patterns for all PubMed-indexed
                              and ICTRP-network registries. More information on this package and its
-                             application can be found in this pre-print [enter DOI to TRN paper]. This
+                             application can be found in this preprint [enter DOI to TRN paper]. This
                              analysis was limited to trials registered in ClinicalTrials.gov and/or DRKS
                              for which a journal publication was found. The analysis was further restricted
                              to publications indexed in PubMed (detection of TRN in abstract) and
                              publications for which we could obtain the full text (detection of TRN in
-                             full text). We then applied the aforementioned algorithm to detect and
-                                  classify TRNs in the publication abstract and full text.'),
+                             full text).'),
                              
-                             HTML("The aforementioned algorithm does not distinguish true TRNs that do
-                             not resolve to a registration. Moreover, the algorithm does not distinguish
+                             HTML("The regular expressions detect any and all TRNs in an abstract and publication and do not distinguish
                              between cases where a TRN is reported as a registration for the publication&#39s
-                             study (i.e., clinical trial result) or is otherwise mentioned (i.e., in a review,
-                                  reference to other clinical trials, etc.). Finally, this analysis was
-                                  limited to journal publications indexed in PubMed (TRN in abstract)
-                                  and for which we could obtain the full text (TRN in full text).")),
+                             study (i.e., clinical trial result) or is otherwise mentioned (i.e., in a review, reference to other clinical trials, etc.).
+                             Finally, this analysis was limited to journal publications indexed in PubMed (TRN in abstract)
+                             and for which we could obtain the full text (TRN in full text).")),
                
                methods_panel("Linkage of journal publications in the registry",
                              
                              HTML("This metric measures links to the published journal article in clinical trial
-                             registry entries. Linking to the publication in the registration increases findability and
+                             registry entries. Linking to the publication in the registration make results publication more findable and
                              aids in evidence synthesis."),
                              
                              HTML('This analysis was limited to trials registered in ClinicalTrials.gov and/or
@@ -148,15 +141,15 @@ methods_page <- tabPanel(
                              restricted to publications with a DOI or that are indexed in PubMed. We
                              queried the ClinicalTrials.gov and DRKS APIs (May 2021) to obtain
                              linked publications in these registries. We considered a publication “linked”
-                                  if the PMID or DOI was included in the trial registration.'),
+                             if the PMID or DOI was included in the trial registration.'),
                              
                              HTML("<i>Registry limitations:</i> ClinicalTrials.gov includes a often-used
                              PMID field for references. In addition, ClinicalTrials.gov automatically
                              indexes publications from PubMed using TRN in the secondary identifier field.
                              In contrast, DRKS includes references as a free-text field, leaving trialists
                              to decide whether to enter any publication identifiers. Finally, this analysis
-                                  was limited to trials with a journal publication which have a DOI or are
-                                  indexed in PubMed"))),
+                             was limited to trials with a journal publication which have a DOI or are
+                             indexed in PubMed"))),
     
     h3("Trial Reporting"),
     bsCollapse(id = "methodsPanels_TrialReporting",
@@ -188,10 +181,10 @@ methods_page <- tabPanel(
                              corresponding sponsor name was found for a given UMC, we only selected the 
                              sponsor name with the most trials. The list of selected sponsor names can be 
                              found <a href=https://github.com/quest-bih/clinical-dashboard/blob/main/prep/eutt-sponsors-of-interest.csv
-                                  >here</a>. Note that some trials registered in EudraCT and captured in
-                                  this analysis may be cross-registered in ClinicalTrials.gov and/or DRKS.
-                                  However, this plot only displays summary results reporting in EUCTR as
-                                  listed in the EU Trials Tracker.'),
+                             >here</a>. Note that some trials registered in EudraCT and captured in
+                             this analysis may be cross-registered in ClinicalTrials.gov and/or DRKS.
+                             However, this plot displays summary results reporting only in EUCTR as
+                             listed in the EU Trials Tracker.'),
                              
                              "The EU Trials Tracker does not measure for how long trials have been due to
                              report results. For UMCs with more than one corresponding sponsor name in the
@@ -214,7 +207,7 @@ methods_page <- tabPanel(
                              <a href=https://www.sciencedirect.com/science/article/abs/pii/S0895435618310631?via%3Dihub>
                              IntoValue 1 study</a> and the follow-up 
                              <a href=https://www.medrxiv.org/content/10.1101/2021.08.05.21261624v2>
-                             IntoValue 2 study</a> (available as a pre-print). This analysis was limited
+                             IntoValue 2 study</a> (available as a preprint). This analysis was limited
                              to trials registered in ClinicalTrials.gov and/or DRKS. Both registries were
                              searched for studies with one of the UMCs as
                              the responsible party/sponsor or with a principal investigator from one of
@@ -253,12 +246,9 @@ methods_page <- tabPanel(
                              to maximise the value and impact of research discoveries. This metric measures
                              the OA status of publications in our sample.",
                              
-                             HTML('This analysis was limited to trials with a journal publication for which
-                             a DOI has been assigned. Using this set of publications as basis, we queried the
-                        Unpaywall database via its <a href="https://unpaywall.org/products/api">API</a>
-                        to obtain information on the OA status of publications. Unpaywall is today the
-                        most comprehensive database of OA information on research articles. It can be queried
-                        using publication DOIs. Publications can have different OA statuses which are
+                             HTML('This analysis was limited to trials with a journal publication and
+                             a DOI. We queried the Unpaywall database via its <a href="https://unpaywall.org/products/api">API</a>
+                        to obtain information on the OA status of publications. Publications can have different OA statuses which are
                         color-coded. Gold OA denotes a publication in an OA journal. Green OA denotes a
                         freely available repository version. Hybrid OA denotes an OA publication in a journal
                         which offers both a subscription based model as well as an OA option. The category
@@ -267,23 +257,20 @@ methods_page <- tabPanel(
                         have been made available voluntarily by the journal, but which might at some stage
                         lose their OA status again. We only considered the following categories as OA in this
                         dashboard: Gold OA, Green OA, and Hybrid OA. As a publication can have several OA
-                        versions (e.g. a gold version in an OA journal as well as a green version in a repository),
+                        versions (e.g., a gold version in an OA journal as well as a green version in a repository),
                         we define a hierarchy for the OA categories and for each publication only assign the
                         OA category with the highest priority. We use a hierarchy of gold - hybrid - green
                         (journal version before repository version), as also implemented in the Unpaywall
-                        database itself. After querying the Unpaywall API for all publication DOIs, we
-                        group the results by OA status.
+                        database itself.
                         <br>
-                        <br>One important point that has to be considered with OA data is that
-                        the OA percentage is not a fixed number, but changes over time. This is due to the fact
-                        that repository versions are often made available with a delay, such that the OA
-                        percentage for a given year typically rises retrospectively. Thus, the point in time
+                        <br>OA status is not fixed but rather changes over time, as repository versions are often made available with a delay.
+                        Therefore, the OA percentage for a given year typically rises retrospectively. Thus, the point in time
                         at which the OA status is retrieved is important for the OA percentage. The current
                         OA data was retrieved with <a href="https://github.com/NicoRiedel/unpaywallR">
                              UnpaywallR</a> on: 15/07/2021.'),
                              
                              "Unpaywall only stores information for publications which have a DOI assigned by
-                        Crossref. Articles without a Crossref DOI have to be excluded from the OA analysis."),
+                        Crossref. Articles without a Crossref DOI were therefore excluded from the OA analysis."),
                
                methods_panel("Potential Green Open Access",
                              
@@ -300,8 +287,8 @@ methods_page <- tabPanel(
                              delay. This metric measures how many paywalled publications with the potential
                              for green OA have been made available via this route."),
                              
-                             HTML('This analysis was limited to trials with a journal publication for which
-                             a DOI has been assigned. In a first step, we identified publications which are
+                             HTML('This analysis was limited to trials with a journal publication with a DOI.
+                             In a first step, we identified publications which are
                              only accessible in a repository (Green OA only). To do so, we queried the
                              Unpaywall API (with <a href="https://github.com/NicoRiedel/unpaywallR">
                              UnpaywallR</a>) with the following hierarchy: gold - hybrid - bronze - green - 
@@ -317,11 +304,11 @@ methods_page <- tabPanel(
                              the publication; (3) this permission relates to archiving in an institutional repository;
                              and (4) the embargo linked to this permission had elapsed (if applicable). we did
                              not consider permissions relating to the submitted version. The Unpaywall database
-                                  was queried on 15/07/2021. The Shareyourpaper permissions API was queried on
-                                  23/07/2021.'),
+                             was queried on 15/07/2021. The Shareyourpaper permissions API was queried on
+                             23/07/2021.'),
                              
-                             "Not all publications queried were resolved in Unpaywall and ShareYourPaper. We also
-                             only extracted permissions data for publications which have a \"best permission\"
+                             "Not all queried publications resolved in Unpaywall and ShareYourPaper. We also
+                             extracted permissions data only for publications which have a \"best permission\"
                              in the Shareyourpaper.org database. The date at which a publication can be made
                              openly accessible via self-archiving depends on the publication date and the
                              length of the embargo (if any). Therefore, the number of paywalled publications
