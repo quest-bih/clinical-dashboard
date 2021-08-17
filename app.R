@@ -525,16 +525,23 @@ server <- function (input, output, session) {
             filter(
                 has_publication == TRUE,
                 publication_type == "journal publication",
-                ! is.na(doi)
+                ! is.na(doi),
+                ! is.na(publication_date_unpaywall)
             )
+
+        oa_set$oa_year <- oa_set$publication_date_unpaywall %>%
+            format("%Y")
         
         all_numer_oa <- oa_set %>%
-            filter(color == "gold" | color == "green" | color == "hybrid"
-                   ) %>%
+            filter(
+                color == "gold" | color == "green" | color == "hybrid",
+                oa_year == "2020"
+            ) %>%
             nrow()
 
         # Keep pubs with NA color for now 
         all_denom_oa <- oa_set %>%
+            filter(oa_year == "2020") %>%
             nrow()
         
         #Create set for Green OA percentage plot

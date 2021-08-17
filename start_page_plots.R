@@ -436,49 +436,90 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
     ## Calculate the numerators and the denominator for the
     ## "all" bars
 
-    plot_data <- dataset %>%
+    dataset <- dataset %>%
         filter(
             has_publication == TRUE,
             publication_type == "journal publication",
-            !is.na(doi)
+            !is.na(doi),
+            ! is.na (publication_date_unpaywall)
         )
 
-    all_denom <- plot_data %>%
-        nrow()
+    dataset$oa_year <- dataset$publication_date_unpaywall %>%
+        format("%Y")
 
-    all_gold <- plot_data %>%
-        filter( color == "gold") %>%
-        nrow()
-
-    all_green <- plot_data %>%
-        filter( color == "green") %>%
-        nrow()
-
-    all_hybrid <- plot_data %>%
-        filter( color == "hybrid") %>%
-        nrow()
-
-    all_na <- plot_data %>%
-        filter( is.na(color) ) %>%
-        nrow()
-
-    all_closed <- plot_data %>%
-        filter( color == "closed") %>%
-        nrow()
-
-    all_bronze <- plot_data %>%
-        filter( color == "bronze") %>%
-        nrow()
-
-    
     if (absnum) {
         
         plot_data <- tribble(
-            ~x_label, ~gold,    ~green,    ~hybrid,    ~na,    ~closed,    ~bronze,
-            "All",    all_gold, all_green, all_hybrid, all_na, all_closed, all_bronze
+            ~x_label, ~gold,    ~green,    ~hybrid,    ~na,    ~closed,    ~bronze
         )
 
-        upperlimit <- 1.1*sum(all_gold, all_green, all_hybrid, all_na, all_closed, all_bronze)
+        upperlimit <- 0
+
+        for (year in unique(dataset$oa_year)) {
+            
+            gold_num <- dataset %>%
+                filter(
+                    oa_year == year,
+                    color == "gold"
+                ) %>%
+                nrow()
+
+            green_num <- dataset %>%
+                filter(
+                    oa_year == year,
+                    color == "green"
+                ) %>%
+                nrow()
+
+            hybrid_num <- dataset %>%
+                filter(
+                    oa_year == year,
+                    color == "hybrid"
+                ) %>%
+                nrow()
+
+            na_num <- dataset %>%
+                filter(
+                    oa_year == year,
+                    is.na(color)
+                ) %>%
+                nrow()
+            
+            closed_num <- dataset %>%
+                filter(
+                    oa_year == year,
+                    color == "closed"
+                ) %>%
+                nrow()
+
+            bronze_num <- dataset %>%
+                filter(
+                    oa_year == year,
+                    color == "bronze"
+                ) %>%
+                nrow()
+            
+            year_denom <- dataset %>%
+                filter(
+                    oa_year == year
+                ) %>%
+                nrow()
+
+            if (year_denom > 20) {
+                plot_data <- plot_data %>%
+                    bind_rows(
+                        tribble(
+                            ~x_label, ~gold,    ~green,    ~hybrid,    ~na,    ~closed,    ~bronze,
+                            year, gold_num, green_num, hybrid_num, na_num, closed_num, bronze_num
+                        )
+                    )
+            }
+
+            year_upperlimit <- 1.1*(sum(gold_num, green_num, hybrid_num, na_num, closed_num, bronze_num))
+            upperlimit <- max(year_upperlimit, upperlimit)
+
+        }
+        
         ylabel <- "Number of publications"
 
         plot_ly(
@@ -553,7 +594,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
         layout(
             barmode = 'stack',
             xaxis = list(
-                title = '<b>UMC</b>'
+                title = '<b>Year of publication</b>'
             ),
             yaxis = list(
                 title = paste('<b>', ylabel, '</b>'),
@@ -565,11 +606,50 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
 
         
     } else {
-        
+
         plot_data <- tribble(
-            ~x_label, ~gold,                         ~green,                         ~hybrid,                         ~na,                         ~closed,                         ~bronze,
-            "All",    round(100*all_gold/all_denom), round(100*all_green/all_denom), round(100*all_hybrid/all_denom), round(100*all_na/all_denom), round(100*all_closed/all_denom), round(100*all_bronze/all_denom)
+            ~x_label, ~gold, ~green, ~hybrid
         )
+
+        for (year in unique(dataset$oa_year)) {
+
+            gold_num <- dataset %>%
+                filter(
+                    oa_year == year,
+                    color == "gold"
+                ) %>%
+                nrow()
+
+            green_num <- dataset %>%
+                filter(
+                    oa_year == year,
+                    color == "green"
+                ) %>%
+                nrow()
+
+            hybrid_num <- dataset %>%
+                filter(
+                    oa_year == year,
+                    color == "hybrid"
+                ) %>%
+                nrow()
+            
+            year_denom <- dataset %>%
+                filter(
+                    oa_year == year
+                ) %>%
+                nrow()
+
+            if (year_denom > 20) {                
+                plot_data <- plot_data %>%
+                    bind_rows(
+                        tribble(
+                            ~x_label, ~gold,                         ~green,                         ~hybrid,
+                            year, round(100*gold_num/year_denom), round(100*green_num/year_denom), round(100*hybrid_num/year_denom)
+                        )
+                    )
+            }
+        }
 
         upperlimit <- 100
         ylabel <- "Percentage Open Access (%)"
@@ -613,7 +693,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
         layout(
             barmode = 'stack',
             xaxis = list(
-                title = '<b>UMC</b>'
+                title = '<b>Year of publication</b>'
             ),
             yaxis = list(
                 title = paste('<b>', ylabel, '</b>'),
