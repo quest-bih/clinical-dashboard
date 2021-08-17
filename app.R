@@ -576,7 +576,7 @@ server <- function (input, output, session) {
                     metric_box(
                         title = "Open Access (OA)",
                         value = paste0(round(100*all_numer_oa/all_denom_oa), "%"),
-                        value_text = "of publications are Open Access (Gold, Green or Hybrid)",
+                        value_text = "of publications from 2020 are Open Access (Gold, Green or Hybrid)",
                         plot = plotlyOutput('plot_opensci_oa', height="300px"),
                         info_id = "infoOpenAccess",
                         info_title = "Open Access",
