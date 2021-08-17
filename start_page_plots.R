@@ -515,7 +515,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
                     )
             }
 
-            year_upperlimit <- 1.1*(sum(gold_num, green_num, hybrid_num, na_num, closed_num, bronze_num))
+            year_upperlimit <- 1.1*year_denom
             upperlimit <- max(year_upperlimit, upperlimit)
 
         }

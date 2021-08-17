@@ -699,14 +699,88 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
 
     if (absnum) {
 
+        dataset <- dataset %>%
+            filter(
+                has_publication == TRUE,
+                publication_type == "journal publication",
+                !is.na(doi),
+                ! is.na (publication_date_unpaywall)
+            )
+
+        dataset$oa_year <- dataset$publication_date_unpaywall %>%
+            format("%Y")
+
         plot_data <- tribble(
-            ~x_label, ~gold,    ~green,    ~hybrid,    ~na,    ~closed,    ~bronze,
-            umc,      umc_gold, umc_green, umc_hybrid, umc_na, umc_closed, umc_bronze
+            ~x_label, ~gold,    ~green,    ~hybrid,    ~na,    ~closed,    ~bronze
         )
 
-        upperlimit <- 1.1*sum(umc_gold, umc_green, umc_hybrid, umc_na, umc_closed, umc_bronze)
-        ylabel <- "Number of publications"
+        upperlimit <- 0
 
+        for (year in unique(dataset$oa_year)) {
+            gold_num <- dataset %>%
+                filter(
+                    oa_year == year,
+                    color == "gold"
+                ) %>%
+                nrow()
+            
+            green_num <- dataset %>%
+                filter(
+                    oa_year == year,
+                    color == "green"
+                ) %>%
+                nrow()
+
+            hybrid_num <- dataset %>%
+                filter(
+                    oa_year == year,
+                    color == "hybrid"
+                ) %>%
+                nrow()
+
+            na_num <- dataset %>%
+                filter(
+                    oa_year == year,
+                    is.na(color)
+                ) %>%
+                nrow()
+            
+            closed_num <- dataset %>%
+                filter(
+                    oa_year == year,
+                    color == "closed"
+                ) %>%
+                nrow()
+
+            bronze_num <- dataset %>%
+                filter(
+                    oa_year == year,
+                    color == "bronze"
+                ) %>%
+                nrow()
+            
+            year_denom <- dataset %>%
+                filter(
+                    oa_year == year
+                ) %>%
+                nrow()
+
+            if (year_denom > 20) {
+                plot_data <- plot_data %>%
+                    bind_rows(
+                        tribble(
+                            ~x_label, ~gold,    ~green,    ~hybrid,    ~na,    ~closed,    ~bronze,
+                            year, gold_num, green_num, hybrid_num, na_num, closed_num, bronze_num
+                        )
+                    )
+            }
+
+            year_upperlimit <- 1.1*year_denom
+            upperlimit <- max(year_upperlimit, upperlimit)
+            
+        }
+
+        ylabel <- "Number of publications"
         
     plot_ly(
         plot_data,
@@ -780,7 +854,7 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
         layout(
             barmode = 'stack',
             xaxis = list(
-                title = '<b>UMC</b>'
+                title = '<b>Year of publication</b>'
             ),
             yaxis = list(
                 title = paste('<b>', ylabel, '</b>'),
