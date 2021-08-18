@@ -579,6 +579,7 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
         filter(
             has_publication == TRUE,
             publication_type == "journal publication",
+            city == umc,
             !is.na(doi)
         )
 
@@ -670,7 +671,8 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
                 has_publication == TRUE,
                 publication_type == "journal publication",
                 !is.na(doi),
-                ! is.na (publication_date_unpaywall)
+                ! is.na (publication_date_unpaywall),
+                city == umc
             )
 
         dataset$oa_year <- dataset$publication_date_unpaywall %>%
@@ -683,9 +685,11 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
         upperlimit <- 0
 
         for (year in unique(dataset$oa_year)) {
+            
             gold_num <- dataset %>%
                 filter(
                     oa_year == year,
+                    city == umc,
                     color == "gold"
                 ) %>%
                 nrow()
@@ -693,6 +697,7 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
             green_num <- dataset %>%
                 filter(
                     oa_year == year,
+                    city == umc,
                     color == "green"
                 ) %>%
                 nrow()
@@ -700,6 +705,7 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
             hybrid_num <- dataset %>%
                 filter(
                     oa_year == year,
+                    city == umc,
                     color == "hybrid"
                 ) %>%
                 nrow()
@@ -707,6 +713,7 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
             na_num <- dataset %>%
                 filter(
                     oa_year == year,
+                    city == umc,
                     is.na(color)
                 ) %>%
                 nrow()
@@ -714,6 +721,7 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
             closed_num <- dataset %>%
                 filter(
                     oa_year == year,
+                    city == umc,
                     color == "closed"
                 ) %>%
                 nrow()
@@ -721,17 +729,19 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
             bronze_num <- dataset %>%
                 filter(
                     oa_year == year,
+                    city == umc,
                     color == "bronze"
                 ) %>%
                 nrow()
             
             year_denom <- dataset %>%
                 filter(
-                    oa_year == year
+                    oa_year == year,
+                    city == umc
                 ) %>%
                 nrow()
 
-            if (year_denom > 20) {
+            if (year_denom > 0) {
                 plot_data <- plot_data %>%
                     bind_rows(
                         tribble(
