@@ -223,7 +223,7 @@ server <- function (input, output, session) {
             preregvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
         } else {
             preregval <- paste0(round(100*all_numer_prereg/all_denom_prereg), "%")
-            preregvaltext <- "of registered clinical trials completed in 2017 were prospectively registered"
+            preregvaltext <- paste0("of registered clinical trials completed in 2017 (n=", all_denom_prereg, ") were prospectively registered")
         }
 
         ## Value for TRN in abstract
@@ -280,7 +280,7 @@ server <- function (input, output, session) {
                     metric_box(
                         title = "Reporting of Trial Registration Number in publications",
                         value = paste0(round(100*all_numer_trn/all_denom_trn), "%"),
-                        value_text = "of trials with a publication reported a trial registration number in the abstract",
+                        value_text = paste0("of trials with a publication (n=", all_denom_trn, ") reported a trial registration number in the abstract"),
                         plot = plotlyOutput('plot_clinicaltrials_trn', height="300px"),
                         info_id = "infoTRN",
                         info_title = "Reporting of Trial Registration Number in publications",
@@ -296,7 +296,7 @@ server <- function (input, output, session) {
                     metric_box(
                         title = "Publication link in registry",
                         value = linkage,
-                        value_text = "of trials with a publication provide a link to this publication in the registry entry",
+                        value_text = paste0("of trials with a publication (n=", link_den, ") provide a link to this publication in the registry entry"),
                         plot = plotlyOutput('plot_linkage', height="300px"),
                         info_id = "infoLinkage",
                         info_title = "Publication link in registry",
@@ -337,7 +337,7 @@ server <- function (input, output, session) {
             slice_tail() %>%
             select(avg) %>%
             pull() %>%
-            format(digits=3)
+            format(digits=2)
 
         n_eutt_records <- eutt_hist %>%
             nrow()
@@ -438,7 +438,7 @@ server <- function (input, output, session) {
         } else {
                         
             timpubval <- paste0(round(100*all_numer_timpub/all_denom_timpub), "%")
-            timpubvaltext <- "of clinical trials completed in 2017 reported results within 2 years"
+            timpubvaltext <- paste0("of clinical trials completed in 2017 (n=", all_denom_timpub, ") reported results within 2 years")
         }
         
         metric_box(
@@ -487,7 +487,7 @@ server <- function (input, output, session) {
             timpubvaltext5a <- "No clinical trials for this metric were captured by this method for this UMC"
         } else {
             timpubval5a <- paste0(round(100*all_numer_timpub5a/all_denom_timpub5a), "%")
-            timpubvaltext5a <- "of clinical trials completed in 2015 reported results within 5 years"
+            timpubvaltext5a <- paste0("of clinical trials completed in 2015 (n=", all_denom_timpub5a, ") reported results within 5 years")
         }
 
         metric_box(
@@ -576,7 +576,7 @@ server <- function (input, output, session) {
                     metric_box(
                         title = "Open Access (OA)",
                         value = paste0(round(100*all_numer_oa/all_denom_oa), "%"),
-                        value_text = "of publications from 2020 are Open Access (Gold, Green or Hybrid)",
+                        value_text = paste0("of publications from 2020 (n=", all_denom_oa, ") are Open Access (Gold, Green or Hybrid)"),
                         plot = plotlyOutput('plot_opensci_oa', height="300px"),
                         info_id = "infoOpenAccess",
                         info_title = "Open Access",
@@ -592,7 +592,7 @@ server <- function (input, output, session) {
                     metric_box(
                         title = "Realized potential for Green OA",
                         value = paste0(round(100*numer_greenoa/denom_greenoa), "%"),
-                        value_text = "of paywalled publications with the potential for green OA have been made available via this route",
+                        value_text = paste0("of paywalled publications with the potential for green OA (n=", denom_greenoa, ") have been made available via this route"),
                         plot = plotlyOutput('plot_opensci_green_oa', height="300px"),
                         info_id = "infoGreenOA",
                         info_title = "Potential Green Open Access",
@@ -650,7 +650,7 @@ server <- function (input, output, session) {
                 preregvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
             } else {
                 preregval <- paste0(round(100*all_numer_prereg/all_denom_prereg), "%")
-                preregvaltext <- "of registered clinical trials completed in 2017 were prospectively registered"
+                preregvaltext <- paste0("of registered clinical trials completed in 2017 (n=", all_denom_prereg, ") were prospectively registered")
             }
 
             ## Value for TRN in abstract
@@ -711,7 +711,7 @@ server <- function (input, output, session) {
                         metric_box(
                             title = "Reporting of Trial Registration Number in publications",
                             value = paste0(round(100*all_numer_trn/all_denom_trn), "%"),
-                            value_text = "of trials with a publication reported a trial registration number in the abstract",
+                            value_text = paste0("of trials with a publication (n=", all_denom_trn, ") reported a trial registration number in the abstract"),
                             plot = plotlyOutput('umc_plot_clinicaltrials_trn', height="300px"),
                             info_id = "UMCinfoTRN",
                             info_title = "Reporting of Trial Registration Number in publications",
@@ -726,7 +726,7 @@ server <- function (input, output, session) {
                         metric_box(
                             title = "Publication link in registry",
                             value = linkage,
-                            value_text = "of trials with a publication provide a link to this publication in the registry entry",
+                            value_text = paste0("of trials with a publication (n=", link_den, ") provide a link to this publication in the registry entry"),
                             plot = plotlyOutput('umc_plot_linkage', height="300px"),
                             info_id = "UMCinfoLinkage",
                             info_title = "Publication link in registry",
@@ -871,7 +871,7 @@ server <- function (input, output, session) {
             timpubvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
         } else {
             timpubval <- paste0(round(100*all_numer_timpub/all_denom_timpub), "%")
-            timpubvaltext <- "of clinical trials completed in 2017 reported results within 2 years"
+            timpubvaltext <- paste0("of clinical trials completed in 2017 (n=", all_denom_timpub, ") reported results within 2 years")
         }
         
         metric_box(
@@ -922,7 +922,7 @@ server <- function (input, output, session) {
             timpubvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
         } else {
             timpubval <- paste0(round(100*all_numer_timpub/all_denom_timpub), "%")
-            timpubvaltext <- "of clinical trials completed in 2015 reported results within 5 years"
+            timpubvaltext <- paste0("of clinical trials completed in 2015 (n=", all_denom_timpub, ") reported results within 5 years")
         }
         
         metric_box(
@@ -1019,7 +1019,7 @@ server <- function (input, output, session) {
                         metric_box(
                             title = "Open Access (OA)",
                             value = paste0(round(100*all_numer_oa/all_denom_oa), "%"),
-                            value_text = "of publications are Open Access (Gold, Green or Hybrid)",
+                            value_text = paste0("of publications (n=", all_denom_oa, ") are Open Access (Gold, Green or Hybrid)"),
                             plot = plotlyOutput('umc_plot_opensci_oa', height="300px"),
                             info_id = "UMCinfoOpenAccess",
                             info_title = "Open Access",
@@ -1035,7 +1035,7 @@ server <- function (input, output, session) {
                         metric_box(
                             title = "Realized potential for Green OA",
                             value = paste0(round(100*numer_greenoa/denom_greenoa), "%"),
-                            value_text = "of paywalled publications with the potential for green OA have been made available via this route",
+                            value_text = paste0("of paywalled publications with the potential for green OA (n=", denom_greenoa, ") have been made available via this route"),
                             plot = plotlyOutput('umc_plot_opensci_green_oa', height="300px"),
                             info_id = "UMCinfoGreenOA",
                             info_title = "Potential Green Open Access",
