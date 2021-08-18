@@ -258,96 +258,63 @@ umc_plot_linkage <- function (dataset, dataset_all, umc, color_palette) {
     
 }
 
-# Summary results
+## Summary results
 umc_plot_clinicaltrials_sumres <- function (dataset, umc, color_palette) {
 
     dataset <- dataset %>%
         filter (date > Sys.Date()-365*1.5) ## Only look at the last year and a half
+
+    ## Only take the latest data point per month
+    dataset$month <- dataset$date %>%
+        format("%Y-%m")
+
+    dataset <- dataset %>%
+        group_by(city, month) %>%
+        arrange(desc(date)) %>%
+        slice_head() %>%
+        ungroup()
     
-    if (umc != "All") {
+    all_data <- dataset %>%
+        group_by(date) %>%
+        mutate(avg = mean(percent_reported)) %>%
+        slice_head() %>%
+        select(date, hash, avg, month) %>%
+        rename(percent_reported = avg) %>%
+        mutate(city = "All") %>%
+        ungroup()
+    
+    city_data <- dataset %>%
+        filter(city == umc)
 
-        all_data <- dataset %>%
-            group_by(date) %>%
-            mutate(avg = mean(percent_reported)) %>%
-            slice_head() %>%
-            select(date, hash, avg) %>%
-            rename(percent_reported = avg) %>%
-            mutate(city = "All") %>%
-            ungroup()
-            
-        city_data <- dataset %>%
-            filter(city == umc)
+    plot_data <- rbind(all_data, city_data)
 
-        plot_data <- rbind(all_data, city_data)
-
-        plot_ly(
-            plot_data,
-            x = ~date,
-            y = ~percent_reported,
-            name = ~city,
-            type = 'scatter',
-            mode = 'lines+markers',
-            marker = list(
-                color = color_palette[3],
-                line = list(
-                    color = 'rgb(0,0,0)',
-                    width = 1.5
-                )
+    plot_ly(
+        plot_data,
+        x = ~date,
+        y = ~percent_reported,
+        name = ~city,
+        type = 'scatter',
+        mode = 'lines+markers',
+        marker = list(
+            color = color_palette[3],
+            line = list(
+                color = 'rgb(0,0,0)',
+                width = 1.5
             )
-        ) %>%
-            layout(
-                xaxis = list(
-                    title = '<b>Date</b>'
-                ),
-                yaxis = list(
-                    title = '<b>Percentage of trials (%)</b>',
-                    range = c(0, 100)
-                ),
-                paper_bgcolor = color_palette[9],
-                plot_bgcolor = color_palette[9],
-                legend = list(xanchor= "right")
-            )
-        
-    } else {
-
-        plot_data <- dataset %>%
-            group_by(date) %>%
-            mutate(avg = mean(percent_reported)) %>%
-            slice_head() %>%
-            select(date, avg) %>%
-            rename(percent_reported = avg) %>%
-            mutate(city = "All") %>%
-            ungroup()
-
-        plot_ly(
-            plot_data,
-            x = ~date,
-            y = ~percent_reported,
-            name = "All",
-            type = 'scatter',
-            mode = 'lines+markers',
-            marker = list(
-                color = color_palette[3],
-                line = list(
-                    color = 'rgb(0,0,0)',
-                    width = 1.5
-                )
-            )
-        ) %>%
-            layout(
-                xaxis = list(
-                    title = '<b>Date</b>'
-                ),
-                yaxis = list(
-                    title = '<b>Reported within 1 year (%)</b>',
-                    range = c(0, 100)
-                ),
-                paper_bgcolor = color_palette[9],
-                plot_bgcolor = color_palette[9],
-                legend = list(xanchor= "right")
-            )
-        
-    }
+        )
+    ) %>%
+        layout(
+            xaxis = list(
+                title = '<b>Date</b>'
+            ),
+            yaxis = list(
+                title = '<b>Percentage of trials (%)</b>',
+                range = c(0, 100)
+            ),
+            paper_bgcolor = color_palette[9],
+            plot_bgcolor = color_palette[9],
+            legend = list(xanchor= "right")
+        )
     
 }
 

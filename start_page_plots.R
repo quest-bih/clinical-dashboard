@@ -187,11 +187,20 @@ plot_linkage <- function (dataset, color_palette) {
     
 }
 
-                                        # Summary results
+## Summary results
 plot_clinicaltrials_sumres <- function (dataset, color_palette) {
 
     dataset <- dataset %>%
         filter (date > Sys.Date()-365*1.5) ## Only look at the last year and a half
+
+    ## Only take the latest data point per month
+    dataset$month <- dataset$date %>%
+        format("%Y-%m")
+
+    dataset <- dataset %>%
+        group_by(city, month) %>%
+        arrange(desc(date)) %>%
+        slice_head()
 
     plot_data <- dataset %>%
         group_by(date) %>%
