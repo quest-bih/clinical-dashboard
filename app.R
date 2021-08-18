@@ -13,7 +13,7 @@ library(DT)
 
 ## Generate this from the EUTT repo using the script in
 ## prep/eutt-history.R
-eutt_date <- "2021-06-16"
+eutt_date <- "2021-08-18"
 eutt_hist <- read_csv(
     paste0("data/", eutt_date, "-eutt-history.csv")
 )
@@ -331,7 +331,7 @@ server <- function (input, output, session) {
         
         sumres_percent <- eutt_hist %>%
             group_by(date) %>%
-            mutate(avg = mean(percent_reported)) %>%
+            mutate(avg = 100*sum(total_reported)/sum(total_due)) %>%
             slice_head() %>%
             ungroup() %>%
             slice_tail() %>%
@@ -342,12 +342,20 @@ server <- function (input, output, session) {
         n_eutt_records <- eutt_hist %>%
             nrow()
 
+        sumres_denom <- eutt_hist %>%
+            group_by(city) %>%
+            arrange(date) %>%
+            slice_tail() %>%
+            ungroup() %>%
+            select(total_due) %>%
+            sum()
+
         if (n_eutt_records == 0) {
             sumresval <- "Not applicable"
             sumresvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
         } else {
             sumresval <- paste0(sumres_percent, "%")
-            sumresvaltext <- paste("of due clinical trials registered in EUCTR reported summary results within 1 year (as of:", eutt_date, ")")
+            sumresvaltext <- paste0("of due clinical trials registered in EUCTR (n=", sumres_denom, ") reported summary results within 1 year (as of: ", eutt_date, ")")
         }
 
         wellPanel(
@@ -774,13 +782,19 @@ server <- function (input, output, session) {
             n_eutt_records <- eutt_hist %>%
                 filter(city == input$selectUMC) %>%
                 nrow()
+
+            sumres_denom <- eutt_hist %>%
+                filter(city == input$selectUMC) %>%
+                slice_head() %>%
+                select(total_due) %>%
+                pull()
                 
             if (n_eutt_records == 0) {
                 sumresval <- "Not applicable"
                 sumresvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
             } else {
                 sumresval <- paste0(sumres_percent, "%")
-                sumresvaltext <- paste("of due clinical trials registered in EUCTR reported summary results within 1 year (as of:", eutt_date, ")")
+                sumresvaltext <- paste0("of due clinical trials registered in EUCTR (n=", sumres_denom, ") reported summary results within 1 year (as of: ", eutt_date, ")")
             }
             
             wellPanel(

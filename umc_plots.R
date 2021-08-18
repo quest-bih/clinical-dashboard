@@ -275,9 +275,9 @@ umc_plot_clinicaltrials_sumres <- function (dataset, umc, color_palette) {
     
     all_data <- dataset %>%
         group_by(date) %>%
-        mutate(avg = mean(percent_reported)) %>%
+        mutate(avg = 100*sum(total_reported)/sum(total_due)) %>%
         slice_head() %>%
-        select(date, hash, avg, month) %>%
+        select(date, hash, avg, month, total_due, total_reported) %>%
         rename(percent_reported = avg) %>%
         mutate(city = "All") %>%
         ungroup()

@@ -203,7 +203,7 @@ plot_clinicaltrials_sumres <- function (dataset, color_palette) {
 
     plot_data <- dataset %>%
         group_by(date) %>%
-        mutate(avg = mean(percent_reported)) %>%
+        mutate(avg = 100*sum(total_reported)/sum(total_due)) %>%
         slice_head() %>%
         select(date, avg) %>%
         rename(percent_reported = avg) %>%
