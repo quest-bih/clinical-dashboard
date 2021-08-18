@@ -245,11 +245,13 @@ server <- function (input, output, session) {
         link_num <- iv_all %>%
             filter(has_reg_pub_link == TRUE) %>%
             filter(publication_type == "journal publication") %>%
+            filter(completion_date >= as.Date("2017-01-01"), completion_date <= as.Date("2017-12-31")) %>%
             nrow()
 
         link_den <- iv_all %>%
             filter(has_publication == TRUE) %>%
             filter(publication_type == "journal publication") %>%
+            filter(completion_date >= as.Date("2017-01-01"), completion_date <= as.Date("2017-12-31")) %>%
             filter(has_pubmed == TRUE | ! is.na (doi)) %>%
             nrow()
             
@@ -280,7 +282,7 @@ server <- function (input, output, session) {
                     metric_box(
                         title = "Reporting of Trial Registration Number in publications",
                         value = paste0(round(100*all_numer_trn/all_denom_trn), "%"),
-                        value_text = paste0("of trials with a publication (n=", all_denom_trn, ") reported a trial registration number in the abstract"),
+                        value_text = paste0("of trials with a publication in 2017 (n=", all_denom_trn, ") reported a trial registration number in the abstract"),
                         plot = plotlyOutput('plot_clinicaltrials_trn', height="300px"),
                         info_id = "infoTRN",
                         info_title = "Reporting of Trial Registration Number in publications",
@@ -683,6 +685,7 @@ server <- function (input, output, session) {
                 filter(city == input$selectUMC) %>%
                 filter(has_reg_pub_link == TRUE) %>%
                 filter(publication_type == "journal publication") %>%
+                filter(completion_date >= as.Date("2017-01-01"), completion_date <= as.Date("2017-12-31")) %>%
                 nrow()
 
             link_den <- iv_umc %>%
@@ -690,6 +693,7 @@ server <- function (input, output, session) {
                 filter(has_publication == TRUE) %>%
                 filter(publication_type == "journal publication") %>%
                 filter (has_pubmed == TRUE | ! is.na (doi)) %>%
+                filter(completion_date >= as.Date("2017-01-01"), completion_date <= as.Date("2017-12-31")) %>%
                 nrow()
 
             linkage <- paste0(round(100*link_num/link_den), "%")
@@ -734,7 +738,7 @@ server <- function (input, output, session) {
                         metric_box(
                             title = "Publication link in registry",
                             value = linkage,
-                            value_text = paste0("of trials with a publication (n=", link_den, ") provide a link to this publication in the registry entry"),
+                            value_text = paste0("of trials with a publication in 2017 (n=", link_den, ") provide a link to this publication in the registry entry"),
                             plot = plotlyOutput('umc_plot_linkage', height="300px"),
                             info_id = "UMCinfoLinkage",
                             info_title = "Publication link in registry",

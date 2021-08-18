@@ -213,28 +213,67 @@ umc_plot_linkage <- function (dataset, dataset_all, umc, color_palette) {
         filter(has_publication == TRUE) %>%
         filter(publication_type == "journal publication") %>%
         filter(has_pubmed == TRUE | ! is.na (doi))
+
+    dataset$year <- dataset$completion_date %>%
+        format("%Y")
     
     dataset_all <- dataset_all %>%
         filter(has_publication == TRUE) %>%
         filter(publication_type == "journal publication") %>%
         filter(has_pubmed == TRUE | ! is.na (doi))
     
+    dataset_all$year <- dataset_all$completion_date %>%
+        format("%Y")
+    
+    years <- seq(from=min(dataset_all$year), to=max(dataset_all$year))
+    
     umcdata <- dataset %>%
         filter (city == umc)
     
     plot_data <- tribble(
-        ~x_label, ~percentage,
-        umc, round(100*mean(umcdata$has_reg_pub_link, na.rm = TRUE)),
-        "All", round(100*mean(dataset_all$has_reg_pub_link, na.rm = TRUE))
+        ~label, ~year, ~percentage
     )
+
+    for (current_year in years) {
+
+        umc_numer <- umcdata %>%
+            filter(has_reg_pub_link == TRUE) %>%
+            filter(year == current_year) %>%
+            nrow()
+
+        umc_denom <- umcdata %>%
+            filter(year == current_year) %>%
+            nrow()
+
+        all_numer <- dataset_all %>%
+            filter(has_reg_pub_link == TRUE) %>%
+            filter(year == current_year) %>%
+            nrow()
+
+        all_denom <- dataset_all %>%
+            filter(year == current_year) %>%
+            nrow()
+
+        plot_data <- plot_data %>%
+            bind_rows(
+                tribble(
+                    ~label, ~year, ~percentage,
+                    "All", current_year, 100*all_numer/all_denom,
+                    umc, current_year, 100*umc_numer/umc_denom
+                )
+            )
+        
+    }
 
     ylabel <- "Trials with publication (%)"
 
      plot_ly(
         plot_data,
-        x = ~x_label,
+        name = ~label,
+        x = ~year,
         y = ~percentage,
-        type = 'bar',
+        type = 'scatter',
+        mode = 'lines+markers',
         marker = list(
             color = color_palette[3],
             line = list(
@@ -245,7 +284,7 @@ umc_plot_linkage <- function (dataset, dataset_all, umc, color_palette) {
     ) %>%
         layout(
             xaxis = list(
-                title = '<b>UMC</b>'
+                title = '<b>Completion year</b>'
             ),
             yaxis = list(
                 title = paste('<b>', ylabel, '</b>'),

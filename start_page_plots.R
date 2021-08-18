@@ -142,28 +142,51 @@ plot_clinicaltrials_trn <- function (dataset, color_palette) {
 ## Linkage
 plot_linkage <- function (dataset, color_palette) {
 
-    numer <- dataset %>%
-        filter(has_reg_pub_link == TRUE) %>%
-        filter(publication_type == "journal publication") %>%
-        nrow()
-    denom <- dataset %>%
+    dataset <- dataset %>%
         filter(has_publication == TRUE) %>%
         filter(publication_type == "journal publication") %>%
-        filter(has_pubmed == TRUE | ! is.na (doi)) %>%
-        nrow()
+        filter(has_pubmed == TRUE | ! is.na (doi))
+
+    dataset$year <- dataset$completion_date %>%
+        format("%Y")
+
+    years <- seq(from=min(dataset$year), to=max(dataset$year))
 
     plot_data <- tribble(
-        ~x_label, ~percentage,
-        "All", round(100*numer/denom)
+        ~year, ~percentage
     )
+
+    for (current_year in years) {
+        
+        numer_for_year <- dataset %>%
+            filter(has_reg_pub_link == TRUE) %>%
+            filter(year == current_year) %>%
+            nrow()
+
+        denom_for_year <- dataset %>%
+            filter(year == current_year) %>%
+            nrow()
+
+        percentage_for_year <- 100*numer_for_year/denom_for_year
+
+        plot_data <- plot_data %>%
+            bind_rows(
+                tribble(
+                    ~year, ~percentage,
+                    current_year, percentage_for_year
+                )
+            )
+    }
     
     ylabel <- "Trials with publication (%)"
 
     plot_ly(
         plot_data,
-        x = ~x_label,
+        x = ~year,
         y = ~percentage,
-        type = 'bar',
+        name = 'All',
+        type = 'scatter',
+        mode = 'lines+markers',
         marker = list(
             color = color_palette[3],
             line = list(
@@ -174,7 +197,7 @@ plot_linkage <- function (dataset, color_palette) {
     ) %>%
         layout(
             xaxis = list(
-                title = '<b>UMC</b>'
+                title = '<b>Completion year</b>'
             ),
             yaxis = list(
                 title = paste('<b>', ylabel, '</b>'),
