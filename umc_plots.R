@@ -94,7 +94,7 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, umc, color_pal
             ),
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9],
-            legend = list(xanchor= "right")
+            legend = list(xanchor= "left")
         )
     
 }
@@ -312,7 +312,7 @@ umc_plot_clinicaltrials_sumres <- function (dataset, umc, color_palette) {
             ),
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9],
-            legend = list(xanchor= "right")
+            legend = list(xanchor= "left")
         )
     
 }
@@ -436,7 +436,7 @@ umc_plot_clinicaltrials_timpub_2a <- function (dataset, dataset_all, umc, rt, co
             ),
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9],
-            legend = list(xanchor= "right")
+            legend = list(xanchor= "left")
         )
     
 }
@@ -565,7 +565,7 @@ umc_plot_clinicaltrials_timpub_5a <- function (dataset, dataset_all, umc, rt, co
             ),
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9],
-            legend = list(xanchor= "right")
+            legend = list(xanchor= "left")
         )
     
 }
