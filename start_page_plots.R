@@ -61,7 +61,7 @@ plot_clinicaltrials_prereg <- function (dataset, color_palette) {
         layout(
             yaxis = list(
                 title = '<b>Percentage of trials (%)</b>',
-                range = c(0, 100)
+                range = c(0, 105)
             ),
             xaxis = list(
                 title = '<b>Completion year</b>',
@@ -131,7 +131,7 @@ plot_clinicaltrials_trn <- function (dataset, color_palette) {
             ),
             yaxis = list(
                 title = '<b>Trials with publication (%)</b>',
-                range = c(0, 100)
+                range = c(0, 105)
             ),
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9]
@@ -156,8 +156,7 @@ plot_linkage <- function (dataset, color_palette) {
         ~x_label, ~percentage,
         "All", round(100*numer/denom)
     )
-
-    upperlimit <- 100
+    
     ylabel <- "Trials with publication (%)"
 
     plot_ly(
@@ -179,7 +178,7 @@ plot_linkage <- function (dataset, color_palette) {
             ),
             yaxis = list(
                 title = paste('<b>', ylabel, '</b>'),
-                range = c(0, upperlimit)
+                range = c(0, 105)
             ),
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9]
@@ -232,7 +231,7 @@ plot_clinicaltrials_sumres <- function (dataset, color_palette) {
             ),
             yaxis = list(
                 title = '<b>Percentage of trials (%)</b>',
-                range = c(0, 100)
+                range = c(0, 105)
             ),
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9],
@@ -327,7 +326,7 @@ plot_clinicaltrials_timpub_2a <- function (dataset, rt, color_palette) {
             ),
             yaxis = list(
                 title = '<b>Percentage of trials (%)</b>',
-                range = c(0, 100)
+                range = c(0, 105)
             ),
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9],
@@ -429,7 +428,7 @@ plot_clinicaltrials_timpub_5a <- function (dataset, rt, color_palette) {
             ),
             yaxis = list(
                 title = '<b>Percentage of trials (%)</b>',
-                range = c(0, 100)
+                range = c(0, 105)
             ),
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9],
@@ -660,7 +659,6 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
             }
         }
 
-        upperlimit <- 100
         ylabel <- "Percentage Open Access (%)"
 
         plot_ly(
@@ -706,7 +704,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
             ),
             yaxis = list(
                 title = paste('<b>', ylabel, '</b>'),
-                range = c(0, upperlimit)
+                range = c(0, 105)
             ),
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9]
@@ -791,7 +789,7 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
             "All", round(100*all_numer/all_denom)
         )
         
-        upperlimit <- 100
+        upperlimit <- 105
         ylabel <- "Percentage of publications (%)"
         
     }

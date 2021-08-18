@@ -90,7 +90,7 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, umc, color_pal
             ),
             yaxis = list(
                 title = '<b>Percentage of trials (%)</b>',
-                range = c(0, 100)
+                range = c(0, 105)
             ),
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9],
@@ -197,7 +197,7 @@ umc_plot_clinicaltrials_trn <- function (dataset, dataset_all, umc, color_palett
             ),
             yaxis = list(
                 title = '<b>Trials with publication (%)</b>',
-                range = c(0, 100)
+                range = c(0, 105)
             ),
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9]
@@ -228,7 +228,6 @@ umc_plot_linkage <- function (dataset, dataset_all, umc, color_palette) {
         "All", round(100*mean(dataset_all$has_reg_pub_link, na.rm = TRUE))
     )
 
-    upperlimit <- 100
     ylabel <- "Trials with publication (%)"
 
      plot_ly(
@@ -250,7 +249,7 @@ umc_plot_linkage <- function (dataset, dataset_all, umc, color_palette) {
             ),
             yaxis = list(
                 title = paste('<b>', ylabel, '</b>'),
-                range = c(0, upperlimit)
+                range = c(0, 105)
             ),
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9]
@@ -309,7 +308,7 @@ umc_plot_clinicaltrials_sumres <- function (dataset, umc, color_palette) {
             ),
             yaxis = list(
                 title = '<b>Percentage of trials (%)</b>',
-                range = c(0, 100)
+                range = c(0, 105)
             ),
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9],
@@ -433,7 +432,7 @@ umc_plot_clinicaltrials_timpub_2a <- function (dataset, dataset_all, umc, rt, co
             ),
             yaxis = list(
                 title = '<b>Percentage of trials (%)</b>',
-                range = c(0, 100)
+                range = c(0, 105)
             ),
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9],
@@ -562,7 +561,7 @@ umc_plot_clinicaltrials_timpub_5a <- function (dataset, dataset_all, umc, rt, co
             ),
             yaxis = list(
                 title = '<b>Percentage of trials (%)</b>',
-                range = c(0, 100)
+                range = c(0, 105)
             ),
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9],
@@ -843,7 +842,6 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
 
         plot_data$x_label <- fct_relevel(plot_data$x_label, "All", after= Inf)
 
-        upperlimit <- 100
         ylabel <- "Percentage Open Access (%)"
 
         
@@ -890,7 +888,7 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
             ),
             yaxis = list(
                 title = paste('<b>', ylabel, '</b>'),
-                range = c(0, upperlimit)
+                range = c(0, 105)
             ),
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9]
@@ -1034,7 +1032,7 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
         
         plot_data$x_label <- fct_relevel(plot_data$x_label, "All", after= Inf)
         
-        upperlimit <- 100
+        upperlimit <- 105
         ylabel <- "Percentage of publications (%)"
         
     }
