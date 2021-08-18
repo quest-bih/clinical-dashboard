@@ -49,7 +49,11 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, umc, color_pal
             ) %>%
             nrow()
 
-        percentage_for_year <- 100*numer_for_year/denom_for_year
+        if (denom_for_year > 0) {
+            percentage_for_year <- 100*numer_for_year/denom_for_year
+        } else {
+            percentage_for_year <- NA
+        }
 
         all_percentage_for_year <- 100*all_numer_for_year/all_denom_for_year
         
@@ -60,11 +64,11 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, umc, color_pal
                     current_year, percentage_for_year, all_percentage_for_year
                 )
             )
-        
+
     }
 
     plot_ly(
-        plot_data,
+        data=plot_data %>% filter(!is.na(umc_percentage)),
         x = ~year,
         y = ~umc_percentage,
         name = umc,
@@ -79,6 +83,7 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, umc, color_pal
         )
     ) %>%
         add_trace(
+            data=plot_data,
             y=~all_percentage,
             name='All',
             marker = list(color = color_palette[2])
