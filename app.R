@@ -560,8 +560,15 @@ server <- function (input, output, session) {
                 has_publication == TRUE,
                 publication_type == "journal publication",
                 ! is.na(doi),
-                is_closed_archivable == TRUE | color_green_only == "green"
+                is_closed_archivable == TRUE | color_green_only == "green",
+                ! is.na(publication_date_unpaywall)
             )
+
+        oa_set_green$oa_year <- oa_set_green$publication_date_unpaywall %>%
+            format("%Y")
+
+        oa_set_green <- oa_set_green %>%
+            filter(oa_year == "2020")
         
         denom_greenoa <- oa_set_green %>%
             nrow()
@@ -602,7 +609,7 @@ server <- function (input, output, session) {
                     metric_box(
                         title = "Realized potential for Green OA",
                         value = paste0(round(100*numer_greenoa/denom_greenoa), "%"),
-                        value_text = paste0("of paywalled publications with the potential for green OA (n=", denom_greenoa, ") have been made available via this route"),
+                        value_text = paste0("of paywalled publications from 2020 with the potential for green OA (n=", denom_greenoa, ") have been made available via this route"),
                         plot = plotlyOutput('plot_opensci_green_oa', height="300px"),
                         info_id = "infoGreenOA",
                         info_title = "Potential Green Open Access",
