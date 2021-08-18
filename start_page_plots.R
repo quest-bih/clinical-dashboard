@@ -554,18 +554,18 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
         ylabel <- "Number of publications"
 
         plot_ly(
-        plot_data,
-        x = ~x_label,
-        y = ~gold,
-        name = "Gold",
-        type = 'bar',
-        marker = list(
-            color = color_palette[3],
-            line = list(
-                color = 'rgb(0,0,0)',
-                width = 1.5
+            plot_data,
+            x = ~x_label,
+            y = ~gold,
+            name = "Gold",
+            type = 'bar',
+            marker = list(
+                color = color_palette[3],
+                line = list(
+                    color = 'rgb(0,0,0)',
+                    width = 1.5
+                )
             )
-        )
     ) %>%
         add_trace(
             y = ~green,
@@ -749,79 +749,91 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
             has_publication == TRUE,
             publication_type == "journal publication",
             !is.na(doi),
-            is_closed_archivable == TRUE | color_green_only == "green"
+            is_closed_archivable == TRUE | color_green_only == "green",
+            ! is.na (publication_date_unpaywall)
         )
-    
-    all_denom <- oa_set %>%
-        nrow()
-    
-    all_numer <- oa_set %>%
-        filter(
-            color_green_only == "green"
-        ) %>%
-        nrow()
-    
+
+    oa_set$oa_year <- oa_set$publication_date_unpaywall %>%
+        format("%Y")
+        
     # Denom for absolute number plot
     oa_set_abs <- dataset %>%
         filter(
             has_publication == TRUE,
             publication_type == "journal publication",
-            !is.na(doi)
+            !is.na(doi),
+            ! is.na (publication_date_unpaywall)
         )
     
-    all_archived <- oa_set_abs %>%
-        filter(
-            color_green_only == "green"
-        ) %>%
-        nrow()
+    oa_set_abs$oa_year <- oa_set_abs$publication_date_unpaywall %>%
+        format("%Y")
     
-    all_can_archive <- oa_set_abs %>%
-        filter(
-            is_closed_archivable == TRUE
-        ) %>%
-        nrow()
-    
-    all_cant_archive <- oa_set_abs %>%
-        filter(
-            is_closed_archivable == FALSE
-        ) %>%
-        nrow()
-    
-    all_no_data <- oa_set_abs %>%
-        filter(
-            color == "bronze" | color == "closed",
-            is.na(is_closed_archivable)
-        ) %>%
-        nrow()
-
-
-    if (absnum) {
-        
-        plot_data <- tribble(
-            ~x_label, ~percentage, ~can_archive,   ~cant_archive,    ~no_data,
-            "All",    all_archived,   all_can_archive, all_cant_archive, all_no_data
-        )
-        
-        upperlimit <- 1.1 * sum(all_archived, all_can_archive, all_cant_archive, all_no_data)
-        ylabel <- "Number of publications"
-        
-    } else {
-        
-        plot_data <- tribble(
-            ~x_label, ~percentage,
-            "All", round(100*all_numer/all_denom)
-        )
-        
-        upperlimit <- 105
-        ylabel <- "Percentage of publications (%)"
-        
-    }
              
     if (absnum) {
+
+        plot_data <- tribble(
+            ~year, ~percentage, ~can_archive,   ~cant_archive,    ~no_data
+        )
+
+        upperlimit <- 0
+
+        for (year in unique(oa_set_abs$oa_year)) {
+
+            all_archived <- oa_set_abs %>%
+                filter(
+                    color_green_only == "green",
+                    oa_year == year
+                ) %>%
+                nrow()
+            
+            all_can_archive <- oa_set_abs %>%
+                filter(
+                    is_closed_archivable == TRUE,
+                    oa_year == year
+                ) %>%
+                nrow()
+            
+            all_cant_archive <- oa_set_abs %>%
+                filter(
+                    is_closed_archivable == FALSE,
+                    oa_year == year
+                ) %>%
+                nrow()
+            
+            all_no_data <- oa_set_abs %>%
+                filter(
+                    color == "bronze" | color == "closed",
+                    is.na(is_closed_archivable),
+                    oa_year == year
+                ) %>%
+                nrow()
+
+            year_denom <- oa_set_abs %>%
+                filter(oa_year == year) %>%
+                nrow()
+
+            if (year_denom > 20) {
+                
+                plot_data <- plot_data %>%
+                    bind_rows(
+                        tribble(
+                            ~year, ~percentage, ~can_archive,   ~cant_archive,    ~no_data,
+                            year, all_archived, all_can_archive, all_cant_archive, all_no_data
+                        )
+                    )
+
+            }
+
+            
+            year_upperlimit <- 1.1 * sum(all_archived, all_can_archive, all_cant_archive, all_no_data)
+            upperlimit <- max(year_upperlimit, upperlimit)
+        }
+        
+        ylabel <- "Number of publications"
         
         plot_ly(
             plot_data,
-            x = ~x_label,
+            x = ~year,
             y = ~percentage,
             name = "Archived",
             type = 'bar',
@@ -880,10 +892,41 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
             )
         
     } else {
+
+        plot_data <- tribble(
+            ~year, ~percentage
+        )
+
+        for (year in unique(oa_set$oa_year)) {
+            
+            year_numer <- oa_set %>%
+                filter(
+                    color_green_only == "green",
+                    oa_year == year
+                ) %>%
+                nrow()
+
+            year_denom <- oa_set %>%
+                filter(oa_year == year) %>%
+                nrow()
+
+            if (year_denom > 20) {
+                plot_data <- plot_data %>%
+                    bind_rows(
+                        tribble(
+                            ~year, ~percentage,
+                            year, 100*year_numer/year_denom
+                        )
+                    )
+            }
+        }
+        
+        upperlimit <- 105
+        ylabel <- "Percentage of publications (%)"
         
         plot_ly(
             plot_data,
-            x = ~x_label,
+            x = ~year,
             y = ~percentage,
             type = 'bar',
             marker = list(
