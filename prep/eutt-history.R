@@ -35,7 +35,7 @@ sponsors_of_interest <- read_csv("eutt-sponsors-of-interest.csv")
 
 if (!file.exists(output_filename)) {
     tribble(
-        ~city, ~percent_reported, ~hash, ~date
+        ~city, ~percent_reported, ~total_due, ~total_reported, ~hash, ~date
     ) %>%
         write_csv(output_filename, col_names=TRUE)
 }
@@ -69,7 +69,7 @@ for (commithash in commits$hash) {
         jsondata <- jsondata %>%
             left_join(sponsors_of_interest) %>%
             filter(! is.na (city)) %>%
-            select(city, percent_reported)
+            select(city, percent_reported, total_due, total_reported)
 
         jsondata$hash <- commithash
 
