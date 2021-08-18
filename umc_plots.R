@@ -956,21 +956,26 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
 
 umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_palette) {
 
+    dataset$oa_year <- dataset$publication_date_unpaywall %>%
+        format("%Y")
+    
     #Denom for percentage plot
     oa_set <- dataset %>%
         filter(
             has_publication == TRUE,
             publication_type == "journal publication",
             !is.na(doi),
-            is_closed_archivable == TRUE | color_green_only == "green"
+            is_closed_archivable == TRUE | color_green_only == "green",
+            ! is.na(publication_date_unpaywall)
         )
-    
+
     oa_set_all <- dataset_all %>%
         filter(
             has_publication == TRUE,
             publication_type == "journal publication",
             !is.na(doi),
-            is_closed_archivable == TRUE | color_green_only == "green"
+            is_closed_archivable == TRUE | color_green_only == "green",
+            ! is.na(publication_date_unpaywall)
         )
     
     all_denom <- oa_set_all %>%
@@ -987,40 +992,17 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
         filter(
             has_publication == TRUE,
             publication_type == "journal publication",
-            !is.na(doi)
+            !is.na(doi),
+            ! is.na(publication_date_unpaywall)
         )
     
     oa_set_abs_all <- dataset_all %>%
         filter(
             has_publication == TRUE,
             publication_type == "journal publication",
-            !is.na(doi)
+            !is.na(doi),
+            ! is.na(publication_date_unpaywall)
         )
-    
-    all_archived <- oa_set_abs_all %>%
-        filter(
-            color_green_only == "green"
-        ) %>%
-        nrow()
-    
-    all_can_archive <- oa_set_abs_all %>%
-        filter(
-            is_closed_archivable == TRUE
-        ) %>%
-        nrow()
-    
-    all_cant_archive <- oa_set_abs_all %>%
-        filter(
-            is_closed_archivable == FALSE
-        ) %>%
-        nrow()
-    
-    all_no_data <- oa_set_abs_all %>%
-        filter(
-            color == "bronze" | color == "closed",
-            is.na(is_closed_archivable)
-        ) %>%
-        nrow()
 
     #Again use the denominator for the percentage plot
     umc_denom <- oa_set %>%
@@ -1037,61 +1019,64 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
         nrow()
     
     #Again use the denominator for the absolute number plot
-    umc_archived <- oa_set_abs %>%
-        filter(
-            city == umc,
-            color_green_only == "green"
-        ) %>%
-        nrow()
-    
-    umc_can_archive <- oa_set_abs %>%
-        filter(
-            city == umc,
-            is_closed_archivable == TRUE
-        ) %>%
-        nrow()
-    
-    umc_cant_archive <- oa_set_abs %>%
-        filter(
-            city == umc,
-            is_closed_archivable == FALSE
-        ) %>%
-        nrow()
-    
-    umc_no_data <- oa_set_abs %>%
-        filter(
-            city == umc,
-            color == "bronze" | color == "closed",
-            is.na(is_closed_archivable)
-        ) %>%
-        nrow()
     
     if (absnum) {
-        
+
         plot_data <- tribble(
-            ~x_label, ~percentage, ~can_archive,   ~cant_archive,    ~no_data,
-            umc,      umc_archived,   umc_can_archive, umc_cant_archive, umc_no_data
+            ~x_label, ~percentage, ~can_archive,   ~cant_archive,    ~no_data
         )
+
+        upperlimit <- 0
+
+        for (year in unique(dataset$oa_year)) {
+
+            umc_archived <- oa_set_abs %>%
+                filter(
+                    city == umc,
+                    color_green_only == "green",
+                    oa_year == year
+                ) %>%
+                nrow()
+            
+            umc_can_archive <- oa_set_abs %>%
+                filter(
+                    city == umc,
+                    is_closed_archivable == TRUE,
+                    oa_year == year
+                ) %>%
+                nrow()
+            
+            umc_cant_archive <- oa_set_abs %>%
+                filter(
+                    city == umc,
+                    is_closed_archivable == FALSE,
+                    oa_year == year
+                ) %>%
+                nrow()
+            
+            umc_no_data <- oa_set_abs %>%
+                filter(
+                    city == umc,
+                    color == "bronze" | color == "closed",
+                    is.na(is_closed_archivable),
+                    oa_year == year
+                ) %>%
+                nrow()
+
+            plot_data <- plot_data %>%
+                bind_rows(
+                    tribble(
+                        ~x_label, ~percentage, ~can_archive,   ~cant_archive,    ~no_data,
+                        year, umc_archived, umc_can_archive, umc_cant_archive, umc_no_data
+                    )
+                )
+            
+            year_upperlimit <- 1.1 * sum(umc_archived, umc_can_archive, umc_cant_archive, umc_no_data)
+            upperlimit <- max(year_upperlimit, upperlimit)
+            
+        }
         
-        upperlimit <- 1.1 * sum(umc_archived, umc_can_archive, umc_cant_archive, umc_no_data)
         ylabel <- "Number of publications"
-        
-    } else {
-        
-        plot_data <- tribble(
-            ~x_label, ~percentage,
-            "All", round(100*all_numer/all_denom),
-            umc, round(100*umc_numer/umc_denom)
-        )
-        
-        plot_data$x_label <- fct_relevel(plot_data$x_label, "All", after= Inf)
-        
-        upperlimit <- 105
-        ylabel <- "Percentage of publications (%)"
-        
-    }
-    
-    if (absnum) {
         
         plot_ly(
             plot_data,
@@ -1143,7 +1128,7 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
             layout(
                 barmode = 'stack',
                 xaxis = list(
-                    title = '<b>UMC</b>'
+                    title = '<b>Year of publication</b>'
                 ),
                 yaxis = list(
                     title = paste('<b>', ylabel, '</b>'),
@@ -1154,6 +1139,17 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
             )
         
     } else {
+
+        plot_data <- tribble(
+            ~x_label, ~percentage,
+            "All", round(100*all_numer/all_denom),
+            umc, round(100*umc_numer/umc_denom)
+        )
+        
+        plot_data$x_label <- fct_relevel(plot_data$x_label, "All", after= Inf)
+        
+        upperlimit <- 105
+        ylabel <- "Percentage of publications (%)"
         
         plot_ly(
             plot_data,
