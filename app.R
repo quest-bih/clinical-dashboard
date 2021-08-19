@@ -462,7 +462,7 @@ server <- function (input, output, session) {
             info_text = timpub_tooltip2,
             lim_id = "limTimPub2",
             lim_title = "Limitations: Timely Publication",
-            lim_text = lim_timpub_tooltip5
+            lim_text = lim_timpub_tooltip2
         )
     })
 
@@ -508,7 +508,7 @@ server <- function (input, output, session) {
             plot = plotlyOutput('plot_clinicaltrials_timpub_5a', height="300px"),
             info_id = "infoTimPub5",
             info_title = "Publication by 5 years",
-            info_text = timpub_tooltip2,
+            info_text = timpub_tooltip5,
             lim_id = "limTimPub5",
             lim_title = "Limitations: Timely Publication",
             lim_text = lim_timpub_tooltip5
@@ -958,10 +958,10 @@ server <- function (input, output, session) {
             plot = plotlyOutput('umc_plot_clinicaltrials_timpub_5a', height="300px"),
             info_id = "UMCinfoTimPub5",
             info_title = "Timely Publication (5 years)",
-            info_text = timpub_tooltip2,
+            info_text = timpub_tooltip5,
             lim_id = "UMClimTimPub5",
             lim_title = "Limitations: Timely Publication",
-            lim_text = lim_timpub_tooltip2
+            lim_text = lim_timpub_tooltip5
         )
     })
 
