@@ -199,7 +199,7 @@ server <- function (input, output, session) {
             col_width <- 6
             first_lim_align <- "left"
         } else {
-            col_width <- 3
+            col_width <- 4
             first_lim_align <- "right"
         }
 
@@ -326,7 +326,7 @@ server <- function (input, output, session) {
             col_width <- 6
             first_lim_align <- "left"
         } else {
-            col_width <- 3
+            col_width <- 4
             first_lim_align <- "right"
         }
         
@@ -525,7 +525,7 @@ server <- function (input, output, session) {
             col_width <- 6
             first_lim_align <- "left"
         } else {
-            col_width <- 3
+            col_width <- 6
             first_lim_align <- "right"
         }
 
@@ -642,7 +642,7 @@ server <- function (input, output, session) {
                 col_width <- 6
                 first_lim_align <- "left"
             } else {
-                col_width <- 3
+                col_width <- 4
                 first_lim_align <- "right"
             }
 
@@ -779,7 +779,7 @@ server <- function (input, output, session) {
                 col_width <- 6
                 first_lim_align <- "left"
             } else {
-                col_width <- 3
+                col_width <- 4
                 first_lim_align <- "right"
             }
 
@@ -979,7 +979,7 @@ server <- function (input, output, session) {
                 col_width <- 6
                 first_lim_align <- "left"
             } else {
-                col_width <- 3
+                col_width <- 6
                 first_lim_align <- "right"
             }
 
