@@ -126,14 +126,14 @@ umc_plot_clinicaltrials_trn <- function (dataset, dataset_all, umc, color_palett
         filter(
             has_publication == TRUE,
             publication_type == "journal publication",
-            has_ft_pdf == TRUE
+            has_ft == TRUE
         )
     
     plot_data_ft_all <- dataset_all %>%
         filter(
             has_publication == TRUE,
             publication_type == "journal publication",
-            has_ft_pdf == TRUE
+            has_ft == TRUE
         )
     
     all_numer_abs <- sum(plot_data_abs_all$has_iv_trn_abstract, na.rm=TRUE)
@@ -141,9 +141,9 @@ umc_plot_clinicaltrials_trn <- function (dataset, dataset_all, umc, color_palett
         filter(! is.na(has_iv_trn_abstract)) %>%
         nrow()
     
-    all_numer_ft <- sum(plot_data_ft_all$has_iv_trn_ft_pdf, na.rm=TRUE)
+    all_numer_ft <- sum(plot_data_ft_all$has_iv_trn_ft, na.rm=TRUE)
     ft_denom <- plot_data_ft_all %>%
-        filter(! is.na(has_iv_trn_ft_pdf)) %>%
+        filter(! is.na(has_iv_trn_ft)) %>%
         nrow()
 
     umc_abs_denom <- plot_data_abs %>%
@@ -159,13 +159,13 @@ umc_plot_clinicaltrials_trn <- function (dataset, dataset_all, umc, color_palett
 
     umc_numer_ft <- plot_data_ft %>%
         filter(city == umc) %>%
-        select(has_iv_trn_ft_pdf) %>%
-        filter(has_iv_trn_ft_pdf == TRUE) %>%
+        select(has_iv_trn_ft) %>%
+        filter(has_iv_trn_ft == TRUE) %>%
         nrow()
 
     umc_ft_denom <- plot_data_ft %>%
         filter(city == umc) %>%
-        filter(! is.na(has_iv_trn_ft_pdf)) %>%
+        filter(! is.na(has_iv_trn_ft)) %>%
         nrow()
 
     plot_data <- tribble(

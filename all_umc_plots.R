@@ -79,14 +79,14 @@ plot_allumc_clinicaltrials_trn <- function (dataset, color_palette) {
 
         umc_numer_ft <- dataset %>%
             filter(city == umc) %>%
-            select(has_iv_trn_ft_pdf) %>%
-            filter(has_iv_trn_ft_pdf == TRUE) %>%
+            select(has_iv_trn_ft) %>%
+            filter(has_iv_trn_ft == TRUE) %>%
             nrow()
 
         umc_numer_either <- dataset %>%
             filter(
                 city == umc,
-                has_iv_trn_abstract == TRUE | has_iv_trn_ft_pdf == TRUE
+                has_iv_trn_abstract == TRUE | has_iv_trn_ft == TRUE
             ) %>%
             nrow()
 
@@ -95,8 +95,8 @@ plot_allumc_clinicaltrials_trn <- function (dataset, color_palette) {
             filter(
                 has_publication == TRUE,
                 publication_type == "journal publication",
-                has_ft_pdf,
-                ! is.na(has_iv_trn_ft_pdf)
+                has_ft,
+                ! is.na(has_iv_trn_ft)
             ) %>%
             nrow()
         
