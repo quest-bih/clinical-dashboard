@@ -91,13 +91,13 @@ plot_clinicaltrials_trn <- function (dataset, color_palette) {
         nrow()
     
     all_numer_ft <- dataset %>%
-        filter(has_iv_trn_ft_pdf == TRUE) %>%
+        filter(has_iv_trn_ft == TRUE) %>%
         nrow()
     ft_denom <- dataset %>%
         filter(
             has_publication == TRUE,
             publication_type == "journal publication",
-            has_ft_pdf == TRUE
+            has_ft == TRUE
         ) %>%
         nrow()
     

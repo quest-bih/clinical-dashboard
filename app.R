@@ -128,14 +128,15 @@ server <- function (input, output, session) {
                        University Medical Centers (UMCs) in Germany. It displays
                        data relating to clinical trials conducted at UMCs
                        in Germany and completed between 2009 - 2017. Metrics
-                       included relate to the registration and reporting of these
+                       included refer to the registration and reporting of these
                        trials. With the exception of summary results reporting in
-                       EUCTR, the data in this dashboard relates to trials registered
-                       in ClinicalTrials.gov and/or DRKS. The dashboard was
-                       developed as part of a scientific research project with the
-                       overall aim to support the adoption of responsible research
-                       practices at UMCs. The dashboard is a pilot and continues
-                       to be updated. More metrics may be added in the future."),
+                       EUCTR, we focused on trials registered in ClinicalTrials.gov
+                       and/or the German Clinical Trials Registry (DRKS). The
+                       dashboard was developed as part of a scientific research
+                       project with the overall aim to support
+                       the adoption of responsible research practices at UMCs.
+                       The dashboard is a pilot and continues to be updated.
+                       More metrics may be added in the future."),
                     h4(style = "margin-left:0cm",
                        "The \"Start page\" displays the average data across all
                        included UMCs. The \"All UMCs\" page displays the data
@@ -461,7 +462,7 @@ server <- function (input, output, session) {
             info_text = timpub_tooltip2,
             lim_id = "limTimPub2",
             lim_title = "Limitations: Timely Publication",
-            lim_text = lim_timpub_tooltip5
+            lim_text = lim_timpub_tooltip2
         )
     })
 
@@ -507,7 +508,7 @@ server <- function (input, output, session) {
             plot = plotlyOutput('plot_clinicaltrials_timpub_5a', height="300px"),
             info_id = "infoTimPub5",
             info_title = "Publication by 5 years",
-            info_text = timpub_tooltip2,
+            info_text = timpub_tooltip5,
             lim_id = "limTimPub5",
             lim_title = "Limitations: Timely Publication",
             lim_text = lim_timpub_tooltip5
@@ -957,10 +958,10 @@ server <- function (input, output, session) {
             plot = plotlyOutput('umc_plot_clinicaltrials_timpub_5a', height="300px"),
             info_id = "UMCinfoTimPub5",
             info_title = "Timely Publication (5 years)",
-            info_text = timpub_tooltip2,
+            info_text = timpub_tooltip5,
             lim_id = "UMClimTimPub5",
             lim_title = "Limitations: Timely Publication",
-            lim_text = lim_timpub_tooltip2
+            lim_text = lim_timpub_tooltip5
         )
     })
 

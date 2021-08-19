@@ -4,7 +4,7 @@ library(here)
 library(fs)
 
 ## Get intovalue.rds from https://github.com/maia-sh/intovalue-data/
-intovalue <- rio::import("https://github.com/maia-sh/intovalue-data/blob/main/data/processed/intovalue.rds?raw=true")
+intovalue <- rio::import("https://github.com/maia-sh/intovalue-data/blob/main/data/processed/trials.rds?raw=true")
 
 ## Apply the IntoValue exclusion criteria
 intovalue <- intovalue %>%
@@ -16,6 +16,10 @@ intovalue <- intovalue %>%
         ## In case of dupes, exclude IV1 version
         !(is_dupe & iv_version == 1)
     )
+
+# Trials with a journal article have a publication (disregard dissertations and abstracts) %>% 
+intovalue <- intovalue %>%
+    mutate(has_publication = if_else(publication_type == "journal publication", TRUE, FALSE, missing = FALSE))
 
 iv_all <- intovalue
 
