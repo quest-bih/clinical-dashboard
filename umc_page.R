@@ -20,10 +20,12 @@ umc_page <- tabPanel(
                     style = "margin-left: 0",
                     "This dashboard provides an overview of the performance of UMCs
                     in Germany on a set of practices relating to clinical research
-                    transparency. Select the UMC of interest from the drop-down
-                    menu below. More detailed information on the underlying
-                    methods can be found by clicking on the methods and limitations
-                    widgets next to each plot, or by consulting the Methods page."
+                    transparency. On this page, you can view the data for a UMC
+                    of interest contextualized to the average UMC data. Select
+                    the UMC of interest from the drop-down menu below. More
+                    detailed information on the underlying methods can be found
+                    in the methods and limitations widgets next to each plot, and
+                    in the Methods page."
                 ),
                 h4(style = "margin-left:0cm",
                    "The dashboard was developed as part of a scientific research
