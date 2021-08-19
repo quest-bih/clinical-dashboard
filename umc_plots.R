@@ -1028,7 +1028,9 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
 
         upperlimit <- 0
 
-        for (year in unique(dataset$oa_year)) {
+        years <- seq(from=min(dataset$oa_year, na.rm=TRUE), to=max(dataset$oa_year, na.rm=TRUE))
+
+        for (year in years) {
 
             umc_archived <- oa_set_abs %>%
                 filter(
