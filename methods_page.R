@@ -271,9 +271,11 @@ methods_page <- tabPanel(
                              in a repository), we defined a hierarchy for categories and
                              for each publication only assigned the category with the highest priority.
                              We used a hierarchy of gold - hybrid - green. A more detailed breakdown
-                             of the absolute number of publications across all
-                             categories can be visualised by clicking on the toggle next to the plot.
-                             \"No data\" refers to publications which could not be resolved in Unpaywall.
+                             of the absolute number of publications across all categories can be
+                             visualised by clicking on the toggle next to the plot. \"No data\" refers
+                             to publications which could not be resolved in Unpaywall. The plots for
+                             this metric on the Start page only display data for years with more
+                             than 20 publications.
                         <br>
                         <br>OA status is not fixed but rather changes over time, as repository versions
                         are often made available with a delay. Therefore, the OA percentage for a given
@@ -318,7 +320,8 @@ methods_page <- tabPanel(
                              linked to this permission had elapsed (if applicable). We did not consider
                              permissions relating to the submitted version. The Unpaywall database
                              was queried on 15/07/2021. The Shareyourpaper permissions API was queried on
-                             23/07/2021.'),
+                             23/07/2021. The plots for this metric on the Start page
+                             only display data for years with more than 20 publications.'),
                              
                              "Not all queried publications resolved in Unpaywall and ShareYourPaper. We also
                              extracted permissions data only for publications which have a \"best permission\"
