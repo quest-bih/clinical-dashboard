@@ -735,7 +735,6 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
             gold_num <- dataset %>%
                 filter(
                     oa_year == year,
-                    city == umc,
                     color == "gold"
                 ) %>%
                 nrow()
@@ -743,7 +742,6 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
             green_num <- dataset %>%
                 filter(
                     oa_year == year,
-                    city == umc,
                     color == "green"
                 ) %>%
                 nrow()
@@ -751,7 +749,6 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
             hybrid_num <- dataset %>%
                 filter(
                     oa_year == year,
-                    city == umc,
                     color == "hybrid"
                 ) %>%
                 nrow()
@@ -759,7 +756,6 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
             na_num <- dataset %>%
                 filter(
                     oa_year == year,
-                    city == umc,
                     is.na(color)
                 ) %>%
                 nrow()
@@ -767,7 +763,6 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
             closed_num <- dataset %>%
                 filter(
                     oa_year == year,
-                    city == umc,
                     color == "closed"
                 ) %>%
                 nrow()
@@ -775,15 +770,13 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
             bronze_num <- dataset %>%
                 filter(
                     oa_year == year,
-                    city == umc,
                     color == "bronze"
                 ) %>%
                 nrow()
             
             year_denom <- dataset %>%
                 filter(
-                    oa_year == year,
-                    city == umc
+                    oa_year == year
                 ) %>%
                 nrow()
 
@@ -989,7 +982,7 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
         ) %>%
         nrow()
     
-    #Denom for absolute number plot
+    #Filter data for absolute number plot
     oa_set_abs <- dataset %>%
         filter(
             has_publication == TRUE,
@@ -998,14 +991,6 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
             ! is.na(publication_date_unpaywall)
         )
     
-    oa_set_abs_all <- dataset_all %>%
-        filter(
-            has_publication == TRUE,
-            publication_type == "journal publication",
-            !is.na(doi),
-            ! is.na(publication_date_unpaywall)
-        )
-
     #Again use the denominator for the percentage plot
     umc_denom <- oa_set %>%
         filter(
