@@ -7,13 +7,7 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, umc, color_pal
     dataset_all <- dataset %>%
         filter( ! is.na (start_date) )
 
-    dataset$year <- dataset$completion_date %>%
-        format("%Y")
-
-    dataset_all$year <- dataset_all$completion_date %>%
-        format("%Y")
-
-    years <- seq(from=min(dataset$year), to=max(dataset$year))
+    years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
 
     plot_data <- tribble(
         ~year, ~umc_percentage, ~all_percentage
@@ -24,7 +18,7 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, umc, color_pal
         numer_for_year <- dataset %>%
             filter(
                 city == umc,
-                year == current_year,
+                completion_year == current_year,
                 is_prospective == TRUE
             ) %>%
             nrow()
@@ -32,20 +26,20 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, umc, color_pal
         denom_for_year <- dataset %>%
             filter(
                 city == umc,
-                year == current_year
+                completion_year == current_year
             ) %>%
             nrow()
 
         all_numer_for_year <-  dataset_all %>%
             filter(
-                year == current_year,
+                completion_year == current_year,
                 is_prospective == TRUE
             ) %>%
             nrow()
 
         all_denom_for_year <- dataset_all %>%
             filter(
-                year == current_year
+                completion_year == current_year
             ) %>%
             nrow()
 
@@ -218,19 +212,13 @@ umc_plot_linkage <- function (dataset, dataset_all, umc, color_palette) {
         filter(has_publication == TRUE) %>%
         filter(publication_type == "journal publication") %>%
         filter(has_pubmed == TRUE | ! is.na (doi))
-
-    dataset$year <- dataset$completion_date %>%
-        format("%Y")
     
     dataset_all <- dataset_all %>%
         filter(has_publication == TRUE) %>%
         filter(publication_type == "journal publication") %>%
         filter(has_pubmed == TRUE | ! is.na (doi))
     
-    dataset_all$year <- dataset_all$completion_date %>%
-        format("%Y")
-    
-    years <- seq(from=min(dataset_all$year), to=max(dataset_all$year))
+    years <- seq(from=min(dataset_all$completion_year), to=max(dataset_all$completion_year))
     
     umcdata <- dataset %>%
         filter (city == umc)
@@ -243,20 +231,20 @@ umc_plot_linkage <- function (dataset, dataset_all, umc, color_palette) {
 
         umc_numer <- umcdata %>%
             filter(has_reg_pub_link == TRUE) %>%
-            filter(year == current_year) %>%
+            filter(completion_year == current_year) %>%
             nrow()
 
         umc_denom <- umcdata %>%
-            filter(year == current_year) %>%
+            filter(completion_year == current_year) %>%
             nrow()
 
         all_numer <- dataset_all %>%
             filter(has_reg_pub_link == TRUE) %>%
-            filter(year == current_year) %>%
+            filter(completion_year == current_year) %>%
             nrow()
 
         all_denom <- dataset_all %>%
-            filter(year == current_year) %>%
+            filter(completion_year == current_year) %>%
             nrow()
 
         plot_data <- plot_data %>%
@@ -387,13 +375,7 @@ umc_plot_clinicaltrials_timpub_2a <- function (dataset, dataset_all, umc, rt, co
         dataset_all$published_2a <- dataset_all$is_summary_results_2y | dataset_all$is_publication_2y
     }
 
-    dataset$year <- dataset$completion_date %>%
-        format("%Y")
-
-    dataset_all$year <- dataset_all$completion_date %>%
-        format("%Y")
-
-    years <- seq(from=min(dataset$year), to=max(dataset$year))
+    years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
 
     all_denom <- dataset_all %>%
         nrow()
@@ -411,7 +393,7 @@ umc_plot_clinicaltrials_timpub_2a <- function (dataset, dataset_all, umc, rt, co
         umc_numer <-  dataset %>%
             filter(
                 city == umc,
-                year == current_year,
+                completion_year == current_year,
                 published_2a
             ) %>%
             nrow()
@@ -419,20 +401,20 @@ umc_plot_clinicaltrials_timpub_2a <- function (dataset, dataset_all, umc, rt, co
         umc_denom <-  dataset %>%
             filter(
                 city == umc,
-                year == current_year
+                completion_year == current_year
             ) %>%
             nrow()
 
         all_numer <-  dataset_all %>%
             filter(
-                year == current_year,
+                completion_year == current_year,
                 published_2a
             ) %>%
             nrow()
 
         all_denom <-  dataset_all %>%
             filter(
-                year == current_year
+                completion_year == current_year
             ) %>%
             nrow()
 
@@ -511,13 +493,7 @@ umc_plot_clinicaltrials_timpub_5a <- function (dataset, dataset_all, umc, rt, co
         dataset_all$published_5a <- dataset_all$is_summary_results_5y | dataset_all$is_publication_5y
     }
 
-    dataset$year <- dataset$completion_date %>%
-        format("%Y")
-
-    dataset_all$year <- dataset_all$completion_date %>%
-        format("%Y")
-
-    years <- seq(from=min(dataset$year), to=max(dataset$year))
+    years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
 
     all_denom <- dataset_all %>%
         nrow()
@@ -535,7 +511,7 @@ umc_plot_clinicaltrials_timpub_5a <- function (dataset, dataset_all, umc, rt, co
         umc_numer <-  dataset %>%
             filter(
                 city == umc,
-                year == current_year,
+                completion_year == current_year,
                 published_5a
             ) %>%
             nrow()
@@ -543,20 +519,20 @@ umc_plot_clinicaltrials_timpub_5a <- function (dataset, dataset_all, umc, rt, co
         umc_denom <-  dataset %>%
             filter(
                 city == umc,
-                year == current_year
+                completion_year == current_year
             ) %>%
             nrow()
 
         all_numer <-  dataset_all %>%
             filter(
-                year == current_year,
+                completion_year == current_year,
                 published_5a
             ) %>%
             nrow()
 
         all_denom <-  dataset_all %>%
             filter(
-                year == current_year
+                completion_year == current_year
             ) %>%
             nrow()
 

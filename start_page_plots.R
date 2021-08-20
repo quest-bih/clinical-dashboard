@@ -6,10 +6,7 @@ plot_clinicaltrials_prereg <- function (dataset, color_palette) {
     dataset <- dataset %>%
         filter( ! is.na (start_date) )
 
-    dataset$year <- dataset$completion_date %>%
-        format("%Y")
-
-    years <- seq(from=min(dataset$year), to=max(dataset$year))
+    years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
 
 
     plot_data <- tribble(
@@ -20,14 +17,14 @@ plot_clinicaltrials_prereg <- function (dataset, color_palette) {
 
         numer_for_year <- dataset %>%
             filter(
-                year == current_year,
+                completion_year == current_year,
                 is_prospective
             ) %>%
             nrow()
 
         denom_for_year <- dataset %>%
             filter(
-                year == current_year
+                completion_year == current_year
             ) %>%
             nrow()
 
@@ -147,10 +144,7 @@ plot_linkage <- function (dataset, color_palette) {
         filter(publication_type == "journal publication") %>%
         filter(has_pubmed == TRUE | ! is.na (doi))
 
-    dataset$year <- dataset$completion_date %>%
-        format("%Y")
-
-    years <- seq(from=min(dataset$year), to=max(dataset$year))
+    years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
 
     plot_data <- tribble(
         ~year, ~percentage
@@ -160,11 +154,11 @@ plot_linkage <- function (dataset, color_palette) {
         
         numer_for_year <- dataset %>%
             filter(has_reg_pub_link == TRUE) %>%
-            filter(year == current_year) %>%
+            filter(completion_year == current_year) %>%
             nrow()
 
         denom_for_year <- dataset %>%
-            filter(year == current_year) %>%
+            filter(completion_year == current_year) %>%
             nrow()
 
         percentage_for_year <- 100*numer_for_year/denom_for_year
@@ -285,10 +279,7 @@ plot_clinicaltrials_timpub_2a <- function (dataset, rt, color_palette) {
 
     umc <- "All"
 
-    dataset$year <- dataset$completion_date %>%
-        format("%Y")
-
-    years <- seq(from=min(dataset$year), to=max(dataset$year))
+    years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
 
     all_denom <- dataset %>%
         nrow()
@@ -305,14 +296,14 @@ plot_clinicaltrials_timpub_2a <- function (dataset, rt, color_palette) {
 
         all_numer <-  dataset %>%
             filter(
-                year == current_year,
+                completion_year == current_year,
                 published_2a
             ) %>%
             nrow()
 
         all_denom <-  dataset %>%
             filter(
-                year == current_year
+                completion_year == current_year
             ) %>%
             nrow()
         all_percentage <- 100*all_numer/all_denom
@@ -380,10 +371,7 @@ plot_clinicaltrials_timpub_5a <- function (dataset, rt, color_palette) {
 
     umc <- "All"
 
-    dataset$year <- dataset$completion_date %>%
-        format("%Y")
-
-    years <- seq(from=min(dataset$year), to=max(dataset$year))
+    years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
 
     all_denom <- dataset %>%
         nrow()
@@ -400,14 +388,14 @@ plot_clinicaltrials_timpub_5a <- function (dataset, rt, color_palette) {
 
         all_numer <-  dataset %>%
             filter(
-                year == current_year,
+                completion_year == current_year,
                 published_5a
             ) %>%
             nrow()
 
         all_denom <-  dataset %>%
             filter(
-                year == current_year
+                completion_year == current_year
             ) %>%
             nrow()
         all_percentage <- 100*all_numer/all_denom
