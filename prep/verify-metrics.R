@@ -53,23 +53,26 @@ iv_all %>%
   filter(
     has_publication,
     publication_type == "journal publication",
-    has_ft_pdf
+    has_ft
   ) %>%
 
   summarize(
     denom = n(),
-    num = sum(has_iv_trn_ft_pdf),
+    num = sum(has_iv_trn_ft),
     prop = num/denom
   )
 
-# Link to publication in registration (given JOURNAL publication with doi or pmid)
+# Link to publication in registration (given JOURNAL publication with doi or has_pubmed)
 iv_all %>%
 
   filter(
     has_publication,
     publication_type == "journal publication",
-    !is.na(doi) | has_pmid
+    !is.na(doi) | has_pubmed
   ) %>%
+  
+  # dashboard highlights 2017
+  filter(completion_year == 2017) %>%
 
   summarize(
     denom = n(),
@@ -202,20 +205,34 @@ iv_all %>%
     !is.na(doi)
   ) %>%
 
-  # publications unresolved in unpaywall considered non-oa
-  mutate(is_oa = replace_na(is_oa, FALSE)) %>%
-
+  # convert unresolved pubs in unpaywall to false
+  #mutate(is_oa = replace_na(is_oa, FALSE)) %>%
   # alternatively, could filter out unresolved publications
   # filter(!is.na(is_oa)) %>%
-
-  # absolute numbers
-  # count(is_oa, color)
+  
+  # dashboard highlights 2020
+  filter(publication_date_unpaywall %>% format("%Y") == 2020) %>%
 
   summarize(
     denom = n(),
     num = sum(is_oa),
     prop = num/denom
   )
+
+# absolute numbers
+
+iv_all %>%
+  
+  filter(
+    has_publication,
+    publication_type == "journal publication",
+    !is.na(doi)
+  ) %>%
+  
+  # dashboard highlights 2020
+  filter(publication_date_unpaywall %>% format("%Y") == 2020) %>%
+  
+  count(is_oa, color)
 
 # realized potential for green oa (given publication that is closed and archivable, i.e., EITHER accepted or published version may be archived according to SYP AND publication is closed according to unpaywall, OR accessible via green oa)
 
@@ -228,8 +245,8 @@ iv_all %>%
     is_closed_archivable | color_green_only == "green"
   ) %>%
 
-  # absolute numbers (NOT used in dashboard)
-  # count(color_green_only)
+  # dashboard highlights 2020
+  filter(publication_date_unpaywall %>% format("%Y") == 2020) %>%
 
   summarize(
     denom = n(),
@@ -245,6 +262,8 @@ iv_all %>%
     publication_type == "journal publication",
     !is.na(doi),
   ) %>%
+  
+  filter(publication_date_unpaywall %>% format("%Y") == 2020) %>%
 
   summarise(
     archived = sum(color_green_only == "green", na.rm = TRUE),
