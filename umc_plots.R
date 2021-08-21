@@ -4,7 +4,7 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, umc, color_pal
     dataset <- dataset %>%
         filter( ! is.na (start_date) )
 
-    dataset_all <- dataset %>%
+    dataset_all <- dataset_all %>%
         filter( ! is.na (start_date) )
 
     years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
