@@ -599,17 +599,18 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
                 )
             )
         ) %>%
-        add_trace(
-            y = ~na,
-            name = "No data",
-            marker = list(
-                color = color_palette[6],
-                line = list(
-                    color = 'rgb(0,0,0)',
-                    width = 1.5
-                )
-            )
-        ) %>%
+            
+        # add_trace(
+        #     y = ~na,
+        #     name = "No data",
+        #     marker = list(
+        #         color = color_palette[6],
+        #         line = list(
+        #             color = 'rgb(0,0,0)',
+        #             width = 1.5
+        #         )
+        #     )
+        # ) %>%
         layout(
             barmode = 'stack',
             xaxis = list(
