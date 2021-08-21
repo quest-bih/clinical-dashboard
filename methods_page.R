@@ -94,7 +94,9 @@ methods_page <- tabPanel(
                              first submitted to the registry with the start date given in the registry.
                              We defined a trial to be prospectively registered if the trial was registered in the
                              same or a previous month to the trial start date, as some registrations provide
-                             only a start month rather than an exact date.",
+                             only a start month rather than an exact date. Note for the One UMC page: in
+                             case there were no trials for a given UMC and completion year (denominator = 0),
+                             the data point for this completion year is omitted in the plot.",
                              
                              "Trial registration was assessed for clinical trials registered in
                              ClinicalTrials.gov and/or DRKS. We did not evaluate trials in further
@@ -143,7 +145,10 @@ methods_page <- tabPanel(
                              restricted to publications with a DOI or that are indexed in PubMed. We
                              queried the ClinicalTrials.gov and DRKS APIs (May 2021) to obtain
                              linked publications in these registries. We considered a publication “linked”
-                             if the PMID or DOI was included in the trial registration.'),
+                             if the PMID or DOI was included in the trial registration. Note for the
+                             One UMC page: in case there were no trials (or associated publications)
+                             for a given UMC and completion year (denominator = 0), the data point
+                             for this completion year is omitted in the plot.'),
                              
                              HTML("<i>Registry limitations:</i> ClinicalTrials.gov includes a often-used
                              PMID field for references. In addition, ClinicalTrials.gov automatically
@@ -222,7 +227,9 @@ methods_page <- tabPanel(
                              publication searches. When calculating the 2-year and 5-year reporting
                              rates, we only considered trials for which we had 2 and 5 years follow-up
                              time since trial completion, respectively. The plot only displays data for
-                             completion years with more than 5 trials.'),
+                             completion years with more than 5 trials. Note for the One UMC page: in
+                             case there were no trials for a given UMC and completion year (denominator = 0),
+                             the data point for this completion year is omitted in the plot.'),
                              
                              HTML("Only the earliest evidence of results reporting from trial completion
                              was considered for both reporting of summary results in the registry and
