@@ -11,11 +11,7 @@ allumc_openaccess_tooltip <- strwrap("This metric shows the percentage of
                               OA versions, we defined a hierarchy for categories
                               and for each publication only assigned the category 
                               with the highest priority. Here, we used a hierarchy
-                              of gold - hybrid - green. The absolute number of
-                              publications and their OA status can be visualised
-                              by clicking on the toggle next to the plot. Here,
-                              further categories not considered as Open Access
-                              in this dashboard are also included. More information
+                              of gold - hybrid - green. More information
                               can be found in the Methods page.")
 
 lim_allumc_openaccess_tooltip <- strwrap("Unpaywall only stores information for publications
@@ -41,9 +37,7 @@ allumc_greenoa_tooltip <- strwrap("This metric measures how many paywalled publi
                              for green OA if a \"best permission\" was found for
                              archiving the accepted or published version in an
                              institutional repository, and if the embargo had elapsed
-                             (if applicable). Click on the toggle on the left to
-                             view the absolute number of paywalled publications and their
-                             potential for self-archiving. More information can be
+                             (if applicable). More information can be
                              found in the Methods page.")
 
 lim_allumc_greenoa_tooltip <- strwrap("Not all publications in our dataset were resolved
