@@ -10,7 +10,7 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, umc, color_pal
     years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
 
     plot_data <- tribble(
-        ~year, ~umc_percentage, ~all_percentage
+        ~year, ~all_percentage, ~umc_percentage
     )
 
     for (current_year in years) {
@@ -54,18 +54,18 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, umc, color_pal
         plot_data <- plot_data %>%
             bind_rows(
                 tribble(
-                    ~year, ~umc_percentage, ~all_percentage,
-                    current_year, percentage_for_year, all_percentage_for_year
+                    ~year, ~all_percentage, ~umc_percentage,
+                    current_year, all_percentage_for_year, percentage_for_year
                 )
             )
 
     }
 
     plot_ly(
-        data=plot_data %>% filter(!is.na(umc_percentage)),
+        data=plot_data,
         x = ~year,
-        y = ~umc_percentage,
-        name = umc,
+        y = ~all_percentage,
+        name = "All",
         type = 'scatter',
         mode = 'lines+markers',
         marker = list(
@@ -77,9 +77,9 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, umc, color_pal
         )
     ) %>%
         add_trace(
-            data=plot_data,
-            y=~all_percentage,
-            name='All',
+            data=plot_data %>% filter(!is.na(umc_percentage)),
+            y=~umc_percentage,
+            name=umc,
             marker = list(color = color_palette[2])
         ) %>%
         layout(
@@ -224,7 +224,7 @@ umc_plot_linkage <- function (dataset, dataset_all, umc, color_palette) {
         filter (city == umc)
     
     plot_data <- tribble(
-        ~label, ~year, ~percentage
+        ~year, ~all_percentage, ~umc_percentage
     )
 
     for (current_year in years) {
@@ -247,24 +247,29 @@ umc_plot_linkage <- function (dataset, dataset_all, umc, color_palette) {
             filter(completion_year == current_year) %>%
             nrow()
 
+        if (umc_denom > 0) {
+            percentage_for_year <- 100*umc_numer/umc_denom
+        } else {
+            percentage_for_year <- NA
+        }
+        
+        all_percentage_for_year <- 100*all_numer/all_denom
+        
         plot_data <- plot_data %>%
             bind_rows(
                 tribble(
-                    ~label, ~year, ~percentage,
-                    "All", current_year, 100*all_numer/all_denom,
-                    umc, current_year, 100*umc_numer/umc_denom
+                    ~year, ~all_percentage, ~umc_percentage,
+                    current_year, all_percentage_for_year, percentage_for_year
                 )
             )
         
     }
 
-    ylabel <- "Trials with publication (%)"
-
      plot_ly(
-        plot_data,
-        name = ~label,
+        data = plot_data,
+        name = "All",
         x = ~year,
-        y = ~percentage,
+        y = ~all_percentage,
         type = 'scatter',
         mode = 'lines+markers',
         marker = list(
@@ -275,18 +280,25 @@ umc_plot_linkage <- function (dataset, dataset_all, umc, color_palette) {
             )
         )
     ) %>%
-        layout(
-            xaxis = list(
-                title = '<b>Completion year</b>'
-            ),
-            yaxis = list(
-                title = paste('<b>', ylabel, '</b>'),
-                range = c(0, 105)
-            ),
-            paper_bgcolor = color_palette[9],
-            plot_bgcolor = color_palette[9]
-        )
-    
+         add_trace(
+             data=plot_data %>% filter(!is.na(umc_percentage)),
+             y=~umc_percentage,
+             name=umc,
+             marker = list(color = color_palette[2])
+         ) %>%
+         layout(
+             xaxis = list(
+                 title = '<b>Completion year</b>',
+                 dtick = 1
+             ),
+             yaxis = list(
+                 title = '<b>Trials with publication (%)</b>',
+                 range = c(0, 105)
+             ),
+             paper_bgcolor = color_palette[9],
+             plot_bgcolor = color_palette[9],
+             legend = list(xanchor= "left")
+         )
 }
 
 ## Summary results
@@ -385,7 +397,7 @@ umc_plot_clinicaltrials_timpub_2a <- function (dataset, dataset_all, umc, rt, co
         nrow()
 
     plot_data <- tribble(
-        ~year, ~umc_percentage, ~all_percentage
+        ~year, ~all_percentage, ~umc_percentage
     )
 
     for (current_year in years) {
@@ -418,24 +430,29 @@ umc_plot_clinicaltrials_timpub_2a <- function (dataset, dataset_all, umc, rt, co
             ) %>%
             nrow()
 
-        umc_percentage <- 100*umc_numer/umc_denom
+        if (umc_denom > 0) {
+            umc_percentage <- 100*umc_numer/umc_denom
+        } else {
+            umc_percentage <- NA
+        }
+        
         all_percentage <- 100*all_numer/all_denom
 
         plot_data <- plot_data %>%
             bind_rows(
                 tribble(
-                    ~year, ~umc_percentage, ~all_percentage,
-                    current_year, umc_percentage, all_percentage
+                    ~year, ~all_percentage, ~umc_percentage,
+                    current_year, all_percentage, umc_percentage
                 )
             )
         
     }
 
     plot_ly(
-        plot_data,
+        data=plot_data,
         x = ~year,
-        y = ~umc_percentage,
-        name = umc,
+        y = ~all_percentage,
+        name = "All",
         type = 'scatter',
         mode = 'lines+markers',
         marker = list(
@@ -447,8 +464,9 @@ umc_plot_clinicaltrials_timpub_2a <- function (dataset, dataset_all, umc, rt, co
         )
     ) %>%
         add_trace(
-            y=~all_percentage,
-            name='All',
+            data=plot_data %>% filter(!is.na(umc_percentage)),
+            y=~umc_percentage,
+            name=umc,
             marker = list(color = color_palette[2])
         ) %>%
         layout(
@@ -503,7 +521,7 @@ umc_plot_clinicaltrials_timpub_5a <- function (dataset, dataset_all, umc, rt, co
         nrow()
     
     plot_data <- tribble(
-        ~year, ~umc_percentage, ~all_percentage
+        ~year, ~all_percentage, ~umc_percentage
     )
 
     for (current_year in years) {
@@ -535,8 +553,13 @@ umc_plot_clinicaltrials_timpub_5a <- function (dataset, dataset_all, umc, rt, co
                 completion_year == current_year
             ) %>%
             nrow()
-
-        umc_percentage <- 100*umc_numer/umc_denom
+        
+        if (umc_denom > 0) {
+            umc_percentage <- 100*umc_numer/umc_denom
+        } else {
+            umc_percentage <- NA
+        }
+        
         all_percentage <- 100*all_numer/all_denom
 
         if (all_denom > 5) { ## This is because we only have 1
@@ -546,8 +569,8 @@ umc_plot_clinicaltrials_timpub_5a <- function (dataset, dataset_all, umc, rt, co
             plot_data <- plot_data %>%
                 bind_rows(
                     tribble(
-                        ~year, ~umc_percentage, ~all_percentage,
-                        current_year, umc_percentage, all_percentage
+                        ~year, ~all_percentage, ~umc_percentage,
+                        current_year, all_percentage, umc_percentage
                     )
                 )
         }
@@ -555,10 +578,10 @@ umc_plot_clinicaltrials_timpub_5a <- function (dataset, dataset_all, umc, rt, co
     }
 
     plot_ly(
-        plot_data,
+        data=plot_data,
         x = ~year,
-        y = ~umc_percentage,
-        name = umc,
+        y = ~all_percentage,
+        name = "All",
         type = 'scatter',
         mode = 'lines+markers',
         marker = list(
@@ -570,8 +593,9 @@ umc_plot_clinicaltrials_timpub_5a <- function (dataset, dataset_all, umc, rt, co
         )
     ) %>%
         add_trace(
-            y=~all_percentage,
-            name='All',
+            data=plot_data %>% filter(!is.na(umc_percentage)),
+            y=~umc_percentage,
+            name=umc,
             marker = list(color = color_palette[2])
         ) %>%
         layout(
