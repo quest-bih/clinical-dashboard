@@ -261,7 +261,9 @@ methods_page <- tabPanel(
                              the OA status of publications in our sample.",
                              
                              HTML('This analysis was limited to trials with a journal publication and
-                             a DOI. We queried the Unpaywall database via its
+                             a DOI. We used the publication date from Unpaywall to display the data over
+                             time. Therefore, this analysis is also restricted to publications that could
+                             be resolved in Unpaywall. We queried the Unpaywall database via its
                              <a href="https://unpaywall.org/products/api">API</a> to obtain information
                              on the OA status of publications. Publications can have different OA
                              statuses which are color-coded. Gold OA denotes a publication in an
@@ -279,8 +281,7 @@ methods_page <- tabPanel(
                              for each publication only assigned the category with the highest priority.
                              We used a hierarchy of gold - hybrid - green. A more detailed breakdown
                              of the absolute number of publications across all categories can be
-                             visualised by clicking on the toggle next to the plot. \"No data\" refers
-                             to publications which could not be resolved in Unpaywall. The plots for
+                             visualised by clicking on the toggle next to the plot. The plots for
                              this metric on the Start page only display data for years with more
                              than 20 publications.
                         <br>
@@ -311,7 +312,9 @@ methods_page <- tabPanel(
                              for green OA have been made available via this route."),
                              
                              HTML('This analysis was limited to trials with a journal publication with a DOI.
-                             In a first step, we identified publications which are
+                             We used the publication date from Unpaywall to display the data over
+                             time. Therefore, this analysis is also restricted to publications that could
+                             be resolved in Unpaywall. In a first step, we identified publications which are
                              only accessible in a repository (Green OA only). To do so, we queried the
                              Unpaywall API (with <a href="https://github.com/NicoRiedel/unpaywallR">
                              UnpaywallR</a>) with the following hierarchy: gold - hybrid - bronze - green - 
@@ -359,7 +362,8 @@ methods_page <- tabPanel(
 
 openaccess_tooltip <- strwrap("This metric shows the percentage of
                               publications that are Open Access (OA). This analysis was
-                              limited to trials with a journal publication and a DOI.
+                              limited to trials with a journal publication and a DOI
+                              that were resolved in Unpaywall.
                               Publications can have different OA statuses which are color-coded.
                               Gold OA denotes a publication in an OA journal. Green
                               OA denotes a freely available repository version.
@@ -407,7 +411,7 @@ greenopenaccess_tooltip <- strwrap('This metric measures how many paywalled publ
                              found in the Methods page.') %>%
     paste(collapse = " ")
 
-lim_greenopenaccess_tooltip <- strwrap("Not all publications queried were resolved
+lim_greenopenaccess_tooltip <- strwrap("Not all publications in our dataset were resolved
                                 in Unpaywall and ShareYourPaper. We also only extracted
                                 permissions data for publications which have a
                                 \"best permission\" in the Shareyourpaper.org database.

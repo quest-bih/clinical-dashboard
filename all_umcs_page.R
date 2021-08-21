@@ -1,6 +1,7 @@
 allumc_openaccess_tooltip <- strwrap("This metric shows the percentage of
                               publications that are Open Access (OA). This analysis was
-                              limited to trials with a journal publication and a DOI.
+                              limited to trials with a journal publication and a DOI
+                              that were resolved in Unpaywall.
                               Publications can have different OA statuses which are color-coded.
                               Gold OA denotes a publication in an OA journal. Green
                               OA denotes a freely available repository version.
@@ -28,8 +29,8 @@ lim_allumc_openaccess_tooltip <- strwrap("Unpaywall only stores information for 
 allumc_greenoa_tooltip <- strwrap("This metric measures how many paywalled publications
                             with the potential for green OA have been made available
                             via this route. This analysis was limited to trials
-                            with a journal publication and a DOI.
-                            In a first step, we identified publications which are
+                            with a journal publication and a DOI that were resolved
+                            in Unpaywall. In a first step, we identified publications which are
                              only accessible in a repository (Green OA only). To do
                              so, we queried the Unpaywall API  with the following
                              hierarchy: gold - hybrid - bronze - green - 
@@ -46,7 +47,7 @@ allumc_greenoa_tooltip <- strwrap("This metric measures how many paywalled publi
                              potential for self-archiving. More information can be
                              found in the Methods page.")
 
-lim_allumc_greenoa_tooltip <- strwrap("Not all publications queried were resolved
+lim_allumc_greenoa_tooltip <- strwrap("Not all publications in our dataset were resolved
                                 in Unpaywall and ShareYourPaper. We also only extracted
                                 permissions data for publications which have a
                                 \"best permission\" in the Shareyourpaper.org database.
