@@ -30,14 +30,13 @@ allumc_greenoa_tooltip <- strwrap("This metric measures how many paywalled publi
                             with the potential for green OA have been made available
                             via this route. This analysis was limited to trials
                             with a journal publication and a DOI that were resolved
-                            in Unpaywall. In a first step, we identified publications which are
-                             only accessible in a repository (Green OA only). To do
-                             so, we queried the Unpaywall API  with the following
-                             hierarchy: gold - hybrid - bronze - green - 
-                             closed. Next, we identified how many paywalled publications
-                             could technically be made openly accessible based on
-                             self-archiving permissions. We obtained this information
-                             by querying the Shareyourpaper.org permissions API (OA.Works).
+                            in Unpaywall. In a first step, we queried the Unpaywall
+                            API to identify publications which are only accessible
+                            in a repository (Green OA only). Next, we identified how
+                            many paywalled publications could technically be made
+                            openly accessible based on self-archiving permissions.
+                            We obtained this information by querying the
+                            Shareyourpaper.org permissions API (OA.Works).
                              Publications were considered to have the potential
                              for green OA if a \"best permission\" was found for
                              archiving the accepted or published version in an
