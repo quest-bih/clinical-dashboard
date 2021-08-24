@@ -1,6 +1,7 @@
 allumc_openaccess_tooltip <- strwrap("This metric shows the percentage of
                               publications that are Open Access (OA). This analysis was
-                              limited to trials with a journal publication and a DOI.
+                              limited to trials with a journal publication and a DOI
+                              that were resolved in Unpaywall.
                               Publications can have different OA statuses which are color-coded.
                               Gold OA denotes a publication in an OA journal. Green
                               OA denotes a freely available repository version.
@@ -10,11 +11,7 @@ allumc_openaccess_tooltip <- strwrap("This metric shows the percentage of
                               OA versions, we defined a hierarchy for categories
                               and for each publication only assigned the category 
                               with the highest priority. Here, we used a hierarchy
-                              of gold - hybrid - green. The absolute number of
-                              publications and their OA status can be visualised
-                              by clicking on the toggle next to the plot. Here,
-                              further categories not considered as Open Access
-                              in this dashboard are also included. More information
+                              of gold - hybrid - green. More information
                               can be found in the Methods page.")
 
 lim_allumc_openaccess_tooltip <- strwrap("Unpaywall only stores information for publications
@@ -28,25 +25,22 @@ lim_allumc_openaccess_tooltip <- strwrap("Unpaywall only stores information for 
 allumc_greenoa_tooltip <- strwrap("This metric measures how many paywalled publications
                             with the potential for green OA have been made available
                             via this route. This analysis was limited to trials
-                            with a journal publication and a DOI.
-                            In a first step, we identified publications which are
-                             only accessible in a repository (Green OA only). To do
-                             so, we queried the Unpaywall API  with the following
-                             hierarchy: gold - hybrid - bronze - green - 
-                             closed. Next, we identified how many paywalled publications
-                             could technically be made openly accessible based on
-                             self-archiving permissions. We obtained this information
-                             by querying the Shareyourpaper.org permissions API (OA.Works).
+                            with a journal publication and a DOI that were resolved
+                            in Unpaywall. In a first step, we queried the Unpaywall
+                            API to identify publications which are only accessible
+                            in a repository (Green OA only). Next, we identified how
+                            many paywalled publications could technically be made
+                            openly accessible based on self-archiving permissions.
+                            We obtained this information by querying the
+                            Shareyourpaper.org permissions API (OA.Works).
                              Publications were considered to have the potential
                              for green OA if a \"best permission\" was found for
                              archiving the accepted or published version in an
                              institutional repository, and if the embargo had elapsed
-                             (if applicable). Click on the toggle on the left to
-                             view the absolute number of paywalled publications and their
-                             potential for self-archiving. More information can be
+                             (if applicable). More information can be
                              found in the Methods page.")
 
-lim_allumc_greenoa_tooltip <- strwrap("Not all publications queried were resolved
+lim_allumc_greenoa_tooltip <- strwrap("Not all publications in our dataset were resolved
                                 in Unpaywall and ShareYourPaper. We also only extracted
                                 permissions data for publications which have a
                                 \"best permission\" in the Shareyourpaper.org database.

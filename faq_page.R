@@ -2,6 +2,7 @@ faq_page <- tabPanel(
     "FAQ",
     value = "tabFAQ",
     h2("Frequently Asked Questions"),
+    h4(HTML('This page is in development.')),
     bsCollapse(id = "faqPanels_Purpose",
                bsCollapsePanel(strong("What is the purpose of this dashboard?"),
                                p(HTML("Enter response")),

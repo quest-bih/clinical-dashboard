@@ -94,7 +94,9 @@ methods_page <- tabPanel(
                              first submitted to the registry with the start date given in the registry.
                              We defined a trial to be prospectively registered if the trial was registered in the
                              same or a previous month to the trial start date, as some registrations provide
-                             only a start month rather than an exact date.",
+                             only a start month rather than an exact date. Note for the One UMC page: in
+                             case there were no trials for a given UMC and completion year (denominator = 0),
+                             the data point for this completion year is omitted in the plot.",
                              
                              "Trial registration was assessed for clinical trials registered in
                              ClinicalTrials.gov and/or DRKS. We did not evaluate trials in further
@@ -143,7 +145,10 @@ methods_page <- tabPanel(
                              restricted to publications with a DOI or that are indexed in PubMed. We
                              queried the ClinicalTrials.gov and DRKS APIs (May 2021) to obtain
                              linked publications in these registries. We considered a publication “linked”
-                             if the PMID or DOI was included in the trial registration.'),
+                             if the PMID or DOI was included in the trial registration. Note for the
+                             One UMC page: in case there were no trials (or associated publications)
+                             for a given UMC and completion year (denominator = 0), the data point
+                             for this completion year is omitted in the plot.'),
                              
                              HTML("<i>Registry limitations:</i> ClinicalTrials.gov includes a often-used
                              PMID field for references. In addition, ClinicalTrials.gov automatically
@@ -222,7 +227,9 @@ methods_page <- tabPanel(
                              publication searches. When calculating the 2-year and 5-year reporting
                              rates, we only considered trials for which we had 2 and 5 years follow-up
                              time since trial completion, respectively. The plot only displays data for
-                             completion years with more than 5 trials.'),
+                             completion years with more than 5 trials. Note for the One UMC page: in
+                             case there were no trials for a given UMC and completion year (denominator = 0),
+                             the data point for this completion year is omitted in the plot.'),
                              
                              HTML("Only the earliest evidence of results reporting from trial completion
                              was considered for both reporting of summary results in the registry and
@@ -254,7 +261,9 @@ methods_page <- tabPanel(
                              the OA status of publications in our sample.",
                              
                              HTML('This analysis was limited to trials with a journal publication and
-                             a DOI. We queried the Unpaywall database via its
+                             a DOI. We used the publication date from Unpaywall to display the data over
+                             time. Therefore, this analysis is also restricted to publications that could
+                             be resolved in Unpaywall. We queried the Unpaywall database via its
                              <a href="https://unpaywall.org/products/api">API</a> to obtain information
                              on the OA status of publications. Publications can have different OA
                              statuses which are color-coded. Gold OA denotes a publication in an
@@ -271,9 +280,10 @@ methods_page <- tabPanel(
                              in a repository), we defined a hierarchy for categories and
                              for each publication only assigned the category with the highest priority.
                              We used a hierarchy of gold - hybrid - green. A more detailed breakdown
-                             of the absolute number of publications across all
-                             categories can be visualised by clicking on the toggle next to the plot.
-                             \"No data\" refers to publications which could not be resolved in Unpaywall.
+                             of the absolute number of publications across all categories can be
+                             visualised by clicking on the toggle next to the plot. The plots for
+                             this metric on the Start page only display data for years with more
+                             than 20 publications.
                         <br>
                         <br>OA status is not fixed but rather changes over time, as repository versions
                         are often made available with a delay. Therefore, the OA percentage for a given
@@ -302,7 +312,9 @@ methods_page <- tabPanel(
                              for green OA have been made available via this route."),
                              
                              HTML('This analysis was limited to trials with a journal publication with a DOI.
-                             In a first step, we identified publications which are
+                             We used the publication date from Unpaywall to display the data over
+                             time. Therefore, this analysis is also restricted to publications that could
+                             be resolved in Unpaywall. In a first step, we identified publications which are
                              only accessible in a repository (Green OA only). To do so, we queried the
                              Unpaywall API (with <a href="https://github.com/NicoRiedel/unpaywallR">
                              UnpaywallR</a>) with the following hierarchy: gold - hybrid - bronze - green - 
@@ -318,7 +330,8 @@ methods_page <- tabPanel(
                              linked to this permission had elapsed (if applicable). We did not consider
                              permissions relating to the submitted version. The Unpaywall database
                              was queried on 15/07/2021. The Shareyourpaper permissions API was queried on
-                             23/07/2021.'),
+                             23/07/2021. The plots for this metric on the Start page
+                             only display data for years with more than 20 publications.'),
                              
                              "Not all queried publications resolved in Unpaywall and ShareYourPaper. We also
                              extracted permissions data only for publications which have a \"best permission\"
@@ -349,7 +362,8 @@ methods_page <- tabPanel(
 
 openaccess_tooltip <- strwrap("This metric shows the percentage of
                               publications that are Open Access (OA). This analysis was
-                              limited to trials with a journal publication and a DOI.
+                              limited to trials with a journal publication and a DOI
+                              that were resolved in Unpaywall.
                               Publications can have different OA statuses which are color-coded.
                               Gold OA denotes a publication in an OA journal. Green
                               OA denotes a freely available repository version.
@@ -378,15 +392,14 @@ lim_openaccess_tooltip <- strwrap("Unpaywall only stores information for publica
 greenopenaccess_tooltip <- strwrap('This metric measures how many paywalled publications
                             with the potential for green OA have been made available
                             via this route. This analysis was limited to trials
-                            with a journal publication and a DOI.
-                            In a first step, we identified publications which are
-                             only accessible in a repository (Green OA only). To do
-                             so, we queried the Unpaywall API  with the following
-                             hierarchy: gold - hybrid - bronze - green - 
-                             closed. Next, we identified how many paywalled publications
-                             could technically be made openly accessible based on
-                             self-archiving permissions. We obtained this information
-                             by querying the Shareyourpaper.org permissions API (OA.Works).
+                            with a journal publication and a DOI that were resolved
+                            in Unpaywall. In a first step, we queried the Unpaywall
+                            API to identify publications which are only accessible
+                            in a repository (Green OA only). Next, we identified how
+                            many paywalled publications could technically be made
+                            openly accessible based on self-archiving permissions.
+                            We obtained this information by querying the
+                            Shareyourpaper.org permissions API (OA.Works).
                              Publications were considered to have the potential
                              for green OA if a \"best permission\" was found for
                              archiving the accepted or published version in an
@@ -397,7 +410,7 @@ greenopenaccess_tooltip <- strwrap('This metric measures how many paywalled publ
                              found in the Methods page.') %>%
     paste(collapse = " ")
 
-lim_greenopenaccess_tooltip <- strwrap("Not all publications queried were resolved
+lim_greenopenaccess_tooltip <- strwrap("Not all publications in our dataset were resolved
                                 in Unpaywall and ShareYourPaper. We also only extracted
                                 permissions data for publications which have a
                                 \"best permission\" in the Shareyourpaper.org database.
