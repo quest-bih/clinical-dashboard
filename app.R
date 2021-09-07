@@ -1097,19 +1097,6 @@ server <- function (input, output, session) {
             filter(! is.na(start_date)) %>%
             nrow()
 
-        ## Value for All UMC TRN in abstract
-
-        all_numer_trn <- iv_all %>%
-            filter(has_iv_trn_abstract == TRUE) %>%
-            nrow()
-        
-        all_denom_trn <- iv_all %>%
-            filter(
-                has_publication == TRUE,
-                publication_type == "journal publication",
-                has_pubmed == TRUE) %>%
-            nrow()
-
         ## Value for linkage
 
         all_numer_link <- iv_all %>%
@@ -1146,17 +1133,15 @@ server <- function (input, output, session) {
             fluidRow(
                 column(
                     12,
-                    metric_box(
-                        title = "Reporting of Trial Registration Number in publications",
-                        value = paste0(round(100*all_numer_trn/all_denom_trn), "%"),
-                        value_text = "of trials with a publication reported a trial registration number in the abstract",
-                        plot = plotlyOutput('plot_allumc_clinicaltrials_trn', height="300px"),
-                        info_id = "infoALLUMCTRN",
-                        info_title = "TRN reporting (All UMCs)",
-                        info_text = allumc_clinicaltrials_trn_tooltip,
-                        lim_id = "limALLUMCTRN",
-                        lim_title = "Limitations: TRN reporting (All UMCs)",
-                        lim_text = lim_allumc_clinicaltrials_trn_tooltip
+                    uiOutput("trn_in_pubs_all"),
+                    selectInput(
+                        "allumc_trnpub",
+                        strong("Location of reported trial registration number"),
+                        choices = c(
+                            "In abstract",
+                            "In full-text",
+                            "In abstract or full-text"
+                        )
                     )
                 )
             ),
@@ -1179,6 +1164,81 @@ server <- function (input, output, session) {
             )
         )
         
+    })
+
+    output$trn_in_pubs_all <- renderUI({
+        
+        ## Value for All UMC TRN in abstract/full-text
+
+        if (input$allumc_trnpub == "In abstract") {
+
+            all_numer_trn <- iv_all %>%
+                filter(has_iv_trn_abstract == TRUE) %>%
+                nrow()
+            
+            all_denom_trn <- iv_all %>%
+                filter(
+                    has_publication == TRUE,
+                    publication_type == "journal publication",
+                    has_pubmed == TRUE) %>%
+                nrow()
+
+            all_trn_value_text <- "of trials with a publication reported a trial registration number in the abstract"
+
+        }
+
+        if (input$allumc_trnpub == "In full-text") {
+            
+            all_numer_trn <- iv_all %>%
+                filter(has_iv_trn_ft == TRUE) %>%
+                nrow()
+
+            all_denom_trn <- iv_all %>%
+                filter(
+                    has_publication == TRUE,
+                    publication_type == "journal publication",
+                    has_ft,
+                    ! is.na(has_iv_trn_ft)
+                ) %>%
+                nrow()
+
+            all_trn_value_text <- "of trials with a publication reported a trial registration number in the full-text"
+
+        }
+
+        if (input$allumc_trnpub == "In abstract or full-text") {
+
+            all_numer_trn <- iv_all %>%
+                filter(
+                    has_iv_trn_abstract == TRUE | has_iv_trn_ft == TRUE
+                ) %>%
+                nrow()
+
+            all_denom_trn <- iv_all %>%
+                filter(
+                    has_publication == TRUE,
+                    publication_type == "journal publication",
+                    has_ft | has_pubmed,
+                    ! is.na(has_iv_trn_ft) | ! is.na(has_iv_trn_abstract)
+                ) %>%
+                nrow()
+
+            all_trn_value_text <- "of trials with a publication reported a trial registration number in the abstract or the full-text"
+            
+        }
+
+        metric_box(
+            title = "Reporting of Trial Registration Number in publications",
+            value = paste0(round(100*all_numer_trn/all_denom_trn), "%"),
+            value_text = all_trn_value_text,
+            plot = plotlyOutput('plot_allumc_clinicaltrials_trn', height="300px"),
+            info_id = "infoALLUMCTRN",
+            info_title = "TRN reporting (All UMCs)",
+            info_text = allumc_clinicaltrials_trn_tooltip,
+            lim_id = "limALLUMCTRN",
+            lim_title = "Limitations: TRN reporting (All UMCs)",
+            lim_text = lim_allumc_clinicaltrials_trn_tooltip
+        )
     })
 
     ## All UMCs: Trial reporting
@@ -1469,7 +1529,7 @@ server <- function (input, output, session) {
 
     ## TRN
     output$plot_allumc_clinicaltrials_trn <- renderPlotly({
-        return(plot_allumc_clinicaltrials_trn(iv_umc, color_palette))
+        return(plot_allumc_clinicaltrials_trn(iv_umc, input$allumc_trnpub, color_palette))
     })
 
     ## Linkage
