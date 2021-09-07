@@ -985,7 +985,7 @@ server <- function (input, output, session) {
 
             ## Value for Open Access
             
-            #Create set for OA percentage plot
+            ## Create set for OA percentage plot
             oa_set <- iv_umc %>%
                 filter(
                     has_publication == TRUE,
@@ -1006,9 +1006,22 @@ server <- function (input, output, session) {
                     ) %>%
                 nrow()
 
-            ##
+            ## Date range for OA
+            min_oa <- oa_set %>%
+                select(publication_date) %>%
+                arrange(publication_date) %>%
+                slice_head() %>%
+                pull() %>%
+                format("%Y")
+
+            max_oa <- oa_set %>%
+                select(publication_date) %>%
+                arrange(publication_date) %>%
+                slice_tail() %>%
+                pull() %>%
+                format("%Y")
             
-            #Create set for Green OA percentage plot
+            ## Create set for Green OA percentage plot
             oa_set_green <- iv_umc %>%
                 filter(
                     has_publication == TRUE,
@@ -1029,7 +1042,21 @@ server <- function (input, output, session) {
                     color_green_only == "green"
                     ) %>%
                 nrow()
-                
+
+            ## Date range for Green OA
+            min_oa_green <- oa_set_green %>%
+                select(publication_date) %>%
+                arrange(publication_date) %>%
+                slice_head() %>%
+                pull() %>%
+                format("%Y")
+
+            max_oa_green <- oa_set_green %>%
+                select(publication_date) %>%
+                arrange(publication_date) %>%
+                slice_tail() %>%
+                pull() %>%
+                format("%Y")
 
             wellPanel(
                 style="padding-top: 0px; padding-bottom: 0px;",
@@ -1045,7 +1072,7 @@ server <- function (input, output, session) {
                         metric_box(
                             title = "Open Access (OA)",
                             value = paste0(round(100*all_numer_oa/all_denom_oa), "%"),
-                            value_text = paste0("of publications (n=", all_denom_oa, ") are Open Access (Gold, Green or Hybrid)"),
+                            value_text = paste0("of publications published between ", min_oa, " and ", max_oa, " (n=", all_denom_oa, ") are Open Access (Gold, Green or Hybrid)"),
                             plot = plotlyOutput('umc_plot_opensci_oa', height="300px"),
                             info_id = "UMCinfoOpenAccess",
                             info_title = "Open Access",
@@ -1061,7 +1088,7 @@ server <- function (input, output, session) {
                         metric_box(
                             title = "Realized potential for Green OA",
                             value = paste0(round(100*numer_greenoa/denom_greenoa), "%"),
-                            value_text = paste0("of paywalled publications with the potential for green OA (n=", denom_greenoa, ") have been made available via this route"),
+                            value_text = paste0("of paywalled publications published between ", min_oa_green, " and ", max_oa_green, " with the potential for green OA (n=", denom_greenoa, ") have been made available via this route"),
                             plot = plotlyOutput('umc_plot_opensci_green_oa', height="300px"),
                             info_id = "UMCinfoGreenOA",
                             info_title = "Potential Green Open Access",
