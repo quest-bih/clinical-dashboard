@@ -63,7 +63,7 @@ plot_allumc_clinicaltrials_prereg <- function (dataset, color_palette, color_pal
 }
 
 ## TRN
-plot_allumc_clinicaltrials_trn <- function (dataset, color_palette) {
+plot_allumc_clinicaltrials_trn <- function (dataset, location, color_palette) {
 
     plot_data <- tribble (
         ~x_label, ~colour, ~percentage
@@ -109,21 +109,46 @@ plot_allumc_clinicaltrials_trn <- function (dataset, color_palette) {
                 ! is.na(has_iv_trn_abstract)
             ) %>%
             nrow()
+
+        umc_either_denom <- dataset %>%
+            filter(city == umc) %>%
+            filter(
+                has_publication == TRUE,
+                publication_type == "journal publication",
+                has_ft | has_pubmed,
+                ! is.na(has_iv_trn_ft) | ! is.na(has_iv_trn_abstract)
+            ) %>%
+            nrow()
+
+        if (location == "In abstract") {
+            numer <- umc_numer_abs
+            denom <- umc_abs_denom
+        }
+
+        
+        if (location == "In full-text") {
+            numer <- umc_numer_ft
+            denom <- umc_ft_denom
+        }
+
+        if (location == "In abstract or full-text") {
+            numer <- umc_numer_either
+            denom <- umc_either_denom
+        }
         
         plot_data <- plot_data %>%
             bind_rows(
                 tribble(
-                    ~x_label, ~colour, ~percentage, ~either,
-                    umc, "In abstract", round(100*umc_numer_abs/umc_abs_denom), 100-round(100*umc_numer_either/umc_abs_denom),
-                    umc, "In full-text", round(100*umc_numer_ft/umc_ft_denom), 100-round(100*umc_numer_either/umc_ft_denom)
+                    ~x_label, ~percentage,
+                    umc, round(100*numer/denom)
                 )
             )
+
     }
 
      plot_ly(
         plot_data,
-        x = ~reorder(x_label,either),
-        color = ~colour,
+        x = ~reorder(x_label,1/percentage),
         y = ~percentage,
         type = 'bar',
         colors = c(
