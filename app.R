@@ -330,55 +330,21 @@ server <- function (input, output, session) {
             first_lim_align <- "right"
         }
         
-        ## Value for summary results
-        
-        sumres_percent <- eutt_hist %>%
-            group_by(date) %>%
-            mutate(avg = 100*sum(total_reported)/sum(total_due)) %>%
-            slice_head() %>%
-            ungroup() %>%
-            slice_tail() %>%
-            select(avg) %>%
-            pull() %>%
-            format(digits=2)
-
-        n_eutt_records <- eutt_hist %>%
-            nrow()
-
-        sumres_denom <- eutt_hist %>%
-            group_by(city) %>%
-            arrange(date) %>%
-            slice_tail() %>%
-            ungroup() %>%
-            select(total_due) %>%
-            sum()
-
-        if (n_eutt_records == 0) {
-            sumresval <- "Not applicable"
-            sumresvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
-        } else {
-            sumresval <- paste0(sumres_percent, "%")
-            sumresvaltext <- paste0("of due clinical trials registered in EUCTR (n=", sumres_denom, ") reported summary results within 1 year (as of: ", eutt_date, ")")
-        }
-
         wellPanel(
             style="padding-top: 0px; padding-bottom: 0px;",
             h2(strong("Trial Reporting"), align = "left"),
             fluidRow(
                 column(
                     col_width,
-                    metric_box(
-                        title = "Summary Results Reporting in EUCTR",
-                        value = sumresval,
-                        value_text = sumresvaltext,
-                        plot = plotlyOutput('plot_clinicaltrials_sumres', height="300px"),
-                        info_id = "infoSumRes",
-                        info_title = "Summary Results Reporting in EUCTR",
-                        info_text = sumres_tooltip,
-                        lim_id = "limSumRes",
-                        lim_title = "Limitations: Summary Results Reporting in EUCTR",
-                        lim_text = lim_sumres_tooltip,
-                        lim_align = first_lim_align
+                    uiOutput("startsumres"),
+                    selectInput(
+                        "startsumresregistry",
+                        strong("Trial registry"),
+                        choices = c(
+                            "EUCTR",
+                            "ClinicalTrials.gov",
+                            "DRKS"
+                        )
                     )
                 ),
                 column(
@@ -413,6 +379,65 @@ server <- function (input, output, session) {
         )
 
         
+    })
+
+    ## Start page summary results reporting toggle
+    output$startsumres <- renderUI({
+
+        req(input$width)
+
+        if (input$width < 1400) {
+            col_width <- 6
+            first_lim_align <- "left"
+        } else {
+            col_width <- 4
+            first_lim_align <- "right"
+        }
+
+        ## Value for summary results
+        
+        sumres_percent <- eutt_hist %>%
+            group_by(date) %>%
+            mutate(avg = 100*sum(total_reported)/sum(total_due)) %>%
+            slice_head() %>%
+            ungroup() %>%
+            slice_tail() %>%
+            select(avg) %>%
+            pull() %>%
+            format(digits=2)
+
+        n_eutt_records <- eutt_hist %>%
+            nrow()
+
+        sumres_denom <- eutt_hist %>%
+            group_by(city) %>%
+            arrange(date) %>%
+            slice_tail() %>%
+            ungroup() %>%
+            select(total_due) %>%
+            sum()
+
+        if (n_eutt_records == 0) {
+            sumresval <- "Not applicable"
+            sumresvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
+        } else {
+            sumresval <- paste0(sumres_percent, "%")
+            sumresvaltext <- paste0("of due clinical trials registered in EUCTR (n=", sumres_denom, ") reported summary results (as of: ", eutt_date, ")")
+        }
+        
+        metric_box(
+            title = "Summary Results Reporting",
+            value = sumresval,
+            value_text = sumresvaltext,
+            plot = plotlyOutput('plot_clinicaltrials_sumres', height="300px"),
+            info_id = "infoSumRes",
+            info_title = "Summary Results Reporting",
+            info_text = sumres_tooltip,
+            lim_id = "limSumRes",
+            lim_title = "Limitations: Summary Results Reporting",
+            lim_text = lim_sumres_tooltip,
+            lim_align = first_lim_align
+        )
     })
 
     ## Start page 2 year reporting toggle
@@ -1482,7 +1507,7 @@ server <- function (input, output, session) {
     
     ## Summary results plot
     output$plot_clinicaltrials_sumres <- renderPlotly({
-        return (plot_clinicaltrials_sumres(eutt_hist, color_palette))
+        return (plot_clinicaltrials_sumres(eutt_hist, iv_all, input$startsumresregistry, color_palette))
     })
     
     ## Timely Publication plot 2a
