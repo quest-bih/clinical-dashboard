@@ -236,13 +236,11 @@ plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, toggled_regist
                 registry == toggled_registry
             )
 
-        min_year <- dataset$completion_date %>%
-            min() %>%
-            format("%Y")
+        min_year <- dataset$completion_year %>%
+            min()
 
-        max_year <- dataset$completion_date %>%
-            max() %>%
-            format("%Y")
+        max_year <- dataset$completion_year %>%
+            max()
 
         plot_data <- tribble(
             ~date, ~percent_reported
@@ -252,11 +250,8 @@ plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, toggled_regist
 
             currentyear_trials <- dataset %>%
                 filter(
-                    completion_date < as.Date(paste0(currentyear+1, "-01-01")),
-                    completion_date > as.Date(paste0(currentyear, "-01-01"))
+                    completion_year <= currentyear
                 )
-
-            message(paste(paste0(currentyear+1, "-01-01"), paste0(currentyear, "-01-01")))
 
             currentyear_denom <- nrow(currentyear_trials)
 

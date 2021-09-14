@@ -302,32 +302,110 @@ umc_plot_linkage <- function (dataset, dataset_all, umc, color_palette) {
 }
 
 ## Summary results
-umc_plot_clinicaltrials_sumres <- function (dataset, umc, color_palette) {
+umc_plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, iv_all_dataset, toggled_registry, umc, color_palette) {
 
-    dataset <- dataset %>%
-        filter (date > Sys.Date()-365*1.5) ## Only look at the last year and a half
-
-    ## Only take the latest data point per month
-    dataset$month <- dataset$date %>%
-        format("%Y-%m")
-
-    dataset <- dataset %>%
-        group_by(city, month) %>%
-        arrange(desc(date)) %>%
-        slice_head() %>%
-        ungroup()
     
-    all_data <- dataset %>%
-        group_by(date) %>%
-        mutate(avg = 100*sum(total_reported)/sum(total_due)) %>%
-        slice_head() %>%
-        select(date, hash, avg, month, total_due, total_reported) %>%
-        rename(percent_reported = avg) %>%
-        mutate(city = "All") %>%
-        ungroup()
-    
-    city_data <- dataset %>%
-        filter(city == umc)
+    if (toggled_registry == "EUCTR") {
+
+        dataset <- eutt_dataset %>%
+            filter (date > Sys.Date()-365*1.5) ## Only look at the last year and a half
+
+        ## Only take the latest data point per month
+        dataset$month <- dataset$date %>%
+            format("%Y-%m")
+
+        dataset <- dataset %>%
+            group_by(city, month) %>%
+            arrange(desc(date)) %>%
+            slice_head() %>%
+            ungroup()
+        
+        all_data <- dataset %>%
+            group_by(date) %>%
+            mutate(avg = 100*sum(total_reported)/sum(total_due)) %>%
+            slice_head() %>%
+            select(date, hash, avg, month, total_due, total_reported) %>%
+            rename(percent_reported = avg) %>%
+            mutate(city = "All") %>%
+            ungroup()
+        
+        city_data <- dataset %>%
+            filter(city == umc)
+        
+    } else { ## The registry is not EUCTR
+
+        dataset <- iv_dataset %>%
+            filter(
+                registry == toggled_registry,
+                city == umc
+            )
+
+        min_year <- dataset$completion_year %>%
+            min()
+
+        max_year <- dataset$completion_year %>%
+            max()
+
+        city_data <- tribble(
+            ~date, ~percent_reported, ~city
+        )
+
+        for (currentyear in seq(from=min_year, to=max_year)) {
+
+            currentyear_trials <- dataset %>%
+                filter(
+                    completion_year <= currentyear
+                )
+
+            currentyear_denom <- nrow(currentyear_trials)
+
+            currentyear_numer <- currentyear_trials %>%
+                filter(has_summary_results == TRUE) %>%
+                nrow()
+
+            city_data <- city_data %>%
+                bind_rows(
+                    tribble(
+                        ~date, ~percent_reported, ~city,
+                        currentyear, 100*currentyear_numer/currentyear_denom, umc
+                    )
+                )
+            
+        }
+
+        dataset <- iv_all_dataset %>%
+            filter(
+                registry == toggled_registry
+            )
+        
+        all_data <- tribble(
+            ~date, ~percent_reported, ~city
+        )
+
+        for (currentyear in seq(from=min_year, to=max_year)) {
+
+            currentyear_trials <- dataset %>%
+                filter(
+                    completion_year <= currentyear
+                )
+
+            currentyear_denom <- nrow(currentyear_trials)
+
+            currentyear_numer <- currentyear_trials %>%
+                filter(has_summary_results == TRUE) %>%
+                nrow()
+
+            all_data <- all_data %>%
+                bind_rows(
+                    tribble(
+                        ~date, ~percent_reported, ~city,
+                        currentyear, 100*currentyear_numer/currentyear_denom, "All"
+                    )
+                )
+            
+        }
+        
+    }
 
     plot_data <- rbind(all_data, city_data)
 
