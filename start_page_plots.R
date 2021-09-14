@@ -204,28 +204,72 @@ plot_linkage <- function (dataset, color_palette) {
 }
 
 ## Summary results
-plot_clinicaltrials_sumres <- function (dataset, color_palette) {
+plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, toggled_registry, color_palette) {
 
-    dataset <- dataset %>%
-        filter (date > Sys.Date()-365*1.5) ## Only look at the last year and a half
+    if (toggled_registry == "EUCTR") {
+        
+        dataset <- eutt_dataset %>%
+            filter (date > Sys.Date()-365*1.5) ## Only look at the last year and a half
 
-    ## Only take the latest data point per month
-    dataset$month <- dataset$date %>%
-        format("%Y-%m")
+        ## Only take the latest data point per month
+        dataset$month <- dataset$date %>%
+            format("%Y-%m")
 
-    dataset <- dataset %>%
-        group_by(city, month) %>%
-        arrange(desc(date)) %>%
-        slice_head()
+        dataset <- dataset %>%
+            group_by(city, month) %>%
+            arrange(desc(date)) %>%
+            slice_head()
 
-    plot_data <- dataset %>%
-        group_by(date) %>%
-        mutate(avg = 100*sum(total_reported)/sum(total_due)) %>%
-        slice_head() %>%
-        select(date, avg) %>%
-        rename(percent_reported = avg) %>%
-        mutate(city = "All") %>%
-        ungroup()
+        plot_data <- dataset %>%
+            group_by(date) %>%
+            mutate(avg = 100*sum(total_reported)/sum(total_due)) %>%
+            slice_head() %>%
+            select(date, avg) %>%
+            rename(percent_reported = avg) %>%
+            mutate(city = "All") %>%
+            ungroup()
+        
+    } else { ## The registry is not EUCTR
+        
+        dataset <- iv_dataset %>%
+            filter(
+                registry == toggled_registry
+            )
+
+        min_year <- dataset$completion_year %>%
+            min()
+
+        max_year <- dataset$completion_year %>%
+            max()
+
+        plot_data <- tribble(
+            ~date, ~percent_reported
+        )
+
+        for (currentyear in seq(from=min_year, to=max_year)) {
+
+            currentyear_trials <- dataset %>%
+                filter(
+                    completion_year <= currentyear
+                )
+
+            currentyear_denom <- nrow(currentyear_trials)
+
+            currentyear_numer <- currentyear_trials %>%
+                filter(has_summary_results == TRUE) %>%
+                nrow()
+
+            plot_data <- plot_data %>%
+                bind_rows(
+                    tribble(
+                        ~date, ~percent_reported,
+                        currentyear, 100*currentyear_numer/currentyear_denom
+                    )
+                )
+            
+        }
+
+    }
 
     plot_ly(
         plot_data,

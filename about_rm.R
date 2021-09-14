@@ -56,12 +56,12 @@ about_rm_page <- tabPanel(
     
     br(),
     h2('Contact address'),
-    helpText('QUEST Center for Transforming Biomedical Research,'),
+    helpText('QUEST Center for Responsible Research,'),
     helpText('Berlin Institute of Health (BIH), Berlin, Germany'),
     helpText('Anna-Louisa-Karsch-Str. 2'),
     helpText('10178 Berlin '),
-    helpText('quest@bihealth.de'),
-    helpText(HTML('<a href="https://www.bihealth.org/quest-center/">
-                                      https://www.bihealth.org/quest-center/ </a>'))
+    helpText('quest@bih-charite.de'),
+    helpText(HTML('<a href="https://www.bihealth.org/de/translation/innovationstreiber/quest-center">
+                                      https://www.bihealth.org/de/translation/innovationstreiber/quest-center </a>'))
 )
 
