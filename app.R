@@ -28,6 +28,15 @@ iv_umc <- read_csv(
     "data/ct-dashboard-intovalue-umc.csv"
 )
 
+## Data from the prospective registration refresh
+pros_reg_data <- read_csv(
+    "data/prospective-reg-ctgov-2018-trials.csv"
+)
+
+pros_reg_data_umc <- pros_reg_data %>%
+    mutate(city = strsplit(as.character(cities), " ")) %>%
+    tidyr::unnest(city)
+
 ## Load functions
 source("ui_elements.R")
 source("start_page_plots.R")
@@ -205,18 +214,22 @@ server <- function (input, output, session) {
 
         ## Value for prereg
 
-        iv_data_unique <- iv_all %>%
+        pr_unique <- pros_reg_data %>%
             filter(! is.na (start_date))
+
+        pr_unique$start_year <- format(pr_unique$start_date, "%Y")
+
+        max_start_year <- max(pr_unique$start_year)
         
-        # Filter for 2017 completion date for the pink descriptor text
-        all_numer_prereg <- iv_data_unique %>%
-            filter(completion_year == 2017) %>%
+        # Filter for max start date for the pink descriptor text
+        all_numer_prereg <- pr_unique %>%
+            filter(start_year == max_start_year) %>%
             filter(is_prospective) %>%
             nrow()
         
         # Filter for 2017 completion date for the pink descriptor text
-        all_denom_prereg <- iv_data_unique %>%
-            filter(completion_year == 2017) %>%
+        all_denom_prereg <- pr_unique %>%
+            filter(start_year == max_start_year) %>%
             nrow()
 
         if (all_denom_prereg == 0) {
@@ -224,7 +237,7 @@ server <- function (input, output, session) {
             preregvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
         } else {
             preregval <- paste0(round(100*all_numer_prereg/all_denom_prereg), "%")
-            preregvaltext <- paste0("of registered clinical trials completed in 2017 (n=", all_denom_prereg, ") were prospectively registered")
+            preregvaltext <- paste0("of registered clinical trials started in ", max_start_year, " (n=", all_denom_prereg, ") were prospectively registered")
         }
 
         ## Value for TRN in abstract
@@ -699,19 +712,23 @@ server <- function (input, output, session) {
 
             ## Value for prereg
 
-            iv_data_unique <- iv_umc %>%
+            pr_unique <- pros_reg_data_umc %>%
                 filter(city == input$selectUMC) %>%
                 filter(! is.na (start_date))
             
+            pr_unique$start_year <- format(pr_unique$start_date, "%Y")
+
+            max_start_year <- max(pr_unique$start_year)
+            
             # Filter for 2017 completion date for the pink descriptor text
-            all_numer_prereg <- iv_data_unique %>%
-                filter(completion_year == 2017) %>%
+            all_numer_prereg <- pr_unique %>%
+                filter(start_year == max_start_year) %>%
                 filter(is_prospective) %>%
                 nrow()
             
             # Filter for 2017 completion date for the pink descriptor text
-            all_denom_prereg <- iv_data_unique %>%
-                filter(completion_year == 2017) %>%
+            all_denom_prereg <- pr_unique %>%
+                filter(start_year == max_start_year) %>%
                 nrow()
 
             if (all_denom_prereg == 0) {
@@ -719,7 +736,7 @@ server <- function (input, output, session) {
                 preregvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
             } else {
                 preregval <- paste0(round(100*all_numer_prereg/all_denom_prereg), "%")
-                preregvaltext <- paste0("of registered clinical trials completed in 2017 (n=", all_denom_prereg, ") were prospectively registered")
+                preregvaltext <- paste0("of registered clinical trials started in ", max_start_year, " (n=", all_denom_prereg, ") were prospectively registered")
             }
 
             ## Value for TRN in abstract
@@ -1574,7 +1591,7 @@ server <- function (input, output, session) {
     
     ## Preregistration plot
     output$plot_clinicaltrials_prereg <- renderPlotly({
-        return (plot_clinicaltrials_prereg(iv_all, color_palette))
+        return (plot_clinicaltrials_prereg(pros_reg_data, color_palette))
     })
     
     ## TRN plot
@@ -1616,7 +1633,7 @@ server <- function (input, output, session) {
 
     ## Preregistration plot
     output$umc_plot_clinicaltrials_prereg <- renderPlotly({
-        return (umc_plot_clinicaltrials_prereg(iv_umc, iv_all, input$selectUMC, color_palette))
+        return (umc_plot_clinicaltrials_prereg(pros_reg_data_umc, pros_reg_data, input$selectUMC, color_palette))
     })
     
     ## TRN plot
@@ -1658,7 +1675,7 @@ server <- function (input, output, session) {
 
     ## Preregistration
     output$plot_allumc_clinicaltrials_prereg <- renderPlotly({
-        return(plot_allumc_clinicaltrials_prereg(iv_umc, color_palette, color_palette_bars))
+        return(plot_allumc_clinicaltrials_prereg(pros_reg_data_umc, color_palette, color_palette_bars))
     })
 
     ## TRN
