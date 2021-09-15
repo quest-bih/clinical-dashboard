@@ -1675,7 +1675,7 @@ server <- function (input, output, session) {
 
     ## Preregistration
     output$plot_allumc_clinicaltrials_prereg <- renderPlotly({
-        return(plot_allumc_clinicaltrials_prereg(iv_umc, color_palette, color_palette_bars))
+        return(plot_allumc_clinicaltrials_prereg(pros_reg_data_umc, color_palette, color_palette_bars))
     })
 
     ## TRN
