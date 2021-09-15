@@ -4,10 +4,16 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, umc, color_pal
     dataset <- dataset %>%
         filter( ! is.na (start_date) )
 
+    dataset$start_year <- dataset$start_date %>%
+        format("%Y")
+
     dataset_all <- dataset_all %>%
         filter( ! is.na (start_date) )
 
-    years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
+    dataset_all$start_year <- dataset_all$start_date %>%
+        format("%Y")
+
+    years <- seq(from=min(dataset$start_year, na.rm=TRUE), to=max(dataset$start_year, na.rm=TRUE))
 
     plot_data <- tribble(
         ~year, ~all_percentage, ~umc_percentage
@@ -18,7 +24,7 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, umc, color_pal
         numer_for_year <- dataset %>%
             filter(
                 city == umc,
-                completion_year == current_year,
+                start_year == current_year,
                 is_prospective == TRUE
             ) %>%
             nrow()
@@ -26,20 +32,20 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, umc, color_pal
         denom_for_year <- dataset %>%
             filter(
                 city == umc,
-                completion_year == current_year
+                start_year == current_year
             ) %>%
             nrow()
 
         all_numer_for_year <-  dataset_all %>%
             filter(
-                completion_year == current_year,
+                start_year == current_year,
                 is_prospective == TRUE
             ) %>%
             nrow()
 
         all_denom_for_year <- dataset_all %>%
             filter(
-                completion_year == current_year
+                start_year == current_year
             ) %>%
             nrow()
 
