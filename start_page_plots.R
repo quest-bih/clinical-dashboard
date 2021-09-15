@@ -6,8 +6,10 @@ plot_clinicaltrials_prereg <- function (dataset, color_palette) {
     dataset <- dataset %>%
         filter( ! is.na (start_date) )
 
-    years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
+    dataset$start_year <- dataset$start_date %>%
+        format("%Y")
 
+    years <- seq(from=min(dataset$start_year, na.rm=TRUE), to=max(dataset$start_year, na.rm=TRUE))
 
     plot_data <- tribble(
         ~year, ~percentage
@@ -17,14 +19,14 @@ plot_clinicaltrials_prereg <- function (dataset, color_palette) {
 
         numer_for_year <- dataset %>%
             filter(
-                completion_year == current_year,
+                start_year == current_year,
                 is_prospective
             ) %>%
             nrow()
 
         denom_for_year <- dataset %>%
             filter(
-                completion_year == current_year
+                start_year == current_year
             ) %>%
             nrow()
 
@@ -61,7 +63,7 @@ plot_clinicaltrials_prereg <- function (dataset, color_palette) {
                 range = c(0, 105)
             ),
             xaxis = list(
-                title = '<b>Completion year</b>',
+                title = '<b>Start year</b>',
                 dtick = 1
             ),
             paper_bgcolor = color_palette[9],

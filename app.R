@@ -28,6 +28,11 @@ iv_umc <- read_csv(
     "data/ct-dashboard-intovalue-umc.csv"
 )
 
+## Data from the prospective registration refresh
+pros_reg_data <- read_csv(
+    "https://github.com/maia-sh/intovalue-data/raw/ctgov-2018/data/ctgov-2018/prospective-reg-ctgov-2018-trials.csv"
+)
+
 ## Load functions
 source("ui_elements.R")
 source("start_page_plots.R")
@@ -1574,7 +1579,7 @@ server <- function (input, output, session) {
     
     ## Preregistration plot
     output$plot_clinicaltrials_prereg <- renderPlotly({
-        return (plot_clinicaltrials_prereg(iv_all, color_palette))
+        return (plot_clinicaltrials_prereg(pros_reg_data, color_palette))
     })
     
     ## TRN plot
