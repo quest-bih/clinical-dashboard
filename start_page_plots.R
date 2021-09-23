@@ -268,7 +268,7 @@ plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, toggled_regist
 
         plot_data <- dataset %>%
             group_by(date) %>%
-            mutate(avg = 100*sum(total_reported)/sum(total_due)) %>%
+            mutate(avg = round(100*sum(total_reported)/sum(total_due), digits=1)) %>%
             mutate(mouseover = paste0(sum(total_reported), "/", sum(total_due))) %>%
             slice_head() %>%
             select(date, avg, mouseover) %>%
@@ -310,7 +310,7 @@ plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, toggled_regist
                 bind_rows(
                     tribble(
                         ~date, ~percent_reported, ~mouseover,
-                        currentyear, 100*currentyear_numer/currentyear_denom, paste0(currentyear_numer, "/", currentyear_denom)
+                        currentyear, round(100*currentyear_numer/currentyear_denom, digits=1), paste0(currentyear_numer, "/", currentyear_denom)
                     )
                 )
             

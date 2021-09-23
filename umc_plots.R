@@ -396,7 +396,7 @@ umc_plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, iv_all_dat
         
         all_data <- dataset %>%
             group_by(date) %>%
-            mutate(avg = 100*sum(total_reported)/sum(total_due)) %>%
+            mutate(avg = round(100*sum(total_reported)/sum(total_due), digits=1)) %>%
             mutate(mouseover = paste0(sum(total_reported), "/", sum(total_due))) %>%
             slice_head() %>%
             select(date, hash, avg, month, total_due, total_reported, mouseover) %>%
@@ -443,7 +443,7 @@ umc_plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, iv_all_dat
                 bind_rows(
                     tribble(
                         ~date, ~percent_reported, ~city, ~mouseover,
-                        currentyear, 100*currentyear_numer/currentyear_denom, umc, paste0(currentyear_numer, "/", currentyear_denom)
+                        currentyear, round(100*currentyear_numer/currentyear_denom, digits=1), umc, paste0(currentyear_numer, "/", currentyear_denom)
                     )
                 )
             
@@ -475,7 +475,7 @@ umc_plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, iv_all_dat
                 bind_rows(
                     tribble(
                         ~date, ~percent_reported, ~city, ~mouseover,
-                        currentyear, 100*currentyear_numer/currentyear_denom, "All", paste0(currentyear_numer, "/", currentyear_denom)
+                        currentyear, round(100*currentyear_numer/currentyear_denom, digits=1), "All", paste0(currentyear_numer, "/", currentyear_denom)
                     )
                 )
             
