@@ -329,13 +329,15 @@ umc_plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, iv_all_dat
         all_data <- dataset %>%
             group_by(date) %>%
             mutate(avg = 100*sum(total_reported)/sum(total_due)) %>%
+            mutate(mouseover = paste0(sum(total_reported), "/", sum(total_due))) %>%
             slice_head() %>%
-            select(date, hash, avg, month, total_due, total_reported) %>%
+            select(date, hash, avg, month, total_due, total_reported, mouseover) %>%
             rename(percent_reported = avg) %>%
             mutate(city = "All") %>%
             ungroup()
         
         city_data <- dataset %>%
+            mutate(mouseover = paste0(sum(total_reported), "/", sum(total_due))) %>%
             filter(city == umc)
         
     } else { ## The registry is not EUCTR
@@ -372,8 +374,8 @@ umc_plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, iv_all_dat
             city_data <- city_data %>%
                 bind_rows(
                     tribble(
-                        ~date, ~percent_reported, ~city,
-                        currentyear, 100*currentyear_numer/currentyear_denom, umc
+                        ~date, ~percent_reported, ~city, ~mouseover,
+                        currentyear, 100*currentyear_numer/currentyear_denom, umc, paste0(currentyear_numer, "/", currentyear_denom)
                     )
                 )
             
@@ -404,8 +406,8 @@ umc_plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, iv_all_dat
             all_data <- all_data %>%
                 bind_rows(
                     tribble(
-                        ~date, ~percent_reported, ~city,
-                        currentyear, 100*currentyear_numer/currentyear_denom, "All"
+                        ~date, ~percent_reported, ~city, ~mouseover,
+                        currentyear, 100*currentyear_numer/currentyear_denom, "All", paste0(currentyear_numer, "/", currentyear_denom)
                     )
                 )
             
@@ -420,6 +422,7 @@ umc_plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, iv_all_dat
         x = ~date,
         y = ~percent_reported,
         name = ~city,
+        text = ~mouseover,
         type = 'scatter',
         mode = 'lines+markers',
         marker = list(
