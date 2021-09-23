@@ -368,7 +368,7 @@ server <- function (input, output, session) {
                 preregvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
             } else {
                 preregval <- paste0(round(100*all_numer_prereg/all_denom_prereg), "%")
-                preregvaltext <- paste0("of registered clinical trials completed in 2017 (n=", all_denom_prereg, ") were prospectively registered")
+                preregvaltext <- paste0("of registered clinical trials started in 2017 (n=", all_denom_prereg, ") were prospectively registered")
             }
             
         }
@@ -930,7 +930,7 @@ server <- function (input, output, session) {
                 preregvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
             } else {
                 preregval <- paste0(round(100*all_numer_prereg/all_denom_prereg), "%")
-                preregvaltext <- paste0("of registered clinical trials completed in 2017 (n=", all_denom_prereg, ") were prospectively registered")
+                preregvaltext <- paste0("of registered clinical trials started in 2017 (n=", all_denom_prereg, ") were prospectively registered")
             }
 
         }
@@ -1844,3 +1844,4 @@ server <- function (input, output, session) {
 
 ## Create Shiny object
 shinyApp(ui, server)
+
