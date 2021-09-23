@@ -48,9 +48,10 @@ plot_clinicaltrials_prereg <- function (dataset, iv_dataset, toggled_registry, c
 
         dataset <- iv_dataset %>%
             filter( ! is.na (start_date) ) %>%
-            filter(registry == toggled_registry)
+            filter(registry == toggled_registry) %>%
+            mutate(start_year = format(start_date, "%Y"))
 
-        years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
+        years <- seq(from=min(dataset$start_year), to=max(dataset$start_year))
 
         plot_data <- tribble(
             ~year, ~percentage
@@ -60,14 +61,14 @@ plot_clinicaltrials_prereg <- function (dataset, iv_dataset, toggled_registry, c
 
             numer_for_year <- dataset %>%
                 filter(
-                    completion_year == current_year,
+                    start_year == current_year,
                     is_prospective
                 ) %>%
                 nrow()
 
             denom_for_year <- dataset %>%
                 filter(
-                    completion_year == current_year
+                    start_year == current_year
                 ) %>%
                 nrow()
 

@@ -349,17 +349,18 @@ server <- function (input, output, session) {
 
             iv_data_unique <- iv_all %>%
                 filter(! is.na (start_date)) %>%
-                filter(registry == input$startpreregregistry)
+                filter(registry == input$startpreregregistry) %>%
+                mutate(start_year = format(start_date, "%Y"))
             
             ## Filter for 2017 completion date for the pink descriptor text
             all_numer_prereg <- iv_data_unique %>%
-                filter(completion_year == 2017) %>%
+                filter(start_year == 2017) %>%
                 filter(is_prospective) %>%
                 nrow()
             
             ## Filter for 2017 completion date for the pink descriptor text
             all_denom_prereg <- iv_data_unique %>%
-                filter(completion_year == 2017) %>%
+                filter(start_year == 2017) %>%
                 nrow()
 
             if (all_denom_prereg == 0) {
@@ -876,9 +877,8 @@ server <- function (input, output, session) {
 
             pr_unique <- pros_reg_data_umc %>%
                 filter(city == input$selectUMC) %>%
-                filter(! is.na (start_date))
-            
-            pr_unique$start_year <- format(pr_unique$start_date, "%Y")
+                filter(! is.na (start_date)) %>%
+                mutate(start_year = format(start_date, "%Y"))
 
             max_start_year <- max(pr_unique$start_year)
             
@@ -911,17 +911,18 @@ server <- function (input, output, session) {
             iv_data_unique <- iv_umc %>%
                 filter(city == input$selectUMC) %>%
                 filter(! is.na (start_date)) %>%
-                filter(registry == input$oneumcpreregregistry)
+                filter(registry == input$oneumcpreregregistry) %>%
+                mutate(start_year = format(start_date, "%Y"))
             
             ## Filter for 2017 completion date for the pink descriptor text
             all_numer_prereg <- iv_data_unique %>%
-                filter(completion_year == 2017) %>%
+                filter(start_year == 2017) %>%
                 filter(is_prospective) %>%
                 nrow()
             
             ## Filter for 2017 completion date for the pink descriptor text
             all_denom_prereg <- iv_data_unique %>%
-                filter(completion_year == 2017) %>%
+                filter(start_year == 2017) %>%
                 nrow()
 
             if (all_denom_prereg == 0) {

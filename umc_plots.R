@@ -4,16 +4,12 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, dataset_iv_umc
     if (toggled_registry == "ClinicalTrials.gov") {
         
         dataset <- dataset %>%
-            filter( ! is.na (start_date) )
-
-        dataset$start_year <- dataset$start_date %>%
-            format("%Y")
+            filter( ! is.na (start_date) ) %>%
+            mutate(start_year = format(start_date, "%Y"))
 
         dataset_all <- dataset_all %>%
-            filter( ! is.na (start_date) )
-
-        dataset_all$start_year <- dataset_all$start_date %>%
-            format("%Y")
+            filter( ! is.na (start_date) ) %>%
+            mutate(start_year = format(start_date, "%Y"))
 
         years <- seq(from=min(dataset$start_year, na.rm=TRUE), to=max(dataset$start_year, na.rm=TRUE))
 
@@ -75,13 +71,15 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, dataset_iv_umc
 
         dataset <- dataset_iv_umc %>%
             filter( ! is.na (start_date) ) %>%
-            filter(registry == toggled_registry)
+            filter(registry == toggled_registry) %>%
+            mutate(start_year = format(start_date, "%Y"))
 
         dataset_all <- dataset_iv_all %>%
             filter( ! is.na (start_date) ) %>%
-            filter(registry == toggled_registry)
+            filter(registry == toggled_registry) %>%
+            mutate(start_year = format(start_date, "%Y"))
 
-        years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
+        years <- seq(from=min(dataset$start_year), to=max(dataset$start_year))
 
         plot_data <- tribble(
             ~year, ~all_percentage, ~umc_percentage
@@ -92,7 +90,7 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, dataset_iv_umc
             numer_for_year <- dataset %>%
                 filter(
                     city == umc,
-                    completion_year == current_year,
+                    start_year == current_year,
                     is_prospective == TRUE
                 ) %>%
                 nrow()
@@ -100,20 +98,20 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, dataset_iv_umc
             denom_for_year <- dataset %>%
                 filter(
                     city == umc,
-                    completion_year == current_year
+                    start_year == current_year
                 ) %>%
                 nrow()
 
             all_numer_for_year <-  dataset_all %>%
                 filter(
-                    completion_year == current_year,
+                    start_year == current_year,
                     is_prospective == TRUE
                 ) %>%
                 nrow()
 
             all_denom_for_year <- dataset_all %>%
                 filter(
-                    completion_year == current_year
+                    start_year == current_year
                 ) %>%
                 nrow()
 
@@ -160,7 +158,7 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, dataset_iv_umc
         ) %>%
         layout(
             xaxis = list(
-                title = '<b>Completion year</b>',
+                title = '<b>Start year</b>',
                 dtick = 1
             ),
             yaxis = list(
