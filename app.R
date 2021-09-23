@@ -211,35 +211,7 @@ server <- function (input, output, session) {
             col_width <- 4
             first_lim_align <- "right"
         }
-
-        ## Value for prereg
-
-        pr_unique <- pros_reg_data %>%
-            filter(! is.na (start_date))
-
-        pr_unique$start_year <- format(pr_unique$start_date, "%Y")
-
-        max_start_year <- max(pr_unique$start_year)
         
-        # Filter for max start date for the pink descriptor text
-        all_numer_prereg <- pr_unique %>%
-            filter(start_year == max_start_year) %>%
-            filter(is_prospective) %>%
-            nrow()
-        
-        # Filter for 2017 completion date for the pink descriptor text
-        all_denom_prereg <- pr_unique %>%
-            filter(start_year == max_start_year) %>%
-            nrow()
-
-        if (all_denom_prereg == 0) {
-            preregval <- "Not applicable"
-            preregvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
-        } else {
-            preregval <- paste0(round(100*all_numer_prereg/all_denom_prereg), "%")
-            preregvaltext <- paste0("of registered clinical trials started in ", max_start_year, " (n=", all_denom_prereg, ") were prospectively registered")
-        }
-
         ## Value for TRN in abstract
         
         all_numer_trn <- iv_all %>%
@@ -277,18 +249,14 @@ server <- function (input, output, session) {
             fluidRow(
                 column(
                     col_width,
-                    metric_box(
-                        title = "Prospective registration",
-                        value = preregval,
-                        value_text = preregvaltext,
-                        plot = plotlyOutput('plot_clinicaltrials_prereg', height="300px"),
-                        info_id = "infoPreReg",
-                        info_title = "Prospective registration",
-                        info_text = prereg_tooltip,
-                        lim_id = "limPreReg",
-                        lim_title = "Limitations: Prospective registration",
-                        lim_text = lim_prereg_tooltip,
-                        lim_align = first_lim_align
+                    uiOutput("startprereg"),
+                    selectInput(
+                        "startpreregregistry",
+                        strong("Trial registry"),
+                        choices = c(
+                            "ClinicalTrials.gov",
+                            "DRKS"
+                        )
                     )
                 ),
                 column(
@@ -328,6 +296,95 @@ server <- function (input, output, session) {
         )
 
         
+    })
+
+    ## Start page prospective registration toggle
+    output$startprereg <- renderUI({
+        
+        req(input$width)
+
+        if (input$width < 1400) {
+            col_width <- 6
+            first_lim_align <- "left"
+        } else {
+            col_width <- 4
+            first_lim_align <- "right"
+        }
+
+        if (input$startpreregregistry == "ClinicalTrials.gov") {
+
+            ## Value for prereg
+
+            pr_unique <- pros_reg_data %>%
+                filter(! is.na (start_date))
+
+            pr_unique$start_year <- format(pr_unique$start_date, "%Y")
+
+            max_start_year <- max(pr_unique$start_year)
+            
+                                        # Filter for max start date for the pink descriptor text
+            all_numer_prereg <- pr_unique %>%
+                filter(start_year == max_start_year) %>%
+                filter(is_prospective) %>%
+                nrow()
+            
+                                        # Filter for 2017 completion date for the pink descriptor text
+            all_denom_prereg <- pr_unique %>%
+                filter(start_year == max_start_year) %>%
+                nrow()
+
+            if (all_denom_prereg == 0) {
+                preregval <- "Not applicable"
+                preregvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
+            } else {
+                preregval <- paste0(round(100*all_numer_prereg/all_denom_prereg), "%")
+                preregvaltext <- paste0("of registered clinical trials started in ", max_start_year, " (n=", all_denom_prereg, ") were prospectively registered")
+            }
+            
+        }
+
+        if (input$startpreregregistry == "DRKS") {
+
+            ## Value for prereg
+
+            iv_data_unique <- iv_all %>%
+                filter(! is.na (start_date)) %>%
+                filter(registry == input$startpreregregistry)
+            
+            ## Filter for 2017 completion date for the pink descriptor text
+            all_numer_prereg <- iv_data_unique %>%
+                filter(completion_year == 2017) %>%
+                filter(is_prospective) %>%
+                nrow()
+            
+            ## Filter for 2017 completion date for the pink descriptor text
+            all_denom_prereg <- iv_data_unique %>%
+                filter(completion_year == 2017) %>%
+                nrow()
+
+            if (all_denom_prereg == 0) {
+                preregval <- "Not applicable"
+                preregvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
+            } else {
+                preregval <- paste0(round(100*all_numer_prereg/all_denom_prereg), "%")
+                preregvaltext <- paste0("of registered clinical trials completed in 2017 (n=", all_denom_prereg, ") were prospectively registered")
+            }
+            
+        }
+        
+        metric_box(
+            title = "Prospective registration",
+            value = preregval,
+            value_text = preregvaltext,
+            plot = plotlyOutput('plot_clinicaltrials_prereg', height="300px"),
+            info_id = "infoPreReg",
+            info_title = "Prospective registration",
+            info_text = prereg_tooltip,
+            lim_id = "limPreReg",
+            lim_title = "Limitations: Prospective registration",
+            lim_text = lim_prereg_tooltip,
+            lim_align = first_lim_align
+        )
     })
 
     ## Start page: Trial reporting
@@ -710,35 +767,6 @@ server <- function (input, output, session) {
                 first_lim_align <- "right"
             }
 
-            ## Value for prereg
-
-            pr_unique <- pros_reg_data_umc %>%
-                filter(city == input$selectUMC) %>%
-                filter(! is.na (start_date))
-            
-            pr_unique$start_year <- format(pr_unique$start_date, "%Y")
-
-            max_start_year <- max(pr_unique$start_year)
-            
-            # Filter for 2017 completion date for the pink descriptor text
-            all_numer_prereg <- pr_unique %>%
-                filter(start_year == max_start_year) %>%
-                filter(is_prospective) %>%
-                nrow()
-            
-            # Filter for 2017 completion date for the pink descriptor text
-            all_denom_prereg <- pr_unique %>%
-                filter(start_year == max_start_year) %>%
-                nrow()
-
-            if (all_denom_prereg == 0) {
-                preregval <- "Not applicable"
-                preregvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
-            } else {
-                preregval <- paste0(round(100*all_numer_prereg/all_denom_prereg), "%")
-                preregvaltext <- paste0("of registered clinical trials started in ", max_start_year, " (n=", all_denom_prereg, ") were prospectively registered")
-            }
-
             ## Value for TRN in abstract
 
             all_numer_trn <- iv_umc %>%
@@ -780,18 +808,14 @@ server <- function (input, output, session) {
                 fluidRow(
                     column(
                         col_width,
-                        metric_box(
-                            title = "Prospective registration",
-                            value = preregval,
-                            value_text = preregvaltext,
-                            plot = plotlyOutput('umc_plot_clinicaltrials_prereg', height="300px"),
-                            info_id = "UMCinfoPreReg",
-                            info_title = "Prospective registration",
-                            info_text = prereg_tooltip,
-                            lim_id = "UMClimPreReg",
-                            lim_title = "Limitations: Prospective registration",
-                            lim_text = lim_prereg_tooltip,
-                            lim_align = first_lim_align
+                        uiOutput("oneumcprereg"),
+                        selectInput(
+                            "oneumcpreregregistry",
+                            strong("Trial registry"),
+                            choices = c(
+                                "ClinicalTrials.gov",
+                                "DRKS"
+                            )
                         )
                     ),
                     column(
@@ -830,6 +854,99 @@ server <- function (input, output, session) {
             )
             
         }
+        
+    })
+
+    ## One UMC Prospective Registration Registry Toggle
+    output$oneumcprereg <- renderUI({
+        
+        req(input$width)
+
+        if (input$width < 1400) {
+            col_width <- 6
+            first_lim_align <- "left"
+        } else {
+            col_width <- 4
+            first_lim_align <- "right"
+        }
+
+        if (input$oneumcpreregregistry == "ClinicalTrials.gov") {
+            
+            ## Value for prereg
+
+            pr_unique <- pros_reg_data_umc %>%
+                filter(city == input$selectUMC) %>%
+                filter(! is.na (start_date))
+            
+            pr_unique$start_year <- format(pr_unique$start_date, "%Y")
+
+            max_start_year <- max(pr_unique$start_year)
+            
+                                        # Filter for 2017 completion date for the pink descriptor text
+            all_numer_prereg <- pr_unique %>%
+                filter(start_year == max_start_year) %>%
+                filter(is_prospective) %>%
+                nrow()
+            
+                                        # Filter for 2017 completion date for the pink descriptor text
+            all_denom_prereg <- pr_unique %>%
+                filter(start_year == max_start_year) %>%
+                nrow()
+
+            if (all_denom_prereg == 0) {
+                preregval <- "Not applicable"
+                preregvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
+            } else {
+                preregval <- paste0(round(100*all_numer_prereg/all_denom_prereg), "%")
+                preregvaltext <- paste0("of registered clinical trials started in ", max_start_year, " (n=", all_denom_prereg, ") were prospectively registered")
+            }
+
+            
+        }
+
+        if (input$oneumcpreregregistry == "DRKS") {
+
+            ## Value for prereg
+
+            iv_data_unique <- iv_umc %>%
+                filter(city == input$selectUMC) %>%
+                filter(! is.na (start_date)) %>%
+                filter(registry == input$oneumcpreregregistry)
+            
+            ## Filter for 2017 completion date for the pink descriptor text
+            all_numer_prereg <- iv_data_unique %>%
+                filter(completion_year == 2017) %>%
+                filter(is_prospective) %>%
+                nrow()
+            
+            ## Filter for 2017 completion date for the pink descriptor text
+            all_denom_prereg <- iv_data_unique %>%
+                filter(completion_year == 2017) %>%
+                nrow()
+
+            if (all_denom_prereg == 0) {
+                preregval <- "Not applicable"
+                preregvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
+            } else {
+                preregval <- paste0(round(100*all_numer_prereg/all_denom_prereg), "%")
+                preregvaltext <- paste0("of registered clinical trials completed in 2017 (n=", all_denom_prereg, ") were prospectively registered")
+            }
+
+        }
+
+        metric_box(
+            title = "Prospective registration",
+            value = preregval,
+            value_text = preregvaltext,
+            plot = plotlyOutput('umc_plot_clinicaltrials_prereg', height="300px"),
+            info_id = "UMCinfoPreReg",
+            info_title = "Prospective registration",
+            info_text = prereg_tooltip,
+            lim_id = "UMClimPreReg",
+            lim_title = "Limitations: Prospective registration",
+            lim_text = lim_prereg_tooltip,
+            lim_align = first_lim_align
+        )
         
     })
 
@@ -1591,7 +1708,7 @@ server <- function (input, output, session) {
     
     ## Preregistration plot
     output$plot_clinicaltrials_prereg <- renderPlotly({
-        return (plot_clinicaltrials_prereg(pros_reg_data, color_palette))
+        return (plot_clinicaltrials_prereg(pros_reg_data, iv_all, input$startpreregregistry, color_palette))
     })
     
     ## TRN plot
@@ -1633,7 +1750,7 @@ server <- function (input, output, session) {
 
     ## Preregistration plot
     output$umc_plot_clinicaltrials_prereg <- renderPlotly({
-        return (umc_plot_clinicaltrials_prereg(pros_reg_data_umc, pros_reg_data, input$selectUMC, color_palette))
+        return (umc_plot_clinicaltrials_prereg(pros_reg_data_umc, pros_reg_data, iv_umc, iv_all, input$oneumcpreregregistry, input$selectUMC, color_palette))
     })
     
     ## TRN plot

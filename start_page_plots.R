@@ -1,52 +1,95 @@
 # Prospective registration
-plot_clinicaltrials_prereg <- function (dataset, color_palette) {
+plot_clinicaltrials_prereg <- function (dataset, iv_dataset, toggled_registry, color_palette) {
 
-    umc <- "All"
-
-    dataset <- dataset %>%
-        filter( ! is.na (start_date) )
-
-    dataset$start_year <- dataset$start_date %>%
-        format("%Y")
-
-    years <- seq(from=min(dataset$start_year, na.rm=TRUE), to=max(dataset$start_year, na.rm=TRUE))
-
-    plot_data <- tribble(
-        ~year, ~percentage
-    )
-
-    for (current_year in years) {
-
-        numer_for_year <- dataset %>%
-            filter(
-                start_year == current_year,
-                is_prospective
-            ) %>%
-            nrow()
-
-        denom_for_year <- dataset %>%
-            filter(
-                start_year == current_year
-            ) %>%
-            nrow()
-
-        percentage_for_year <- 100*numer_for_year/denom_for_year
+    if (toggled_registry == "ClinicalTrials.gov") {
         
-        plot_data <- plot_data %>%
-            bind_rows(
-                tribble(
-                    ~year, ~percentage,
-                    current_year, percentage_for_year
+        dataset <- dataset %>%
+            filter( ! is.na (start_date) )
+
+        dataset$start_year <- dataset$start_date %>%
+            format("%Y")
+
+        years <- seq(from=min(dataset$start_year, na.rm=TRUE), to=max(dataset$start_year, na.rm=TRUE))
+
+        plot_data <- tribble(
+            ~year, ~percentages
+        )
+
+        for (current_year in years) {
+
+            numer_for_year <- dataset %>%
+                filter(
+                    start_year == current_year,
+                    is_prospective
+                ) %>%
+                nrow()
+
+            denom_for_year <- dataset %>%
+                filter(
+                    start_year == current_year
+                ) %>%
+                nrow()
+
+            percentage_for_year <- 100*numer_for_year/denom_for_year
+            
+            plot_data <- plot_data %>%
+                bind_rows(
+                    tribble(
+                        ~year, ~percentage,
+                        current_year, percentage_for_year
+                    )
                 )
-            )
+            
+        }
         
     }
-    
+
+    if (toggled_registry == "DRKS") {
+
+        dataset <- iv_dataset %>%
+            filter( ! is.na (start_date) ) %>%
+            filter(registry == toggled_registry)
+
+        years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
+
+        plot_data <- tribble(
+            ~year, ~percentage
+        )
+
+        for (current_year in years) {
+
+            numer_for_year <- dataset %>%
+                filter(
+                    completion_year == current_year,
+                    is_prospective
+                ) %>%
+                nrow()
+
+            denom_for_year <- dataset %>%
+                filter(
+                    completion_year == current_year
+                ) %>%
+                nrow()
+
+            percentage_for_year <- 100*numer_for_year/denom_for_year
+            
+            plot_data <- plot_data %>%
+                bind_rows(
+                    tribble(
+                        ~year, ~percentage,
+                        current_year, percentage_for_year
+                    )
+                )
+            
+        }
+        
+    }
+        
     plot_ly(
         plot_data,
         x = ~year,
         y = ~percentage,
-        name = umc,
+        name = "All",
         type = 'scatter',
         mode = 'lines+markers',
         marker = list(

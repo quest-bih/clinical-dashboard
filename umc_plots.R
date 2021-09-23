@@ -1,70 +1,140 @@
 ## Prospective registration
-umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, umc, color_palette) {
+umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, dataset_iv_umc, dataset_iv_all, toggled_registry, umc, color_palette) {
 
-    dataset <- dataset %>%
-        filter( ! is.na (start_date) )
-
-    dataset$start_year <- dataset$start_date %>%
-        format("%Y")
-
-    dataset_all <- dataset_all %>%
-        filter( ! is.na (start_date) )
-
-    dataset_all$start_year <- dataset_all$start_date %>%
-        format("%Y")
-
-    years <- seq(from=min(dataset$start_year, na.rm=TRUE), to=max(dataset$start_year, na.rm=TRUE))
-
-    plot_data <- tribble(
-        ~year, ~all_percentage, ~umc_percentage
-    )
-
-    for (current_year in years) {
-
-        numer_for_year <- dataset %>%
-            filter(
-                city == umc,
-                start_year == current_year,
-                is_prospective == TRUE
-            ) %>%
-            nrow()
-
-        denom_for_year <- dataset %>%
-            filter(
-                city == umc,
-                start_year == current_year
-            ) %>%
-            nrow()
-
-        all_numer_for_year <-  dataset_all %>%
-            filter(
-                start_year == current_year,
-                is_prospective == TRUE
-            ) %>%
-            nrow()
-
-        all_denom_for_year <- dataset_all %>%
-            filter(
-                start_year == current_year
-            ) %>%
-            nrow()
-
-        if (denom_for_year > 0) {
-            percentage_for_year <- 100*numer_for_year/denom_for_year
-        } else {
-            percentage_for_year <- NA
-        }
-
-        all_percentage_for_year <- 100*all_numer_for_year/all_denom_for_year
+    if (toggled_registry == "ClinicalTrials.gov") {
         
-        plot_data <- plot_data %>%
-            bind_rows(
-                tribble(
-                    ~year, ~all_percentage, ~umc_percentage,
-                    current_year, all_percentage_for_year, percentage_for_year
-                )
-            )
+        dataset <- dataset %>%
+            filter( ! is.na (start_date) )
 
+        dataset$start_year <- dataset$start_date %>%
+            format("%Y")
+
+        dataset_all <- dataset_all %>%
+            filter( ! is.na (start_date) )
+
+        dataset_all$start_year <- dataset_all$start_date %>%
+            format("%Y")
+
+        years <- seq(from=min(dataset$start_year, na.rm=TRUE), to=max(dataset$start_year, na.rm=TRUE))
+
+        plot_data <- tribble(
+            ~year, ~all_percentage, ~umc_percentage
+        )
+
+        for (current_year in years) {
+
+            numer_for_year <- dataset %>%
+                filter(
+                    city == umc,
+                    start_year == current_year,
+                    is_prospective == TRUE
+                ) %>%
+                nrow()
+
+            denom_for_year <- dataset %>%
+                filter(
+                    city == umc,
+                    start_year == current_year
+                ) %>%
+                nrow()
+
+            all_numer_for_year <-  dataset_all %>%
+                filter(
+                    start_year == current_year,
+                    is_prospective == TRUE
+                ) %>%
+                nrow()
+
+            all_denom_for_year <- dataset_all %>%
+                filter(
+                    start_year == current_year
+                ) %>%
+                nrow()
+
+            if (denom_for_year > 0) {
+                percentage_for_year <- 100*numer_for_year/denom_for_year
+            } else {
+                percentage_for_year <- NA
+            }
+
+            all_percentage_for_year <- 100*all_numer_for_year/all_denom_for_year
+            
+            plot_data <- plot_data %>%
+                bind_rows(
+                    tribble(
+                        ~year, ~all_percentage, ~umc_percentage,
+                        current_year, all_percentage_for_year, percentage_for_year
+                    )
+                )
+
+        }
+        
+    }
+
+    if (toggled_registry == "DRKS") {
+
+        dataset <- dataset_iv_umc %>%
+            filter( ! is.na (start_date) ) %>%
+            filter(registry == toggled_registry)
+
+        dataset_all <- dataset_iv_all %>%
+            filter( ! is.na (start_date) ) %>%
+            filter(registry == toggled_registry)
+
+        years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
+
+        plot_data <- tribble(
+            ~year, ~all_percentage, ~umc_percentage
+        )
+
+        for (current_year in years) {
+
+            numer_for_year <- dataset %>%
+                filter(
+                    city == umc,
+                    completion_year == current_year,
+                    is_prospective == TRUE
+                ) %>%
+                nrow()
+
+            denom_for_year <- dataset %>%
+                filter(
+                    city == umc,
+                    completion_year == current_year
+                ) %>%
+                nrow()
+
+            all_numer_for_year <-  dataset_all %>%
+                filter(
+                    completion_year == current_year,
+                    is_prospective == TRUE
+                ) %>%
+                nrow()
+
+            all_denom_for_year <- dataset_all %>%
+                filter(
+                    completion_year == current_year
+                ) %>%
+                nrow()
+
+            if (denom_for_year > 0) {
+                percentage_for_year <- 100*numer_for_year/denom_for_year
+            } else {
+                percentage_for_year <- NA
+            }
+
+            all_percentage_for_year <- 100*all_numer_for_year/all_denom_for_year
+            
+            plot_data <- plot_data %>%
+                bind_rows(
+                    tribble(
+                        ~year, ~all_percentage, ~umc_percentage,
+                        current_year, all_percentage_for_year, percentage_for_year
+                    )
+                )
+
+        }
+        
     }
 
     plot_ly(
