@@ -723,9 +723,10 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
 
         
     } else {
+        ## Not "absolute numbers"
 
         plot_data <- tribble(
-            ~x_label, ~gold, ~green, ~hybrid
+            ~x_label, ~gold, ~green, ~hybrid, ~sum
         )
 
         for (year in unique(dataset$oa_year)) {
@@ -761,8 +762,8 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
                 plot_data <- plot_data %>%
                     bind_rows(
                         tribble(
-                            ~x_label, ~gold,                         ~green,                         ~hybrid,
-                            year, round(100*gold_num/year_denom), round(100*green_num/year_denom), round(100*hybrid_num/year_denom)
+                            ~x_label, ~gold,                         ~green,                         ~hybrid,        ~sum,
+                            year, round(100*gold_num/year_denom), round(100*green_num/year_denom), round(100*hybrid_num/year_denom), year_denom
                         )
                     )
             }
@@ -775,6 +776,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
         x = ~x_label,
         y = ~gold,
         name = "Gold",
+        text = ~paste0(gold, "/", sum),
         type = 'bar',
         marker = list(
             color = color_palette[3],
@@ -787,6 +789,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
         add_trace(
             y = ~green,
             name = "Green",
+            text = ~paste0(green, "/", sum),
             marker = list(
                 color = color_palette[8],
                 line = list(
@@ -798,6 +801,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
         add_trace(
             y = ~hybrid,
             name = "Hybrid",
+            text = ~paste0(hybrid, "/", sum),
             marker = list(
                 color = color_palette[10],
                 line = list(
