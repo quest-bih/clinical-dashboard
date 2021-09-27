@@ -465,9 +465,9 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
             bind_rows(
                 tribble(
                     ~x_label, ~colour, ~percentage, ~sum, ~numer,
-                    umc, "Gold", round(100*umc_gold/umc_denom), 100-round(100*umc_sum/umc_denom), umc_gold,
-                    umc, "Green", round(100*umc_green/umc_denom), 100-round(100*umc_sum/umc_denom), umc_green,
-                    umc, "Hybrid", round(100*umc_hybrid/umc_denom), 100-round(100*umc_sum/umc_denom), umc_hybrid
+                    umc, "Gold", round(100*umc_gold/umc_denom, digits=1), 100-round(100*umc_sum/umc_denom), umc_gold,
+                    umc, "Green", round(100*umc_green/umc_denom, digits=1), 100-round(100*umc_sum/umc_denom), umc_green,
+                    umc, "Hybrid", round(100*umc_hybrid/umc_denom, digits=1), 100-round(100*umc_sum/umc_denom), umc_hybrid
                 )
             )
     
