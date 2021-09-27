@@ -591,18 +591,18 @@ umc_plot_clinicaltrials_timpub_2a <- function (dataset, dataset_all, umc, rt, co
             nrow()
 
         if (umc_denom > 0) {
-            umc_percentage <- 100*umc_numer/umc_denom
+            umc_percentage <- round(100*umc_numer/umc_denom, digits=1)
         } else {
             umc_percentage <- NA
         }
         
-        all_percentage <- 100*all_numer/all_denom
+        all_percentage <- round(100*all_numer/all_denom, digits=1)
 
         plot_data <- plot_data %>%
             bind_rows(
                 tribble(
-                    ~year, ~all_percentage, ~umc_percentage,
-                    current_year, all_percentage, umc_percentage
+                    ~year, ~all_percentage, ~umc_percentage, ~all_mouseover, ~umc_mouseover,
+                    current_year, all_percentage, umc_percentage, paste0(all_numer, "/", all_denom), paste0(umc_numer, "/", umc_denom)
                 )
             )
         
@@ -612,6 +612,7 @@ umc_plot_clinicaltrials_timpub_2a <- function (dataset, dataset_all, umc, rt, co
         data=plot_data,
         x = ~year,
         y = ~all_percentage,
+        text = ~all_mouseover,
         name = "All",
         type = 'scatter',
         mode = 'lines+markers',
@@ -627,6 +628,7 @@ umc_plot_clinicaltrials_timpub_2a <- function (dataset, dataset_all, umc, rt, co
             data=plot_data %>% filter(!is.na(umc_percentage)),
             y=~umc_percentage,
             name=umc,
+            text=~umc_mouseover,
             marker = list(color = color_palette[2])
         ) %>%
         layout(
