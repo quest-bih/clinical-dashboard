@@ -1047,11 +1047,12 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
 
         
     } else {
+        ## Not "absolute numbers"
 
         plot_data <- tribble(
-            ~x_label, ~gold,                         ~green,                         ~hybrid,                         ~na,                         ~closed,                         ~bronze,
-            "All",    round(100*all_gold/all_denom), round(100*all_green/all_denom), round(100*all_hybrid/all_denom), round(100*all_na/all_denom), round(100*all_closed/all_denom), round(100*all_bronze/all_denom),
-            umc,      round(100*umc_gold/umc_denom), round(100*umc_green/umc_denom), round(100*umc_hybrid/umc_denom), round(100*umc_na/umc_denom), round(100*umc_closed/umc_denom), round(100*umc_bronze/umc_denom)
+            ~x_label, ~gold,                         ~green,                         ~hybrid,                         ~na,                         ~closed,                         ~bronze,     ~gold_numer, ~green_numer, ~hybrid_numer, ~sum,
+            "All",    round(100*all_gold/all_denom, digits=1), round(100*all_green/all_denom, digits=1), round(100*all_hybrid/all_denom, digits=1), round(100*all_na/all_denom, digits=1), round(100*all_closed/all_denom, digits=1), round(100*all_bronze/all_denom, digits=1), all_gold, all_green, all_hybrid, all_denom,
+            umc,      round(100*umc_gold/umc_denom, digits=1), round(100*umc_green/umc_denom, digits=1), round(100*umc_hybrid/umc_denom, digits=1), round(100*umc_na/umc_denom, digits=1), round(100*umc_closed/umc_denom, digits=1), round(100*umc_bronze/umc_denom, digits=1), umc_gold, umc_green, umc_hybrid, umc_denom
         )
 
         plot_data$x_label <- fct_relevel(plot_data$x_label, "All", after= Inf)
@@ -1064,6 +1065,7 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
         x = ~x_label,
         y = ~gold,
         name = "Gold",
+        text = ~paste0(gold_numer, "/", sum),
         type = 'bar',
         marker = list(
             color = color_palette[3],
@@ -1076,6 +1078,7 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
         add_trace(
             y = ~green,
             name = "Green",
+            text = ~paste0(green_numer, "/", sum),
             marker = list(
                 color = color_palette[8],
                 line = list(
@@ -1087,6 +1090,7 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
         add_trace(
             y = ~hybrid,
             name = "Hybrid",
+            text = ~paste0(hybrid_numer, "/", sum),
             marker = list(
                 color = color_palette[10],
                 line = list(
