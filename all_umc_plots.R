@@ -188,7 +188,7 @@ plot_allumc_linkage <- function (dataset, color_palette, color_palette_bars) {
         filter (has_pubmed == TRUE | ! is.na (doi))
 
     plot_data <- tribble(
-        ~x_label, ~percentage
+        ~x_label, ~percentage, ~mouseover
     )
 
     for (umc in unique(dataset$city)) {
@@ -199,8 +199,8 @@ plot_allumc_linkage <- function (dataset, color_palette, color_palette_bars) {
         plot_data <- plot_data %>%
             bind_rows(
                 tribble(
-                    ~x_label, ~percentage,
-                    umc, 100*mean(umcdata$has_reg_pub_link, na.rm=TRUE)
+                    ~x_label, ~percentage, ~mouseover,
+                    umc, round(100*mean(umcdata$has_reg_pub_link, na.rm=TRUE), digits=1), paste0(sum(umcdata$has_reg_pub_link), "/", nrow(umcdata))
                 )
             )
         
@@ -215,6 +215,7 @@ plot_allumc_linkage <- function (dataset, color_palette, color_palette_bars) {
         plot_data,
         x = ~x_label,
         y = ~percentage,
+        text = ~mouseover,
         type = 'bar',
         marker = list(
             color = "#3d754b",
