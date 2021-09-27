@@ -1004,8 +1004,8 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
                 plot_data <- plot_data %>%
                     bind_rows(
                         tribble(
-                            ~year, ~percentage,
-                            year, 100*year_numer/year_denom
+                            ~year, ~percentage, ~mouseover,
+                            year, round(100*year_numer/year_denom, digits=1), paste0(year_numer, "/", year_denom)
                         )
                     )
             }
@@ -1018,6 +1018,7 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
             plot_data,
             x = ~year,
             y = ~percentage,
+            text = ~mouseover,
             type = 'bar',
             marker = list(
                 color = color_palette[8],
