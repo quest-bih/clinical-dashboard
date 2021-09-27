@@ -146,9 +146,9 @@ plot_clinicaltrials_trn <- function (dataset, color_palette) {
         nrow()
     
     plot_data <- tribble(
-        ~x_label, ~colour, ~percentage,
-        "All", "In abstract", round(100*all_numer_abs/abs_denom),
-        "All", "In full text", round(100*all_numer_ft/ft_denom)
+        ~x_label, ~colour, ~percentage, ~mouseover,
+        "All", "In abstract", round(100*all_numer_abs/abs_denom, digits=1), paste0(all_numer_abs, "/", abs_denom),
+        "All", "In full text", round(100*all_numer_ft/ft_denom, digits=1), paste0(all_numer_ft, "/", ft_denom)
     )
 
     plot_ly(
@@ -156,6 +156,7 @@ plot_clinicaltrials_trn <- function (dataset, color_palette) {
         x = ~x_label,
         color = ~colour,
         y = ~percentage,
+        text = ~mouseover,
         type = 'bar',
         colors = c(
             "#F1BA50",
