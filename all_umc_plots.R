@@ -360,7 +360,7 @@ plot_allumc_timpub_5a <- function (dataset, color_palette, color_palette_bars) {
         filter(has_followup_5y == TRUE)
 
     plot_data <- tribble (
-        ~x_label, ~percentage
+        ~x_label, ~percentage, ~mouseover
     )
 
     for (umc in unique(dataset$city)) {
@@ -379,8 +379,8 @@ plot_allumc_timpub_5a <- function (dataset, color_palette, color_palette_bars) {
         plot_data <- plot_data %>%
             bind_rows(
                 tribble(
-                    ~x_label, ~percentage,
-                    umc, round(100*umc_numer/umc_denom),
+                    ~x_label, ~percentage, ~mouseover,
+                    umc, round(100*umc_numer/umc_denom, digits=1), paste0(umc_numer, "/", umc_denom)
                 )
             )
     }
@@ -394,6 +394,7 @@ plot_allumc_timpub_5a <- function (dataset, color_palette, color_palette_bars) {
         plot_data,
         x = ~x_label,
         y = ~percentage,
+        text = ~mouseover,
         type = 'bar',
         marker = list(
             color = "#20303b",
