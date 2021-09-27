@@ -239,11 +239,11 @@ umc_plot_clinicaltrials_trn <- function (dataset, dataset_all, umc, color_palett
         nrow()
 
     plot_data <- tribble(
-        ~x_label, ~colour, ~percentage,
-        "All", "In abstract", round(100*all_numer_abs/abs_denom),
-        "All", "In full text", round(100*all_numer_ft/ft_denom),
-        umc, "In abstract", round(100*umc_numer_abs/umc_abs_denom),
-        umc, "In full text", round(100*umc_numer_ft/umc_ft_denom)
+        ~x_label, ~colour, ~percentage, ~mouseover,
+        "All", "In abstract", round(100*all_numer_abs/abs_denom, digits=1), paste0(all_numer_abs, "/", abs_denom),
+        "All", "In full text", round(100*all_numer_ft/ft_denom, digits=1), paste0(all_numer_ft, "/", ft_denom),
+        umc, "In abstract", round(100*umc_numer_abs/umc_abs_denom, digits=1), paste0(umc_numer_abs, "/", umc_abs_denom),
+        umc, "In full text", round(100*umc_numer_ft/umc_ft_denom, digits=1), paste0(umc_numer_ft, "/", umc_ft_denom)
     )
 
     plot_data$x_label <- fct_relevel(plot_data$x_label, "All", after= Inf)
@@ -253,6 +253,7 @@ umc_plot_clinicaltrials_trn <- function (dataset, dataset_all, umc, color_palett
         x = ~x_label,
         color = ~colour,
         y = ~percentage,
+        text = ~mouseover,
         type = 'bar',
         colors = c(
             "#F1BA50",
