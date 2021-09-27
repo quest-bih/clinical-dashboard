@@ -67,7 +67,7 @@ plot_allumc_clinicaltrials_prereg <- function (dataset, color_palette, color_pal
 plot_allumc_clinicaltrials_trn <- function (dataset, location, color_palette) {
 
     plot_data <- tribble (
-        ~x_label, ~colour, ~percentage
+        ~x_label, ~colour, ~percentage, ~mouseover,
     )
 
     for (umc in unique(dataset$city)) {
@@ -140,8 +140,8 @@ plot_allumc_clinicaltrials_trn <- function (dataset, location, color_palette) {
         plot_data <- plot_data %>%
             bind_rows(
                 tribble(
-                    ~x_label, ~percentage,
-                    umc, round(100*numer/denom)
+                    ~x_label, ~percentage, ~mouseover,
+                    umc, round(100*numer/denom, digits=1), paste0(numer, "/", denom)
                 )
             )
 
@@ -151,6 +151,7 @@ plot_allumc_clinicaltrials_trn <- function (dataset, location, color_palette) {
         plot_data,
         x = ~reorder(x_label,1/percentage),
         y = ~percentage,
+        text = ~mouseover,
         type = 'bar',
         colors = c(
             "#F1BA50",
