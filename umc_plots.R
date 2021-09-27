@@ -301,7 +301,7 @@ umc_plot_linkage <- function (dataset, dataset_all, umc, color_palette) {
         filter (city == umc)
     
     plot_data <- tribble(
-        ~year, ~all_percentage, ~umc_percentage
+        ~year, ~all_percentage, ~umc_percentage, ~all_mouseover, ~umc_mouseover
     )
 
     for (current_year in years) {
@@ -325,18 +325,18 @@ umc_plot_linkage <- function (dataset, dataset_all, umc, color_palette) {
             nrow()
 
         if (umc_denom > 0) {
-            percentage_for_year <- 100*umc_numer/umc_denom
+            percentage_for_year <- round(100*umc_numer/umc_denom, digits=1)
         } else {
             percentage_for_year <- NA
         }
         
-        all_percentage_for_year <- 100*all_numer/all_denom
+        all_percentage_for_year <- round(100*all_numer/all_denom, digits=1)
         
         plot_data <- plot_data %>%
             bind_rows(
                 tribble(
-                    ~year, ~all_percentage, ~umc_percentage,
-                    current_year, all_percentage_for_year, percentage_for_year
+                    ~year, ~all_percentage, ~umc_percentage, ~all_mouseover, ~umc_mouseover,
+                    current_year, all_percentage_for_year, percentage_for_year, paste0(all_numer, "/", all_denom), paste0(umc_numer, "/", umc_denom)
                 )
             )
         
@@ -347,6 +347,7 @@ umc_plot_linkage <- function (dataset, dataset_all, umc, color_palette) {
         name = "All",
         x = ~year,
         y = ~all_percentage,
+        text = ~all_mouseover,
         type = 'scatter',
         mode = 'lines+markers',
         marker = list(
@@ -360,6 +361,7 @@ umc_plot_linkage <- function (dataset, dataset_all, umc, color_palette) {
          add_trace(
              data=plot_data %>% filter(!is.na(umc_percentage)),
              y=~umc_percentage,
+             text=~umc_mouseover,
              name=umc,
              marker = list(color = color_palette[2])
          ) %>%
