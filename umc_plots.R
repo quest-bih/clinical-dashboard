@@ -683,7 +683,7 @@ umc_plot_clinicaltrials_timpub_5a <- function (dataset, dataset_all, umc, rt, co
         nrow()
     
     plot_data <- tribble(
-        ~year, ~all_percentage, ~umc_percentage
+        ~year, ~all_percentage, ~umc_percentage, ~all_mouseover, ~umc_mouseover
     )
 
     for (current_year in years) {
@@ -717,12 +717,12 @@ umc_plot_clinicaltrials_timpub_5a <- function (dataset, dataset_all, umc, rt, co
             nrow()
         
         if (umc_denom > 0) {
-            umc_percentage <- 100*umc_numer/umc_denom
+            umc_percentage <- round(100*umc_numer/umc_denom, digits=1)
         } else {
             umc_percentage <- NA
         }
         
-        all_percentage <- 100*all_numer/all_denom
+        all_percentage <- round(100*all_numer/all_denom, digits=1)
 
         if (all_denom > 5) { ## This is because we only have 1
             ## data point in 2013 with 5 years of
@@ -731,8 +731,8 @@ umc_plot_clinicaltrials_timpub_5a <- function (dataset, dataset_all, umc, rt, co
             plot_data <- plot_data %>%
                 bind_rows(
                     tribble(
-                        ~year, ~all_percentage, ~umc_percentage,
-                        current_year, all_percentage, umc_percentage
+                        ~year, ~all_percentage, ~umc_percentage, ~all_mouseover, ~umc_mouseover,
+                        current_year, all_percentage, umc_percentage, paste0(all_numer, "/", all_denom), paste0(umc_numer, "/", umc_denom)
                     )
                 )
         }
@@ -744,6 +744,7 @@ umc_plot_clinicaltrials_timpub_5a <- function (dataset, dataset_all, umc, rt, co
         x = ~year,
         y = ~all_percentage,
         name = "All",
+        text = ~all_mouseover,
         type = 'scatter',
         mode = 'lines+markers',
         marker = list(
@@ -757,6 +758,7 @@ umc_plot_clinicaltrials_timpub_5a <- function (dataset, dataset_all, umc, rt, co
         add_trace(
             data=plot_data %>% filter(!is.na(umc_percentage)),
             y=~umc_percentage,
+            text=~umc_mouseover,
             name=umc,
             marker = list(color = color_palette[2])
         ) %>%
