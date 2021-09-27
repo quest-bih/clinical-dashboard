@@ -195,7 +195,7 @@ plot_linkage <- function (dataset, color_palette) {
     years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
 
     plot_data <- tribble(
-        ~year, ~percentage
+        ~year, ~percentage, ~mouseover
     )
 
     for (current_year in years) {
@@ -209,13 +209,13 @@ plot_linkage <- function (dataset, color_palette) {
             filter(completion_year == current_year) %>%
             nrow()
 
-        percentage_for_year <- 100*numer_for_year/denom_for_year
+        percentage_for_year <- round(100*numer_for_year/denom_for_year, digits=1)
 
         plot_data <- plot_data %>%
             bind_rows(
                 tribble(
-                    ~year, ~percentage,
-                    current_year, percentage_for_year
+                    ~year, ~percentage, ~mouseover,
+                    current_year, percentage_for_year, paste0(numer_for_year, "/", denom_for_year)
                 )
             )
     }
@@ -227,6 +227,7 @@ plot_linkage <- function (dataset, color_palette) {
         x = ~year,
         y = ~percentage,
         name = 'All',
+        text = ~mouseover,
         type = 'scatter',
         mode = 'lines+markers',
         marker = list(
