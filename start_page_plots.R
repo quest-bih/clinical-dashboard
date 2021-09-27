@@ -477,7 +477,7 @@ plot_clinicaltrials_timpub_5a <- function (dataset, rt, color_palette) {
         nrow()
 
     plot_data <- tribble(
-        ~year, ~all_percentage
+        ~year, ~all_percentage, ~mouseover
     )
 
     for (current_year in years) {
@@ -494,7 +494,7 @@ plot_clinicaltrials_timpub_5a <- function (dataset, rt, color_palette) {
                 completion_year == current_year
             ) %>%
             nrow()
-        all_percentage <- 100*all_numer/all_denom
+        all_percentage <- round(100*all_numer/all_denom, digits=1)
 
         
 
@@ -505,8 +505,8 @@ plot_clinicaltrials_timpub_5a <- function (dataset, rt, color_palette) {
             plot_data <- plot_data %>%
                 bind_rows(
                     tribble(
-                        ~year, ~all_percentage,
-                        current_year, all_percentage
+                        ~year, ~all_percentage, ~mouseover,
+                        current_year, all_percentage, paste0(all_numer, "/", all_denom)
                     )
                 )
         }
@@ -518,6 +518,7 @@ plot_clinicaltrials_timpub_5a <- function (dataset, rt, color_palette) {
         x = ~year,
         y = ~all_percentage,
         name = umc,
+        text = ~mouseover,
         type = 'scatter',
         mode = 'lines+markers',
         marker = list(
