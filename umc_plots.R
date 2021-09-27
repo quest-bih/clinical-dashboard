@@ -778,6 +778,7 @@ umc_plot_clinicaltrials_timpub_5a <- function (dataset, dataset_all, umc, rt, co
     
 }
 
+## Open access
 umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palette) {
 
     ## Calculate the numerators and the denominator for the
@@ -1302,9 +1303,9 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
     } else {
 
         plot_data <- tribble(
-            ~x_label, ~percentage,
-            "All", round(100*all_numer/all_denom),
-            umc, round(100*umc_numer/umc_denom)
+            ~x_label, ~percentage, ~mouseover,
+            "All", round(100*all_numer/all_denom, digits=1), paste0(all_numer, "/", all_denom),
+            umc, round(100*umc_numer/umc_denom, digits=1), paste0(umc_numer, "/", umc_denom)
         )
         
         plot_data$x_label <- fct_relevel(plot_data$x_label, "All", after= Inf)
@@ -1316,6 +1317,7 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
             plot_data,
             x = ~x_label,
             y = ~percentage,
+            text = ~mouseover,
             type = 'bar',
             marker = list(
                 color = color_palette[8],
