@@ -1356,16 +1356,6 @@ server <- function (input, output, session) {
     ## All UMCs: Trial registration
     output$allumc_registration <- renderUI({
 
-        ## Value for prereg
-
-        all_numer_prereg <- iv_all %>%
-            filter(is_prospective == TRUE) %>%
-            nrow()
-
-        all_denom_prereg <- iv_all %>%
-            filter(! is.na(start_date)) %>%
-            nrow()
-
         ## Value for linkage
 
         all_numer_link <- iv_all %>%
@@ -1385,18 +1375,16 @@ server <- function (input, output, session) {
             fluidRow(
                 column(
                     12,
-                    metric_box(
-                        title = "Prospective registration",
-                        value = paste0(round(100*all_numer_prereg/all_denom_prereg), "%"),
-                        value_text = "of clinical trials were prospectively registered",
-                        plot = plotlyOutput('plot_allumc_clinicaltrials_prereg', height="300px"),
-                        info_id = "infoALLUMCPreReg",
-                        info_title = "Prospective registration (All UMCs)",
-                        info_text = allumc_clinicaltrials_prereg_tooltip,
-                        lim_id = "limALLUMCPreReg",
-                        lim_title = "Limitations: Prospective registration (All UMCs)",
-                        lim_text = lim_allumc_clinicaltrials_prereg_tooltip
+                    uiOutput("prereg_all"),
+                    selectInput(
+                        "allumc_prereg_registry",
+                        strong("Trial registry"),
+                        choices = c(
+                            "ClinicalTrials.gov",
+                            "DRKS"
+                        )
                     )
+                    
                 )
             ),
             fluidRow(
@@ -1433,6 +1421,50 @@ server <- function (input, output, session) {
             )
         )
         
+    })
+
+    output$prereg_all <- renderUI({
+
+        ## Value for prereg
+
+        if (input$allumc_prereg_registry == "ClinicalTrials.gov") {
+            
+            all_numer_prereg <- pros_reg_data %>%
+                filter(is_prospective == TRUE) %>%
+                nrow()
+
+            all_denom_prereg <- pros_reg_data %>%
+                filter(! is.na(start_date)) %>%
+                nrow()
+        
+        }
+
+        if (input$allumc_prereg_registry == "DRKS") {
+            
+            all_numer_prereg <- iv_all %>%
+                filter(is_prospective == TRUE) %>%
+                filter(registry == "DRKS") %>%
+                nrow()
+
+            all_denom_prereg <- iv_all %>%
+                filter(! is.na(start_date)) %>%
+                filter(registry == "DRKS") %>%
+                nrow()
+            
+        }
+
+        metric_box(
+            title = "Prospective registration",
+            value = paste0(round(100*all_numer_prereg/all_denom_prereg), "%"),
+            value_text = paste("of clinical trials registered on", input$allumc_prereg_registry, "were prospectively registered"),
+            plot = plotlyOutput('plot_allumc_clinicaltrials_prereg', height="300px"),
+            info_id = "infoALLUMCPreReg",
+            info_title = "Prospective registration (All UMCs)",
+            info_text = allumc_clinicaltrials_prereg_tooltip,
+            lim_id = "limALLUMCPreReg",
+            lim_title = "Limitations: Prospective registration (All UMCs)",
+            lim_text = lim_allumc_clinicaltrials_prereg_tooltip
+        )
     })
 
     output$trn_in_pubs_all <- renderUI({
@@ -1793,7 +1825,7 @@ server <- function (input, output, session) {
 
     ## Preregistration
     output$plot_allumc_clinicaltrials_prereg <- renderPlotly({
-        return(plot_allumc_clinicaltrials_prereg(pros_reg_data_umc, color_palette, color_palette_bars))
+        return(plot_allumc_clinicaltrials_prereg(pros_reg_data_umc, iv_umc, input$allumc_prereg_registry, color_palette, color_palette_bars))
     })
 
     ## TRN

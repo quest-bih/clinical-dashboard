@@ -1,8 +1,20 @@
 ## Prospective registration
-plot_allumc_clinicaltrials_prereg <- function (dataset, color_palette, color_palette_bars) {
-    
-    dataset <- dataset %>%
-        filter( ! is.na (start_date) )
+plot_allumc_clinicaltrials_prereg <- function (dataset, iv_dataset, toggled_registry, color_palette, color_palette_bars) {
+
+    if (toggled_registry == "ClinicalTrials.gov") {
+
+        dataset <- dataset %>%
+            filter( ! is.na (start_date) )
+
+    }
+
+    if (toggled_registry == "DRKS") {
+
+        dataset <- iv_dataset %>%
+            filter( ! is.na (start_date) ) %>%
+            filter(registry == toggled_registry)
+        
+    }
 
     plot_data <- tribble (
         ~x_label, ~percentage, ~mouseover
@@ -35,7 +47,7 @@ plot_allumc_clinicaltrials_prereg <- function (dataset, color_palette, color_pal
         levels = unique(plot_data$x_label)[order(plot_data$percentage, decreasing=TRUE)]
     )
 
-     plot_ly(
+    plot_ly(
         plot_data,
         x = ~x_label,
         y = ~percentage,
