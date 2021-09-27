@@ -12,7 +12,7 @@ plot_clinicaltrials_prereg <- function (dataset, iv_dataset, toggled_registry, c
         years <- seq(from=min(dataset$start_year, na.rm=TRUE), to=max(dataset$start_year, na.rm=TRUE))
 
         plot_data <- tribble(
-            ~year, ~percentages
+            ~year, ~percentage, ~mouseover
         )
 
         for (current_year in years) {
@@ -30,13 +30,13 @@ plot_clinicaltrials_prereg <- function (dataset, iv_dataset, toggled_registry, c
                 ) %>%
                 nrow()
 
-            percentage_for_year <- 100*numer_for_year/denom_for_year
+            percentage_for_year <- round(100*numer_for_year/denom_for_year, digits=1)
             
             plot_data <- plot_data %>%
                 bind_rows(
                     tribble(
-                        ~year, ~percentage,
-                        current_year, percentage_for_year
+                        ~year, ~percentage, ~mouseover,
+                        current_year, percentage_for_year, paste0(numer_for_year, "/", denom_for_year)
                     )
                 )
             
@@ -54,7 +54,7 @@ plot_clinicaltrials_prereg <- function (dataset, iv_dataset, toggled_registry, c
         years <- seq(from=min(dataset$start_year), to=max(dataset$start_year))
 
         plot_data <- tribble(
-            ~year, ~percentage
+            ~year, ~percentage, ~mouseover
         )
 
         for (current_year in years) {
@@ -72,13 +72,13 @@ plot_clinicaltrials_prereg <- function (dataset, iv_dataset, toggled_registry, c
                 ) %>%
                 nrow()
 
-            percentage_for_year <- 100*numer_for_year/denom_for_year
+            percentage_for_year <- round(100*numer_for_year/denom_for_year, digits=1)
             
             plot_data <- plot_data %>%
                 bind_rows(
                     tribble(
-                        ~year, ~percentage,
-                        current_year, percentage_for_year
+                        ~year, ~percentage, ~mouseover,
+                        current_year, percentage_for_year, paste0(numer_for_year, "/", denom_for_year)
                     )
                 )
             
@@ -91,6 +91,7 @@ plot_clinicaltrials_prereg <- function (dataset, iv_dataset, toggled_registry, c
         x = ~year,
         y = ~percentage,
         name = "All",
+        text = ~mouseover,
         type = 'scatter',
         mode = 'lines+markers',
         marker = list(
