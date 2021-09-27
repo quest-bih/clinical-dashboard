@@ -14,7 +14,7 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, dataset_iv_umc
         years <- seq(from=min(dataset$start_year, na.rm=TRUE), to=max(dataset$start_year, na.rm=TRUE))
 
         plot_data <- tribble(
-            ~year, ~all_percentage, ~umc_percentage
+            ~year, ~all_percentage, ~umc_percentage, ~all_mouseover, ~umc_mouseover
         )
 
         for (current_year in years) {
@@ -48,18 +48,18 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, dataset_iv_umc
                 nrow()
 
             if (denom_for_year > 0) {
-                percentage_for_year <- 100*numer_for_year/denom_for_year
+                percentage_for_year <- round(100*numer_for_year/denom_for_year, digits=1)
             } else {
                 percentage_for_year <- NA
             }
 
-            all_percentage_for_year <- 100*all_numer_for_year/all_denom_for_year
+            all_percentage_for_year <- round(100*all_numer_for_year/all_denom_for_year, digits=1)
             
             plot_data <- plot_data %>%
                 bind_rows(
                     tribble(
-                        ~year, ~all_percentage, ~umc_percentage,
-                        current_year, all_percentage_for_year, percentage_for_year
+                        ~year, ~all_percentage, ~umc_percentage, ~all_mouseover, ~umc_mouseover,
+                        current_year, all_percentage_for_year, percentage_for_year, paste0(all_numer_for_year, "/", all_denom_for_year), paste0(numer_for_year, "/", denom_for_year)
                     )
                 )
 
@@ -82,7 +82,7 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, dataset_iv_umc
         years <- seq(from=min(dataset$start_year), to=max(dataset$start_year))
 
         plot_data <- tribble(
-            ~year, ~all_percentage, ~umc_percentage
+            ~year, ~all_percentage, ~umc_percentage, ~all_mouseover, ~umc_mouseover
         )
 
         for (current_year in years) {
@@ -116,18 +116,18 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, dataset_iv_umc
                 nrow()
 
             if (denom_for_year > 0) {
-                percentage_for_year <- 100*numer_for_year/denom_for_year
+                percentage_for_year <- round(100*numer_for_year/denom_for_year, digits=1)
             } else {
                 percentage_for_year <- NA
             }
 
-            all_percentage_for_year <- 100*all_numer_for_year/all_denom_for_year
+            all_percentage_for_year <- round(100*all_numer_for_year/all_denom_for_year, digits=1)
             
             plot_data <- plot_data %>%
                 bind_rows(
                     tribble(
-                        ~year, ~all_percentage, ~umc_percentage,
-                        current_year, all_percentage_for_year, percentage_for_year
+                        ~year, ~all_percentage, ~umc_percentage, ~all_mouseover, ~umc_mouseover,
+                        current_year, all_percentage_for_year, percentage_for_year, paste0(all_numer_for_year, "/", all_denom_for_year), paste0(numer_for_year, "/", denom_for_year)
                     )
                 )
 
@@ -140,6 +140,7 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, dataset_iv_umc
         x = ~year,
         y = ~all_percentage,
         name = "All",
+        text = ~all_mouseover,
         type = 'scatter',
         mode = 'lines+markers',
         marker = list(
@@ -154,6 +155,7 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, dataset_iv_umc
             data=plot_data %>% filter(!is.na(umc_percentage)),
             y=~umc_percentage,
             name=umc,
+            text=~umc_mouseover,
             marker = list(color = color_palette[2])
         ) %>%
         layout(
