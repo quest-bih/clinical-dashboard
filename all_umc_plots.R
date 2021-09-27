@@ -251,7 +251,8 @@ plot_allumc_clinicaltrials_sumres <- function (dataset, color_palette, color_pal
 
     plot_data <- dataset %>%
         rename (x_label = city) %>%
-        rename (percentage = percent_reported)
+        rename (percentage = percent_reported) %>%
+        mutate (mouseover = paste0(total_reported, "/", total_due))
 
     plot_data$x_label <- factor(
         plot_data$x_label,
@@ -262,6 +263,7 @@ plot_allumc_clinicaltrials_sumres <- function (dataset, color_palette, color_pal
         plot_data,
         x = ~x_label,
         y = ~percentage,
+        text = ~mouseover,
         type = 'bar',
         marker = list(
             color = "#F1BA50",
