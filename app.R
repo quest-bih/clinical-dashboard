@@ -1864,6 +1864,10 @@ server <- function (input, output, session) {
 
                                         # Data tables #
     
+    output$data_table_pros_reg_data <- DT::renderDataTable({
+        make_datatable(pros_reg_data)
+    })
+    
     output$data_table_eutt_data <- DT::renderDataTable({
         make_datatable(eutt_hist %>% select (!hash))
     })

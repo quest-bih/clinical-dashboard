@@ -26,14 +26,14 @@ make_datatable <- function(dataset) {
 datasets_page <- tabPanel(
     "Datasets", value = "tabDatasets",
     h3("Datasets"),
-    ## bsCollapse(
-    ##     id="datasetPanels_rm_data",
-    ##     bsCollapsePanel(
-    ##         strong("UMC publications data set"),
-    ##         DT::dataTableOutput("data_table_rm_data"),
-    ##         style="default"
-    ##     )
-    ## ),
+    bsCollapse(
+        id="datasetPanels_prospective_reg_data",
+        bsCollapsePanel(
+            strong("Prospective registrations data set (ClinicalTrials.gov only)"),
+            DT::dataTableOutput("data_table_pros_reg_data"),
+            style="default"
+        )
+    ),
     bsCollapse(
         id="datasetPanels_eutt_data",
         bsCollapsePanel(
