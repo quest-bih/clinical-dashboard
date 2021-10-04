@@ -84,7 +84,8 @@ trial_characteristics <-
   # Move stats legend to each line
   add_stat_label() %>%
 
-  modify_caption("**Characteristics of German UMC-conducted trials** A trial was considered randomized if allocation included randomization. A trial was considered prospectively registered if registered in the same or previous months to start date. Center size is considered 'large' if it conducted more trials than the median trial number per UMC across all UMCs included in the IntoValue1 or Intovalue2 studies, respectively. 'Unknowns' are not counted in the denominator for percentages.") %>%
+  modify_caption("**Characteristics of German UMC-conducted trials** A trial was considered randomized if allocation included randomization. Center size is considered 'large' if it conducted more trials than the median trial number per UMC across all UMCs included in the IntoValue1 or Intovalue2 studies, respectively. Trials considered to be conducted by a German UMC if the UMC is in the `sponsors`, `overall officials`, or `responsible parties` from ClinicalTrials.gov, or any `addresses` from DRKS. 'Unknowns' are not counted in the denominator for percentages.") %>%
+
   bold_labels() %>%
 
   # Remove rowname label
