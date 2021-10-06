@@ -21,7 +21,7 @@ trial_characteristics <-
 
   # Prepare registration and start year
   mutate(
-    registration_year = lubridate::year(registration_date),
+    # registration_year = lubridate::year(registration_date),
     start_year = lubridate::year(start_date)
   ) %>%
 
@@ -31,7 +31,7 @@ trial_characteristics <-
   left_join(phase_lookup, by = "phase") %>%
 
   # Tidy center size
-  mutate(center_size = str_to_title(center_size)) %>%
+  # mutate(center_size = str_to_title(center_size)) %>%
 
   select(
     registry,
@@ -40,16 +40,16 @@ trial_characteristics <-
     industry_sponsor,
     enrollment,
     has_crossreg_eudract,
-    center_size,
+    # center_size,
     phase_unified,
     intervention_type,
 
     # TODO: decide which date to present and how
-    registration_date,
-    start_date,
-    completion_date,
+    # registration_date,
+    # start_date,
+    # completion_date,
 
-    registration_year,
+    # registration_year,
     start_year,
     completion_year
   ) %>%
@@ -63,19 +63,18 @@ trial_characteristics <-
       industry_sponsor ~ "Industry sponsor",
       phase_unified ~ "Phase",
       intervention_type ~ "Intervention Type",
-      center_size ~ "Center Size",
+      # center_size ~ "Center Size",
 
       # Note: EUCTR IDs haven't been manually verified
       has_crossreg_eudract ~ "EUCTR Trial ID in Registration",
 
-
-      registration_year ~ "Trial registration year",
+      # registration_year ~ "Trial registration year",
       start_year ~ "Trial start year",
-      completion_year ~ "Trial completion year",
+      completion_year ~ "Trial completion year"
 
-      registration_date ~ "Trial registration date",
-      start_date ~ "Trial start date",
-      completion_date ~ "Trial completion date"
+      # registration_date ~ "Trial registration date",
+      # start_date ~ "Trial start date",
+      # completion_date ~ "Trial completion date"
     )
   ) %>%
 
