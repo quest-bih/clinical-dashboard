@@ -51,7 +51,7 @@ faq_page <- tabPanel(
                                p(HTML("Interventional trials registered in
                                     ClinicalTrials.gov or DRKS, conducted at
                                       a German UMC, completed between 2009 – 2017,
-                                      and complete based on study status. Trials
+                                      and whose study status is \"complete.\" Trials
                                       may be cross-registered (these trials would
                                       be counted once for each registry).
                                       <br>
@@ -60,7 +60,7 @@ faq_page <- tabPanel(
                                       recent cohort of trials registered in
                                       ClinicalTrials.gov, conducted at a German
                                       UMC, started between 2006 and 2018, and
-                                      complete based on study status.
+                                      whose study status is \"complete.\"
                                       <br>
                                       <br><b>For summary results reporting in EUCTR</b>,
                                       we extracted the data from the <a href=https://eu.trialstracker.net>
@@ -140,7 +140,7 @@ faq_page <- tabPanel(
                                p(HTML("The data displayed in this dashboard
                                results from a combination of manual and automated
                                approaches. Where possible, we used or built on
-                               existing methods and all the data and code is
+                               existing methods. All the data and code are
                                openly available. We had to make certain
                                assumptions and decisions along the way, which
                                you should keep in mind when interpreting the data.
@@ -198,7 +198,7 @@ faq_page <- tabPanel(
                                value = "faqPanels_Updates",
                                style = "default")),
     bsCollapse(id = "faqPanels_Contact",
-               bsCollapsePanel(strong("How to contact us?"),
+               bsCollapsePanel(strong("How to contact us"),
                                p(HTML("Send us an e-mail at responsible-metrics[at]charite.de!")),
                                value = "faqPanels_Contact",
                                style = "default")),
