@@ -92,7 +92,7 @@ trial_characteristics <- iv_all %>%
 # Center size is considered 'large' if it conducted more trials than the median trial number per UMC across all UMCs included in the IntoValue1 or Intovalue2 studies, respectively.
 
 trial_characteristics_page <- tabPanel(
-    "Characteristics", value = "tabCharacteristics",
+    "Trial characteristics", value = "tabCharacteristics",
     wellPanel(
         br(),
         fluidRow(

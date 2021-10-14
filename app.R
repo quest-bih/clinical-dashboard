@@ -55,7 +55,7 @@ source("methods_page.R")
 source("datasets_page.R")
 source("about_rm.R")
 source("faq_page.R")
-source("create-characteristics-table.R")
+source("trial_characteristics_page.R")
 
 ## Define UI
 ui <- tagList(
@@ -66,11 +66,11 @@ ui <- tagList(
         all_umcs_page,
         umc_page,
         why_page,
+        trial_characteristics_page,
         methods_page,
         datasets_page,
         faq_page,
         about_rm_page,
-        trial_characteristics_page,
         tags$head
         (
             tags$script
