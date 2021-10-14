@@ -1,3 +1,17 @@
+## Data from the IntoValue 1-2 data set
+## Generate these using the script in
+## prep/transform-intovalue.R
+iv_all <- read_csv(
+    "data/ct-dashboard-intovalue-all.csv"
+)
+
+# ClinicalTrials.gov and DRKS use different phase names
+# We use IntoValue's lookup table to coalesce names
+
+phase_lookup <- read_csv("data/iv_data_lookup_registries.csv") %>%
+    filter(name == "phase") %>%
+    select(phase = level_registry, phase_unified = level_unified)
+
 trial_characteristics <- iv_all %>%
 
   # Prepare industry sponsor

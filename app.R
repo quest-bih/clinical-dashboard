@@ -31,13 +31,6 @@ iv_umc <- read_csv(
     "data/ct-dashboard-intovalue-umc.csv"
 )
 
-# ClinicalTrials.gov and DRKS use different phase names
-# We use IntoValue's lookup table to coalesce names
-
-phase_lookup <- read_csv("data/iv_data_lookup_registries.csv") %>%
-    filter(name == "phase") %>%
-    select(phase = level_registry, phase_unified = level_unified)
-
 ## Data from the prospective registration refresh
 pros_reg_data <- read_csv(
     "data/prospective-reg-ctgov-2018-trials.csv"
