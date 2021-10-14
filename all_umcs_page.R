@@ -259,6 +259,5 @@ all_umcs_page <- tabPanel(
     ),
     uiOutput("allumc_registration"),
     uiOutput("allumc_reporting"),
-    uiOutput("allumc_openscience"),
-    ## uiOutput("allumc_robustness")
+    uiOutput("allumc_openscience")
 )
