@@ -1,20 +1,4 @@
-library(tidyverse)
-library(here)
-library(fs)
-library(gtsummary)
-
-iv <- read_csv(here("data", "ct-dashboard-intovalue-all.csv"))
-
-# ClinicalTrials.gov and DRKS use different phase names
-# We use IntoValue's lookup table to coalesce names
-
-phase_lookup <-
-  read_csv("https://zenodo.org/record/5141343/files/iv_data_lookup_registries.csv?download=1") %>%
-  filter(name == "phase") %>%
-  select(phase = level_registry, phase_unified = level_unified)
-
-trial_characteristics <-
-  iv %>%
+trial_characteristics <- iv_all %>%
 
   # Prepare industry sponsor
   mutate(industry_sponsor = ifelse(main_sponsor == "Industry", TRUE, FALSE)) %>%
@@ -88,6 +72,20 @@ trial_characteristics <-
   bold_labels() %>%
 
   # Remove rowname label
-  modify_header(label = "")
+    modify_header(label = "") %>%
+    as_gt()
 
 # Center size is considered 'large' if it conducted more trials than the median trial number per UMC across all UMCs included in the IntoValue1 or Intovalue2 studies, respectively.
+
+trial_characteristics_page <- tabPanel(
+    "Characteristics", value = "tabCharacteristics",
+    wellPanel(
+        br(),
+        fluidRow(
+            column(
+                12,
+                gt_output('trial_characteristics_table')
+            )
+        )
+    )
+)
