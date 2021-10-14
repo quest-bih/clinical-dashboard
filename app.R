@@ -8,6 +8,9 @@ library(shinythemes)
 library(shinyBS)
 library(shinyjs)
 library(DT)
+library(fs)
+library(gtsummary)
+library(gt)
 
 ## Load data
 
@@ -27,6 +30,13 @@ iv_all <- read_csv(
 iv_umc <- read_csv(
     "data/ct-dashboard-intovalue-umc.csv"
 )
+
+# ClinicalTrials.gov and DRKS use different phase names
+# We use IntoValue's lookup table to coalesce names
+
+phase_lookup <- read_csv("data/iv_data_lookup_registries.csv") %>%
+    filter(name == "phase") %>%
+    select(phase = level_registry, phase_unified = level_unified)
 
 ## Data from the prospective registration refresh
 pros_reg_data <- read_csv(
@@ -52,6 +62,7 @@ source("methods_page.R")
 source("datasets_page.R")
 source("about_rm.R")
 source("faq_page.R")
+source("create-characteristics-table.R")
 
 ## Define UI
 ui <- tagList(
@@ -66,6 +77,7 @@ ui <- tagList(
         datasets_page,
         faq_page,
         about_rm_page,
+        trial_characteristics_page,
         tags$head
         (
             tags$script
@@ -1875,6 +1887,9 @@ server <- function (input, output, session) {
     output$data_table_iv_data <- DT::renderDataTable({
         make_datatable(iv_umc)
     })
+
+                                        # Trial characteristics table #
+    output$trial_characteristics_table <- render_gt(trial_characteristics)
     
 }
 
