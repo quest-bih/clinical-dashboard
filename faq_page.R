@@ -6,37 +6,37 @@ faq_page <- tabPanel(
                bsCollapsePanel(strong("What is this dashboard about?"),
                                p(HTML("This dashboard for clinical research
                                       transparency was developed as part of a
-                                      scientific research project with the
-                                      overall aim to support the adoption of
+                                      scientific research project [@DELWEN: I think this first sentence addresses a separate question, e.g., how was this dashboard developed? or some better wording. I would also include the grant number and maybe more details about the underlying/instigating projects]
+                                      This dashboard aims to support the adoption of
                                       responsible research practices at
                                       University Medical Centers (UMCs). It
-                                      displays baseline assessments of select
+                                      displays baseline [@DELWEN: why baseline?] assessments of select
                                       practices for clinical research
                                       transparency at UMCs in Germany. The
                                       dashboard allows institutions to assess
                                       how they are performing in relation to 
                                       mandates or their institutional policy
                                       and identify key areas of improvement.
-                                      It may also inform interventions to
+                                      The underlying data also informs interventions to
                                       increase the uptake of clinical
                                       transparency practices and evaluate their
                                       impact over time.")),
                                value = "faqPanels_About",
                                style = "default")),
     bsCollapse(id = "faqPanels_RegistryFocus",
-               bsCollapsePanel(strong("Why did you focus on ClinicalTrials.gov, DRKS, and EUCTR?"),
+               bsCollapsePanel(strong("Why does the dashboard focus on ClinicalTrials.gov, DRKS, and EUCTR?"),
                                p(HTML("The data displayed in this dashboard is
                                       based on two previously developed cohorts
                                       of clinical trials registered in
                                       ClinicalTrials.gov and the German Clinical
-                                      Trials Register (DRKS). The EU Clinical
+                                      Trials Register (DRKS) [@DELWEN: add citation? or link to another page of dashboard?]. The EU Clinical
                                       Trials Register (EUCTR) is a primary
-                                      registry in the WHO Registry Network and
+                                      registry in the WHO Registry Network [@DELWEN: all 3 are part of the ICTRP Registry Network, with EUCTR and DRKS as primary registries and ct.gov as a data provider. I would start this section stating all 3 are ICTRP registries and commonly used for Germany. Then go into EUCTR as legally required one. Then explain our DRKS/CT.gov sample and explicitly acknowledge that most metrics just for these 2 because that's how our source data was done. And maybe this will change in a future version???]
                                       provides information on interventional
                                       clinical trials on medicines conducted in 
                                       the European Economic Area (EEA) started
                                       after 1 May 2004. These trials are
-                                      required to be registered in the EU
+                                      required [@DELWEN: legally required? mandated? not sure what wording] to be registered in the EU
                                       clinical trials database and provide
                                       summary results in the EUCTR within 12
                                       months of trial completion (see <a href=https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52012XC1006(01)&from=EN>
@@ -51,16 +51,16 @@ faq_page <- tabPanel(
                                p(HTML("Interventional trials registered in
                                     ClinicalTrials.gov or DRKS, conducted at
                                       a German UMC, completed between 2009 – 2017,
-                                      and whose study status is \"complete.\" Trials
-                                      may be cross-registered (these trials would
-                                      be counted once for each registry).
-                                      <br>
+                                      and whose study status is considered \"complete.\" [@DELWEN: adding 'considered' since technically some other statuses are included in intovalue if i'm not remembering wrong] Trials
+                                      may be cross-registered (these trials may
+                                      be counted once for each registry). [@DELWEN: Nico says IV was deduplicated, but I know that at least some duplicate/cross-reg still in for both, so softened the verb.]
+                                      <br> [@DELWEN: maybe clarify explicitly not just germany legal trials and that may be industry sponsored but included as long as UMC PI]
                                       <br><b>For prospective registration
                                       (ClinicalTrials.gov only)</b>, we used a more
                                       recent cohort of trials registered in
                                       ClinicalTrials.gov, conducted at a German
                                       UMC, started between 2006 and 2018, and
-                                      whose study status is \"complete.\"
+                                      whose study status is considered \"complete.\"
                                       <br>
                                       <br><b>For summary results reporting in EUCTR</b>,
                                       we extracted the data from the <a href=https://eu.trialstracker.net>
@@ -71,9 +71,9 @@ faq_page <- tabPanel(
                                value = "faqPanels_TrialTypes",
                                style = "default")),
     bsCollapse(id = "faqPanels_AllPublicationsOfTrial",
-               bsCollapsePanel(strong("Does the dashboard reflect all results publications of a given clinical trial?"),
-                               p(HTML("No. Publications associated with the trials
-                                      included in this dashboard were previously
+               bsCollapsePanel(strong("What results publications of a given clinical trial are reflected in the dashboard?"),
+                               p(HTML("Publications associated with the trials
+                                      included in this dashboard were
                                       identified through manual searches. If
                                       several results publications were found
                                       for a given trial, only the earliest, or the one reporting a primary outcome, was
@@ -82,7 +82,7 @@ faq_page <- tabPanel(
                                       and <a href=https://www.medrxiv.org/content/10.1101/2021.08.05.21261624v2>here</a>.
                                       While the original dataset also
                                       considered dissertations as publications,
-                                      only journal publications were considered
+                                      only journal publications are
                                       included in this dashboard.")),
                                value = "faqPanels_AllPublicationsOfTrial",
                                style = "default")),
@@ -95,18 +95,18 @@ faq_page <- tabPanel(
                                       preprint</a>). One of the lessons learned
                                       in this study was the importance of an
                                       overall narrative that justified the choice
-                                      of metrics included. This dashboard focuses
+                                      of metrics included. [@DELWEN: these first two sentences seem out of place, I would remove...unless we selected metrics based on the interviews... which isn't the case] This dashboard focuses
                                       on practices for clinical trial registration
                                       and reporting that are recommended or
                                       required by ethical or regulatory bodies.
-                                      In the <b>“Why these metrics?”</b> page, you can
+                                      In the <b>“Why these metrics?”</b> page [@DELWEN: add link to page?], you can
                                       find an infographic which contextualizes
                                       included research practices to relevant
                                       regulations and ethical guidelines.")),
                                value = "faqPanels_SelectionPractices",
                                style = "default")),
     bsCollapse(id = "faqPanels_CTIS",
-               bsCollapsePanel(strong("Is this still relevant given the upcoming launch of EU Clinical Trials Information System?"),
+               bsCollapsePanel(strong("How is this dashboard relevant given the upcoming launch of EU Clinical Trials Information System?"),
                                p(HTML("The European Commission has confirmed the
                                       launch of the EU Clinical Trials Information
                                       System (CTIS) at the end of January 2022,
@@ -132,7 +132,7 @@ faq_page <- tabPanel(
                                       procedures are subject to change. The
                                       dashboard also provides baseline assessments
                                       that allow the impact of interventions or
-                                      changes in policy to be evaluated.")),
+                                      changes in policy to be evaluated.[@DELWEN: would also not that the dashboard is mostly not EUCTR CTIMP trials and hence unaffected.]")),
                                value = "faqPanels_CTIS",
                                style = "default")),
     bsCollapse(id = "faqPanels_MoreMethods",
@@ -140,16 +140,15 @@ faq_page <- tabPanel(
                                p(HTML("The data displayed in this dashboard
                                results from a combination of manual and automated
                                approaches. Where possible, we used or built on
-                               existing methods. All the data and code are
-                               openly available. We had to make certain
-                               assumptions and decisions along the way, which
-                               you should keep in mind when interpreting the data.
-                               Besides each plot in the dashboard, you can find
-                               two widgets that give more information on 1) the
+                               existing methods and are linked below. All the data and code are
+                               openly available. 
+                               Assumptions and decisions are noted in the documentation of the underlying methods as well as in the dashboard and should be considered when interpreting the data.
+                               Each plot in the dashboard contains
+                               two widgets that inform on 1)
                                methods used to obtain the data displayed, and
-                               2) the limitations to consider. More details on
+                               2) limitations. More details on
                                this as well as information on how the trials were
-                               identified can be found in the Methods page.
+                               identified can be found in the Methods page [@DELWEN: link?].
                                <br>
                                <br>More information on the development of trial
                                cohorts displayed in this dashboard can be found
@@ -185,7 +184,7 @@ faq_page <- tabPanel(
                                value = "faqPanels_MoreMethods",
                                style = "default")),
     bsCollapse(id = "faqPanels_Updates",
-               bsCollapsePanel(strong("Will the dashboard be continuously updated?"),
+               bsCollapsePanel(strong("How will the dashboard be maintained and updated?"),
                                p(HTML("The data displayed in this dashboard is
                                       based on two previously developed cohorts
                                       of clinical trials and associated results
@@ -194,7 +193,7 @@ faq_page <- tabPanel(
                                       and checks, making it difficult to update
                                       the dashboard on regular basis. However,
                                       a follow-up assessment of UMC’s progress
-                                      is planned in the future.")),
+                                      is planned for the future.")),
                                value = "faqPanels_Updates",
                                style = "default")),
     bsCollapse(id = "faqPanels_Contact",
