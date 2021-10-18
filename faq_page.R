@@ -78,8 +78,7 @@ faq_page <- tabPanel(
                                     ClinicalTrials.gov or DRKS, conducted at
                                       a German UMC, completed between 2009 – 2017,
                                       and whose study status is considered \"complete.\".
-                                      Trials may be cross-registered (these trials may
-                                      be counted once for each registry). Trials
+                                      Trials may be cross-registered across registries. Trials
                                       include all interventional studies and are
                                       not limited to investigational medicinal
                                       products trials regulated by the EU's
@@ -98,8 +97,6 @@ faq_page <- tabPanel(
                                       IntoValue1 publication</a> and follow-up
                                       <a href=https://www.medrxiv.org/content/10.1101/2021.08.05.21261624v2>
                                       IntoValue2 preprint</a>.
-                                      
-                                      [@DELWEN: Nico says IV was deduplicated, but I know that at least some duplicate/cross-reg still in for both, so softened the verb.]
                                       <br>
                                       <br><b>For prospective registration
                                       (ClinicalTrials.gov only)</b>, we used a more
