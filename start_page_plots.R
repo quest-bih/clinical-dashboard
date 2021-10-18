@@ -558,7 +558,8 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
             publication_type == "journal publication",
             !is.na(doi),
             ! is.na (publication_date_unpaywall)
-        )
+        ) %>%
+        distinct(doi, .keep_all=TRUE)
 
     dataset$oa_year <- dataset$publication_date_unpaywall %>%
         format("%Y")

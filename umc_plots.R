@@ -790,14 +790,16 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
             publication_type == "journal publication",
             city == umc,
             !is.na(doi)
-        )
+        ) %>%
+        distinct(doi, .keep_all=TRUE)
 
     plot_data_all <- dataset_all %>%
         filter(
             has_publication == TRUE,
             publication_type == "journal publication",
             !is.na(doi)
-        )
+        ) %>%
+        distinct(doi, .keep_all=TRUE)
 
     all_denom <- plot_data_all %>%
         nrow()
