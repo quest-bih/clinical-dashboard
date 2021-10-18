@@ -76,7 +76,7 @@ faq_page <- tabPanel(
                                       included in this dashboard were previously
                                       identified through manual searches. If
                                       several results publications were found
-                                      for a given trial, only the earliest was
+                                      for a given trial, only the earliest, or the one reporting a primary outcome, was
                                       included. The manual searches are described
                                       in more detail <a href=https://doi.org/10.1016/j.jclinepi.2019.06.002>here</a>
                                       and <a href=https://www.medrxiv.org/content/10.1101/2021.08.05.21261624v2>here</a>.
