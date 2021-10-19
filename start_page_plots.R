@@ -763,8 +763,8 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
                 plot_data <- plot_data %>%
                     bind_rows(
                         tribble(
-                            ~x_label, ~gold,                         ~green,                         ~hybrid,        ~sum,
-                            year, round(100*gold_num/year_denom), round(100*green_num/year_denom), round(100*hybrid_num/year_denom), year_denom
+                            ~x_label, ~gold, ~gold_num,                         ~green, ~green_num,                        ~hybrid, ~hybrid_num,        ~sum,
+                            year, round(100*gold_num/year_denom), gold_num, round(100*green_num/year_denom), green_num, round(100*hybrid_num/year_denom), hybrid_num, year_denom
                         )
                     )
             }
@@ -777,7 +777,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
         x = ~x_label,
         y = ~gold,
         name = "Gold",
-        text = ~paste0(gold, "/", sum),
+        text = ~paste0(gold_num, "/", sum),
         type = 'bar',
         marker = list(
             color = color_palette[3],
@@ -790,7 +790,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
         add_trace(
             y = ~green,
             name = "Green",
-            text = ~paste0(green, "/", sum),
+            text = ~paste0(green_num, "/", sum),
             marker = list(
                 color = color_palette[8],
                 line = list(
@@ -802,7 +802,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
         add_trace(
             y = ~hybrid,
             name = "Hybrid",
-            text = ~paste0(hybrid, "/", sum),
+            text = ~paste0(hybrid_num, "/", sum),
             marker = list(
                 color = color_palette[10],
                 line = list(

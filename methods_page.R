@@ -16,9 +16,10 @@ methods_page <- tabPanel(
                        
     h4(HTML('You can find more information on our methods for individual metrics
     by extending the panels below. You can also find a list of tools used for data
-            collection at the bottom of this page. The \"FAQ\" and \"Why these
-            metrics?\" pages provide more general information about this dashboard
-            and our selection of metrics."')),
+            collection at the bottom of this page. The \"Trial Characteristics\"
+            page provides an overview of the characteristics of trials included
+            in the dashboard. The \"FAQ\" and \"Why these metrics?\" pages provide
+            more general information about this dashboard and our selection of metrics.')),
     
     h4(style = "margin-left:0cm; color: purple",
        HTML("More information on the overall aim and methodology can be
@@ -28,10 +29,11 @@ methods_page <- tabPanel(
     h3("Identification of clinical trials"),
     bsCollapse(id = "methodsPanels_IdentificationTrials",
                bsCollapsePanel(strong("Identification of clinical trials"),
-                               p(HTML("With the exception of summary results
-                               reporting in EUCTR, the data presented in this
-                               dashboard is based on a previously developed dataset,
-                               IntoValue. This dataset contains data on clinical
+                               p(HTML("The data in this dashboard is based on 3
+                               data sources:<br>
+                               <br>1. Two previously developed cohorts of clinial
+                               trials, referred to as the <b>\"IntoValue\" dataset</b>.
+                               This dataset contains data on clinical
                                trials conducted at one of 35 German UMCs and registered
                                on ClinicalTrials.gov and/or the German Clinical Trials
                                Registry (DRKS). Trials were associated with a German UMC
@@ -42,8 +44,8 @@ methods_page <- tabPanel(
                                product trials, as regulated by the EU's Clinical Trials
                                Directive or Germany's Arzneimittelgesetz (AMG) or Novelle
                                des Medizinproduktegesetzes (MPG). All trials were
-                               reported as complete between 2009 and 2017 on the
-                               trial registry at the time of data collection. The
+                               considered as \"complete\" between 2009 and 2017 per
+                               study status in the registry at the time of data collection. The
                                dataset includes the results of both automated extractions
                                from registries (e.g., prospective registration) and
                                manual searches (e.g., timely reporting). The full IntoValue
@@ -53,8 +55,7 @@ methods_page <- tabPanel(
                                be found in the associated (<a href=https://doi.org/10.1016/j.jclinepi.2019.06.002>IntoValue 1
                                publication</a> and <a href=https://www.medrxiv.org/content/10.1101/2021.08.05.21261624v2
                                >the follow-up IntoValue 2 study</a> now available as a preprint).
-                               <br>
-                               <br>The IntoValue dataset was adapted in the following ways
+                               The IntoValue dataset was adapted in the following ways
                                for the development of this dashboard: (1) we extracted updated
                                registry data from ClinicalTrials.gov and DRKS in
                                May 2021; (2) summary results reporting for trials
@@ -70,11 +71,26 @@ methods_page <- tabPanel(
                                information on how the IntoValue dataset was adapted
                                for use in this dashboard can be found in the
                                <a href=https://github.com/maia-sh/intovalue-data>
-                               associated code repository in GitHub</a>.<br>
-                               
-                               <br>The following German UMCs are not currently included
+                               associated code repository in GitHub</a>.
+                               The following German UMCs are not currently included
                                in this dashboard: Augsburg, Bielefeld, and Oldenburg. These
-                               UMCs were founded after the start of data collection.")),
+                               UMCs were founded after the start of data collection.<br>
+                                
+                            <br>2. <b>Prospective registration in ClinicalTrials.gov</b>: For
+                                      prospective registration in ClinicalTrials.gov,
+                                      we used a more recent cohort of interventional
+                                      trials started between 2006 and 2018, conducted
+                                      at a German UMC, and considered as complete per
+                                      study status in the registry.<br>
+                                      
+                            <br>3. <b>Summary results reporting in the EUCTR</b>: We extracted
+                                      summary results reporting rates in EUCTR from the
+                                      <a href=https://eu.trialstracker.net>EU Trials Tracker</a>.
+                                      We found a sponsor name in the EU Trials Tracker for
+                                      34 of the included UMCs and retrieved historical data
+                                      for the number of due trials. If more than one
+                                      corresponding sponsor name was found for a given UMC,
+                                      we only selected the sponsor name with the most trials.")),
                                value = "methodsPanels_IdentificationTrials",
                                style = "default")),
     
@@ -89,13 +105,17 @@ methods_page <- tabPanel(
                         adds transparency and accountability, and helps protect against outcome switching.",
                              
                              "This analysis was limited to trials registered in ClinicalTrials.gov and/or
-                             DRKS with a start date given in the registry. To assess whether a
-                             study was prospectively registered, we compared the date the study was
-                             first submitted to the registry with the start date given in the registry.
-                             We defined a trial to be prospectively registered if the trial was registered in the
-                             same or a previous month to the trial start date, as some registrations provide
-                             only a start month rather than an exact date. Note for the One UMC page: in
-                             case there were no trials for a given UMC and completion year (denominator = 0),
+                             DRKS with a start date given in the registry. For prospective registration, we
+                             used two data sources: 1) for DRKS, the \"IntoValue\" cohort, and 2) for
+                             ClinicalTrials.gov, a more recent cohort of interventional trials started
+                             between 2006 and 2018, conducted at a German UMC, and completed per study
+                             status in the registry. To assess whether a study was prospectively registered,
+                             we compared the date the study was first submitted to the registry with the
+                             start date given in the registry. We defined a trial to be prospectively
+                             registered if the trial was registered in the same or a previous month to the
+                             trial start date, as some registrations provide only a start month rather than
+                             an exact date. Note for the One UMC page: in case there were no trials for a
+                             given UMC and completion year (denominator = 0),
                              the data point for this completion year is omitted in the plot.",
                              
                              "Trial registration was assessed for clinical trials registered in
@@ -121,10 +141,10 @@ methods_page <- tabPanel(
                              open source R sripts</a> to detect TRNs. Our regular-expression-based
                              approach searches text strings for matches to TRN patterns for all PubMed-indexed
                              and ICTRP-network registries. More information on this package and its
-                             application can be found in this preprint [enter DOI to TRN paper]. This
-                             analysis was limited to trials registered in ClinicalTrials.gov and/or DRKS
-                             for which a journal publication was found. The analysis was further restricted
-                             to publications indexed in PubMed (detection of TRN in abstract) and
+                             application can be found in this <a href=https://www.medrxiv.org/content/10.1101/2021.08.23.21262478v1>
+                             preprint</a>. This analysis was limited to trials registered in ClinicalTrials.gov
+                             and/or DRKS for which a journal publication was found. The analysis was further
+                             restricted to publications indexed in PubMed (detection of TRN in abstract) and
                              publications for which we could obtain the full text (detection of TRN in
                              full text).'),
                              

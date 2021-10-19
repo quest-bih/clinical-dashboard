@@ -477,10 +477,10 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
         plot_data <- plot_data %>%
             bind_rows(
                 tribble(
-                    ~x_label, ~colour, ~percentage, ~sum, ~numer,
-                    umc, "Gold", round(100*umc_gold/umc_denom, digits=1), 100-round(100*umc_sum/umc_denom), umc_gold,
-                    umc, "Green", round(100*umc_green/umc_denom, digits=1), 100-round(100*umc_sum/umc_denom), umc_green,
-                    umc, "Hybrid", round(100*umc_hybrid/umc_denom, digits=1), 100-round(100*umc_sum/umc_denom), umc_hybrid
+                    ~x_label, ~colour, ~percentage,                       ~sum,      ~numer, ~sort,
+                    umc, "Gold", round(100*umc_gold/umc_denom, digits=1), umc_denom, umc_gold, 1-(umc_gold + umc_green + umc_hybrid)/umc_denom,
+                    umc, "Green", round(100*umc_green/umc_denom, digits=1),umc_denom, umc_green, 1-(umc_gold + umc_green + umc_hybrid)/umc_denom,
+                    umc, "Hybrid", round(100*umc_hybrid/umc_denom, digits=1), umc_denom, umc_hybrid, 1-(umc_gold + umc_green + umc_hybrid)/umc_denom
                 )
             )
     
@@ -488,12 +488,12 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
 
     plot_data$x_label <- factor(
         plot_data$x_label,
-        levels = unique(plot_data$x_label)[order(plot_data$percentage, decreasing=TRUE)]
+        levels = unique(plot_data$x_label)[order(plot_data$sort, decreasing=TRUE)]
     )
 
     plot_ly(
         plot_data,
-        x = ~reorder(x_label, sum),
+        x = ~reorder(x_label, sort),
         color = ~colour,
         text = ~paste0(numer, "/", sum),
         y = ~percentage,
