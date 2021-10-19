@@ -162,7 +162,9 @@ server <- function (input, output, session) {
                        on the associated widgets. For more detailed information
                        on the methods and underlying datasets used to calculate
                        the metrics displayed in this dashboard, visit the Methods
-                       and Datasets pages. The \"FAQ\" and \"Why these metrics?\"
+                       and Datasets pages. The \"Trial Characteristics\" page
+                       provides an overview of the characteristics of trials included
+                       in the dashboard.The \"FAQ\" and \"Why these metrics?\"
                        pages provide more general information about this
                        dashboard and our selection of metrics."),
                     h3(style = "margin-left:0cm; color: purple",
