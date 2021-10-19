@@ -1910,8 +1910,10 @@ server <- function (input, output, session) {
         make_datatable(iv_umc)
     })
 
-                                        # Trial characteristics table #
+                                        # Trial characteristics tables #
     output$trial_characteristics_table <- render_gt(trial_characteristics)
+    
+    output$pros_reg_trial_characteristics_table <- render_gt(pros_reg_trial_characteristics)
     
 }
 
