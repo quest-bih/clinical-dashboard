@@ -127,6 +127,33 @@ server <- function (input, output, session) {
         }
     )
 
+    observeEvent(
+        input$link_to_methods, {
+            updateTabsetPanel(
+                session, "navbarTabs",
+                selected = "tabMethods"
+            )
+        }
+    )
+
+    observeEvent(
+        input$link_to_methods2, {
+            updateTabsetPanel(
+                session, "navbarTabs",
+                selected = "tabMethods"
+            )
+        }
+    )
+
+    observeEvent(
+        input$link_to_why_these_metrics, {
+            updateTabsetPanel(
+                session, "navbarTabs",
+                selected = "tabWhy"
+            )
+        }
+    )
+
     ## Dynamically generate options for UMC drop-down menu
 
     output$startpage <- renderUI({

@@ -131,8 +131,9 @@ faq_page <- tabPanel(
                                       only applies to trials with a publication and for
                                       which we could obtain the full-text. You can
                                       find the denominator used for each metric in
-                                      the relevant section of the Methods page
-                                      [TODO: ADD LINK].")),
+                                      the relevant section of the "),
+                                 actionLink("link_to_methods", "Methods Page"),
+                                 HTML(".")),
                                value = "faqPanels_ApplicableAllTrials",
                                style = "default")),
     bsCollapse(id = "faqPanels_SelectionPractices",
@@ -141,7 +142,9 @@ faq_page <- tabPanel(
                                       for clinical trial registration and
                                       reporting that are recommended or
                                       required by ethical or regulatory bodies.
-                                      In the <b>“Why these metrics?”</b> page [TODO: ADD LINK],
+                                      In the "),
+                                 actionLink("link_to_why_these_metrics", "Why these metrics?"),
+                                 HTML(" page,
                                       you can find an infographic which contextualizes
                                       included research practices to relevant
                                       regulations and ethical guidelines.")),
@@ -193,7 +196,9 @@ faq_page <- tabPanel(
                                methods used to obtain the data displayed, and
                                2) limitations. More details on this as well as
                                information on how the trials were identified can
-                               be found in the Methods page [TODO: ADD LINK].
+                               be found in the "),
+                               actionLink("link_to_methods2", "Methods Page"),
+                               HTML(".
                                <br>
                                <br>More information on the development of trial
                                cohorts displayed in this dashboard can be found
