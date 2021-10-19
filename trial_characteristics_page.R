@@ -100,6 +100,9 @@ pros_reg_data <- read_csv(
     "data/prospective-reg-ctgov-2018-trials.csv"
 )
 
+pros_reg_data_umc <- pros_reg_data %>%
+    mutate(city = strsplit(as.character(cities), " ")) %>%
+    tidyr::unnest(city)
 
 pros_reg_trial_characteristics <- pros_reg_data %>%
 
