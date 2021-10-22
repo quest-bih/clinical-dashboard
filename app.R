@@ -179,21 +179,21 @@ server <- function (input, output, session) {
                        The dashboard is a pilot and continues to be updated.
                        More metrics may be added in the future."),
                     h4(style = "margin-left:0cm",
-                       "The \"Start page\" displays the average data across all
-                       included UMCs. The \"All UMCs\" page displays the data
-                       of all UMCs side-by-side. The \"One UMC\" page allows you
+                       HTML("The <i>Start page</i> displays the average data across all
+                       included UMCs. The <i>All UMCs</i> page displays the data
+                       of all UMCs side-by-side. The <i>One UMC</i> page allows you
                        to focus on any given UMC by selecting it in the drop-down
                        menu. The data for this UMC is then contextualized to the
                        average of all included UMCs. Besides each plot, you can
                        find an overview of the methods and limitations by clicking
                        on the associated widgets. For more detailed information
                        on the methods and underlying datasets used to calculate
-                       the metrics displayed in this dashboard, visit the Methods
-                       and Datasets pages. The \"Trial Characteristics\" page
+                       the metrics displayed in this dashboard, visit the <i>Methods</i>
+                       and <i>Datasets</i> pages. The <i>Trial Characteristics</i> page
                        provides an overview of the characteristics of trials included
-                       in the dashboard.The \"FAQ\" and \"Why these metrics?\"
+                       in the dashboard.The <i>FAQ</i> and <i>Why these metrics?</i>
                        pages provide more general information about this
-                       dashboard and our selection of metrics."),
+                       dashboard and our selection of metrics.")),
                     h3(style = "margin-left:0cm; color: purple",
                        "More information on the overall aim and methodology can be
                        found in the associated publication [enter DOI]. "),
