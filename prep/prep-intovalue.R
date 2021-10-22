@@ -44,3 +44,13 @@ iv_all %>%
 
 iv_umc %>%
     write_csv(here("data", "ct-dashboard-intovalue-umc.csv"))
+
+## Get prospective registration data for ClinicalTrials.gov (only)
+prop_reg_ctgov <- read_csv("https://raw.githubusercontent.com/maia-sh/intovalue-data/ctgov-2018/data/ctgov-2018/prospective-reg-ctgov-2018-trials.csv")
+prop_reg_ctgov %>%
+    write_csv(here("data", "prospective-reg-ctgov-2018-trials.csv"))
+
+## Read IV lookup table
+lookup_table <- read_csv("https://zenodo.org/record/5141343/files/iv_data_lookup_registries.csv?download=1")
+lookup_table %>%
+    write_csv(here("data", "iv_data_lookup_registries.csv"))

@@ -920,7 +920,7 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
             upperlimit <- max(year_upperlimit, upperlimit)
         }
         
-        ylabel <- "Number of publications"
+        ylabel <- "Paywalled publications"
         
         plot_ly(
             plot_data,
@@ -1013,7 +1013,7 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
         }
         
         upperlimit <- 105
-        ylabel <- "Percentage of publications (%)"
+        ylabel <- "Paywalled publications (%)"
         
         plot_ly(
             plot_data,

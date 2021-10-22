@@ -83,7 +83,7 @@ trial_characteristics <- iv_all %>%
   # Move stats legend to each line
   add_stat_label() %>%
 
-  modify_caption("**Characteristics of German UMC-conducted trials** A trial was considered randomized if allocation included randomization. Trials considered to be conducted by a German UMC if the UMC is in the `sponsors`, `overall officials`, or `responsible parties` from ClinicalTrials.gov, or any `addresses` from DRKS. 'Unknowns' are not counted in the denominator for percentages.") %>%
+  modify_caption("**Characteristics of German UMC-conducted trials** A trial was considered randomized if allocation included randomization. Trials were considered to be conducted by a German UMC if the UMC was listed in `sponsors`, `overall officials`, or `responsible parties` in ClinicalTrials.gov, or in any `addresses` in DRKS. 'Unknowns' are not counted in the denominator for percentages.") %>%
 
   bold_labels() %>%
 
@@ -167,7 +167,7 @@ pros_reg_trial_characteristics <- pros_reg_data %>%
   # Move stats legend to each line
   add_stat_label() %>%
 
-  modify_caption("**Characteristics of German UMC-conducted trials** A trial was considered randomized if allocation included randomization. Trials considered to be conducted by a German UMC if the UMC is in the `sponsors`, `overall officials`, or `responsible parties` from ClinicalTrials.gov, or any `addresses` from DRKS. 'Unknowns' are not counted in the denominator for percentages.") %>%
+  modify_caption("**Characteristics of German UMC-conducted trials** A trial was considered randomized if allocation included randomization. Trials were considered to be conducted by a German UMC if the UMC was listed in `sponsors`, `overall officials`, or `responsible parties` in ClinicalTrials.gov. 'Unknowns' are not counted in the denominator for percentages.") %>%
 
   bold_labels() %>%
 
@@ -187,7 +187,7 @@ trial_characteristics_page <- tabPanel(
                 12,
                 h1("Characteristics of trials in the IntoValue sample"),
                 gt_output('trial_characteristics_table'),
-                h1("Characteristics of trials in the prospective registration plots"),
+                h1("Characteristics of trials for prospective registration in ClinicalTrials.gov"),
                 gt_output('pros_reg_trial_characteristics_table')
             )
         )

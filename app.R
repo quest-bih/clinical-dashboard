@@ -179,21 +179,21 @@ server <- function (input, output, session) {
                        The dashboard is a pilot and continues to be updated.
                        More metrics may be added in the future."),
                     h4(style = "margin-left:0cm",
-                       "The \"Start page\" displays the average data across all
-                       included UMCs. The \"All UMCs\" page displays the data
-                       of all UMCs side-by-side. The \"One UMC\" page allows you
+                       HTML("The <i>Start page</i> displays the average data across all
+                       included UMCs. The <i>All UMCs</i> page displays the data
+                       of all UMCs side-by-side. The <i>One UMC</i> page allows you
                        to focus on any given UMC by selecting it in the drop-down
                        menu. The data for this UMC is then contextualized to the
                        average of all included UMCs. Besides each plot, you can
                        find an overview of the methods and limitations by clicking
                        on the associated widgets. For more detailed information
                        on the methods and underlying datasets used to calculate
-                       the metrics displayed in this dashboard, visit the Methods
-                       and Datasets pages. The \"Trial Characteristics\" page
+                       the metrics displayed in this dashboard, visit the <i>Methods</i>
+                       and <i>Datasets</i> pages. The <i>Trial Characteristics</i> page
                        provides an overview of the characteristics of trials included
-                       in the dashboard.The \"FAQ\" and \"Why these metrics?\"
+                       in the dashboard.The <i>FAQ</i> and <i>Why these metrics?</i>
                        pages provide more general information about this
-                       dashboard and our selection of metrics."),
+                       dashboard and our selection of metrics.")),
                     h3(style = "margin-left:0cm; color: purple",
                        "More information on the overall aim and methodology can be
                        found in the associated publication [enter DOI]. "),
@@ -764,15 +764,15 @@ server <- function (input, output, session) {
                 column(
                     col_width,
                     metric_box(
-                        title = "Realized potential of Green OA",
+                        title = "Realized potential of green Open Access (OA)",
                         value = paste0(round(100*numer_greenoa/denom_greenoa), "%"),
-                        value_text = paste0("of paywalled or bronze publications from 2020 with the potential for green OA (n=", denom_greenoa, ") have been made available via this route"),
+                        value_text = paste0("of paywalled publications from 2020 with a permission for green OA (n=", denom_greenoa, ") have been made openly accessible via this route"),
                         plot = plotlyOutput('plot_opensci_green_oa', height="300px"),
                         info_id = "infoGreenOA",
-                        info_title = "Realized potential of Green OA",
+                        info_title = "Realized potential of green OA",
                         info_text = greenopenaccess_tooltip,
                         lim_id = "limGreenOA",
-                        lim_title = "Limitations: Realized potential of Green OA",
+                        lim_title = "Limitations: Realized potential of green OA",
                         lim_text = lim_greenopenaccess_tooltip
                     )
                 )
@@ -1362,15 +1362,15 @@ server <- function (input, output, session) {
                     column(
                         col_width,
                         metric_box(
-                            title = "Realized potential of Green OA",
+                            title = "Realized potential of green Open Access (OA)",
                             value = paste0(round(100*numer_greenoa/denom_greenoa), "%"),
-                            value_text = paste0("of paywalled or bronze publications published between ", min_oa_green, " and ", max_oa_green, " with the potential for green OA (n=", denom_greenoa, ") have been made available via this route"),
+                            value_text = paste0("of paywalled publications published between ", min_oa_green, " and ", max_oa_green, " with a permission for green OA (n=", denom_greenoa, ") have been made openly accessible via this route"),
                             plot = plotlyOutput('umc_plot_opensci_green_oa', height="300px"),
                             info_id = "UMCinfoGreenOA",
-                            info_title = "Realized potential of Green OA",
+                            info_title = "Realized potential of green OA",
                             info_text = greenopenaccess_tooltip,
                             lim_id = "UMClimGreenOA",
-                            lim_title = "Limitations: Realized potential of Green OA",
+                            lim_title = "Limitations: Realized potential of green OA",
                             lim_text = lim_greenopenaccess_tooltip
                         )
                     )
@@ -1740,15 +1740,15 @@ server <- function (input, output, session) {
                 column(
                     12,
                     metric_box(
-                        title = "Realized potential of Green OA",
+                        title = "Realized potential of green Open Access (OA)",
                         value = paste0(round(100*numer_greenoa/denom_greenoa), "%"),
-                        value_text = "of paywalled or bronze publications with the potential for green OA have been made available via this route",
+                        value_text = "of paywalled publications with a permission for green OA have been made openly accessible via this route",
                         plot = plotlyOutput('plot_allumc_greenoa', height="300px"),
                         info_id = "infoALLUMCGreenOA",
-                        info_title = "Realized potential of Green OA (All UMCs)",
+                        info_title = "Realized potential of green OA (All UMCs)",
                         info_text = allumc_greenoa_tooltip,
                         lim_id = "limALLUMCGreenOA",
-                        lim_title = "Limitations: Realized potential of Green OA (All UMCs)",
+                        lim_title = "Limitations: Realized potential of green OA (All UMCs)",
                         lim_text = lim_allumc_greenoa_tooltip
                     )
                 )

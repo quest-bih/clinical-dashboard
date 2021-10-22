@@ -1240,7 +1240,7 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
             
         }
         
-        ylabel <- "Number of publications"
+        ylabel <- "Paywalled publications"
         
         plot_ly(
             plot_data,
@@ -1313,7 +1313,7 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
         plot_data$x_label <- fct_relevel(plot_data$x_label, "All", after= Inf)
         
         upperlimit <- 105
-        ylabel <- "Percentage of publications (%)"
+        ylabel <- "Paywalled publications (%)"
         
         plot_ly(
             plot_data,

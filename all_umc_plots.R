@@ -588,7 +588,7 @@ plot_allumc_greenoa <- function (dataset, color_palette, color_palette_bars) {
                 title = '<b>UMC</b>'
             ),
             yaxis = list(
-                title = '<b>Percentage of publications (%)</b>',
+                title = '<b>Paywalled publications (%)</b>',
                 range = c(0, 100)
             ),
             paper_bgcolor = color_palette[9],
