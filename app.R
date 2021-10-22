@@ -50,7 +50,7 @@ source("all_umc_plots.R")
 source("impressum.R", encoding="UTF-8")
 source("start_page.R")
 source("umc_page.R")
-source("all_umcs_page.R")
+## source("all_umcs_page.R")
 source("why_page.R")
 source("methods_page.R")
 source("datasets_page.R")
@@ -64,7 +64,7 @@ ui <- tagList(
     navbarPage(
         "Dashboard for clinical research transparency", theme = shinytheme("flatly"), id = "navbarTabs",
         start_page,
-        all_umcs_page,
+        ## all_umcs_page,
         umc_page,
         why_page,
         trial_characteristics_page,
@@ -101,14 +101,14 @@ server <- function (input, output, session) {
         }
     )
 
-    observeEvent(
-        input$buttonAllUMCs, {
-            updateTabsetPanel(
-                session, "navbarTabs",
-                selected = "tabAllUMCs"
-            )
-        }
-    )
+    ## observeEvent(
+    ##     input$buttonAllUMCs, {
+    ##         updateTabsetPanel(
+    ##             session, "navbarTabs",
+    ##             selected = "tabAllUMCs"
+    ##         )
+    ##     }
+    ## )
     
     observeEvent(
         input$buttonMethods, {
@@ -181,9 +181,8 @@ server <- function (input, output, session) {
                        The dashboard is a pilot and continues to be updated.
                        More metrics may be added in the future."),
                     h4(style = "margin-left:0cm",
-                       HTML("The <i>Start page</i> displays data across all
-                       included UMCs. The <i>All UMCs</i> page displays the data
-                       of all UMCs side-by-side. The <i>One UMC</i> page allows you
+                       HTML("The <i>Start page</i> displays the average data across all
+                       included UMCs. The \"One UMC\" page allows you
                        to focus on any given UMC by selecting it in the drop-down
                        menu. The data for this UMC is then contextualized to that
                        across all included UMCs. Besides each plot, you can
@@ -206,11 +205,11 @@ server <- function (input, output, session) {
                     hr(),
                     br(),
                     br(),
-                    actionButton(
-                        style = "color: white; background-color: #aa1c7d;",
-                        'buttonUMC',
-                        'See one UMC'
-                    ),
+                    ## actionButton(
+                    ##     style = "color: white; background-color: #aa1c7d;",
+                    ##     'buttonUMC',
+                    ##     'See one UMC'
+                    ## ),
                     actionButton(
                         style = "color: white; background-color: #aa1c7d;",
                         'buttonAllUMCs',
