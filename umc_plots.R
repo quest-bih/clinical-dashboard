@@ -1145,6 +1145,19 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
             ! is.na(publication_date_unpaywall)
         )
     
+    umc_denom <- oa_set %>%
+        filter(
+            city == umc
+        ) %>%
+        nrow()
+    
+    umc_numer <- oa_set %>%
+        filter(
+            city == umc,
+            color_green_only == "green"
+        ) %>%
+        nrow()
+    
     all_denom <- oa_set_all %>%
         nrow()
     
@@ -1163,21 +1176,7 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
             ! is.na(publication_date_unpaywall)
         )
     
-    #Again use the denominator for the percentage plot
-    umc_denom <- oa_set %>%
-        filter(
-            city == umc
-        ) %>%
-        nrow()
-    
-    umc_numer <- oa_set %>%
-        filter(
-            city == umc,
-            color_green_only == "green"
-        ) %>%
-        nrow()
-    
-    #Again use the denominator for the absolute number plot
+    #Denominator for the absolute number plot
     
     if (absnum) {
 
@@ -1221,7 +1220,7 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
             umc_no_data <- oa_set_abs %>%
                 filter(
                     city == umc,
-                    color == "bronze" | color == "closed",
+                    color == "closed",
                     is.na(is_closed_archivable),
                     oa_year == year
                 ) %>%
