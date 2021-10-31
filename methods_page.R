@@ -419,14 +419,14 @@ lim_openaccess_tooltip <- strwrap("Unpaywall only stores information for publica
 greenopenaccess_tooltip <- strwrap('This metric measures how many paywalled publications
                             with the potential to be archived in a repository have
                             been made openly accessible via this route (green OA).
-                            Clicking on the toggle shows that many paywalled 
-                            publications have a self-archiving permission and could
-                            therefore be made openly accessible via this route.
-                            This analysis
-                            was limited to trials with a journal publication and
-                            a DOI that were resolved in Unpaywall. In a first step,
-                            we queried the Unpaywall API to identify publications
-                            that are only accessible in a repository (Green OA only).
+                            Clicking on the toggle shows that many publications
+                            behind a paywall have a permission for self-archiving
+                            and could therefore be made openly accessible via this route
+                            (light green). This analysis was limited to trials with
+                            a journal publication and a DOI that were resolved in
+                            Unpaywall. In a first step, we queried the Unpaywall
+                            API to identify publications that are only accessible
+                            in a repository (Green OA only).
                             Next, we identified how many paywalled publications
                             could technically be made openly accessible based on
                             self-archiving permissions. We obtained this information
