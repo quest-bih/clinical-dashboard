@@ -1284,6 +1284,7 @@ server <- function (input, output, session) {
 
             ## Date range for OA
             min_oa <- oa_set %>%
+                filter(city == input$selectUMC) %>%
                 select(publication_date) %>%
                 arrange(publication_date) %>%
                 slice_head() %>%
@@ -1291,6 +1292,7 @@ server <- function (input, output, session) {
                 format("%Y")
 
             max_oa <- oa_set %>%
+                filter(city == input$selectUMC) %>%
                 select(publication_date) %>%
                 arrange(publication_date) %>%
                 slice_tail() %>%
@@ -1321,6 +1323,7 @@ server <- function (input, output, session) {
 
             ## Date range for Green OA
             min_oa_green <- oa_set_green %>%
+                filter(city == input$selectUMC) %>%
                 select(publication_date) %>%
                 arrange(publication_date) %>%
                 slice_head() %>%
@@ -1328,6 +1331,7 @@ server <- function (input, output, session) {
                 format("%Y")
 
             max_oa_green <- oa_set_green %>%
+                filter(city == input$selectUMC) %>%
                 select(publication_date) %>%
                 arrange(publication_date) %>%
                 slice_tail() %>%
