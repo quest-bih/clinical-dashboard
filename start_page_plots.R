@@ -893,7 +893,7 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
             
             all_no_data <- oa_set_abs %>%
                 filter(
-                    color == "bronze" | color == "closed",
+                    color == "closed",
                     is.na(is_closed_archivable),
                     oa_year == year
                 ) %>%

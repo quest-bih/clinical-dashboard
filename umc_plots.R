@@ -1221,7 +1221,7 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
             umc_no_data <- oa_set_abs %>%
                 filter(
                     city == umc,
-                    color == "bronze" | color == "closed",
+                    color == "closed",
                     is.na(is_closed_archivable),
                     oa_year == year
                 ) %>%
