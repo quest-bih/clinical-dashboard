@@ -438,8 +438,7 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
             has_publication == TRUE,
             publication_type == "journal publication",
             !is.na(doi)
-        ) %>%
-        distinct(doi, .keep_all=TRUE)
+        )
 
     plot_data <- tribble (
         ~x_label, ~colour, ~percentage

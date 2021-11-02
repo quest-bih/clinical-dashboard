@@ -842,7 +842,8 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
             !is.na(doi),
             is_closed_archivable == TRUE | color_green_only == "green",
             ! is.na (publication_date_unpaywall)
-        )
+        ) %>%
+        distinct(doi, .keep_all=TRUE)
 
     oa_set$oa_year <- oa_set$publication_date_unpaywall %>%
         format("%Y")
@@ -854,7 +855,8 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
             publication_type == "journal publication",
             !is.na(doi),
             ! is.na (publication_date_unpaywall)
-        )
+        ) %>%
+        distinct(doi, .keep_all=TRUE)
     
     oa_set_abs$oa_year <- oa_set_abs$publication_date_unpaywall %>%
         format("%Y")
