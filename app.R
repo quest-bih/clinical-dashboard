@@ -694,7 +694,8 @@ server <- function (input, output, session) {
                 publication_type == "journal publication",
                 ! is.na(doi),
                 ! is.na(publication_date_unpaywall)
-            )
+            ) %>%
+            distinct(doi, .keep_all=TRUE)
 
         oa_set$oa_year <- oa_set$publication_date_unpaywall %>%
             format("%Y")
@@ -717,9 +718,10 @@ server <- function (input, output, session) {
                 has_publication == TRUE,
                 publication_type == "journal publication",
                 ! is.na(doi),
-                is_closed_archivable == TRUE | color_green_only == "green",
-                ! is.na(publication_date_unpaywall)
-            )
+                ! is.na(publication_date_unpaywall),
+                is_closed_archivable == TRUE | color_green_only == "green"
+            ) %>%
+            distinct(doi, .keep_all=TRUE)
 
         oa_set_green$oa_year <- oa_set_green$publication_date_unpaywall %>%
             format("%Y")
@@ -1266,7 +1268,8 @@ server <- function (input, output, session) {
                 filter(
                     has_publication == TRUE,
                     publication_type == "journal publication",
-                    ! is.na(doi)
+                    ! is.na(doi),
+                    ! is.na(publication_date_unpaywall)
                 )
 
             all_numer_oa <- oa_set %>%
@@ -1274,27 +1277,31 @@ server <- function (input, output, session) {
                     city == input$selectUMC,
                     color == "gold" | color == "green" | color == "hybrid"
                     ) %>%
+                distinct(doi, .keep_all = TRUE) %>%
                 nrow()
 
             all_denom_oa <- oa_set %>%
                 filter(
                     city == input$selectUMC
                     ) %>%
+                distinct(doi, .keep_all = TRUE) %>%
                 nrow()
 
             ## Date range for OA
             min_oa <- oa_set %>%
                 filter(city == input$selectUMC) %>%
-                select(publication_date) %>%
-                arrange(publication_date) %>%
+                distinct(doi, .keep_all = TRUE) %>%
+                select(publication_date_unpaywall) %>%
+                arrange(publication_date_unpaywall) %>%
                 slice_head() %>%
                 pull() %>%
                 format("%Y")
 
             max_oa <- oa_set %>%
                 filter(city == input$selectUMC) %>%
-                select(publication_date) %>%
-                arrange(publication_date) %>%
+                distinct(doi, .keep_all = TRUE) %>%
+                select(publication_date_unpaywall) %>%
+                arrange(publication_date_unpaywall) %>%
                 slice_tail() %>%
                 pull() %>%
                 format("%Y")
@@ -1305,6 +1312,7 @@ server <- function (input, output, session) {
                     has_publication == TRUE,
                     publication_type == "journal publication",
                     ! is.na(doi),
+                    ! is.na(publication_date_unpaywall),
                     is_closed_archivable == TRUE | color_green_only == "green"
                 )
             
@@ -1312,6 +1320,7 @@ server <- function (input, output, session) {
                 filter(
                     city == input$selectUMC
                     ) %>%
+                distinct(doi, .keep_all = TRUE) %>%
                 nrow()
             
             numer_greenoa <- oa_set_green %>%
@@ -1319,21 +1328,24 @@ server <- function (input, output, session) {
                     city == input$selectUMC,
                     color_green_only == "green"
                     ) %>%
+                distinct(doi, .keep_all = TRUE) %>%
                 nrow()
 
             ## Date range for Green OA
             min_oa_green <- oa_set_green %>%
                 filter(city == input$selectUMC) %>%
-                select(publication_date) %>%
-                arrange(publication_date) %>%
+                distinct(doi, .keep_all = TRUE) %>%
+                select(publication_date_unpaywall) %>%
+                arrange(publication_date_unpaywall) %>%
                 slice_head() %>%
                 pull() %>%
                 format("%Y")
 
             max_oa_green <- oa_set_green %>%
                 filter(city == input$selectUMC) %>%
-                select(publication_date) %>%
-                arrange(publication_date) %>%
+                distinct(doi, .keep_all = TRUE) %>%
+                select(publication_date_unpaywall) %>%
+                arrange(publication_date_unpaywall) %>%
                 slice_tail() %>%
                 pull() %>%
                 format("%Y")
@@ -1689,8 +1701,10 @@ server <- function (input, output, session) {
             filter(
                 has_publication == TRUE,
                 publication_type == "journal publication",
-                ! is.na(doi)
-            )
+                ! is.na(doi),
+                ! is.na(publication_date_unpaywall)
+            ) %>%
+            distinct(doi, .keep_all = TRUE)
         
         all_numer_oa <- oa_set %>%
             filter(
@@ -1708,8 +1722,10 @@ server <- function (input, output, session) {
                 has_publication == TRUE,
                 publication_type == "journal publication",
                 ! is.na(doi),
+                ! is.na(publication_date_unpaywall),
                 is_closed_archivable | color_green_only == "green"
-            )
+            ) %>%
+            distinct(doi, .keep_all = TRUE)
 
         denom_greenoa <- oa_set_green %>%
             nrow()
