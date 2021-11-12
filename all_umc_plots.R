@@ -437,7 +437,8 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
         filter(
             has_publication == TRUE,
             publication_type == "journal publication",
-            !is.na(doi)
+            !is.na(doi),
+            !is.na(publication_date_unpaywall)
         )
 
     plot_data <- tribble (
@@ -451,6 +452,7 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
                 color == "gold",
                 city == umc
             ) %>%
+            distinct(doi, .keep_all = TRUE) %>%
             nrow()
 
         umc_green <- dataset %>%
@@ -458,6 +460,7 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
                 color == "green",
                 city == umc
             ) %>%
+            distinct(doi, .keep_all = TRUE) %>%
             nrow()
 
         umc_hybrid <- dataset %>%
@@ -465,12 +468,14 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
                 color == "hybrid",
                 city == umc
             ) %>%
+            distinct(doi, .keep_all = TRUE) %>%
             nrow()
 
         umc_sum <- umc_gold + umc_green + umc_hybrid
 
         umc_denom <- dataset %>%
             filter(city == umc) %>%
+            distinct(doi, .keep_all = TRUE) %>%
             nrow()
 
         plot_data <- plot_data %>%
@@ -532,6 +537,7 @@ plot_allumc_greenoa <- function (dataset, color_palette, color_palette_bars) {
             has_publication == TRUE,
             publication_type == "journal publication",
             !is.na(doi),
+            !is.na(publication_date_unpaywall),
             is_closed_archivable == TRUE | color_green_only == "green"
         )
     
@@ -546,12 +552,14 @@ plot_allumc_greenoa <- function (dataset, color_palette, color_palette_bars) {
                 city == umc,
                 color_green_only == "green"
             ) %>%
+            distinct(doi, .keep_all = TRUE) %>%
             nrow()
 
         umc_denom <- oa_set %>%
             filter(
                 city == umc
             ) %>%
+            distinct(doi, .keep_all = TRUE) %>%
             nrow()
 
         plot_data <- plot_data %>%
