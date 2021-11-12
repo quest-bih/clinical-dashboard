@@ -524,16 +524,16 @@ linkage_tooltip <- strwrap("This metric measures links to the published journal 
                              publication more findable and aids in evidence synthesis. This analysis was
                              limited to trials registered in ClinicalTrials.gov and/or DRKS for which a
                              journal publication was found. The analysis was further restricted to publications
-                             with a DOI or that are indexed in PubMed. We queried the ClinicalTrials.gov and
-                             DRKS APIs to obtain linked publications in these registries. We considered a
+                             with a DOI or that are indexed in PubMed. We used automated methods to download
+                             the relevant fields from ClinicalTrials.gov and DRKS. We considered a
                              publication “linked” if the PMID or DOI was included in the trial registration.
                              More information can be found in the Methods page.")
 
-lim_linkage_tooltip <- strwrap("ClinicalTrials.gov includes a often-used
+lim_linkage_tooltip <- strwrap("ClinicalTrials.gov includes an often-used
                              PMID field for references. In addition, ClinicalTrials.gov automatically
                              indexes publications from PubMed using TRN in the secondary identifier field.
-                             In contrast, DRKS includes references as a free-text field, leaving trialists
-                             to decide whether to enter any publication identifiers. Finally, this analysis
+                             In contrast, DRKS includes references as a free-text field, leaving it up to
+                             trialists to enter publication identifiers. Finally, this analysis
                              was limited to trials with a journal publication which have a DOI or are
                              indexed in PubMed.")
 
@@ -558,14 +558,17 @@ lim_sumres_tooltip <- strwrap("<i>Summary results reporting in the EUCTR</i>: th
                             to trials listed in the EU Trials Tracker with a sponsor name corresponding
                             to one of the UMCs included in this dashboard. If more than one corresponding
                             sponsor name was found for a given UMC, we only selected the sponsor name
-                            with the most trials. Thus, some trials may have been missed for these UMCs.")
+                            with the most trials. Thus, some trials may have been missed for these UMCs.
+                              <i>Summary results reporting in DRKS</i>: in the absence of structured field
+                              in the registry, we detected summary results based on the presence on keywords
+                              in the reference title. We did not perform a manual review of these results.")
 
 prereg_tooltip <- strwrap("This metric reflects whether a clinical trial was registered before the
                         start date of the study. Prospective registration makes trial specifications,
                         including primary and secondary outcomes, publicly available before study start,
                         adds transparency and accountability, and helps protect against outcome switching.
                         This analysis was limited to trials registered in ClinicalTrials.gov and/or DRKS
-                        with a start date given in the registry (select registry in the drop-down menu).
+                        with a start date given in the registry. Select the registry in the drop-down menu.
                         We defined a trial to be prospectively registered if the trial was registered
                         in the same or a previous month to the trial start date, as some registrations
                         provide only a start month rather than an exact date. More information can be
@@ -583,11 +586,12 @@ timpub_tooltip2 <- strwrap("This metric measures how many clinical trials report
                              2 years of trial completion as (a) a journal publication and 
                              (b) summary results in the registry. A fast dissemination of trial
                              results is crucial to make the evidence gained in those trials available.
-                             This analysis was limited to trials registered in ClinicalTrials.gov and/or DRKS 
-                             (the \"IntoValue\" dataset). Posting of summary results in the registry
-                             was extracted from ClinicalTrials.gov and DRKS via automated methods. A
-                             manual search for published results was conducted, searching the
-                             registry, PubMed, and Google. If multiple results publications were found,
+                             This analysis was limited to trials registered in ClinicalTrials.gov and/or DRKS. 
+                             <i>Posting of summary results in the registry</i>: we extracted this
+                             information from ClinicalTrials.gov and DRKS via automated methods.
+                             <i>Earliest journal publication</i>: a manual search for published results
+                             was conducted, searching the registry, PubMed, and Google. If multiple results
+                             publications were found,
                              only the earliest was included. Publication dates were manually entered during
                              publication searches. When calculating the 2-year reporting rates, we only
                              considered trials for which we had 2 years follow-up time since trial completion.
@@ -599,20 +603,26 @@ paste(collapse = " ")
 lim_timpub_tooltip2 <- strwrap("Only the earliest evidence of results reporting from trial completion
                              was considered for both reporting of summary results in the registry and
                              as a journal publication. Thus, the data presented
-                             does not reflect all result publications of a given trial. Moreover, some of
-                             the publications may have been missed in the manual search procedure as the
-                             search was restricted to a limited number of scientific databases and the 
-                             responsible parties were not contacted. The data presented relies on the
-                             information in registry entries being accurate and complete.")
+                             does not reflect all submitted results or publications of a given trial.
+                             <i>Results as a journal publication</i>: some of the publications may have
+                             been missed in the manual search procedure as the search was restricted to
+                             a limited number of scientific databases and the 
+                             responsible parties were not contacted. <i>Posting of summary results in
+                             the registry</i>: in the absence of structured field in DRKS, we detected
+                             summary results in this registry based on the presence on keywords in the
+                             reference title. We did not perform a manual review of these results. The
+                             data presented relies on the information in registry entries being accurate
+                               and complete.")
 
 timpub_tooltip5 <- strwrap("This metric measures how many clinical trials reported results within
                              5 years of trial completion as (a) a journal publication and 
                              (b) summary results in the registry. A fast dissemination of trial
                              results is crucial to make the evidence gained in those trials available.
-                             This analysis was limited to trials registered in ClinicalTrials.gov and/or DRKS 
-                             (the \"IntoValue\" dataset). Posting of summary results in the registry
-                             was extracted from ClinicalTrials.gov and DRKS via automated methods. A
-                             manual search for published results was conducted, searching the
+                             This analysis was limited to trials registered in ClinicalTrials.gov and/or DRKS.
+                             <i>Posting of summary results in the registry</i>: we extracted this
+                             information from ClinicalTrials.gov and DRKS via automated methods.
+                             <i>Earliest journal publication</i>: a manual search for published results
+                             was conducted, searching the
                              registry, PubMed, and Google. If multiple results publications were found,
                              only the earliest was included. Publication dates were manually entered during
                              publication searches. When calculating the 5-year reporting rates, we only
@@ -626,11 +636,16 @@ paste(collapse = " ")
 lim_timpub_tooltip5 <- strwrap("Only the earliest evidence of results reporting from trial completion
                              was considered for both reporting of summary results in the registry and
                              as a journal publication. Thus, the data presented
-                             does not reflect all result publications of a given trial. Moreover, some of
-                             the publications may have been missed in the manual search procedure as the
-                             search was restricted to a limited number of scientific databases and the 
-                             responsible parties were not contacted. The data presented relies on the
-                             information in registry entries being accurate and complete.")
+                             does not reflect all submitted results or publications of a given trial.
+                             <i>Results as a journal publication</i>: some of the publications may have
+                             been missed in the manual search procedure as the search was restricted to
+                             a limited number of scientific databases and the 
+                             responsible parties were not contacted. <i>Posting of summary results in
+                             the registry</i>: in the absence of structured field in DRKS, we detected
+                             summary results in this registry based on the presence on keywords in the
+                             reference title. We did not perform a manual review of these results. The
+                             data presented relies on the information in registry entries being accurate
+                               and complete.")
 
 ## Tooltips for Robustness metrics
 
