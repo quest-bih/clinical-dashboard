@@ -609,7 +609,7 @@ server <- function (input, output, session) {
         }
         
         metric_box(
-            title = "Reporting within 2 years (timely)",
+            title = "Results reporting within 2 years of trial completion (timely)",
             value = timpubval,
             value_text = timpubvaltext,
             plot = plotlyOutput('plot_clinicaltrials_timpub_2a', height="300px"),
@@ -658,7 +658,7 @@ server <- function (input, output, session) {
         }
 
         metric_box(
-            title = "Reporting within 5 years",
+            title = "Results reporting within 5 years of trial completion",
             value = timpubval5a,
             value_text = timpubvaltext5a,
             plot = plotlyOutput('plot_clinicaltrials_timpub_5a', height="300px"),
@@ -1177,7 +1177,7 @@ server <- function (input, output, session) {
         }
         
         metric_box(
-            title = "Reporting within 2 years (timely)",
+            title = "Results reporting within 2 years of trial completion (timely)",
             value = timpubval,
             value_text = timpubvaltext,
             plot = plotlyOutput('umc_plot_clinicaltrials_timpub_2a', height="300px"),
@@ -1228,7 +1228,7 @@ server <- function (input, output, session) {
         }
         
         metric_box(
-            title = "Reporting within 5 years (timely)",
+            title = "Results reporting within 5 years of trial completion",
             value = timpubval,
             value_text = timpubvaltext,
             plot = plotlyOutput('umc_plot_clinicaltrials_timpub_5a', height="300px"),
@@ -1645,9 +1645,9 @@ server <- function (input, output, session) {
                 column(
                     12,
                     metric_box(
-                        title = "Timely Publication (2 years)",
+                        title = "Results reporting within 2 years of trial completion (timely)",
                         value = paste0(round(100*all_numer_timpub/all_denom_timpub), "%"),
-                        value_text = "of clinical trials published results within 2 years",
+                        value_text = "of clinical trials reported results within 2 years",
                         plot = plotlyOutput('plot_allumc_clinicaltrials_timpub', height="300px"),
                         info_id = "infoALLUMCTimPub",
                         info_title = "Timely Publication (All UMCs)",
@@ -1662,9 +1662,9 @@ server <- function (input, output, session) {
                 column(
                     12,
                     metric_box(
-                        title = "Publication within 5 years",
+                        title = "Results reporting within 5 years of trial completion",
                         value = paste0(round(100*all_numer_timpub5a/all_denom_timpub5a), "%"),
-                        value_text = "of clinical trials published results within 5 years",
+                        value_text = "of clinical trials reported results within 5 years",
                         plot = plotlyOutput('plot_allumc_timpub_5a', height="300px"),
                         info_id = "infoALLUMCTimPub5a",
                         info_title = "Publication within 5 years (All UMCs)",
