@@ -789,14 +789,17 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
             has_publication == TRUE,
             publication_type == "journal publication",
             city == umc,
-            !is.na(doi)
-        )
+            !is.na(doi),
+            !is.na(publication_date_unpaywall)
+        ) %>%
+        distinct(doi, .keep_all = TRUE)
 
     plot_data_all <- dataset_all %>%
         filter(
             has_publication == TRUE,
             publication_type == "journal publication",
-            !is.na(doi)
+            !is.na(doi),
+            !is.na(publication_date_unpaywall)
         ) %>%
         distinct(doi, .keep_all=TRUE)
 
@@ -829,48 +832,41 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
 
 
     umc_denom <- plot_data %>%
-        filter(city == umc) %>%
         nrow()
 
     umc_gold <- plot_data %>%
         filter(
-            color == "gold",
-            city == umc
+            color == "gold"
         ) %>%
         nrow()
 
     umc_green <- plot_data %>%
         filter(
-            color == "green",
-            city == umc
+            color == "green"
         ) %>%
         nrow()
 
     umc_hybrid <- plot_data %>%
         filter(
-            color == "hybrid",
-            city == umc
+            color == "hybrid"
         ) %>%
         nrow()
 
     umc_na <- plot_data %>%
         filter(
-            is.na(color),
-            city == umc
+            is.na(color)
         ) %>%
         nrow()
 
     umc_closed <- plot_data %>%
         filter(
-            color == "closed",
-            city == umc
+            color == "closed"
         ) %>%
         nrow()
 
     umc_bronze <- plot_data %>%
         filter(
-            color == "bronze",
-            city == umc
+            color == "bronze"
         ) %>%
         nrow()
 
@@ -883,7 +879,8 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
                 !is.na(doi),
                 ! is.na (publication_date_unpaywall),
                 city == umc
-            )
+            ) %>%
+            distinct(doi, .keep_all = TRUE)
 
         dataset$oa_year <- dataset$publication_date_unpaywall %>%
             format("%Y")
@@ -1131,29 +1128,27 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
             has_publication == TRUE,
             publication_type == "journal publication",
             !is.na(doi),
+            ! is.na(publication_date_unpaywall),
             is_closed_archivable == TRUE | color_green_only == "green",
-            ! is.na(publication_date_unpaywall)
-        )
+            city == umc
+        ) %>%
+        distinct(doi, .keep_all = TRUE)
 
     oa_set_all <- dataset_all %>%
         filter(
             has_publication == TRUE,
             publication_type == "journal publication",
             !is.na(doi),
-            is_closed_archivable == TRUE | color_green_only == "green",
-            ! is.na(publication_date_unpaywall)
+            ! is.na(publication_date_unpaywall),
+            is_closed_archivable == TRUE | color_green_only == "green"
         ) %>%
         distinct(doi, .keep_all=TRUE)
     
     umc_denom <- oa_set %>%
-        filter(
-            city == umc
-        ) %>%
         nrow()
     
     umc_numer <- oa_set %>%
         filter(
-            city == umc,
             color_green_only == "green"
         ) %>%
         nrow()
@@ -1173,8 +1168,10 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
             has_publication == TRUE,
             publication_type == "journal publication",
             !is.na(doi),
-            ! is.na(publication_date_unpaywall)
-        )
+            ! is.na(publication_date_unpaywall),
+            city == umc
+        ) %>%
+        distinct(doi, .keep_all = TRUE)
     
     #Denominator for the absolute number plot
     
@@ -1186,16 +1183,12 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
 
         upperlimit <- 0
 
-        umc_oa_set_abs <- dataset %>%
-            filter(city == umc)
-
-        years <- seq(from=min(umc_oa_set_abs$oa_year, na.rm=TRUE), to=max(umc_oa_set_abs$oa_year, na.rm=TRUE))
+        years <- seq(from=min(oa_set_abs$oa_year, na.rm=TRUE), to=max(oa_set_abs$oa_year, na.rm=TRUE))
 
         for (year in years) {
 
             umc_archived <- oa_set_abs %>%
                 filter(
-                    city == umc,
                     color_green_only == "green",
                     oa_year == year
                 ) %>%
@@ -1203,7 +1196,6 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
             
             umc_can_archive <- oa_set_abs %>%
                 filter(
-                    city == umc,
                     is_closed_archivable == TRUE,
                     oa_year == year
                 ) %>%
@@ -1211,7 +1203,6 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
             
             umc_cant_archive <- oa_set_abs %>%
                 filter(
-                    city == umc,
                     is_closed_archivable == FALSE,
                     oa_year == year
                 ) %>%
@@ -1219,7 +1210,6 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
             
             umc_no_data <- oa_set_abs %>%
                 filter(
-                    city == umc,
                     color == "closed",
                     is.na(is_closed_archivable),
                     oa_year == year
