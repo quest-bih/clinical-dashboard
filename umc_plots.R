@@ -72,12 +72,14 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, dataset_iv_umc
         dataset <- dataset_iv_umc %>%
             filter( ! is.na (start_date) ) %>%
             filter(registry == toggled_registry) %>%
-            mutate(start_year = format(start_date, "%Y"))
+            mutate(start_year = format(start_date, "%Y")) %>%
+            filter(start_year >= 2006)
 
         dataset_all <- dataset_iv_all %>%
             filter( ! is.na (start_date) ) %>%
             filter(registry == toggled_registry) %>%
-            mutate(start_year = format(start_date, "%Y"))
+            mutate(start_year = format(start_date, "%Y")) %>%
+            filter(start_year >= 2006)
 
         years <- seq(from=min(dataset$start_year), to=max(dataset$start_year))
 

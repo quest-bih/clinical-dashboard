@@ -49,7 +49,8 @@ plot_clinicaltrials_prereg <- function (dataset, iv_dataset, toggled_registry, c
         dataset <- iv_dataset %>%
             filter( ! is.na (start_date) ) %>%
             filter(registry == toggled_registry) %>%
-            mutate(start_year = format(start_date, "%Y"))
+            mutate(start_year = format(start_date, "%Y")) %>%
+            filter(start_year >= 2006)
 
         years <- seq(from=min(dataset$start_year), to=max(dataset$start_year))
 
