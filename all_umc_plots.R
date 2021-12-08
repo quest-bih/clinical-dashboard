@@ -133,6 +133,23 @@ plot_allumc_clinicaltrials_trn <- function (dataset, location, color_palette) {
             ) %>%
             nrow()
 
+        umc_numer_both <- dataset %>%
+            filter(
+                city == umc,
+                has_iv_trn_abstract == TRUE & has_iv_trn_ft == TRUE
+            ) %>%
+            nrow()
+
+        umc_both_denom <- dataset %>%
+            filter(city == umc) %>%
+            filter(
+                has_publication == TRUE,
+                publication_type == "journal publication",
+                has_ft | has_pubmed,
+                ! is.na(has_iv_trn_ft) & ! is.na(has_iv_trn_abstract)
+            ) %>%
+            nrow()
+
         if (location == "In abstract") {
             numer <- umc_numer_abs
             denom <- umc_abs_denom
@@ -147,6 +164,11 @@ plot_allumc_clinicaltrials_trn <- function (dataset, location, color_palette) {
         if (location == "In abstract or full-text") {
             numer <- umc_numer_either
             denom <- umc_either_denom
+        }
+
+        if (location == "In abstract and full-text") {
+            numer <- umc_numer_both
+            denom <- umc_both_denom
         }
         
         plot_data <- plot_data %>%

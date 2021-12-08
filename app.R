@@ -1447,7 +1447,8 @@ server <- function (input, output, session) {
                         choices = c(
                             "In abstract",
                             "In full-text",
-                            "In abstract or full-text"
+                            "In abstract or full-text",
+                            "In abstract and full-text"
                         )
                     )
                 )
@@ -1571,6 +1572,27 @@ server <- function (input, output, session) {
                     publication_type == "journal publication",
                     has_ft | has_pubmed,
                     ! is.na(has_iv_trn_ft) | ! is.na(has_iv_trn_abstract)
+                ) %>%
+                nrow()
+
+            all_trn_value_text <- "of trials with a publication reported a trial registration number in the abstract or the full-text"
+            
+        }
+
+        if (input$allumc_trnpub == "In abstract and full-text") {
+
+            all_numer_trn <- iv_all %>%
+                filter(
+                    has_iv_trn_abstract == TRUE & has_iv_trn_ft == TRUE
+                ) %>%
+                nrow()
+
+            all_denom_trn <- iv_all %>%
+                filter(
+                    has_publication == TRUE,
+                    publication_type == "journal publication",
+                    has_ft | has_pubmed,
+                    ! is.na(has_iv_trn_ft) & ! is.na(has_iv_trn_abstract)
                 ) %>%
                 nrow()
 
