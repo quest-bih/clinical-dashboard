@@ -1671,6 +1671,63 @@ server <- function (input, output, session) {
     ## All UMCs: Trial reporting
     output$allumc_reporting <- renderUI({
 
+        wellPanel(
+            style="padding-top: 0px; padding-bottom: 0px;",
+            h2(strong("Trial reporting"), align = "left"),
+            
+            fluidRow(
+                column(
+                    12,
+                    uiOutput("allumcsumres"),
+                    selectInput(
+                        "allumcsumresregistry",
+                        strong("Trial registry"),
+                        choices = c(
+                            "EUCTR",
+                            "ClinicalTrials.gov",
+                            "DRKS"
+                        )
+                    )
+                )
+            ),
+            fluidRow(
+                column(
+                    12,
+                    uiOutput("allumc_2a_pub"),
+                    selectInput(
+                        "allumcreporttype2a",
+                        strong("Reporting type"),
+                        choices = c(
+                            "Summary results or publication",
+                            "Summary results only",
+                            "Publication only"
+                        )
+                    )
+                )
+            ),
+            fluidRow(
+                column(
+                    12,
+                    uiOutput("allumc_5a_pub"),
+                    selectInput(
+                        "allumcreporttype5a",
+                        strong("Reporting type"),
+                        choices = c(
+                            "Summary results or publication",
+                            "Summary results only",
+                            "Publication only"
+                        )
+                    )
+                    
+                )
+            )
+        )
+        
+    })
+
+    ## All UMCs: 2-year reporting
+    output$allumc_2a_pub <- renderUI({
+
         ## Value for timely pub 2a
 
         all_numer_timpub <- iv_all %>%
@@ -1680,9 +1737,47 @@ server <- function (input, output, session) {
             ) %>%
             nrow()
 
+        if (input$allumcreporttype2a == "Summary results only") {
+
+            all_numer_timpub <- iv_all %>%
+                filter(
+                    is_summary_results_2y,
+                    has_followup_2y == TRUE
+                ) %>%
+                nrow()
+        }
+
+        if (input$allumcreporttype2a == "Publication only") {
+
+            all_numer_timpub <- iv_all %>%
+                filter(
+                    is_publication_2y,
+                    has_followup_2y == TRUE
+                ) %>%
+                nrow()
+        }
+
         all_denom_timpub <- iv_all %>%
             filter(has_followup_2y == TRUE) %>%
             nrow()
+
+        metric_box(
+            title = "Results reporting within 2 years of trial completion (timely)",
+            value = paste0(round(100*all_numer_timpub/all_denom_timpub), "%"),
+            value_text = "of clinical trials reported results within 2 years",
+            plot = plotlyOutput('plot_allumc_clinicaltrials_timpub', height="300px"),
+            info_id = "infoALLUMCTimPub",
+            info_title = "Timely Publication (All UMCs)",
+            info_text = allumc_clinicaltrials_timpub_tooltip,
+            lim_id = "limALLUMCTimPub",
+            lim_title = "Limitations: Timely Publication (All UMCs)",
+            lim_text = lim_allumc_clinicaltrials_timpub_tooltip
+        )
+        
+    })
+
+    ## All UMCs: 5-year reporting
+    output$allumc_5a_pub <- renderUI({
 
         ## Value for timely pub 5a
 
@@ -1693,63 +1788,41 @@ server <- function (input, output, session) {
             ) %>%
             nrow()
 
+        if (input$allumcreporttype5a == "Summary results only") {
+
+            all_numer_timpub5a <- iv_all %>%
+                filter(
+                    is_summary_results_5y,
+                    has_followup_5y == TRUE
+                ) %>%
+                nrow()
+        }
+
+        if (input$allumcreporttype5a == "Publication only") {
+
+            all_numer_timpub5a <- iv_all %>%
+                filter(
+                    is_publication_5y,
+                    has_followup_5y == TRUE
+                ) %>%
+                nrow()
+        }
+
         all_denom_timpub5a <- iv_all %>%
             filter(has_followup_5y == TRUE) %>%
             nrow()
 
-        wellPanel(
-            style="padding-top: 0px; padding-bottom: 0px;",
-            h2(strong("Trial reporting"), align = "left"),
-            
-            fluidRow(
-                column(
-                    12,
-                    uiOutput("allumcsumres"),
-                    selectInput(
-                            "allumcsumresregistry",
-                            strong("Trial registry"),
-                            choices = c(
-                                "EUCTR",
-                                "ClinicalTrials.gov",
-                                "DRKS"
-                            )
-                    )
-                )
-            ),
-            fluidRow(
-                column(
-                    12,
-                    metric_box(
-                        title = "Results reporting within 2 years of trial completion (timely)",
-                        value = paste0(round(100*all_numer_timpub/all_denom_timpub), "%"),
-                        value_text = "of clinical trials reported results within 2 years",
-                        plot = plotlyOutput('plot_allumc_clinicaltrials_timpub', height="300px"),
-                        info_id = "infoALLUMCTimPub",
-                        info_title = "Timely Publication (All UMCs)",
-                        info_text = allumc_clinicaltrials_timpub_tooltip,
-                        lim_id = "limALLUMCTimPub",
-                        lim_title = "Limitations: Timely Publication (All UMCs)",
-                        lim_text = lim_allumc_clinicaltrials_timpub_tooltip
-                    )
-                )
-            ),
-            fluidRow(
-                column(
-                    12,
-                    metric_box(
-                        title = "Results reporting within 5 years of trial completion",
-                        value = paste0(round(100*all_numer_timpub5a/all_denom_timpub5a), "%"),
-                        value_text = "of clinical trials reported results within 5 years",
-                        plot = plotlyOutput('plot_allumc_timpub_5a', height="300px"),
-                        info_id = "infoALLUMCTimPub5a",
-                        info_title = "Publication within 5 years (All UMCs)",
-                        info_text = allumc_clinicaltrials_timpub_tooltip5a,
-                        lim_id = "limALLUMCTimPub5a",
-                        lim_title = "Limitations: Publication within 5 years (All UMCs)",
-                        lim_text = lim_allumc_clinicaltrials_timpub_tooltip5a
-                    )
-                )
-            )
+        metric_box(
+            title = "Results reporting within 5 years of trial completion",
+            value = paste0(round(100*all_numer_timpub5a/all_denom_timpub5a), "%"),
+            value_text = "of clinical trials reported results within 5 years",
+            plot = plotlyOutput('plot_allumc_timpub_5a', height="300px"),
+            info_id = "infoALLUMCTimPub5a",
+            info_title = "Publication within 5 years (All UMCs)",
+            info_text = allumc_clinicaltrials_timpub_tooltip5a,
+            lim_id = "limALLUMCTimPub5a",
+            lim_title = "Limitations: Publication within 5 years (All UMCs)",
+            lim_text = lim_allumc_clinicaltrials_timpub_tooltip5a
         )
         
     })
@@ -1962,11 +2035,11 @@ server <- function (input, output, session) {
 
     ## Timely publication
     output$plot_allumc_clinicaltrials_timpub <- renderPlotly({
-        return(plot_allumc_clinicaltrials_timpub(iv_umc, color_palette, color_palette_bars))
+        return(plot_allumc_clinicaltrials_timpub(iv_umc, input$allumcreporttype2a, color_palette, color_palette_bars))
     })
 
     output$plot_allumc_timpub_5a <- renderPlotly({
-        return(plot_allumc_timpub_5a(iv_umc, color_palette, color_palette_bars))
+        return(plot_allumc_timpub_5a(iv_umc, input$allumcreporttype5a, color_palette, color_palette_bars))
     })
 
     ## Open Access
@@ -2002,4 +2075,3 @@ server <- function (input, output, session) {
 
 ## Create Shiny object
 shinyApp(ui, server)
-

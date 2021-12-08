@@ -364,7 +364,7 @@ plot_allumc_clinicaltrials_sumres <- function (dataset, iv_dataset, toggled_regi
 }
 
 ## Timely reporting (2 years)
-plot_allumc_clinicaltrials_timpub <- function (dataset, color_palette, color_palette_bars) {
+plot_allumc_clinicaltrials_timpub <- function (dataset, rt, color_palette, color_palette_bars) {
     
     dataset <- dataset %>%
         filter(has_followup_2y == TRUE)
@@ -381,6 +381,28 @@ plot_allumc_clinicaltrials_timpub <- function (dataset, color_palette, color_pal
                 is_summary_results_2y | is_publication_2y
             ) %>%
             nrow()
+
+        if (rt == "Summary results only") {
+
+            umc_numer <- dataset %>%
+                filter(
+                    city == umc,
+                    is_summary_results_2y
+                ) %>%
+                nrow()
+            
+        }
+
+        if (rt == "Publication only") {
+
+            umc_numer <- dataset %>%
+                filter(
+                    city == umc,
+                    is_publication_2y
+                ) %>%
+                nrow()
+            
+        }
 
         umc_denom <- dataset %>%
             filter(city == umc) %>%
@@ -430,7 +452,7 @@ plot_allumc_clinicaltrials_timpub <- function (dataset, color_palette, color_pal
 
 ## Timely reporting (5a)
 
-plot_allumc_timpub_5a <- function (dataset, color_palette, color_palette_bars) {
+plot_allumc_timpub_5a <- function (dataset, rt, color_palette, color_palette_bars) {
 
     dataset <- dataset %>%
         filter(has_followup_5y == TRUE)
@@ -447,6 +469,28 @@ plot_allumc_timpub_5a <- function (dataset, color_palette, color_palette_bars) {
                 is_summary_results_5y | is_publication_5y
             ) %>%
             nrow()
+
+        if (rt == "Summary results only") {
+
+            umc_numer <- dataset %>%
+                filter(
+                    city == umc,
+                    is_summary_results_5y
+                ) %>%
+                nrow()
+            
+        }
+
+        if (rt == "Publication only") {
+
+            umc_numer <- dataset %>%
+                filter(
+                    city == umc,
+                    is_publication_5y
+                ) %>%
+                nrow()
+            
+        }
 
         umc_denom <- dataset %>%
             filter(city == umc) %>%
