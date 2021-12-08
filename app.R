@@ -1474,6 +1474,60 @@ server <- function (input, output, session) {
         
     })
 
+    output$allumcsumres <- renderUI({
+
+        ## Value for All UMC summary results reporting
+
+        if (input$allumcsumresregistry == "EUCTR") {
+           
+            sumres_percent <- eutt_hist %>%
+                group_by(date) %>%
+                mutate(avg = mean(percent_reported)) %>%
+                slice_head() %>%
+                ungroup() %>%
+                slice_tail() %>%
+                select(avg) %>%
+                pull()
+
+            sumresvaltext <- paste("of due clinical trials registered in EUCTR reported summary results within 1 year (as of:", eutt_date, ")")
+            
+        } else {
+            ## Summary results for CT dot gov and DRKS
+            
+            sumres_numer <- iv_umc %>%
+                filter(
+                    registry == input$allumcsumresregistry,
+                    has_summary_results == TRUE
+                ) %>%
+                nrow()
+            
+            sumres_denom <- iv_umc %>%
+                filter(
+                    registry == input$allumcsumresregistry
+                ) %>%
+                nrow()
+
+            sumres_percent <- 100*sumres_numer/sumres_denom
+
+            sumresvaltext <- paste0("of clinical trials registered in ", input$allumcsumresregistry, " reported summary results")
+            
+        }
+        
+        metric_box(
+            title = "Summary Results Reporting",
+            value = paste0(round(sumres_percent), "%"),
+            value_text = sumresvaltext,
+            plot = plotlyOutput('plot_allumc_clinicaltrials_sumres', height="300px"),
+            info_id = "infoALLUMCSumRes",
+            info_title = "Summary results reporting in EUCTR (All UMCs)",
+            info_text = allumc_clinicaltrials_sumres_tooltip,
+            lim_id = "limALLUMCSumRes",
+            lim_title = "Limitations: Summary results reporting in EUCTR (All UMCs)",
+            lim_text = lim_allumc_clinicaltrials_sumres_tooltip
+        )
+        
+    })
+
     output$prereg_all <- renderUI({
 
         ## Value for prereg
@@ -1617,17 +1671,6 @@ server <- function (input, output, session) {
     ## All UMCs: Trial reporting
     output$allumc_reporting <- renderUI({
 
-        ## Value for All UMC summary results reporting
-           
-        sumres_percent <- eutt_hist %>%
-            group_by(date) %>%
-            mutate(avg = mean(percent_reported)) %>%
-            slice_head() %>%
-            ungroup() %>%
-            slice_tail() %>%
-            select(avg) %>%
-            pull()
-
         ## Value for timely pub 2a
 
         all_numer_timpub <- iv_all %>%
@@ -1661,17 +1704,15 @@ server <- function (input, output, session) {
             fluidRow(
                 column(
                     12,
-                    metric_box(
-                        title = "Summary Results Reporting in EUCTR",
-                        value = paste0(round(sumres_percent), "%"),
-                        value_text = paste("of due clinical trials registered in EUCTR reported summary results within 1 year (as of:", eutt_date, ")"),
-                        plot = plotlyOutput('plot_allumc_clinicaltrials_sumres', height="300px"),
-                        info_id = "infoALLUMCSumRes",
-                        info_title = "Summary results reporting in EUCTR (All UMCs)",
-                        info_text = allumc_clinicaltrials_sumres_tooltip,
-                        lim_id = "limALLUMCSumRes",
-                        lim_title = "Limitations: Summary results reporting in EUCTR (All UMCs)",
-                        lim_text = lim_allumc_clinicaltrials_sumres_tooltip
+                    uiOutput("allumcsumres"),
+                    selectInput(
+                            "allumcsumresregistry",
+                            strong("Trial registry"),
+                            choices = c(
+                                "EUCTR",
+                                "ClinicalTrials.gov",
+                                "DRKS"
+                            )
                     )
                 )
             ),
@@ -1916,7 +1957,7 @@ server <- function (input, output, session) {
     
     ## Summary results
     output$plot_allumc_clinicaltrials_sumres <- renderPlotly({
-        return(plot_allumc_clinicaltrials_sumres(eutt_hist, color_palette, color_palette_bars))
+        return(plot_allumc_clinicaltrials_sumres(eutt_hist, iv_umc, input$allumcsumresregistry, color_palette, color_palette_bars))
     })
 
     ## Timely publication

@@ -275,19 +275,61 @@ plot_allumc_linkage <- function (dataset, color_palette, color_palette_bars) {
 
 ## Summary results
 
-plot_allumc_clinicaltrials_sumres <- function (dataset, color_palette, color_palette_bars) {
+plot_allumc_clinicaltrials_sumres <- function (dataset, iv_dataset, toggled_registry, color_palette, color_palette_bars) {
 
-    max_date <- max(dataset$date)
+    if (toggled_registry == "EUCTR") {
 
-    dataset <- dataset %>%
-        filter( date == max_date ) %>%
-        distinct (city, .keep_all=TRUE)
+        max_date <- max(dataset$date)
 
-    plot_data <- dataset %>%
-        rename (x_label = city) %>%
-        rename (percentage = percent_reported) %>%
-        mutate (mouseover = paste0(total_reported, "/", total_due))
+        dataset <- dataset %>%
+            filter( date == max_date ) %>%
+            distinct (city, .keep_all=TRUE)
 
+        plot_data <- dataset %>%
+            rename (x_label = city) %>%
+            rename (percentage = percent_reported) %>%
+            mutate (mouseover = paste0(total_reported, "/", total_due))
+
+        plot_data$x_label <- factor(
+            plot_data$x_label,
+            levels = unique(plot_data$x_label)[order(plot_data$percentage, decreasing=TRUE)]
+        )
+        
+    } else {
+
+        dataset <- iv_dataset %>%
+            filter(
+                registry == toggled_registry
+            )
+
+        plot_data <- tribble(
+            ~x_label, ~percentage, ~mouseover
+        )
+
+        for (currentcity in unique(iv_dataset$city)) {
+
+            city_trials <- dataset %>%
+                filter(city == currentcity)
+
+            currentcity_denom <- nrow(city_trials)
+
+            currentcity_numer <- city_trials %>%
+                filter(has_summary_results == TRUE) %>%
+                nrow()
+
+            plot_data <- plot_data %>%
+                bind_rows(
+                    tribble(
+                        ~x_label,    ~percentage, ~mouseover,
+                        currentcity, round(100*currentcity_numer/currentcity_denom, digits=1),
+                        paste0(currentcity_numer, "/", currentcity_denom)
+                    )
+                )
+
+        }
+        
+    }
+    
     plot_data$x_label <- factor(
         plot_data$x_label,
         levels = unique(plot_data$x_label)[order(plot_data$percentage, decreasing=TRUE)]
