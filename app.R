@@ -741,10 +741,13 @@ server <- function (input, output, session) {
         wellPanel(
             style="padding-top: 0px; padding-bottom: 0px;",
             h2(strong("Open Access"), align = "left"),
-            checkboxInput(
+            selectInput(
                 "opensci_absnum",
-                strong("Show absolute numbers"),
-                value = FALSE
+                strong("Show proportions or absolute numbers"),
+                choices = c(
+                    "Show proportions",
+                    "Show absolute numbers"
+                )
             ),
             fluidRow(
                 column(
@@ -1353,10 +1356,13 @@ server <- function (input, output, session) {
             wellPanel(
                 style="padding-top: 0px; padding-bottom: 0px;",
                 h2(strong("Open Access"), align = "left"),
-                checkboxInput(
+                selectInput(
                     "umc_opensci_absnum",
-                    strong("Show absolute numbers"),
-                    value = FALSE
+                    strong("Show proportions or absolute numbers"),
+                    choices = c(
+                        "Show proportions",
+                        "Show absolute numbers"
+                    )
                 ),
                 fluidRow(
                     column(

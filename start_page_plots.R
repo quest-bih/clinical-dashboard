@@ -565,7 +565,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
     dataset$oa_year <- dataset$publication_date_unpaywall %>%
         format("%Y")
 
-    if (absnum) {
+    if (absnum == "Show absolute numbers") {
         
         plot_data <- tribble(
             ~x_label, ~gold,    ~green,    ~hybrid,    ~na,    ~closed,    ~bronze
@@ -863,7 +863,7 @@ plot_opensci_green_oa <- function (dataset, absnum, color_palette) {
         format("%Y")
     
              
-    if (absnum) {
+    if (absnum == "Show absolute numbers") {
 
         plot_data <- tribble(
             ~year, ~percentage, ~can_archive,   ~cant_archive,    ~no_data

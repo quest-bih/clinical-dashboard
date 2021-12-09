@@ -872,7 +872,7 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
         ) %>%
         nrow()
 
-    if (absnum) {
+    if (absnum == "Show absolute numbers") {
 
         dataset <- dataset %>%
             filter(
@@ -1177,7 +1177,7 @@ umc_plot_opensci_green_oa <- function (dataset, dataset_all, umc, absnum, color_
     
     #Denominator for the absolute number plot
     
-    if (absnum) {
+    if (absnum == "Show absolute numbers") {
 
         plot_data <- tribble(
             ~x_label, ~percentage, ~can_archive,   ~cant_archive,    ~no_data
