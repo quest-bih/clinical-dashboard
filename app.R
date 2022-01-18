@@ -1099,7 +1099,7 @@ server <- function (input, output, session) {
                 sumresvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
             } else {
                 sumresval <- paste0(sumres_percent, "%")
-                sumresvaltext <- paste0("of due clinical trials registered in EUCTR (n=", sumres_denom, ") reported summary results within 1 year (as of: ", eutt_date, ")")
+                sumresvaltext <- paste0("of due clinical trials registered in EUCTR (n=", sumres_denom, ") reported summary results (as of: ", eutt_date, ")")
             }
             
         } else {
@@ -1495,7 +1495,7 @@ server <- function (input, output, session) {
                 select(avg) %>%
                 pull()
 
-            sumresvaltext <- paste("of due clinical trials registered in EUCTR reported summary results within 1 year (as of:", eutt_date, ")")
+            sumresvaltext <- paste("of due clinical trials registered in EUCTR reported summary results (as of:", eutt_date, ")")
             
         } else {
             ## Summary results for CT dot gov and DRKS
