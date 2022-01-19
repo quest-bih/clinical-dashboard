@@ -246,9 +246,10 @@ all_umcs_page <- tabPanel(
                 ),
                 h4(
                     style = "margin-left: 0",
-                    "This dashboard provides an overview of the performance of UMCs
-                    in Germany on a set of practices relating to clinical research
-                    transparency. On this page, you can view the data for all UMCs
+                    "This dashboard displays the performance of University Medical
+                    Centers (UMCs) in Germany on established registration and
+                    reporting practices for clinical research transparency. On
+                    this page, you can view the data for all UMCs
                     side-by-side. More detailed information on the underlying
                     methods can be found in the methods and limitations widgets
                     next to each plot, and in the Methods page."

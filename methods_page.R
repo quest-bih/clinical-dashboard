@@ -2,17 +2,18 @@ methods_page <- tabPanel(
     "Methods", value = "tabMethods",
     h1("Methods"),
     
-    h4(HTML('This is a dashboard of clinical research transparency at
-                       University Medical Centers (UMCs) in Germany. It displays
-                       data relating to clinical trials conducted at UMCs
-                       in Germany and completed between 2009 - 2017. Metrics
-                       included refer to the registration and reporting of these
-                       trials. With the exception of summary results reporting in
-                       EUCTR, we focused on trials registered in ClinicalTrials.gov
-                       and/or the German Clinical Trials Registry (DRKS). The
-                       dashboard was developed as part of a scientific research
-                       project with the overall aim to support the adoption of
-            responsible research practices at German UMCs.')),
+    h4(HTML('This dashboard displays the performance of University
+                       Medical Centers (UMCs) in Germany on established registration
+                       and reporting practices for clinical research transparency.
+                       The dashboard displays data for interventional
+                       clinical trials conducted at German UMCs, registered in
+                       ClinicalTrials.gov or the German Clinical Trials Registry
+                       (DRKS), and reported as complete between 2009 - 2017. For
+                       summary results reporting, we additionally included trials
+                       conducted at German UMCs and registered in the EU Clinical
+                       Trials Register (EUCTR). The dashboard was developed as part
+                       of a scientific research project with the overall aim to support
+                       the adoption of responsible research practices at UMCs.')),
                        
     h4(HTML('You can find more information on our methods for individual metrics
     by extending the panels below. You can also find a list of tools used for data

@@ -165,26 +165,27 @@ server <- function (input, output, session) {
                     8,
                     h1(style = "margin-left:0cm", strong("Dashboard for clinical research transparency"), align = "left"),
                     h4(style = "margin-left:0cm",
-                       "This is a dashboard of clinical research transparency at
-                       University Medical Centers (UMCs) in Germany. It displays
-                       data relating to clinical trials conducted at UMCs
-                       in Germany and completed between 2009 - 2017. Metrics
-                       included refer to the registration and reporting of these
-                       trials. With the exception of summary results reporting in
-                       EUCTR, we focused on trials registered in ClinicalTrials.gov
-                       and/or the German Clinical Trials Registry (DRKS). The
-                       dashboard was developed as part of a scientific research
-                       project with the overall aim to support
+                       "This dashboard displays the performance of University
+                       Medical Centers (UMCs) in Germany on established registration
+                       and reporting practices for clinical research transparency.
+                       The dashboard displays data for interventional
+                       clinical trials conducted at German UMCs, registered in
+                       ClinicalTrials.gov or the German Clinical Trials Registry
+                       (DRKS), and reported as complete between 2009 - 2017. For
+                       summary results reporting, we additionally included trials
+                       conducted at German UMCs and registered in the EU Clinical
+                       Trials Register (EUCTR). The dashboard was developed as part
+                       of a scientific research project with the overall aim to support
                        the adoption of responsible research practices at UMCs.
                        The dashboard is a pilot and continues to be updated.
                        More metrics may be added in the future."),
                     h4(style = "margin-left:0cm",
-                       HTML("The <i>Start page</i> displays the average data across all
+                       HTML("The <i>Start page</i> displays data across all
                        included UMCs. The <i>All UMCs</i> page displays the data
                        of all UMCs side-by-side. The <i>One UMC</i> page allows you
                        to focus on any given UMC by selecting it in the drop-down
-                       menu. The data for this UMC is then contextualized to the
-                       average of all included UMCs. Besides each plot, you can
+                       menu. The data for this UMC is then contextualized to that
+                       across all included UMCs. Besides each plot, you can
                        find an overview of the methods and limitations by clicking
                        on the associated widgets. For more detailed information
                        on the methods and underlying datasets used to calculate
