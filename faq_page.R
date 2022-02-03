@@ -66,9 +66,9 @@ faq_page <- tabPanel(
                                'IntoValue' dataset </a>. More information on how
                                these cohorts were generated can be found in the
                                <a href=https://doi.org/10.1016/j.jclinepi.2019.06.002>
-                               IntoValue1 publication</a> and follow-up
-                               <a href=https://www.medrxiv.org/content/10.1101/2021.08.05.21261624v2>
-                               IntoValue2 preprint</a>. Trials registered in other
+                               IntoValue1</a> and follow-up
+                               <a href=https://doi.org/10.1016/j.jclinepi.2021.12.012>
+                               IntoValue2</a> publications. Trials registered in other
                                registries may be incorporated in the future.")),
                                value = "faqPanels_RegistryFocus",
                                style = "default")),
@@ -77,14 +77,13 @@ faq_page <- tabPanel(
                                p(HTML("Interventional clinical trials registered in
                                     ClinicalTrials.gov or DRKS, conducted at
                                       a German UMC, completed between 2009 – 2017,
-                                      and whose study status is considered \"complete.\".
+                                      and whose study status is considered \"complete\".
                                       Trials may be cross-registered across registries. Trials
                                       include all interventional studies and are
                                       not limited to investigational medicinal
                                       products trials regulated by the EU's
-                                      Clinical Trials Directive or Germany's
-                                      Arzneimittelgesetz (AMG) or Novelle des
-                                      Medizinproduktegesetzes (MPG). A combination
+                                      Clinical Trials Directive or Germany's drug
+                                      or medical device laws. A combination
                                       of automated methods and a manual
                                       review was used to identify trials conducted
                                       at German UMCs. Trials with an industry sponsor
@@ -94,16 +93,16 @@ faq_page <- tabPanel(
                                       `any addresses` (DRKS). More details can be
                                       found in the
                                       <a href=https://doi.org/10.1016/j.jclinepi.2019.06.002>
-                                      IntoValue1 publication</a> and follow-up
-                                      <a href=https://www.medrxiv.org/content/10.1101/2021.08.05.21261624v2>
-                                      IntoValue2 preprint</a>.
+                                      IntoValue1</a> and follow-up
+                                      <a href=https://doi.org/10.1016/j.jclinepi.2021.12.012>
+                                      IntoValue2</a> publications.
                                       <br>
                                       <br><b>For prospective registration
                                       (ClinicalTrials.gov only)</b>, we used a more
                                       recent cohort of trials registered in
                                       ClinicalTrials.gov, conducted at a German
                                       UMC, started between 2006 and 2018, and
-                                      whose study status is considered \"complete.\"
+                                      whose study status is considered \"complete\".
                                       <br>
                                       <br><b>For summary results reporting in EUCTR</b>,
                                       we extracted the data from the <a href=https://eu.trialstracker.net>
@@ -143,7 +142,7 @@ faq_page <- tabPanel(
                                       reporting that are recommended or
                                       required by ethical or regulatory bodies.
                                       In the "),
-                                 actionLink("link_to_why_these_metrics", "Why these metrics?"),
+                                 actionLink("link_to_why_these_practices", "Why these practices?"),
                                  HTML(" page,
                                       you can find an infographic which contextualizes
                                       included research practices to relevant
@@ -159,7 +158,7 @@ faq_page <- tabPanel(
                                       for a given trial, only the earliest, or the one reporting a primary outcome, was
                                       included. The manual searches are described
                                       in more detail <a href=https://doi.org/10.1016/j.jclinepi.2019.06.002>here</a>
-                                      and <a href=https://www.medrxiv.org/content/10.1101/2021.08.05.21261624v2>here</a>.
+                                      and <a href=https://doi.org/10.1016/j.jclinepi.2021.12.012>here</a>.
                                       While the original dataset also
                                       considered dissertations as publications,
                                       only journal publications are
@@ -179,7 +178,7 @@ faq_page <- tabPanel(
                                       on <b>6 October 2021</b>.<br>
                                       <br>For summary results reporting in the
                                       EUCTR, we extracted data from the EU Trials
-                                      Tracker on <b>18 August 2021</b>.")),
+                                      Tracker on <b>6 December 2021</b>.")),
                                value = "faqPanels_UpToDate",
                                style = "default")),
     bsCollapse(id = "faqPanels_MoreMethods",
@@ -203,9 +202,9 @@ faq_page <- tabPanel(
                                <br>More information on the development of trial
                                cohorts displayed in this dashboard can be found
                                in the <a href=https://doi.org/10.1016/j.jclinepi.2019.06.002>
-                               IntoValue1 publication</a> and the follow-up
-                               <a href=https://www.medrxiv.org/content/10.1101/2021.08.05.21261624v2>
-                               IntoValue2 preprint</a>. We used the <a href=https://zenodo.org/record/5141343#.YV2m-S0RqRs>
+                               IntoValue1</a> and
+                               <a href=https://doi.org/10.1016/j.jclinepi.2021.12.012>
+                               IntoValue2</a> publications. We used the <a href=https://zenodo.org/record/5141343#.YV2m-S0RqRs>
                                original dataset</a> of these studies as basis
                                and included updated registry data as well as
                                additional information on associated results
@@ -238,19 +237,22 @@ faq_page <- tabPanel(
                                p(HTML("The data displayed in this dashboard is
                                       based on two previously developed cohorts
                                       of clinical trials and associated results
-                                      publications. The development of these
-                                      cohorts involved extensive manual searches
-                                      and checks, making it difficult to update
-                                      the dashboard on regular basis. However,
-                                      a follow-up assessment of UMC’s progress
-                                      is planned for the future.")),
+                                      publications. We are planning follow-up assessments
+                                      of UMCs' progress in the future. While most of
+                                      the metrics rely largely on automated steps,
+                                      identifying results publications often still
+                                      remains a time-intensive manual search process;
+                                      better links between trial registrations and
+                                      results publications would substantially alleviate
+                                      the manual workload and resources involved in
+                                      these efforts.")),
                                value = "faqPanels_Updates",
                                style = "default")),
     bsCollapse(id = "faqPanels_CTIS",
-               bsCollapsePanel(strong("How is this dashboard relevant given the upcoming launch of EU Clinical Trials Information System?"),
+               bsCollapsePanel(strong("How is this dashboard relevant given the launch of EU Clinical Trials Information System?"),
                                p(HTML("The European Commission has confirmed the
                                       launch of the EU Clinical Trials Information
-                                      System (CTIS) at the end of January 2022,
+                                      System (CTIS) at the beginning of 2022,
                                       when the <a href=https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014R0536>
                                       EU Clinical Trials Regulation</a> comes
                                       into application. CTIS will serve as a
