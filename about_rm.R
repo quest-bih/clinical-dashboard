@@ -3,9 +3,9 @@ about_rm_page <- tabPanel(
     value = "tabAboutRM",
     h2("Contributions"),
     br(),
-    helpText('We would like to thank all those who contributed to this proof-of-principle dashboard. We would
-             particularly like to thank Nico Riedel who created the original version of this dashboard, which
-             we adapted for use with clinical trials and multiple institutions.'),
+    helpText('We would like to thank all those who contributed to this dashboard. We would
+             particularly like to thank Nico Riedel who created the prototype of this dashboard, which
+             we adapted for clinical research transparency at the level of UMCs in Germany.'),
     # br(),
     # h4("UMC publication search"),
     # helpText('Franzen, Delwen (Conceptualization, Methodology, Technical Implementation, Validation); Saksone, Lana (Conceptualization, Methodology, Validation); Grabitz, Peter (Conceptualization, Methodology); Riedel, Nico (Conceptualization, Methodology, Technical Implementation); Carlisle, Benjamin Gregory (Methodology, Technical Implementation, Validation), Holst, Martin (Conceptualization, Validation); Salholz-Hillel, Maia (Conceptualization, Methodology); Strech, Daniel (Conceptualization, Methodology)'),
@@ -14,24 +14,27 @@ about_rm_page <- tabPanel(
     # helpText('Riedel, Nico (Conceptualization, Methodology, Technical Implementation, Validation);
     #                             Bobrov, Evgeny (Conceptualization, Methodology, Validation);
     #                             Kip, Miriam (Conceptualization, Methodology)'),
+    
     br(),
     h3("Metrics"),
-    h4("Prospective registration, Reporting within 2 years, Reporting within 5 years"),
-    helpText("Riedel, Nico (Conceptualization, Methodology, Technical Implementation);
-             Strech, Daniel (Conceptualization, Methodology);
-             Wieschowski, Susanne (Conceptualization, Methodology);
-             Salholz-Hillel, Maia (Validation);
-             Carlisle, Benjamin Gregory (Technical Implementation)"),
-    h4("Reporting of trial registration number in publications"),
-    helpText("Salholz-Hillel, Maia (Conceptualization, Methodology);
-             Carlisle, Benjamin Gregory (Conceptualization, Methodology)"),
-    h4("Summary results reporting in EUCTR"),
+    h4("Prospective registration, Reporting of summary results in the registry, Reporting of results as a journal publication (2- and 5 years)"),
+    helpText("Riedel, Nico (Conceptualization, Methodology, Data Curation, Technical Implementation);
+                Salholz-Hillel, Maia (Conceptualization, Methodology, Data Curation, Technical Implementation);
+                Wieschowski, Susanne (Conceptualization, Methodology);
+                Carlisle, Benjamin Gregory (Technical Implementation);
+                Strech, Daniel (Conceptualization, Methodology)"),
+    h4("Reporting of Trial Registration Number in publications, Publication link in the registry"),
+    helpText("Salholz-Hillel, Maia (Conceptualization, Methodology, Technical Implementation);
+             Carlisle, Benjamin Gregory (Methodology);"),
+    h4("Reporting of summary results in EUCTR"),
     helpText("EU TrialsTracker;
-             Carlisle, Benjamin Gregory (Technical Implementation);
-             Delwen Franzen (Technical Implementation)"),
+             Carlisle, Benjamin Gregory (Conceptualization, Methodology, Technical Implementation);
+             Franzen, Delwen (Conceptualization, Methodology, Technical Implementation)"),
     h4("Open Access"),
     helpText("Delwen Franzen (Conceptualization, Methodology, Technical Implementation);
              Nico Riedel (Conceptualization, Methodology, Technical Implementation)"),
+    h4("Realised potential of green Open Access"),
+    helpText("Delwen Franzen (Conceptualization, Methodology, Technical Implementation)"),
     
     # br(),
     # h4("Robustness of animal studies"),
@@ -41,18 +44,18 @@ about_rm_page <- tabPanel(
     
     br(),
     h3("Shiny app"),
-    helpText('Riedel, Nico (Conceptualization, Technical Implementation);
-                                Carlisle, Benjamin Gregory (Conceptualization, Technical Implementation);
-                                Franzen, Delwen (Conceptualization, Technical Implementation);
-                                Maia Salholz-Hillel (Conceptualization);
-                                Holst, Martin (Conceptualization);
-                                Haven, Tamarinde (Conceptualization);
-                                Haslberger, Martin (Conceptualization);
-                                Saksone, Lana (Conceptualization);
-                                Strech, Daniel (Conceptualization);
-                                Weissgerber, Tracey (Conceptualization);
-                                Dirnagl, Ulrich (Conceptualization);
-                                Bobrov, Evgeny (Conceptualization)'),
+    helpText('Carlisle, Benjamin Gregory (Conceptualization, Technical Implementation);
+                Franzen, Delwen (Conceptualization, Technical Implementation);
+                Riedel, Nico (Conceptualization, Technical Implementation);
+                Maia Salholz-Hillel (Conceptualization);
+                Holst, Martin (Conceptualization);
+                Haven, Tamarinde (Conceptualization);
+                Haslberger, Martin (Conceptualization);
+                Saksone, Lana (Conceptualization);
+                Strech, Daniel (Conceptualization);
+                Weissgerber, Tracey (Conceptualization);
+                Dirnagl, Ulrich (Conceptualization);
+             Bobrov, Evgeny (Conceptualization)'),
     
     br(),
     h2('Contact address'),
