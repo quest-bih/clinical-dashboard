@@ -146,7 +146,7 @@ server <- function (input, output, session) {
     )
 
     observeEvent(
-        input$link_to_why_these_metrics, {
+        input$link_to_why_these_practices, {
             updateTabsetPanel(
                 session, "navbarTabs",
                 selected = "tabWhy"
@@ -188,13 +188,13 @@ server <- function (input, output, session) {
                        across all included UMCs. Besides each plot, you can
                        find an overview of the methods and limitations by clicking
                        on the associated widgets. For more detailed information
-                       on the methods and underlying datasets used to calculate
-                       the metrics displayed in this dashboard, visit the <i>Methods</i>
+                       on the methods and underlying datasets used to assess
+                       the practices displayed in this dashboard, visit the <i>Methods</i>
                        and <i>Datasets</i> pages. The <i>Trial Characteristics</i> page
                        provides an overview of the characteristics of trials included
-                       in the dashboard.The <i>FAQ</i> and <i>Why these metrics?</i>
+                       in the dashboard.The <i>FAQ</i> and <i>Why these practices?</i>
                        pages provide more general information about this
-                       dashboard and our selection of metrics.")),
+                       dashboard and our selection of practices.")),
                     h3(style = "margin-left:0cm; color: purple",
                        "More information on the overall aim and methodology can be
                        found in the associated publication [enter DOI]. "),
