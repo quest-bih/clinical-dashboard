@@ -615,10 +615,10 @@ server <- function (input, output, session) {
             value_text = timpubvaltext,
             plot = plotlyOutput('plot_clinicaltrials_timpub_2a', height="300px"),
             info_id = "infoTimPub2",
-            info_title = "Timely Publication (2 years)",
+            info_title = "Results reporting (2 years)",
             info_text = timpub_tooltip2,
             lim_id = "limTimPub2",
-            lim_title = "Limitations: Timely Publication",
+            lim_title = "Limitations: Results reporting (2 years)",
             lim_text = lim_timpub_tooltip2
         )
     })
@@ -664,10 +664,10 @@ server <- function (input, output, session) {
             value_text = timpubvaltext5a,
             plot = plotlyOutput('plot_clinicaltrials_timpub_5a', height="300px"),
             info_id = "infoTimPub5",
-            info_title = "Publication by 5 years",
+            info_title = "Results reporting (5 years)",
             info_text = timpub_tooltip5,
             lim_id = "limTimPub5",
-            lim_title = "Limitations: Timely Publication",
+            lim_title = "Limitations: Results reporting (5 years)",
             lim_text = lim_timpub_tooltip5
         )
         
@@ -1188,10 +1188,10 @@ server <- function (input, output, session) {
             value_text = timpubvaltext,
             plot = plotlyOutput('umc_plot_clinicaltrials_timpub_2a', height="300px"),
             info_id = "UMCinfoTimPub2",
-            info_title = "Timely Publication (2 years)",
+            info_title = "Results reporting (2 years)",
             info_text = timpub_tooltip2,
             lim_id = "UMClimTimPub2",
-            lim_title = "Limitations: Timely Publication",
+            lim_title = "Limitations: Results reporting (2 years)",
             lim_text = lim_timpub_tooltip2
         )
     })
@@ -1239,10 +1239,10 @@ server <- function (input, output, session) {
             value_text = timpubvaltext,
             plot = plotlyOutput('umc_plot_clinicaltrials_timpub_5a', height="300px"),
             info_id = "UMCinfoTimPub5",
-            info_title = "Timely Publication (5 years)",
+            info_title = "Results reporting (5 years)",
             info_text = timpub_tooltip5,
             lim_id = "UMClimTimPub5",
-            lim_title = "Limitations: Timely Publication",
+            lim_title = "Limitations: Results reporting (5 years)",
             lim_text = lim_timpub_tooltip5
         )
     })
@@ -1526,10 +1526,10 @@ server <- function (input, output, session) {
             value_text = sumresvaltext,
             plot = plotlyOutput('plot_allumc_clinicaltrials_sumres', height="300px"),
             info_id = "infoALLUMCSumRes",
-            info_title = "Summary results reporting in EUCTR (All UMCs)",
+            info_title = "Summary results reporting (All UMCs)",
             info_text = allumc_clinicaltrials_sumres_tooltip,
             lim_id = "limALLUMCSumRes",
-            lim_title = "Limitations: Summary results reporting in EUCTR (All UMCs)",
+            lim_title = "Limitations: Summary results reporting (All UMCs)",
             lim_text = lim_allumc_clinicaltrials_sumres_tooltip
         )
         
@@ -1774,10 +1774,10 @@ server <- function (input, output, session) {
             value_text = "of clinical trials reported results within 2 years",
             plot = plotlyOutput('plot_allumc_clinicaltrials_timpub', height="300px"),
             info_id = "infoALLUMCTimPub",
-            info_title = "Timely Publication (All UMCs)",
+            info_title = "Results reporting (2 years) (All UMCs)",
             info_text = allumc_clinicaltrials_timpub_tooltip,
             lim_id = "limALLUMCTimPub",
-            lim_title = "Limitations: Timely Publication (All UMCs)",
+            lim_title = "Limitations: Results reporting (2 years) (All UMCs)",
             lim_text = lim_allumc_clinicaltrials_timpub_tooltip
         )
         
@@ -1825,10 +1825,10 @@ server <- function (input, output, session) {
             value_text = "of clinical trials reported results within 5 years",
             plot = plotlyOutput('plot_allumc_timpub_5a', height="300px"),
             info_id = "infoALLUMCTimPub5a",
-            info_title = "Publication within 5 years (All UMCs)",
+            info_title = "Results reporting (5 years) (All UMCs)",
             info_text = allumc_clinicaltrials_timpub_tooltip5a,
             lim_id = "limALLUMCTimPub5a",
-            lim_title = "Limitations: Publication within 5 years (All UMCs)",
+            lim_title = "Limitations: Results reporting (5 years) (All UMCs)",
             lim_text = lim_allumc_clinicaltrials_timpub_tooltip5a
         )
         
