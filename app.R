@@ -530,7 +530,7 @@ server <- function (input, output, session) {
                 sumresvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
             } else {
                 sumresval <- paste0(sumres_percent, "%")
-                sumresvaltext <- paste0("of clinical trials registered in EUCTR (n=", sumres_denom, ") reported summary results (as of: ", eutt_date, ")")
+                sumresvaltext <- paste0("of due clinical trials registered in EUCTR (n=", sumres_denom, ") reported summary results (as of: ", eutt_date, ")")
             }
             
         } else {
@@ -553,7 +553,7 @@ server <- function (input, output, session) {
 
             sumresval <- paste0(sumres_percent, "%")
 
-            sumresvaltext <- paste0("of clinical trials registered in ", input$startsumresregistry, " (n=", sumres_denom, ") reported summary results")
+            sumresvaltext <- paste0("of due clinical trials registered in ", input$startsumresregistry, " (n=", sumres_denom, ") reported summary results")
             
         }
 
@@ -1125,7 +1125,7 @@ server <- function (input, output, session) {
 
             sumresval <- paste0(sumres_percent, "%")
 
-            sumresvaltext <- paste0("of clinical trials registered in ", input$oneumcsumresregistry, " (n=", sumres_denom, ") reported summary results")
+            sumresvaltext <- paste0("of due clinical trials registered in ", input$oneumcsumresregistry, " (n=", sumres_denom, ") reported summary results")
             
         }
 
@@ -1516,7 +1516,7 @@ server <- function (input, output, session) {
 
             sumres_percent <- 100*sumres_numer/sumres_denom
 
-            sumresvaltext <- paste0("of clinical trials registered in ", input$allumcsumresregistry, " reported summary results")
+            sumresvaltext <- paste0("of due clinical trials registered in ", input$allumcsumresregistry, " reported summary results")
             
         }
         
