@@ -983,16 +983,18 @@ server <- function (input, output, session) {
                 filter(! is.na (start_date)) %>%
                 filter(registry == input$oneumcpreregregistry) %>%
                 mutate(start_year = format(start_date, "%Y"))
+
+            max_start_year <- max(iv_data_unique$start_year)
             
             ## Filter for 2017 completion date for the pink descriptor text
             all_numer_prereg <- iv_data_unique %>%
-                filter(start_year == 2017) %>%
+                filter(start_year == max_start_year) %>%
                 filter(is_prospective) %>%
                 nrow()
             
             ## Filter for 2017 completion date for the pink descriptor text
             all_denom_prereg <- iv_data_unique %>%
-                filter(start_year == 2017) %>%
+                filter(start_year == max_start_year) %>%
                 nrow()
 
             if (all_denom_prereg == 0) {
@@ -1000,7 +1002,7 @@ server <- function (input, output, session) {
                 preregvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
             } else {
                 preregval <- paste0(round(100*all_numer_prereg/all_denom_prereg), "%")
-                preregvaltext <- paste0("of registered clinical trials started in 2017 (n=", all_denom_prereg, ") were prospectively registered")
+                preregvaltext <- paste0("of registered clinical trials started in ", max_start_year " (n=", all_denom_prereg, ") were prospectively registered")
             }
 
         }
