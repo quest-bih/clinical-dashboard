@@ -873,24 +873,7 @@ server <- function (input, output, session) {
                 ) %>%
                 nrow()
 
-            ## Value for linkage
 
-            link_num <- iv_umc %>%
-                filter(city == input$selectUMC) %>%
-                filter(has_reg_pub_link == TRUE) %>%
-                filter(publication_type == "journal publication") %>%
-                filter(completion_year == 2017) %>%
-                nrow()
-
-            link_den <- iv_umc %>%
-                filter(city == input$selectUMC) %>%
-                filter(has_publication == TRUE) %>%
-                filter(publication_type == "journal publication") %>%
-                filter (has_pubmed == TRUE | ! is.na (doi)) %>%
-                filter(completion_year == 2017) %>%
-                nrow()
-
-            linkage <- paste0(round(100*link_num/link_den), "%")
 
             wellPanel(
                 style="padding-top: 0px; padding-bottom: 0px;",
@@ -925,17 +908,15 @@ server <- function (input, output, session) {
                     ),
                     column(
                         col_width,
-                        metric_box(
-                            title = "Publication link in registry",
-                            value = linkage,
-                            value_text = paste0("of trials completed in 2017 with a publication (n=", link_den, ") provide a link to this publication in the registry entry"),
-                            plot = plotlyOutput('umc_plot_linkage', height="300px"),
-                            info_id = "UMCinfoLinkage",
-                            info_title = "Publication link in registry",
-                            info_text = linkage_tooltip,
-                            lim_id = "UMClimLinkage",
-                            lim_title = "Limitations: Publication link in registry",
-                            lim_text = lim_linkage_tooltip
+                        uiOutput("oneumclinkage"),
+                        selectInput(
+                            "oneumclinkagechooser",
+                            strong("Trial registry"),
+                            choices = c(
+                                "All",
+                                "ClinicalTrials.gov",
+                                "DRKS"
+                            )
                         )
                     )
                     
@@ -1036,6 +1017,80 @@ server <- function (input, output, session) {
             lim_title = "Limitations: Prospective registration",
             lim_text = lim_prereg_tooltip,
             lim_align = first_lim_align
+        )
+        
+    })
+
+    ## One UMC Linkage toggle
+    output$oneumclinkage <- renderUI({
+
+        req(input$width)
+
+        if (input$width < 1400) {
+            col_width <- 6
+            first_lim_align <- "left"
+        } else {
+            col_width <- 4
+            first_lim_align <- "right"
+        }
+
+        if (input$oneumclinkagechooser == "All") {
+
+            ## Value for linkage
+
+            link_num <- iv_umc %>%
+                filter(city == input$selectUMC) %>%
+                filter(has_reg_pub_link == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                filter(completion_year == 2017) %>%
+                nrow()
+
+            link_den <- iv_umc %>%
+                filter(city == input$selectUMC) %>%
+                filter(has_publication == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                filter (has_pubmed == TRUE | ! is.na (doi)) %>%
+                filter(completion_year == 2017) %>%
+                nrow()
+
+            linkage <- paste0(round(100*link_num/link_den), "%")
+            
+        } else {
+
+            ## Value for linkage
+
+            link_num <- iv_umc %>%
+                filter(registry == input$oneumclinkagechooser) %>%
+                filter(city == input$selectUMC) %>%
+                filter(has_reg_pub_link == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                filter(completion_year == 2017) %>%
+                nrow()
+
+            link_den <- iv_umc %>%
+                filter(registry == input$oneumclinkagechooser) %>%
+                filter(city == input$selectUMC) %>%
+                filter(has_publication == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                filter (has_pubmed == TRUE | ! is.na (doi)) %>%
+                filter(completion_year == 2017) %>%
+                nrow()
+
+            linkage <- paste0(round(100*link_num/link_den), "%")
+            
+        }
+
+        metric_box(
+            title = "Publication link in registry",
+            value = linkage,
+            value_text = paste0("of trials completed in 2017 with a publication (n=", link_den, ") provide a link to this publication in the registry entry"),
+            plot = plotlyOutput('umc_plot_linkage', height="300px"),
+            info_id = "UMCinfoLinkage",
+            info_title = "Publication link in registry",
+            info_text = linkage_tooltip,
+            lim_id = "UMClimLinkage",
+            lim_title = "Limitations: Publication link in registry",
+            lim_text = lim_linkage_tooltip
         )
         
     })
@@ -2039,7 +2094,7 @@ server <- function (input, output, session) {
 
     ## Linkage plot
     output$umc_plot_linkage <- renderPlotly({
-        return (umc_plot_linkage(iv_umc, iv_all, input$selectUMC, color_palette))
+        return (umc_plot_linkage(iv_umc, iv_all, input$oneumclinkagechooser, input$selectUMC, color_palette))
     })
     
     ## Open Access plot

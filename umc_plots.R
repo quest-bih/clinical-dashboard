@@ -285,7 +285,7 @@ umc_plot_clinicaltrials_trn <- function (dataset, dataset_all, umc, color_palett
 
 # Linkage
 
-umc_plot_linkage <- function (dataset, dataset_all, umc, color_palette) {
+umc_plot_linkage <- function (dataset, dataset_all, chosenregistry, umc, color_palette) {
 
     dataset <- dataset %>%
         filter(has_publication == TRUE) %>%
@@ -296,6 +296,14 @@ umc_plot_linkage <- function (dataset, dataset_all, umc, color_palette) {
         filter(has_publication == TRUE) %>%
         filter(publication_type == "journal publication") %>%
         filter(has_pubmed == TRUE | ! is.na (doi))
+
+    if (chosenregistry != "All") {
+        dataset <- dataset %>%
+            filter(registry == chosenregistry)
+
+        dataset_all <- dataset_all %>%
+            filter(registry == chosenregistry)
+    }
     
     years <- seq(from=min(dataset_all$completion_year), to=max(dataset_all$completion_year))
     
