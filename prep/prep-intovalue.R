@@ -29,6 +29,7 @@ iv_umc <- intovalue %>%
     tidyr::unnest(lead_cities)
 
 ## This is the library of transformations
+## Note that the `city` column CAN NOT contain spaces
 transforms <- read_csv(here("prep", "intovalue-city-transforms.csv"))
 
 ## This will apply the transformations
@@ -47,7 +48,10 @@ iv_umc %>%
 
 ## Get prospective registration data for ClinicalTrials.gov (only)
 prop_reg_ctgov <- read_csv("https://raw.githubusercontent.com/maia-sh/intovalue-data/ctgov-2018/data/ctgov-2018/prospective-reg-ctgov-2018-trials.csv")
+
 prop_reg_ctgov %>%
+    mutate(cities = str_replace_all(cities, "TU\ München", "TU-München")) %>%
+    mutate(cities = str_replace_all(cities, "LMU\ München", "LMU-München")) %>%
     write_csv(here("data", "prospective-reg-ctgov-2018-trials.csv"))
 
 ## Read IV lookup table
