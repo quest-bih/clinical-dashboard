@@ -412,8 +412,9 @@ umc_plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, iv_all_dat
             ungroup()
         
         city_data <- dataset %>%
-            mutate(mouseover = paste0(sum(total_reported), "/", sum(total_due))) %>%
-            filter(city == umc)
+            group_by(date) %>%
+            filter(city == umc) %>%
+            mutate(mouseover = paste0(sum(total_reported), "/", sum(total_due)))
         
     } else { ## The registry is not EUCTR
 
