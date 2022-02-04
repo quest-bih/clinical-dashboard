@@ -261,23 +261,6 @@ server <- function (input, output, session) {
             ) %>%
             nrow()
 
-        ## Value for linkage
-
-        link_num <- iv_all %>%
-            filter(has_reg_pub_link == TRUE) %>%
-            filter(publication_type == "journal publication") %>%
-            filter(completion_year == 2017) %>%
-            nrow()
-
-        link_den <- iv_all %>%
-            filter(has_publication == TRUE) %>%
-            filter(publication_type == "journal publication") %>%
-            filter(completion_year == 2017) %>%
-            filter(has_pubmed == TRUE | ! is.na (doi)) %>%
-            nrow()
-            
-        linkage <- paste0(round(100*link_num/link_den), "%")
-
         wellPanel(
             style="padding-top: 0px; padding-bottom: 0px;",
             h2(strong("Trial Registration"), align = "left"),
@@ -309,20 +292,17 @@ server <- function (input, output, session) {
                         lim_text = lim_trn_tooltip
                     )
                 ),
-                
                 column(
                     col_width,
-                    metric_box(
-                        title = "Publication link in registry",
-                        value = linkage,
-                        value_text = paste0("of trials completed in 2017 with a publication (n=", link_den, ") provide a link to this publication in the registry entry"),
-                        plot = plotlyOutput('plot_linkage', height="300px"),
-                        info_id = "infoLinkage",
-                        info_title = "Publication link in registry",
-                        info_text = linkage_tooltip,
-                        lim_id = "limLinkage",
-                        lim_title = "Limitations: Publication link in registry",
-                        lim_text = lim_linkage_tooltip
+                    uiOutput("startlinkage"),
+                    selectInput(
+                        "startlinkagechooser",
+                        strong("Trial registry"),
+                        choices = c(
+                            "All",
+                            "ClinicalTrials.gov",
+                            "DRKS"
+                        )
                     )
                 )
                 
@@ -421,6 +401,75 @@ server <- function (input, output, session) {
             lim_text = lim_prereg_tooltip,
             lim_align = first_lim_align
         )
+    })
+
+    ## Start page linkage toggle
+    output$startlinkage <- renderUI({
+
+        req(input$width)
+
+        if (input$width < 1400) {
+            col_width <- 6
+            first_lim_align <- "left"
+        } else {
+            col_width <- 4
+            first_lim_align <- "right"
+        }
+
+        if (input$startlinkagechooser == "All") {
+
+            ## Value for linkage
+
+            link_num <- iv_all %>%
+                filter(has_reg_pub_link == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                filter(completion_year == 2017) %>%
+                nrow()
+
+            link_den <- iv_all %>%
+                filter(has_publication == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                filter(completion_year == 2017) %>%
+                filter(has_pubmed == TRUE | ! is.na (doi)) %>%
+                nrow()
+            
+            linkage <- paste0(round(100*link_num/link_den), "%")
+
+        } else {
+
+            ## Value for linkage
+
+            link_num <- iv_all %>%
+                filter(registry == input$startlinkagechooser) %>%
+                filter(has_reg_pub_link == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                filter(completion_year == 2017) %>%
+                nrow()
+
+            link_den <- iv_all %>%
+                filter(registry == input$startlinkagechooser) %>%
+                filter(has_publication == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                filter(completion_year == 2017) %>%
+                filter(has_pubmed == TRUE | ! is.na (doi)) %>%
+                nrow()
+            
+            linkage <- paste0(round(100*link_num/link_den), "%")
+        }
+        
+        metric_box(
+            title = "Publication link in registry",
+            value = linkage,
+            value_text = paste0("of trials completed in 2017 with a publication (n=", link_den, ") provide a link to this publication in the registry entry"),
+            plot = plotlyOutput('plot_linkage', height="300px"),
+            info_id = "infoLinkage",
+            info_title = "Publication link in registry",
+            info_text = linkage_tooltip,
+            lim_id = "limLinkage",
+            lim_title = "Limitations: Publication link in registry",
+            lim_text = lim_linkage_tooltip
+        )
+        
     })
 
     ## Start page: Trial reporting
@@ -1948,7 +1997,7 @@ server <- function (input, output, session) {
 
     ## Linkage plot
     output$plot_linkage <- renderPlotly({
-        return (plot_linkage(iv_all, color_palette))
+        return (plot_linkage(iv_all, color_palette, input$startlinkagechooser))
     })
     
     ## Summary results plot
