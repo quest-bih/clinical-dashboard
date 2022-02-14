@@ -47,6 +47,7 @@ source("umc_plots.R")
 source("all_umc_plots.R")
 
 ## Load pages
+source("impressum.R", encoding="UTF-8")
 source("start_page.R")
 source("umc_page.R")
 source("all_umcs_page.R")

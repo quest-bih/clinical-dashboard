@@ -65,6 +65,12 @@ about_rm_page <- tabPanel(
     helpText('10178 Berlin '),
     helpText('quest@bih-charite.de'),
     helpText(HTML('<a href="https://www.bihealth.org/de/translation/innovationstreiber/quest-center">
-                                      https://www.bihealth.org/de/translation/innovationstreiber/quest-center </a>'))
+                                      https://www.bihealth.org/de/translation/innovationstreiber/quest-center </a>')),
+    bsCollapsePanel(strong("Impressum"),
+                    impressum_text,
+                    style = "default"),
+    bsCollapsePanel(strong("Datenschutz"),
+                    datenschutz_text,
+                    style = "default")
 )
 
