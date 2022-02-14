@@ -286,5 +286,11 @@ faq_page <- tabPanel(
                                p(HTML("Send us an e-mail at responsible-metrics[at]charite.de!")),
                                value = "faqPanels_Contact",
                                style = "default")),
+    bsCollapsePanel(strong("Impressum"),
+                    impressum_text,
+                    style = "default"),
+    bsCollapsePanel(strong("Datenschutz"),
+                    datenschutz_text,
+                    style = "default")
 )
 
