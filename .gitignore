@@ -5,3 +5,11 @@ prep/*.csv
 .htpasswd
 .gitignore
 .Rhistory
+
+# macOS
+.DS_Store
+
+# R proj
+clinical-dashboard.Rproj
+.RData
+.Rproj.user/

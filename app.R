@@ -16,7 +16,7 @@ library(gt)
 
 ## Generate this from the EUTT repo using the script in
 ## prep/eutt-history.R
-eutt_date <- "2021-12-06"
+eutt_date <- "2022-02-14"
 eutt_hist <- read_csv(
     paste0("data/", eutt_date, "-eutt-history.csv")
 )
@@ -47,6 +47,7 @@ source("umc_plots.R")
 source("all_umc_plots.R")
 
 ## Load pages
+source("impressum.R", encoding="UTF-8")
 source("start_page.R")
 source("umc_page.R")
 source("all_umcs_page.R")
@@ -146,7 +147,7 @@ server <- function (input, output, session) {
     )
 
     observeEvent(
-        input$link_to_why_these_metrics, {
+        input$link_to_why_these_practices, {
             updateTabsetPanel(
                 session, "navbarTabs",
                 selected = "tabWhy"
@@ -165,35 +166,36 @@ server <- function (input, output, session) {
                     8,
                     h1(style = "margin-left:0cm", strong("Dashboard for clinical research transparency"), align = "left"),
                     h4(style = "margin-left:0cm",
-                       "This is a dashboard of clinical research transparency at
-                       University Medical Centers (UMCs) in Germany. It displays
-                       data relating to clinical trials conducted at UMCs
-                       in Germany and completed between 2009 - 2017. Metrics
-                       included refer to the registration and reporting of these
-                       trials. With the exception of summary results reporting in
-                       EUCTR, we focused on trials registered in ClinicalTrials.gov
-                       and/or the German Clinical Trials Registry (DRKS). The
-                       dashboard was developed as part of a scientific research
-                       project with the overall aim to support
+                       "This dashboard displays the performance of University
+                       Medical Centers (UMCs) in Germany on established registration
+                       and reporting practices for clinical research transparency.
+                       The dashboard displays data for interventional
+                       clinical trials conducted at German UMCs, registered in
+                       ClinicalTrials.gov or the German Clinical Trials Registry
+                       (DRKS), and reported as complete between 2009 - 2017. For
+                       summary results reporting, we additionally included trials
+                       conducted at German UMCs and registered in the EU Clinical
+                       Trials Register (EUCTR). The dashboard was developed as part
+                       of a scientific research project with the overall aim to support
                        the adoption of responsible research practices at UMCs.
                        The dashboard is a pilot and continues to be updated.
                        More metrics may be added in the future."),
                     h4(style = "margin-left:0cm",
-                       HTML("The <i>Start page</i> displays the average data across all
+                       HTML("The <i>Start page</i> displays data across all
                        included UMCs. The <i>All UMCs</i> page displays the data
                        of all UMCs side-by-side. The <i>One UMC</i> page allows you
                        to focus on any given UMC by selecting it in the drop-down
-                       menu. The data for this UMC is then contextualized to the
-                       average of all included UMCs. Besides each plot, you can
+                       menu. The data for this UMC is then contextualized to that
+                       across all included UMCs. Besides each plot, you can
                        find an overview of the methods and limitations by clicking
                        on the associated widgets. For more detailed information
-                       on the methods and underlying datasets used to calculate
-                       the metrics displayed in this dashboard, visit the <i>Methods</i>
+                       on the methods and underlying datasets used to assess
+                       the practices displayed in this dashboard, visit the <i>Methods</i>
                        and <i>Datasets</i> pages. The <i>Trial Characteristics</i> page
                        provides an overview of the characteristics of trials included
-                       in the dashboard.The <i>FAQ</i> and <i>Why these metrics?</i>
+                       in the dashboard.The <i>FAQ</i> and <i>Why these practices?</i>
                        pages provide more general information about this
-                       dashboard and our selection of metrics.")),
+                       dashboard and our selection of practices.")),
                     h3(style = "margin-left:0cm; color: purple",
                        "More information on the overall aim and methodology can be
                        found in the associated publication [enter DOI]. "),
@@ -260,23 +262,6 @@ server <- function (input, output, session) {
             ) %>%
             nrow()
 
-        ## Value for linkage
-
-        link_num <- iv_all %>%
-            filter(has_reg_pub_link == TRUE) %>%
-            filter(publication_type == "journal publication") %>%
-            filter(completion_year == 2017) %>%
-            nrow()
-
-        link_den <- iv_all %>%
-            filter(has_publication == TRUE) %>%
-            filter(publication_type == "journal publication") %>%
-            filter(completion_year == 2017) %>%
-            filter(has_pubmed == TRUE | ! is.na (doi)) %>%
-            nrow()
-            
-        linkage <- paste0(round(100*link_num/link_den), "%")
-
         wellPanel(
             style="padding-top: 0px; padding-bottom: 0px;",
             h2(strong("Trial Registration"), align = "left"),
@@ -308,20 +293,17 @@ server <- function (input, output, session) {
                         lim_text = lim_trn_tooltip
                     )
                 ),
-                
                 column(
                     col_width,
-                    metric_box(
-                        title = "Publication link in registry",
-                        value = linkage,
-                        value_text = paste0("of trials completed in 2017 with a publication (n=", link_den, ") provide a link to this publication in the registry entry"),
-                        plot = plotlyOutput('plot_linkage', height="300px"),
-                        info_id = "infoLinkage",
-                        info_title = "Publication link in registry",
-                        info_text = linkage_tooltip,
-                        lim_id = "limLinkage",
-                        lim_title = "Limitations: Publication link in registry",
-                        lim_text = lim_linkage_tooltip
+                    uiOutput("startlinkage"),
+                    selectInput(
+                        "startlinkagechooser",
+                        strong("Trial registry"),
+                        choices = c(
+                            "All",
+                            "ClinicalTrials.gov",
+                            "DRKS"
+                        )
                     )
                 )
                 
@@ -420,6 +402,75 @@ server <- function (input, output, session) {
             lim_text = lim_prereg_tooltip,
             lim_align = first_lim_align
         )
+    })
+
+    ## Start page linkage toggle
+    output$startlinkage <- renderUI({
+
+        req(input$width)
+
+        if (input$width < 1400) {
+            col_width <- 6
+            first_lim_align <- "left"
+        } else {
+            col_width <- 4
+            first_lim_align <- "right"
+        }
+
+        if (input$startlinkagechooser == "All") {
+
+            ## Value for linkage
+
+            link_num <- iv_all %>%
+                filter(has_reg_pub_link == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                filter(completion_year == 2017) %>%
+                nrow()
+
+            link_den <- iv_all %>%
+                filter(has_publication == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                filter(completion_year == 2017) %>%
+                filter(has_pubmed == TRUE | ! is.na (doi)) %>%
+                nrow()
+            
+            linkage <- paste0(round(100*link_num/link_den), "%")
+
+        } else {
+
+            ## Value for linkage
+
+            link_num <- iv_all %>%
+                filter(registry == input$startlinkagechooser) %>%
+                filter(has_reg_pub_link == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                filter(completion_year == 2017) %>%
+                nrow()
+
+            link_den <- iv_all %>%
+                filter(registry == input$startlinkagechooser) %>%
+                filter(has_publication == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                filter(completion_year == 2017) %>%
+                filter(has_pubmed == TRUE | ! is.na (doi)) %>%
+                nrow()
+            
+            linkage <- paste0(round(100*link_num/link_den), "%")
+        }
+        
+        metric_box(
+            title = "Publication link in registry",
+            value = linkage,
+            value_text = paste0("of trials completed in 2017 with a publication (n=", link_den, ") provide a link to this publication in the registry entry"),
+            plot = plotlyOutput('plot_linkage', height="300px"),
+            info_id = "infoLinkage",
+            info_title = "Publication link in registry",
+            info_text = linkage_tooltip,
+            lim_id = "limLinkage",
+            lim_title = "Limitations: Publication link in registry",
+            lim_text = lim_linkage_tooltip
+        )
+        
     })
 
     ## Start page: Trial reporting
@@ -529,7 +580,7 @@ server <- function (input, output, session) {
                 sumresvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
             } else {
                 sumresval <- paste0(sumres_percent, "%")
-                sumresvaltext <- paste0("of clinical trials registered in EUCTR (n=", sumres_denom, ") reported summary results (as of: ", eutt_date, ")")
+                sumresvaltext <- paste0("of due clinical trials registered in EUCTR (n=", sumres_denom, ") reported summary results (as of: ", eutt_date, ")")
             }
             
         } else {
@@ -552,7 +603,7 @@ server <- function (input, output, session) {
 
             sumresval <- paste0(sumres_percent, "%")
 
-            sumresvaltext <- paste0("of clinical trials registered in ", input$startsumresregistry, " (n=", sumres_denom, ") reported summary results")
+            sumresvaltext <- paste0("of due clinical trials registered in ", input$startsumresregistry, " (n=", sumres_denom, ") reported summary results")
             
         }
 
@@ -614,10 +665,10 @@ server <- function (input, output, session) {
             value_text = timpubvaltext,
             plot = plotlyOutput('plot_clinicaltrials_timpub_2a', height="300px"),
             info_id = "infoTimPub2",
-            info_title = "Timely Publication (2 years)",
+            info_title = "Results reporting (2 years)",
             info_text = timpub_tooltip2,
             lim_id = "limTimPub2",
-            lim_title = "Limitations: Timely Publication",
+            lim_title = "Limitations: Results reporting (2 years)",
             lim_text = lim_timpub_tooltip2
         )
     })
@@ -663,10 +714,10 @@ server <- function (input, output, session) {
             value_text = timpubvaltext5a,
             plot = plotlyOutput('plot_clinicaltrials_timpub_5a', height="300px"),
             info_id = "infoTimPub5",
-            info_title = "Publication by 5 years",
+            info_title = "Results reporting (5 years)",
             info_text = timpub_tooltip5,
             lim_id = "limTimPub5",
-            lim_title = "Limitations: Timely Publication",
+            lim_title = "Limitations: Results reporting (5 years)",
             lim_text = lim_timpub_tooltip5
         )
         
@@ -823,24 +874,7 @@ server <- function (input, output, session) {
                 ) %>%
                 nrow()
 
-            ## Value for linkage
 
-            link_num <- iv_umc %>%
-                filter(city == input$selectUMC) %>%
-                filter(has_reg_pub_link == TRUE) %>%
-                filter(publication_type == "journal publication") %>%
-                filter(completion_year == 2017) %>%
-                nrow()
-
-            link_den <- iv_umc %>%
-                filter(city == input$selectUMC) %>%
-                filter(has_publication == TRUE) %>%
-                filter(publication_type == "journal publication") %>%
-                filter (has_pubmed == TRUE | ! is.na (doi)) %>%
-                filter(completion_year == 2017) %>%
-                nrow()
-
-            linkage <- paste0(round(100*link_num/link_den), "%")
 
             wellPanel(
                 style="padding-top: 0px; padding-bottom: 0px;",
@@ -875,17 +909,15 @@ server <- function (input, output, session) {
                     ),
                     column(
                         col_width,
-                        metric_box(
-                            title = "Publication link in registry",
-                            value = linkage,
-                            value_text = paste0("of trials completed in 2017 with a publication (n=", link_den, ") provide a link to this publication in the registry entry"),
-                            plot = plotlyOutput('umc_plot_linkage', height="300px"),
-                            info_id = "UMCinfoLinkage",
-                            info_title = "Publication link in registry",
-                            info_text = linkage_tooltip,
-                            lim_id = "UMClimLinkage",
-                            lim_title = "Limitations: Publication link in registry",
-                            lim_text = lim_linkage_tooltip
+                        uiOutput("oneumclinkage"),
+                        selectInput(
+                            "oneumclinkagechooser",
+                            strong("Trial registry"),
+                            choices = c(
+                                "All",
+                                "ClinicalTrials.gov",
+                                "DRKS"
+                            )
                         )
                     )
                     
@@ -921,13 +953,13 @@ server <- function (input, output, session) {
 
             max_start_year <- max(pr_unique$start_year)
             
-                                        # Filter for 2017 completion date for the pink descriptor text
+                                        # Filter for latest completion date for the pink descriptor text
             all_numer_prereg <- pr_unique %>%
                 filter(start_year == max_start_year) %>%
                 filter(is_prospective) %>%
                 nrow()
             
-                                        # Filter for 2017 completion date for the pink descriptor text
+                                        # Filter for latest completion date for the pink descriptor text
             all_denom_prereg <- pr_unique %>%
                 filter(start_year == max_start_year) %>%
                 nrow()
@@ -952,16 +984,18 @@ server <- function (input, output, session) {
                 filter(! is.na (start_date)) %>%
                 filter(registry == input$oneumcpreregregistry) %>%
                 mutate(start_year = format(start_date, "%Y"))
+
+            max_start_year <- max(iv_data_unique$start_year)
             
-            ## Filter for 2017 completion date for the pink descriptor text
+            ## Filter for latest completion date for the pink descriptor text
             all_numer_prereg <- iv_data_unique %>%
-                filter(start_year == 2017) %>%
+                filter(start_year == max_start_year) %>%
                 filter(is_prospective) %>%
                 nrow()
             
-            ## Filter for 2017 completion date for the pink descriptor text
+            ## Filter for latest completion date for the pink descriptor text
             all_denom_prereg <- iv_data_unique %>%
-                filter(start_year == 2017) %>%
+                filter(start_year == max_start_year) %>%
                 nrow()
 
             if (all_denom_prereg == 0) {
@@ -969,7 +1003,7 @@ server <- function (input, output, session) {
                 preregvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
             } else {
                 preregval <- paste0(round(100*all_numer_prereg/all_denom_prereg), "%")
-                preregvaltext <- paste0("of registered clinical trials started in 2017 (n=", all_denom_prereg, ") were prospectively registered")
+                preregvaltext <- paste0("of registered clinical trials started in ", max_start_year, " (n=", all_denom_prereg, ") were prospectively registered")
             }
 
         }
@@ -986,6 +1020,80 @@ server <- function (input, output, session) {
             lim_title = "Limitations: Prospective registration",
             lim_text = lim_prereg_tooltip,
             lim_align = first_lim_align
+        )
+        
+    })
+
+    ## One UMC Linkage toggle
+    output$oneumclinkage <- renderUI({
+
+        req(input$width)
+
+        if (input$width < 1400) {
+            col_width <- 6
+            first_lim_align <- "left"
+        } else {
+            col_width <- 4
+            first_lim_align <- "right"
+        }
+
+        if (input$oneumclinkagechooser == "All") {
+
+            ## Value for linkage
+
+            link_num <- iv_umc %>%
+                filter(city == input$selectUMC) %>%
+                filter(has_reg_pub_link == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                filter(completion_year == 2017) %>%
+                nrow()
+
+            link_den <- iv_umc %>%
+                filter(city == input$selectUMC) %>%
+                filter(has_publication == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                filter (has_pubmed == TRUE | ! is.na (doi)) %>%
+                filter(completion_year == 2017) %>%
+                nrow()
+
+            linkage <- paste0(round(100*link_num/link_den), "%")
+            
+        } else {
+
+            ## Value for linkage
+
+            link_num <- iv_umc %>%
+                filter(registry == input$oneumclinkagechooser) %>%
+                filter(city == input$selectUMC) %>%
+                filter(has_reg_pub_link == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                filter(completion_year == 2017) %>%
+                nrow()
+
+            link_den <- iv_umc %>%
+                filter(registry == input$oneumclinkagechooser) %>%
+                filter(city == input$selectUMC) %>%
+                filter(has_publication == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                filter (has_pubmed == TRUE | ! is.na (doi)) %>%
+                filter(completion_year == 2017) %>%
+                nrow()
+
+            linkage <- paste0(round(100*link_num/link_den), "%")
+            
+        }
+
+        metric_box(
+            title = "Publication link in registry",
+            value = linkage,
+            value_text = paste0("of trials completed in 2017 with a publication (n=", link_den, ") provide a link to this publication in the registry entry"),
+            plot = plotlyOutput('umc_plot_linkage', height="300px"),
+            info_id = "UMCinfoLinkage",
+            info_title = "Publication link in registry",
+            info_text = linkage_tooltip,
+            lim_id = "UMClimLinkage",
+            lim_title = "Limitations: Publication link in registry",
+            lim_text = lim_linkage_tooltip
         )
         
     })
@@ -1099,7 +1207,7 @@ server <- function (input, output, session) {
                 sumresvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
             } else {
                 sumresval <- paste0(sumres_percent, "%")
-                sumresvaltext <- paste0("of due clinical trials registered in EUCTR (n=", sumres_denom, ") reported summary results within 1 year (as of: ", eutt_date, ")")
+                sumresvaltext <- paste0("of due clinical trials registered in EUCTR (n=", sumres_denom, ") reported summary results (as of: ", eutt_date, ")")
             }
             
         } else {
@@ -1124,7 +1232,7 @@ server <- function (input, output, session) {
 
             sumresval <- paste0(sumres_percent, "%")
 
-            sumresvaltext <- paste0("of clinical trials registered in ", input$oneumcsumresregistry, " (n=", sumres_denom, ") reported summary results")
+            sumresvaltext <- paste0("of due clinical trials registered in ", input$oneumcsumresregistry, " (n=", sumres_denom, ") reported summary results")
             
         }
 
@@ -1187,10 +1295,10 @@ server <- function (input, output, session) {
             value_text = timpubvaltext,
             plot = plotlyOutput('umc_plot_clinicaltrials_timpub_2a', height="300px"),
             info_id = "UMCinfoTimPub2",
-            info_title = "Timely Publication (2 years)",
+            info_title = "Results reporting (2 years)",
             info_text = timpub_tooltip2,
             lim_id = "UMClimTimPub2",
-            lim_title = "Limitations: Timely Publication",
+            lim_title = "Limitations: Results reporting (2 years)",
             lim_text = lim_timpub_tooltip2
         )
     })
@@ -1238,10 +1346,10 @@ server <- function (input, output, session) {
             value_text = timpubvaltext,
             plot = plotlyOutput('umc_plot_clinicaltrials_timpub_5a', height="300px"),
             info_id = "UMCinfoTimPub5",
-            info_title = "Timely Publication (5 years)",
+            info_title = "Results reporting (5 years)",
             info_text = timpub_tooltip5,
             lim_id = "UMClimTimPub5",
-            lim_title = "Limitations: Timely Publication",
+            lim_title = "Limitations: Results reporting (5 years)",
             lim_text = lim_timpub_tooltip5
         )
     })
@@ -1412,19 +1520,6 @@ server <- function (input, output, session) {
     ## All UMCs: Trial registration
     output$allumc_registration <- renderUI({
 
-        ## Value for linkage
-
-        all_numer_link <- iv_all %>%
-            filter(has_reg_pub_link == TRUE) %>%
-            filter(publication_type == "journal publication") %>%
-            nrow()
-
-        all_denom_link <- iv_all %>%
-            filter(has_publication == TRUE) %>%
-            filter(publication_type == "journal publication") %>%
-            filter(has_pubmed == TRUE | ! is.na(doi)) %>%
-            nrow()
-
         wellPanel(
             style="padding-top: 0px; padding-bottom: 0px;",
             h2(strong("Trial registration"), align = "left"),
@@ -1462,20 +1557,67 @@ server <- function (input, output, session) {
             fluidRow(
                 column(
                     12,
-                    metric_box(
-                        title = "Publication link in registry",
-                        value = paste0(round(100*all_numer_link/all_denom_link), "%"),
-                        value_text = "of trials with a publication provide a link to this publication in the registry entry",
-                        plot = plotlyOutput('plot_allumc_linkage', height="300px"),
-                        info_id = "infoALLUMCLinkage",
-                        info_title = "Linkage (All UMCs)",
-                        info_text = allumc_linkage_tooltip,
-                        lim_id = "limALLUMCLinkage",
-                        lim_title = "Limitations: Linkage (All UMCs)",
-                        lim_text = lim_allumc_linkage_tooltip
+                    uiOutput("allumclinkage"),
+                    selectInput(
+                        "allumc_linkagechooser",
+                        strong("Trial registry"),
+                        choices = c(
+                            "All",
+                            "ClinicalTrials.gov",
+                            "DRKS"
+                        )
                     )
                 )
             )
+        )
+        
+    })
+
+    output$allumclinkage <- renderUI({
+
+        ## Value for linkage
+
+        if (input$allumc_linkagechooser == "All") {
+
+            all_numer_link <- iv_all %>%
+                filter(has_reg_pub_link == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                nrow()
+
+            all_denom_link <- iv_all %>%
+                filter(has_publication == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                filter(has_pubmed == TRUE | ! is.na(doi)) %>%
+                nrow()
+            
+        } else {
+
+            all_numer_link <- iv_all %>%
+                filter(registry == input$allumc_linkagechooser) %>%
+                filter(has_reg_pub_link == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                nrow()
+
+            all_denom_link <- iv_all %>%
+                filter(registry == input$allumc_linkagechooser) %>%
+                filter(has_publication == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                filter(has_pubmed == TRUE | ! is.na(doi)) %>%
+                nrow()
+            
+        }
+
+        metric_box(
+            title = "Publication link in registry",
+            value = paste0(round(100*all_numer_link/all_denom_link), "%"),
+            value_text = "of trials with a publication provide a link to this publication in the registry entry",
+            plot = plotlyOutput('plot_allumc_linkage', height="300px"),
+            info_id = "infoALLUMCLinkage",
+            info_title = "Linkage (All UMCs)",
+            info_text = allumc_linkage_tooltip,
+            lim_id = "limALLUMCLinkage",
+            lim_title = "Limitations: Linkage (All UMCs)",
+            lim_text = lim_allumc_linkage_tooltip
         )
         
     })
@@ -1495,7 +1637,7 @@ server <- function (input, output, session) {
                 select(avg) %>%
                 pull()
 
-            sumresvaltext <- paste("of due clinical trials registered in EUCTR reported summary results within 1 year (as of:", eutt_date, ")")
+            sumresvaltext <- paste("of due clinical trials registered in EUCTR reported summary results (as of:", eutt_date, ")")
             
         } else {
             ## Summary results for CT dot gov and DRKS
@@ -1515,7 +1657,7 @@ server <- function (input, output, session) {
 
             sumres_percent <- 100*sumres_numer/sumres_denom
 
-            sumresvaltext <- paste0("of clinical trials registered in ", input$allumcsumresregistry, " reported summary results")
+            sumresvaltext <- paste0("of due clinical trials registered in ", input$allumcsumresregistry, " reported summary results")
             
         }
         
@@ -1525,10 +1667,10 @@ server <- function (input, output, session) {
             value_text = sumresvaltext,
             plot = plotlyOutput('plot_allumc_clinicaltrials_sumres', height="300px"),
             info_id = "infoALLUMCSumRes",
-            info_title = "Summary results reporting in EUCTR (All UMCs)",
+            info_title = "Summary results reporting (All UMCs)",
             info_text = allumc_clinicaltrials_sumres_tooltip,
             lim_id = "limALLUMCSumRes",
-            lim_title = "Limitations: Summary results reporting in EUCTR (All UMCs)",
+            lim_title = "Limitations: Summary results reporting (All UMCs)",
             lim_text = lim_allumc_clinicaltrials_sumres_tooltip
         )
         
@@ -1773,10 +1915,10 @@ server <- function (input, output, session) {
             value_text = "of clinical trials reported results within 2 years",
             plot = plotlyOutput('plot_allumc_clinicaltrials_timpub', height="300px"),
             info_id = "infoALLUMCTimPub",
-            info_title = "Timely Publication (All UMCs)",
+            info_title = "Results reporting (2 years) (All UMCs)",
             info_text = allumc_clinicaltrials_timpub_tooltip,
             lim_id = "limALLUMCTimPub",
-            lim_title = "Limitations: Timely Publication (All UMCs)",
+            lim_title = "Limitations: Results reporting (2 years) (All UMCs)",
             lim_text = lim_allumc_clinicaltrials_timpub_tooltip
         )
         
@@ -1824,10 +1966,10 @@ server <- function (input, output, session) {
             value_text = "of clinical trials reported results within 5 years",
             plot = plotlyOutput('plot_allumc_timpub_5a', height="300px"),
             info_id = "infoALLUMCTimPub5a",
-            info_title = "Publication within 5 years (All UMCs)",
+            info_title = "Results reporting (5 years) (All UMCs)",
             info_text = allumc_clinicaltrials_timpub_tooltip5a,
             lim_id = "limALLUMCTimPub5a",
-            lim_title = "Limitations: Publication within 5 years (All UMCs)",
+            lim_title = "Limitations: Results reporting (5 years) (All UMCs)",
             lim_text = lim_allumc_clinicaltrials_timpub_tooltip5a
         )
         
@@ -1947,7 +2089,7 @@ server <- function (input, output, session) {
 
     ## Linkage plot
     output$plot_linkage <- renderPlotly({
-        return (plot_linkage(iv_all, color_palette))
+        return (plot_linkage(iv_all, color_palette, input$startlinkagechooser))
     })
     
     ## Summary results plot
@@ -1989,7 +2131,7 @@ server <- function (input, output, session) {
 
     ## Linkage plot
     output$umc_plot_linkage <- renderPlotly({
-        return (umc_plot_linkage(iv_umc, iv_all, input$selectUMC, color_palette))
+        return (umc_plot_linkage(iv_umc, iv_all, input$oneumclinkagechooser, input$selectUMC, color_palette))
     })
     
     ## Open Access plot
@@ -2031,7 +2173,7 @@ server <- function (input, output, session) {
 
     ## Linkage
     output$plot_allumc_linkage <- renderPlotly({
-        return(plot_allumc_linkage(iv_umc, color_palette, color_palette_bars))
+        return(plot_allumc_linkage(iv_umc, input$allumc_linkagechooser, color_palette, color_palette_bars))
     })
     
     ## Summary results

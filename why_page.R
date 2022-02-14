@@ -1,6 +1,6 @@
 why_page <- tabPanel(
-    "Why these metrics?",
+    "Why these practices?",
     value = "tabWhy",
-    h2("Why these metrics?"),
-    img(src="why-these-metrics-dashboard.png", width = "80%")
+    h2("Why these practices?"),
+    img(src="why-these-metrics-dashboard.png", width = "100%")
 )

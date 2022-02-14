@@ -186,12 +186,17 @@ plot_clinicaltrials_trn <- function (dataset, color_palette) {
 }
 
 ## Linkage
-plot_linkage <- function (dataset, color_palette) {
+plot_linkage <- function (dataset, color_palette, chosenregistry) {
 
     dataset <- dataset %>%
         filter(has_publication == TRUE) %>%
         filter(publication_type == "journal publication") %>%
         filter(has_pubmed == TRUE | ! is.na (doi))
+
+    if (chosenregistry != "All") {
+        dataset <- dataset %>%
+            filter(registry == chosenregistry)
+    }
 
     years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
 
