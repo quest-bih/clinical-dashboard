@@ -214,12 +214,17 @@ plot_allumc_clinicaltrials_trn <- function (dataset, location, color_palette) {
 }
 
 ## Publication link in registry
-plot_allumc_linkage <- function (dataset, color_palette, color_palette_bars) {
+plot_allumc_linkage <- function (dataset, chosenregistry, color_palette, color_palette_bars) {
 
     dataset <- dataset %>%
         filter(has_publication == TRUE) %>%
         filter(publication_type == "journal publication") %>%
         filter (has_pubmed == TRUE | ! is.na (doi))
+
+    if (chosenregistry != "All") {
+        dataset <- dataset %>%
+            filter(registry == chosenregistry)
+    }
 
     plot_data <- tribble(
         ~x_label, ~percentage, ~mouseover

@@ -1520,19 +1520,6 @@ server <- function (input, output, session) {
     ## All UMCs: Trial registration
     output$allumc_registration <- renderUI({
 
-        ## Value for linkage
-
-        all_numer_link <- iv_all %>%
-            filter(has_reg_pub_link == TRUE) %>%
-            filter(publication_type == "journal publication") %>%
-            nrow()
-
-        all_denom_link <- iv_all %>%
-            filter(has_publication == TRUE) %>%
-            filter(publication_type == "journal publication") %>%
-            filter(has_pubmed == TRUE | ! is.na(doi)) %>%
-            nrow()
-
         wellPanel(
             style="padding-top: 0px; padding-bottom: 0px;",
             h2(strong("Trial registration"), align = "left"),
@@ -1570,20 +1557,67 @@ server <- function (input, output, session) {
             fluidRow(
                 column(
                     12,
-                    metric_box(
-                        title = "Publication link in registry",
-                        value = paste0(round(100*all_numer_link/all_denom_link), "%"),
-                        value_text = "of trials with a publication provide a link to this publication in the registry entry",
-                        plot = plotlyOutput('plot_allumc_linkage', height="300px"),
-                        info_id = "infoALLUMCLinkage",
-                        info_title = "Linkage (All UMCs)",
-                        info_text = allumc_linkage_tooltip,
-                        lim_id = "limALLUMCLinkage",
-                        lim_title = "Limitations: Linkage (All UMCs)",
-                        lim_text = lim_allumc_linkage_tooltip
+                    uiOutput("allumclinkage"),
+                    selectInput(
+                        "allumc_linkagechooser",
+                        strong("Trial registry"),
+                        choices = c(
+                            "All",
+                            "ClinicalTrials.gov",
+                            "DRKS"
+                        )
                     )
                 )
             )
+        )
+        
+    })
+
+    output$allumclinkage <- renderUI({
+
+        ## Value for linkage
+
+        if (input$allumc_linkagechooser == "All") {
+
+            all_numer_link <- iv_all %>%
+                filter(has_reg_pub_link == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                nrow()
+
+            all_denom_link <- iv_all %>%
+                filter(has_publication == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                filter(has_pubmed == TRUE | ! is.na(doi)) %>%
+                nrow()
+            
+        } else {
+
+            all_numer_link <- iv_all %>%
+                filter(registry == input$allumc_linkagechooser) %>%
+                filter(has_reg_pub_link == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                nrow()
+
+            all_denom_link <- iv_all %>%
+                filter(registry == input$allumc_linkagechooser) %>%
+                filter(has_publication == TRUE) %>%
+                filter(publication_type == "journal publication") %>%
+                filter(has_pubmed == TRUE | ! is.na(doi)) %>%
+                nrow()
+            
+        }
+
+        metric_box(
+            title = "Publication link in registry",
+            value = paste0(round(100*all_numer_link/all_denom_link), "%"),
+            value_text = "of trials with a publication provide a link to this publication in the registry entry",
+            plot = plotlyOutput('plot_allumc_linkage', height="300px"),
+            info_id = "infoALLUMCLinkage",
+            info_title = "Linkage (All UMCs)",
+            info_text = allumc_linkage_tooltip,
+            lim_id = "limALLUMCLinkage",
+            lim_title = "Limitations: Linkage (All UMCs)",
+            lim_text = lim_allumc_linkage_tooltip
         )
         
     })
@@ -2139,7 +2173,7 @@ server <- function (input, output, session) {
 
     ## Linkage
     output$plot_allumc_linkage <- renderPlotly({
-        return(plot_allumc_linkage(iv_umc, color_palette, color_palette_bars))
+        return(plot_allumc_linkage(iv_umc, input$allumc_linkagechooser, color_palette, color_palette_bars))
     })
     
     ## Summary results
