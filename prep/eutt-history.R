@@ -32,6 +32,11 @@ output_filename <- paste0(Sys.Date(), "-eutt-history.csv")
 
 # Select sponsors you want to get the data from in EUTT
 sponsors_of_interest <- read_csv("eutt-sponsors-of-interest.csv")
+umc_names <- read_csv("https://github.com/maia-sh/intovalue-data/raw/main/data/raw/city-lookup-umc.csv")
+
+sponsors_of_interest <- sponsors_of_interest %>%
+    left_join(umc_names) %>%
+    select(! city_id)
 
 if (!file.exists(output_filename)) {
     tribble(
