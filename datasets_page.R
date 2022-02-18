@@ -49,5 +49,11 @@ datasets_page <- tabPanel(
             DT::dataTableOutput("data_table_iv_data"),
             style="default"
         )
-    )
+    ),
+    bsCollapsePanel(strong("Impressum"),
+                    impressum_text,
+                    style = "default"),
+    bsCollapsePanel(strong("Datenschutz"),
+                    datenschutz_text,
+                    style = "default")
 )

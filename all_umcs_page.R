@@ -260,5 +260,11 @@ all_umcs_page <- tabPanel(
     ),
     uiOutput("allumc_registration"),
     uiOutput("allumc_reporting"),
-    uiOutput("allumc_openscience")
+    uiOutput("allumc_openscience"),
+    bsCollapsePanel(strong("Impressum"),
+                    impressum_text,
+                    style = "default"),
+    bsCollapsePanel(strong("Datenschutz"),
+                    datenschutz_text,
+                    style = "default")
 )

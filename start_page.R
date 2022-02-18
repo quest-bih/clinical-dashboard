@@ -5,6 +5,12 @@ start_page <- tabPanel(
     uiOutput("startpage"),
     uiOutput("registry_metrics"),
     uiOutput("publication_metrics"),
-    uiOutput("openscience_metrics")
+    uiOutput("openscience_metrics"),
+    bsCollapsePanel(strong("Impressum"),
+                    impressum_text,
+                    style = "default"),
+    bsCollapsePanel(strong("Datenschutz"),
+                    datenschutz_text,
+                    style = "default")
 )
 

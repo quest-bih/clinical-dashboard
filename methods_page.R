@@ -404,7 +404,13 @@ methods_page <- tabPanel(
     helpText(HTML('<a href="https://shareyourpaper.org/permissions/about">
                   ShareYourPaper permissions checker API</a> from OA.Works')),
     helpText(HTML('<a href="https://github.com/maia-sh/ctregistries">ctregistries repository</a>')),
-    helpText(HTML('<a href="https://eu.trialstracker.net/">EU Trials Tracker </a>'))
+    helpText(HTML('<a href="https://eu.trialstracker.net/">EU Trials Tracker </a>')),
+    bsCollapsePanel(strong("Impressum"),
+                    impressum_text,
+                    style = "default"),
+    bsCollapsePanel(strong("Datenschutz"),
+                    datenschutz_text,
+                    style = "default")
 )
 
 

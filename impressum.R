@@ -9,7 +9,7 @@ impressum_text <- HTML("<b>Berliner Institut für Gesundheitsforschung in der Ch
                                        E-Mail: info@bih-charite.de<br>
                                        <br>
                                        <b>Vertretungsberechtigt</b><br>
-                                       Prof. Dr. Christopher H. Baum<br>
+                                       Prof. Dr. Dr. Daniel Strech<br>
                                        <br>
                                        <b>Kontakt</b><br>
                                        Dr. Nico Riedel<br>

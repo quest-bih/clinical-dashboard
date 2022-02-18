@@ -58,5 +58,11 @@ umc_page <- tabPanel(
     ),
     uiOutput("umc_registry_metrics"),
     uiOutput("umc_publication_metrics"),
-    uiOutput("umc_openscience_metrics")
+    uiOutput("umc_openscience_metrics"),
+    bsCollapsePanel(strong("Impressum"),
+                    impressum_text,
+                    style = "default"),
+    bsCollapsePanel(strong("Datenschutz"),
+                    datenschutz_text,
+                    style = "default")
 )
