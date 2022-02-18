@@ -19,7 +19,8 @@ intovalue <- intovalue %>%
 
 # Trials with a journal article have a publication (disregard dissertations and abstracts) %>% 
 intovalue <- intovalue %>%
-    mutate(has_publication = if_else(publication_type == "journal publication", TRUE, FALSE, missing = FALSE))
+    mutate(has_publication = if_else(publication_type == "journal publication", TRUE, FALSE, missing = FALSE)) %>%
+    mutate(city = lead_cities)
 
 iv_all <- intovalue
 
@@ -27,14 +28,6 @@ iv_all <- intovalue
 iv_umc <- intovalue %>%
     mutate(lead_cities = strsplit(as.character(lead_cities), " ")) %>%
     tidyr::unnest(lead_cities)
-
-## This is the library of transformations
-## Note that the `city` column CAN NOT contain spaces
-transforms <- read_csv(here("prep", "intovalue-city-transforms.csv"))
-
-## This will apply the transformations
-iv_umc <- iv_umc %>%
-    left_join(transforms)
 
 ## This creates a data folder, if it doesn't exist already
 dir_create("data")
