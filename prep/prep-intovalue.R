@@ -17,7 +17,7 @@ intovalue <- intovalue %>%
         !(is_dupe & iv_version == 1)
     )
 
-# Trials with a journal article have a publication (disregard dissertations and abstracts) %>% 
+# Trials with a journal article have a publication (disregard dissertations and abstracts) %>%
 intovalue <- intovalue %>%
     mutate(has_publication = if_else(publication_type == "journal publication", TRUE, FALSE, missing = FALSE)) %>%
     mutate(city = lead_cities)
@@ -40,11 +40,14 @@ iv_umc %>%
     write_csv(here("data", "ct-dashboard-intovalue-umc.csv"))
 
 ## Get prospective registration data for ClinicalTrials.gov (only)
-prop_reg_ctgov <- read_csv("https://raw.githubusercontent.com/maia-sh/intovalue-data/ctgov-2018/data/ctgov-2018/prospective-reg-ctgov-2018-trials.csv")
+prop_reg_ctgov <- read_csv("https://github.com/maia-sh/intovalue-data/blob/main/data/ctgov-2018/prospective-reg-ctgov-2018-trials.csv?raw=true")
 
+# Apply exclusion criteria
+prop_reg_ctgov <- prop_reg_ctgov %>%
+    filter(start_2006_2018 & iv_interventional & iv_status)
+
+## This writes the final CSV out
 prop_reg_ctgov %>%
-    mutate(cities = str_replace_all(cities, "TU\ München", "TU-München")) %>%
-    mutate(cities = str_replace_all(cities, "LMU\ München", "LMU-München")) %>%
     write_csv(here("data", "prospective-reg-ctgov-2018-trials.csv"))
 
 ## Read IV lookup table
