@@ -16,7 +16,7 @@ library(gt)
 
 ## Generate this from the EUTT repo using the script in
 ## prep/eutt-history.R
-eutt_date <- "2022-02-14"
+eutt_date <- "2022-02-18"
 eutt_hist <- read_csv(
     paste0("data/", eutt_date, "-eutt-history.csv")
 )
