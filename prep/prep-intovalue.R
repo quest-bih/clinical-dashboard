@@ -19,15 +19,14 @@ intovalue <- intovalue %>%
 
 # Trials with a journal article have a publication (disregard dissertations and abstracts) %>%
 intovalue <- intovalue %>%
-    mutate(has_publication = if_else(publication_type == "journal publication", TRUE, FALSE, missing = FALSE)) %>%
-    mutate(city = lead_cities)
+    mutate(has_publication = if_else(publication_type == "journal publication", TRUE, FALSE, missing = FALSE))
 
 iv_all <- intovalue
 
 ## Un-nest the cities
 iv_umc <- intovalue %>%
-    mutate(lead_cities = strsplit(as.character(lead_cities), " ")) %>%
-    tidyr::unnest(lead_cities)
+    mutate(city = strsplit(as.character(lead_cities), " ")) %>%
+    tidyr::unnest(city)
 
 ## This creates a data folder, if it doesn't exist already
 dir_create("data")
