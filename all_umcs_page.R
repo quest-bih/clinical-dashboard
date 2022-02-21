@@ -15,7 +15,7 @@ allumc_openaccess_tooltip <- strwrap("This metric shows the percentage of clinic
                               of gold - hybrid - green. Note that the
                               OA percentage is not fixed but typically rises
                               retrospectively, as some publications become accessible
-                              with a delay. Query date: 10/12/2021. More information
+                              with a delay. Query date: 20/02/2022. More information
                               can be found in the Methods page.")
 
 lim_allumc_openaccess_tooltip <- strwrap("The OA status could only be obtained for publications
@@ -38,7 +38,7 @@ allumc_greenoa_tooltip <- strwrap("This metric shows the percentage of paywalled
                              (if any). Therefore, the number of paywalled publications
                              with the potential for green OA will change over time.
                              The Shareyourpaper permissions API was queried on
-                             10/12/2021. More information can be
+                             20/02/2022. More information can be
                              found in the Methods page.")
 
 lim_allumc_greenoa_tooltip <- strwrap("The OA status and self-archiving permission could

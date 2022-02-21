@@ -71,7 +71,7 @@ methods_page <- tabPanel(
                                <a href=https://github.com/maia-sh/intovalue-data>
                                associated code repository in GitHub</a>. Three German UMCs
                                (Augsburg, Bielefeld, and Oldenburg) were founded after
-                               the start of data collection. Note that in this cohort,
+                               the start of data collection. In this cohort,
                                Kiel and Lübeck are represented as a single UMC
                                (Schleswig-Holstein).<br>
                                 
@@ -82,8 +82,8 @@ methods_page <- tabPanel(
                                       and considered as \"complete\" per the study
                                       status in the registry. We downloaded updated
                                       registry data for the trials in this cohort on
-                                      6 October 2021. Note that in this cohort,
-                                      Kiel and Lübeck are represented as separate UMCs.<br>
+                                      6 October 2021. In this cohort, Kiel and Lübeck are
+                                      represented as a single UMC (Schleswig-Holstein)<br>
                                       
                             <br>3. <b>Summary results reporting in the EUCTR</b>: this
                             assessment was based on the
@@ -227,7 +227,7 @@ methods_page <- tabPanel(
                              trials, and total number of trials that reported results) from historical
                              versions of the EU Trials Tracker&#39s (EBM DataLab) 
                              <a href=https://github.com/ebmdatalab/euctr-tracker-data>code repository</a>
-                             (latest data extracted on 6 December 2021). While the EU Trials Tracker is
+                             (latest data extracted on 18 February 2022). While the EU Trials Tracker is
                              usually updated monthly, in some cases there was more than one update within
                              the same month. In these cases, only the latest data point within that month
                              was displayed. Note that some trials registered in EudraCT and captured in
@@ -260,7 +260,15 @@ methods_page <- tabPanel(
                              
                              HTML('This analysis was limited to trials in the IntoValue dataset
                                 (registered in ClinicalTrials.gov or DRKS). <i>Results reporting as
-                                summary results in the registry</i>: see above. <i>Results reporting
+                                summary results in the registry</i>: Summary results posting was extracted
+                                from ClinicalTrials.gov and DRKS via automated methods. ClinicalTrials.gov
+                                includes a structured summary results field. In contrast, DRKS includes
+                                summary results with other references. In the absence of a structured summary
+                                results field in DRKS, we detected summary results in this registry based on
+                                the presence of keywords (e.g., Ergebnisbericht or Abschlussbericht) in the
+                                reference title. The summary results date in DRKS was extracted manually from
+                                the registry’s change history (which indicates when the summary result was
+                                  uploaded). <i>Results reporting
                                 as a journal publication</i>: this data was previously obtained as
                                 part of the <a href=https://doi.org/10.1016/j.jclinepi.2019.06.002>
                              IntoValue 1 study</a> and the follow-up 
@@ -271,11 +279,14 @@ methods_page <- tabPanel(
                              does not reflect all result publications of a given trial. Publication dates
                              were manually entered during publication searches.<br>
                              <br>When calculating the 2-year and 5-year reporting
-                             rates, we only considered trials for which we had 2 and 5 years follow-up
-                             time since trial completion, respectively. The plot only displays data for
-                             completion years with more than 5 trials. Note for the One UMC page: in
-                             case there were no trials for a given UMC and completion year (denominator = 0),
-                             the data point for this completion year is omitted in the plot.'),
+                             rates (summary results), we only considered trials for which we had 2 and 5 years
+                             follow-up time from trial completion to the registry query date, respectively. When
+                             calculating the 2-year and 5-year reporting rates (journal publication), we only
+                             considered trials for which we had 2 and 5 years follow-up time from trial completion
+                             to the manual search date, respectively. The plot only displays data for completion
+                             years with more than 5 trials. Note for the One UMC page: in case there were no trials
+                             for a given UMC and completion year (denominator = 0), the data point for this
+                             completion year is omitted in the plot.'),
                              
                              HTML("<i>Results reporting as summary results in the registry</i>:
                                 ClinicalTrials.gov includes a structured summary results field. In contrast,
@@ -283,9 +294,15 @@ methods_page <- tabPanel(
                              inferred based on keywords, such as \"Ergebnisbericht\" or \"Abschlussbericht\",
                              in the reference title. The data presented relies on the information in registry
                              entries being accurate and complete. <i>Results reporting as a journal
-                             publication</i>: some of the publications may have been missed in the manual
-                             search procedure as the search was restricted to a limited number of
-                             scientific databases and the responsible parties were not contacted."))),
+                             publication</i>: The manual searches for trial results publications in the
+                                  IntoValue 1 cohort (trials completed between 2009 – 2013) were performed
+                                  between July 2017 and December 2017. The manual searches for trial results
+                                  publications in the IntoValue 2 cohort (trials completed between 2014 – 2017)
+                                  were performed between July 2020 and September 2020. Trial results
+                                  publications published after these manual searches were conducted would
+                                  have been missed. Furthermore, some publications may have been missed in the
+                                  manual search procedure as the search was restricted to a limited number of
+                                  scientific databases and the responsible parties were not contacted."))),
     
     hr(),
     h3("Open Access"),
@@ -336,7 +353,7 @@ methods_page <- tabPanel(
                         are often made available with a delay. Therefore, the OA percentage for a given
                         year typically rises retrospectively. Thus, the point in time
                         at which the OA status is retrieved is important for the OA percentage. The latest
-                        OA data was retrieved with UnpaywallR on: 10/12/2021.'),
+                        OA data was retrieved with UnpaywallR on: 20/02/2022.'),
                              
                              "The OA status could only be obtained for publications with a DOI and
                              which resolved in Unpaywall. We did not perform a manual check of the OA data."),
@@ -382,7 +399,7 @@ methods_page <- tabPanel(
                              the publication date and the length of the embargo (if any). Therefore,
                              the number of paywalled publications with the potential for green OA will
                              change over time. The Unpaywall database and the Shareyourpaper permissions
-                             API were queried on 10/12/2021. The plots for this metric on the Start page
+                             API were queried on 20/02/2022. The plots for this metric on the Start page
                              only display data for years with more than 20 publications.'),
                              
                              "Not all queried publications resolved in Unpaywall and ShareYourPaper.
@@ -437,7 +454,7 @@ openaccess_tooltip <- strwrap("This metric shows the percentage of clinical tria
                               in this dashboard are also included. Note that the
                               OA percentage is not fixed but typically rises
                               retrospectively, as some publications become accessible
-                              with a delay. Query date: 10/12/2021. Start page: only
+                              with a delay. Query date: 20/02/2022. Start page: only
                               publication years with more than 20 publications are shown.
                               More information can be found in the Methods page.") %>%
     paste(collapse = " ")
@@ -463,7 +480,7 @@ greenopenaccess_tooltip <- strwrap('This metric shows the percentage of paywalle
                              (if any). Therefore, the number of paywalled publications
                              with the potential for green OA will change over time.
                              The Shareyourpaper permissions API was queried on
-                             10/12/2021. Start page: only publication years with more than
+                             20/02/2022. Start page: only publication years with more than
                              20 publications are shown. More information can be
                              found in the Methods page.') %>%
     paste(collapse = " ")
