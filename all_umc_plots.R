@@ -371,9 +371,6 @@ plot_allumc_clinicaltrials_sumres <- function (dataset, iv_dataset, toggled_regi
 ## Timely reporting (2 years)
 plot_allumc_clinicaltrials_timpub <- function (dataset, rt, color_palette, color_palette_bars) {
     
-    dataset <- dataset %>%
-        filter(has_followup_2y == TRUE)
-
     plot_data <- tribble (
         ~x_label, ~percentage, ~mouseover
     )
@@ -383,8 +380,14 @@ plot_allumc_clinicaltrials_timpub <- function (dataset, rt, color_palette, color
         umc_numer <- dataset %>%
             filter(
                 city == umc,
-                is_summary_results_2y | is_publication_2y
+                (has_followup_2y_sumres & is_summary_results_2y) | (has_followup_2y_pub & is_publication_2y)
             ) %>%
+            nrow()
+        
+        umc_denom <- dataset %>%
+            filter(
+                has_followup_2y_pub | has_followup_2y_sumres,
+                city == umc) %>%
             nrow()
 
         if (rt == "Summary results only") {
@@ -392,10 +395,17 @@ plot_allumc_clinicaltrials_timpub <- function (dataset, rt, color_palette, color
             umc_numer <- dataset %>%
                 filter(
                     city == umc,
+                    has_followup_2y_sumres,
                     is_summary_results_2y
                 ) %>%
                 nrow()
             
+            umc_denom <- dataset %>%
+                filter(
+                    city == umc,
+                    has_followup_2y_sumres
+                ) %>%
+                nrow()
         }
 
         if (rt == "Publication only") {
@@ -403,15 +413,18 @@ plot_allumc_clinicaltrials_timpub <- function (dataset, rt, color_palette, color
             umc_numer <- dataset %>%
                 filter(
                     city == umc,
+                    has_followup_2y_pub,
                     is_publication_2y
                 ) %>%
                 nrow()
             
+            umc_denom <- dataset %>%
+                filter(
+                    city == umc,
+                    has_followup_2y_pub
+                ) %>%
+                nrow()
         }
-
-        umc_denom <- dataset %>%
-            filter(city == umc) %>%
-            nrow()
 
         plot_data <- plot_data %>%
             bind_rows(
@@ -459,9 +472,6 @@ plot_allumc_clinicaltrials_timpub <- function (dataset, rt, color_palette, color
 
 plot_allumc_timpub_5a <- function (dataset, rt, color_palette, color_palette_bars) {
 
-    dataset <- dataset %>%
-        filter(has_followup_5y == TRUE)
-
     plot_data <- tribble (
         ~x_label, ~percentage, ~mouseover
     )
@@ -471,8 +481,14 @@ plot_allumc_timpub_5a <- function (dataset, rt, color_palette, color_palette_bar
         umc_numer <- dataset %>%
             filter(
                 city == umc,
-                is_summary_results_5y | is_publication_5y
+                (has_followup_5y_sumres & is_summary_results_5y) | (has_followup_5y_pub & is_publication_5y)
             ) %>%
+            nrow()
+        
+        umc_denom <- dataset %>%
+            filter(
+                city == umc,
+                has_followup_5y_sumres | has_followup_5y_pub) %>%
             nrow()
 
         if (rt == "Summary results only") {
@@ -480,10 +496,17 @@ plot_allumc_timpub_5a <- function (dataset, rt, color_palette, color_palette_bar
             umc_numer <- dataset %>%
                 filter(
                     city == umc,
+                    has_followup_5y_sumres,
                     is_summary_results_5y
                 ) %>%
                 nrow()
             
+            umc_denom <- dataset %>%
+                filter(
+                    city == umc,
+                    has_followup_5y_sumres
+                ) %>%
+                nrow()
         }
 
         if (rt == "Publication only") {
@@ -491,15 +514,18 @@ plot_allumc_timpub_5a <- function (dataset, rt, color_palette, color_palette_bar
             umc_numer <- dataset %>%
                 filter(
                     city == umc,
+                    has_followup_5y_pub,
                     is_publication_5y
                 ) %>%
                 nrow()
             
+            umc_denom <- dataset %>%
+                filter(
+                    city == umc,
+                    has_followup_5y_pub
+                ) %>%
+                nrow()
         }
-
-        umc_denom <- dataset %>%
-            filter(city == umc) %>%
-            nrow()
 
         plot_data <- plot_data %>%
             bind_rows(
