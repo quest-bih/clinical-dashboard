@@ -178,7 +178,7 @@ faq_page <- tabPanel(
                                       on <b>6 October 2021</b>.<br>
                                       <br>For summary results reporting in the
                                       EUCTR, we extracted data from the EU Trials
-                                      Tracker on <b>6 December 2021</b>.")),
+                                      Tracker on <b>18 February 2022</b>.")),
                                value = "faqPanels_UpToDate",
                                style = "default")),
     bsCollapse(id = "faqPanels_MoreMethods",
@@ -211,7 +211,7 @@ faq_page <- tabPanel(
                                publications. All data processing steps are
                                available and documented in <a href=https://github.com/maia-sh/intovalue-data>GitHub</a>.
                                More details on the methods to detect trial and
-                               publication linkage can be found in this
+                               publication links can be found in this
                                <a href=https://www.medrxiv.org/content/10.1101/2021.08.23.21262478v1>preprint</a>
                                and in <a href=https://github.com/maia-sh/reg-pub-link>GitHub</a>.
                                The dashboard was developed with Shiny and the

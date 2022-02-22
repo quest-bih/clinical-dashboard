@@ -250,8 +250,8 @@ methods_page <- tabPanel(
                methods_panel("Results reporting (2-year and 5-year reporting)",
                              
                              HTML("How many clinical trials reported results within 2 and 5
-                             years of trial completion as (a) summary results in the registry, and
-                             b) a journal publication. A fast dissemination of trial
+                             years of trial completion as (a) a journal publication, and b) summary results
+                             in the registry. A fast dissemination of trial
                              results is crucial to make the evidence gained in those trials available.
                              The <a href=https://www.who.int/news/item/18-05-2017-joint-statement-on-registration>
                         World Health Organization</a> recommends publishing registry summary results within
@@ -278,12 +278,12 @@ methods_page <- tabPanel(
                              the earliest was included. The data presented in this dashboard therefore
                              does not reflect all result publications of a given trial. Publication dates
                              were manually entered during publication searches.<br>
-                             <br>When calculating the 2-year and 5-year reporting
-                             rates (summary results), we only considered trials for which we had 2 and 5 years
+                             <br><b>When calculating the 2-year and 5-year reporting
+                             rates (summary results), we only included trials for which we had 2 and 5 years
                              follow-up time from trial completion to the registry query date, respectively. When
                              calculating the 2-year and 5-year reporting rates (journal publication), we only
-                             considered trials for which we had 2 and 5 years follow-up time from trial completion
-                             to the manual search date, respectively. The plot only displays data for completion
+                             included trials for which we had 2 and 5 years follow-up time from trial completion
+                             to the manual search date, respectively</b>. The plot only displays data for completion
                              years with more than 5 trials. Note for the One UMC page: in case there were no trials
                              for a given UMC and completion year (denominator = 0), the data point for this
                              completion year is omitted in the plot.'),
@@ -345,7 +345,7 @@ methods_page <- tabPanel(
                              for each publication only assigned the category with the highest priority.
                              We used a hierarchy of gold - hybrid - green. A more detailed breakdown
                              of the absolute number of publications across all categories can be
-                             visualised by clicking on the toggle next to the plot. The plots for
+                             visualised by clicking on the toggle above the plot. The plots for
                              this metric on the Start page only display data for years with more
                              than 20 publications.
                         <br>
@@ -353,7 +353,7 @@ methods_page <- tabPanel(
                         are often made available with a delay. Therefore, the OA percentage for a given
                         year typically rises retrospectively. Thus, the point in time
                         at which the OA status is retrieved is important for the OA percentage. The latest
-                        OA data was retrieved with UnpaywallR on: 20/02/2022.'),
+                        OA data was retrieved with UnpaywallR on 20 February 2022.'),
                              
                              "The OA status could only be obtained for publications with a DOI and
                              which resolved in Unpaywall. We did not perform a manual check of the OA data."),
@@ -372,18 +372,20 @@ methods_page <- tabPanel(
                              it is to be deposited. Moreover, in many cases only the accepted version
                              of the publication can be archived after an embargo period of 6 or 12 months.
                              It can be difficult to retrieve the correct version of the publication after this
-                             delay."),
+                             delay. Click on the toggle to view absolute numbers (light green shows the number
+                             of publications currently behind a paywall that have a permission for self-archiving
+                             in an institutional repository)."),
                              
                              HTML('This analysis was limited to trials in the IntoValue dataset (registered
                                 in ClinicalTrials.gov or DRKS) with a journal publication and a DOI. The
                                 publication date from Unpaywall was used to display the data over
                              time. Therefore, this analysis was also limited to publications with a
-                             publication date in Unpaywall. In a first step, we identified publications
+                             publication date in Unpaywall. In the first step, we identified publications
                              which are
                              only accessible in a repository (Green OA only). To do so, we queried Unpaywall
                              via its API using the <a href="https://github.com/NicoRiedel/unpaywallR">
                              UnpaywallR R package</a>) with the following hierarchy: gold - hybrid - bronze - green - 
-                             closed. In a second step, we identified how many paywalled publications
+                             closed. In the second step, we identified how many paywalled publications
                              could technically be made openly accessible based on self-archiving permissions.
                              We obtained article-level self-archiving permissions by querying
                              Shareyourpaper.org (OA.Works) via its
@@ -399,7 +401,7 @@ methods_page <- tabPanel(
                              the publication date and the length of the embargo (if any). Therefore,
                              the number of paywalled publications with the potential for green OA will
                              change over time. The Unpaywall database and the Shareyourpaper permissions
-                             API were queried on 20/02/2022. The plots for this metric on the Start page
+                             API were queried on 20 February 2022. The plots for this metric on the Start page
                              only display data for years with more than 20 publications.'),
                              
                              "Not all queried publications resolved in Unpaywall and ShareYourPaper.
@@ -449,7 +451,7 @@ openaccess_tooltip <- strwrap("This metric shows the percentage of clinical tria
                               with the highest priority. Here, we used a hierarchy
                               of gold - hybrid - green. The absolute number of
                               publications and their OA status can be visualised
-                              by clicking on the toggle next to the plot. Here,
+                              by clicking on the toggle above the plot. Here,
                               further categories not considered as Open Access
                               in this dashboard are also included. Note that the
                               OA percentage is not fixed but typically rises
@@ -467,11 +469,11 @@ greenopenaccess_tooltip <- strwrap('This metric shows the percentage of paywalle
                             that have been made openly accessible in a repository (green OA).
                             Click on the toggle to view absolute
                             numbers (light green shows the number of publications currently behind a
-                            paywall that could be made openly accessible in a repository based on
-                            self-archiving permissions). This analysis was
+                            paywall that have a permission for self-archiving in an institutional
+                            repository). This analysis was
                               limited to trials registered in ClinicalTrials.gov
                               or DRKS with a journal publication and a DOI that
-                              resolved in Unpaywall. In a first step, we queried the Unpaywall API to identify
+                              resolved in Unpaywall. In the first step, we queried the Unpaywall API to identify
                             publications that are only accessible in a repository (Green OA only).
                             Next, we queried Shareyourpaper.org (OA.Works) via its API to obtain
                             self-archiving permissions of paywalled publications. The date at
@@ -540,6 +542,7 @@ linkage_tooltip <- strwrap("This metric shows the percentage of clinical trials 
                              with a DOI or that are indexed in PubMed. We used automated methods to download
                              the relevant fields from ClinicalTrials.gov and DRKS. We considered a
                              publication “linked” if the PMID or DOI was included in the trial registration.
+                             Select the registry of interest can be selected in the drop-down menu.
                              More information can be found in the Methods page.")
 
 lim_linkage_tooltip <- strwrap("ClinicalTrials.gov includes an often-used
@@ -594,8 +597,8 @@ lim_prereg_tooltip <- strwrap("This data depends on registry entries being accur
                              without a start date in the registry were excluded from this analysis.")
 
 timpub_tooltip2 <- strwrap("This metric shows the percentage of clinical trials that reported results within
-                             2 years of trial completion as (a) summary results in the registry, and b) 
-                             a journal publication. Select the reporting route of interest in the drop-down menu.
+                             2 years of trial completion as (a) a journal publication, and b) summary results
+                             in the registry. Select the reporting route of interest in the drop-down menu.
                              A fast dissemination of trial results is crucial to make the evidence gained in
                              those trials available.
                              This analysis was limited to trials registered in ClinicalTrials.gov or DRKS. 
@@ -625,8 +628,8 @@ lim_timpub_tooltip2 <- strwrap("<i>Results reporting as summary results in the r
                              responsible parties were not contacted.")
 
 timpub_tooltip5 <- strwrap("This metric shows the percentage of clinical trials that reported results within
-                             5 years of trial completion as (a) summary results in the registry, and b) 
-                             a journal publication. Select the reporting route of interest in the drop-down menu.
+                             5 years of trial completion as (a) a journal publication, and b) summary results
+                             in the registry. Select the reporting route of interest in the drop-down menu.
                              A fast dissemination of trial
                              results is crucial to make the evidence gained in those trials available.
                              This analysis was limited to trials registered in ClinicalTrials.gov or DRKS.

@@ -23,13 +23,10 @@ lim_allumc_openaccess_tooltip <- strwrap("The OA status could only be obtained f
                                 perform a manual check of the OA data.")
 
 allumc_greenoa_tooltip <- strwrap("This metric shows the percentage of paywalled trial publications
-                            that have been made openly accessible in a repository (green OA). Click
-                            on the toggle to view absolute numbers (light green shows the number of
-                            publications currently behind a paywall that could be made openly
-                            accessible in a repository based on self-archiving permissions). This analysis was
-                              limited to trials registered in ClinicalTrials.gov
+                            that have been made openly accessible in a repository (green OA). This
+                            analysis was limited to trials registered in ClinicalTrials.gov
                               or DRKS with a journal publication and a DOI that
-                              resolved in Unpaywall. In a first step, we queried the Unpaywall API to identify
+                              resolved in Unpaywall. In the first step, we queried the Unpaywall API to identify
                             publications that are only accessible in a repository (Green OA only).
                             Next, we queried Shareyourpaper.org (OA.Works) via its API to obtain
                             self-archiving permissions of paywalled publications. The date at
@@ -87,7 +84,8 @@ allumc_linkage_tooltip <- strwrap("This metric shows the percentage of clinical 
                              with a DOI or that are indexed in PubMed. We used automated methods to download
                              the relevant fields from ClinicalTrials.gov and DRKS. We considered a
                              publication “linked” if the PMID or DOI was included in the trial registration.
-                                  More information can be found in the Methods page.")
+                             Select the registry of interest can be selected in the drop-down menu. More
+                                  information can be found in the Methods page.")
 
 lim_allumc_linkage_tooltip <- strwrap("ClinicalTrials.gov includes an often-used
                              PMID field for references. In addition, ClinicalTrials.gov automatically
@@ -97,7 +95,7 @@ lim_allumc_linkage_tooltip <- strwrap("ClinicalTrials.gov includes an often-used
                              was limited to trials with a journal publication which have a DOI or are
                              indexed in PubMed.")
 
-allumc_clinicaltrials_sumres_tooltip <- strwrap("This metric displays the cumulative percentage of due trials that have
+allumc_clinicaltrials_sumres_tooltip <- strwrap("This metric displays the percentage of due trials that have
                              reported summary results in the registry. A timely dissemination of trial
                              results is crucial to make the evidence gained in those trials available.
                              Select to view summary results reporting for trials registered in either the
@@ -139,8 +137,8 @@ lim_allumc_clinicaltrials_prereg_tooltip <- strwrap("This data depends on regist
                              without a start date in the registry were excluded from this analysis.")
 
 allumc_clinicaltrials_timpub_tooltip5a <- strwrap("This metric shows the percentage of clinical trials
-                            that reported results within 5 years of trial completion as (a) summary
-                            results in the registry, and b) a journal publication. Select the reporting
+                            that reported results within 5 years of trial completion as (a) a journal
+                            publication, and b) summary results in the registry. Select the reporting
                             route of interest in the drop-down menu. A fast dissemination of trial
                              results is crucial to make the evidence gained in those trials available.
                              This analysis was limited to trials registered in ClinicalTrials.gov or DRKS. 
@@ -167,8 +165,8 @@ lim_allumc_clinicaltrials_timpub_tooltip5a <- strwrap("<i>Results reporting as s
                              responsible parties were not contacted.")
 
 allumc_clinicaltrials_timpub_tooltip <- strwrap("This metric shows the percentage of clinical trials that
-                            reported results within 2 years of trial completion as (a) summary results
-                            in the registry, and b) a journal publication. Select the reporting route of
+                            reported results within 2 years of trial completion as (a) a journal publication,
+                            and b) summary results in the registry. Select the reporting route of
                             interest in the drop-down menu. A fast dissemination of trial results
                             is crucial to make the evidence gained in those trials available. This analysis was
                              limited to trials registered in ClinicalTrials.gov or DRKS. <i>Results reporting
