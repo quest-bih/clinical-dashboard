@@ -280,7 +280,7 @@ methods_page <- tabPanel(
                              were manually entered during publication searches.<br>
                              <br><b>When calculating the 2-year and 5-year reporting
                              rates (summary results), we only included trials for which we had 2 and 5 years
-                             follow-up time from trial completion to the registry query date, respectively. When
+                             follow-up time from trial completion to the registry download date, respectively. When
                              calculating the 2-year and 5-year reporting rates (journal publication), we only
                              included trials for which we had 2 and 5 years follow-up time from trial completion
                              to the manual search date, respectively</b>. The plot only displays data for completion
