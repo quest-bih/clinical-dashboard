@@ -510,9 +510,9 @@ server <- function (input, output, session) {
                         "startreporttype2a",
                         strong("Reporting type"),
                         choices = c(
-                            "Summary results or publication",
-                            "Summary results only",
-                            "Publication only"
+                            #"Summary results or publication",
+                            "Publication only",
+                            "Summary results only"
                         )
                     )
                 ),
@@ -523,9 +523,9 @@ server <- function (input, output, session) {
                         "startreporttype5a",
                         strong("Reporting type"),
                         choices = c(
-                            "Summary results or publication",
-                            "Summary results only",
-                            "Publication only"
+                            #"Summary results or publication",
+                            "Publication only",
+                            "Summary results only"
                         )
                     )
                 )
@@ -1181,9 +1181,9 @@ server <- function (input, output, session) {
                             "reporttype2a",
                             strong("Reporting type"),
                             choices = c(
-                                "Summary results or publication",
-                                "Summary results only",
-                                "Publication only"
+                                #"Summary results or publication",
+                                "Publication only",
+                                "Summary results only"
                             )
                         )
                     ),
@@ -1194,9 +1194,9 @@ server <- function (input, output, session) {
                             "reporttype5a",
                             strong("Reporting type"),
                             choices = c(
-                                "Summary results or publication",
-                                "Summary results only",
-                                "Publication only"
+                                #"Summary results or publication",
+                                "Publication only",
+                                "Summary results only"
                             )
                         )
                     )
@@ -1923,9 +1923,9 @@ server <- function (input, output, session) {
                         "allumcreporttype2a",
                         strong("Reporting type"),
                         choices = c(
-                            "Summary results or publication",
-                            "Summary results only",
-                            "Publication only"
+                            #"Summary results or publication",
+                            "Publication only",
+                            "Summary results only"
                         )
                     )
                 )
@@ -1938,9 +1938,9 @@ server <- function (input, output, session) {
                         "allumcreporttype5a",
                         strong("Reporting type"),
                         choices = c(
-                            "Summary results or publication",
-                            "Summary results only",
-                            "Publication only"
+                            #"Summary results or publication",
+                            "Publication only",
+                            "Summary results only"
                         )
                     )
                     
