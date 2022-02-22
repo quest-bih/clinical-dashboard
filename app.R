@@ -1690,10 +1690,10 @@ server <- function (input, output, session) {
             value_text = "of trials with a publication provide a link to this publication in the registry entry",
             plot = plotlyOutput('plot_allumc_linkage', height="300px"),
             info_id = "infoALLUMCLinkage",
-            info_title = "Linkage (All UMCs)",
+            info_title = "Publication link in registry (All UMCs)",
             info_text = allumc_linkage_tooltip,
             lim_id = "limALLUMCLinkage",
-            lim_title = "Limitations: Linkage (All UMCs)",
+            lim_title = "Limitations: Publication link in registry (All UMCs)",
             lim_text = lim_allumc_linkage_tooltip
         )
         

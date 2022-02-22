@@ -61,7 +61,7 @@ methods_page <- tabPanel(
                                using the registry's change history; (3)
                                we included additional information on the reporting
                                of trial registration numbers in trial results
-                               publications, publication linkage in the registry,
+                               publications, publication links in the registry,
                                and Open Access; (4) while the original IntoValue
                                dataset considered both journal publications and
                                dissertations as results publications, we focused
@@ -154,7 +154,7 @@ methods_page <- tabPanel(
                                 in PubMed (detection of TRN in abstract) or for which we could obtain the
                                 full text (detection of TRN in full text).")),
                
-               methods_panel("Linkage of journal publications in the registry",
+               methods_panel("Publication links in the registry",
                              
                              HTML("How many clinical trials with a results publication have a link to
                                 this publication in the registry. Linking to the publication in
