@@ -361,21 +361,31 @@ plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, toggled_regist
 # Timely publication within 2 years
 plot_clinicaltrials_timpub_2a <- function (dataset, rt, color_palette) {
 
-    dataset <- dataset %>%
-        filter(has_followup_2y == TRUE)
-
     if (rt != "Summary results or publication") {
 
         if (rt == "Summary results only") {
+            dataset <- dataset %>%
+                filter(
+                    has_followup_2y_sumres
+                )
             dataset$published_2a <- dataset$is_summary_results_2y
         }
         
         if (rt == "Publication only") {
+            dataset <- dataset %>%
+                filter(
+                    has_followup_2y_pub
+                )
             dataset$published_2a <- dataset$is_publication_2y
         }
         
     } else {
-        dataset$published_2a <- dataset$is_summary_results_2y | dataset$is_publication_2y
+        dataset <- dataset %>%
+            filter(
+                has_followup_2y_sumres | has_followup_2y_pub
+            )
+        dataset$published_2a <- (dataset$has_followup_2y_sumres & dataset$is_summary_results_2y) | 
+            (dataset$has_followup_2y_pub & dataset$is_publication_2y)
     }
 
     umc <- "All"
@@ -453,22 +463,32 @@ plot_clinicaltrials_timpub_2a <- function (dataset, rt, color_palette) {
 
 # Timely publication within 5 years
 plot_clinicaltrials_timpub_5a <- function (dataset, rt, color_palette) {
-
-    dataset <- dataset %>%
-        filter(has_followup_5y == TRUE)
     
     if (rt != "Summary results or publication") {
 
         if (rt == "Summary results only") {
+            dataset <- dataset %>%
+                filter(
+                    has_followup_5y_sumres
+                )
             dataset$published_5a <- dataset$is_summary_results_5y
         }
         
         if (rt == "Publication only") {
+            dataset <- dataset %>%
+                filter(
+                    has_followup_5y_pub
+                )
             dataset$published_5a <- dataset$is_publication_5y
         }
         
     } else {
-        dataset$published_5a <- dataset$is_summary_results_5y | dataset$is_publication_5y
+        dataset <- dataset %>%
+            filter(
+                has_followup_5y_sumres | has_followup_5y_pub
+            )
+        dataset$published_5a <- (dataset$has_followup_5y_sumres & dataset$is_summary_results_5y) | 
+            (dataset$has_followup_5y_pub & dataset$is_publication_5y)
     }
 
     umc <- "All"
