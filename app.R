@@ -699,8 +699,7 @@ server <- function (input, output, session) {
 
             max_completion_year <- iv_all %>%
                 filter(
-                    has_followup_5y_sumres,
-                    is_summary_results_5y
+                    has_followup_5y_sumres
                 ) %>%
                 select(completion_year) %>%
                 max()
@@ -738,8 +737,7 @@ server <- function (input, output, session) {
             
             max_completion_year <- iv_all %>%
                 filter(
-                    has_followup_5y_pub,
-                    is_publication_5y
+                    has_followup_5y_pub
                 ) %>%
                 select(completion_year) %>%
                 max()
@@ -1400,8 +1398,7 @@ server <- function (input, output, session) {
 
             max_completion_year <- iv_data_unique %>%
                 filter(
-                    has_followup_5y_sumres,
-                    is_summary_results_5y
+                    has_followup_5y_sumres
                 ) %>%
                 select(completion_year) %>%
                 max()
@@ -1426,8 +1423,7 @@ server <- function (input, output, session) {
             
             max_completion_year <- iv_data_unique %>%
                 filter(
-                    has_followup_5y_pub,
-                    is_publication_5y
+                    has_followup_5y_pub
                 ) %>%
                 select(completion_year) %>%
                 max()
