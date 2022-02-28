@@ -55,26 +55,28 @@ Was das EU-Recht betrifft, beziehen wir uns auf die VERORDNUNG (EU) 2016/679 DES
 <p>Sofern weitere regionale oder nationale Gesetze zur Anwendung kommen, informieren wir Sie in den folgenden Abschnitten darüber.</p>
 <h2 id="kontaktdaten-verantwortliche" class="adsimple-311891618">Kontaktdaten des Verantwortlichen</h2>
 <p>Sollten Sie Fragen zum Datenschutz haben, finden Sie nachfolgend die Kontaktdaten der verantwortlichen Person bzw. Stelle:<br />
-<span class="adsimple-311891618" style="font-weight: 400">Berliner Institut für Gesundheitsforschung in der Charité<br />
-Translationsforschungsbereich<br />
-der Charité – Universitätsmedizin Berlin<br />
+<span class="adsimple-311891618" style="font-weight: 400">QUEST Center for Responsible Research<br />
+Berlin Institute of Health an der Charité<br />
+– Universitätsmedizin Berlin<br />
 Anna-Louisa-Karsch-Str. 2<br />
 10178 Berlin</span>
 </p>
-<p>E-Mail: <a href="mailto:info@bih-charite.de">info@bih-charite.de</a>
+Telefon: <a href="tel:030 450 543 043">030 450 543 043</a>
 <br />
-Telefon: <a href="tel:030 450 543 049">030 450 543 049</a>
+<p>E-Mail: <a href="mailto:quest@bih-charite.de">quest@bih-charite.de</a>
+<br />
+<br />
+Vertretungsberechtigt<br />
+Prof. Dr. Ulrich Dirnagl<br />
+<br />
+Kontakt<br />
+Prof. Dr. Daniel Strech<br />
+QUEST Center<br />
+Anna-Louisa-Karsch-Str. 2<br />
+10178 Berlin<br />
+E-Mail: quest@bih-charite.de<br />
 <br />
 Impressum: <a href="https://www.bihealth.org/de/impressum">https://www.bihealth.org/de/impressum</a>
-</p>
-<h2 id="kontaktdaten-datenschutzbeauftragter" class="adsimple-311891618">Kontaktdaten des Datenschutzbeauftragten</h2>
-<p>Nachfolgend finden Sie die Kontaktdaten des Datenschutzbeauftragten:</p>
-<p>Stabsstelle Datenschutz<br />
-Charitéplatz 1<br />
-10117 Berlin</p>
-<p>E-Mail: <a href="datenschutz@charite.de">datenschutz@charite.de</a>
-<br />
-Telefon: <a href="tel:+ 49 30 450 580 016">+ 49 30 450 580 016</a>
 </p>
 <h2 id="speicherdauer" class="adsimple-311891618">Speicherdauer</h2>
 <p>Dass wir personenbezogene Daten nur so lange speichern, wie es für die Bereitstellung unserer Dienstleistungen und Produkte unbedingt notwendig ist, gilt als generelles Kriterium bei uns. Das bedeutet, dass wir personenbezogene Daten löschen, sobald der Grund für die Datenverarbeitung nicht mehr vorhanden ist. In einigen Fällen sind wir gesetzlich dazu verpflichtet, bestimmte Daten auch nach Wegfall des ursprüngliches Zwecks zu speichern, zum Beispiel zu Zwecken der Buchführung.</p>
