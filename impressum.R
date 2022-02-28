@@ -1,7 +1,7 @@
 
 impressum_text <- HTML("<b>Berliner Institut für Gesundheitsforschung in der Charité</b><br>
                                        QUEST Center for Responsible Research<br>
-                                       Berlin Institute of Helath an der Charité - Universitätsmedizin Berlin<br>
+                                       Berlin Institute of Health an der Charité - Universitätsmedizin Berlin<br>
                                        Anna-Louisa-Karsch-Str. 2<br>
                                        10178 Berlin<br>
                                        Tel.: 030 450 543 043<br>
