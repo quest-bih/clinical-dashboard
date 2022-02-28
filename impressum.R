@@ -1,18 +1,17 @@
 
 impressum_text <- HTML("<b>Berliner Institut für Gesundheitsforschung in der Charité</b><br>
-                                       Translationsforschungsbereich<br>
-                                       der Charité – Universitätsmedizin Berlin<br>
+                                       QUEST Center for Responsible Research<br>
+                                       Berlin Institute of Helath an der Charité - Universitätsmedizin Berlin<br>
                                        Anna-Louisa-Karsch-Str. 2<br>
                                        10178 Berlin<br>
-                                       Tel.: 030 450 543 049<br>
-                                       Fax: 030 450 7543999<br>
-                                       E-Mail: info@bih-charite.de<br>
+                                       Tel.: 030 450 543 043<br>
+                                       E-Mail: quest@bih-charite.de<br>
                                        <br>
                                        <b>Vertretungsberechtigt</b><br>
-                                       Prof. Dr. Christopher H. Baum<br>
+                                       Prof. Dr. Ulrich Dirnagl<br>
                                        <br>
                                        <b>Kontakt</b><br>
-                                       Prof. Dr. Dr. Daniel Strech<br>
+                                       Prof. Dr. Daniel Strech<br>
                                        QUEST Center<br>
                                        Anna-Louisa-Karsch-Str. 2<br>
                                        10178 Berlin<br>
