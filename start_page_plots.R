@@ -361,7 +361,7 @@ plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, toggled_regist
 # Timely publication within 2 years
 plot_clinicaltrials_timpub_2a <- function (dataset, rt, color_palette) {
 
-    if (rt != "Summary results or publication") {
+    if (rt != "Summary results or manuscript publication") {
 
         if (rt == "Summary results only") {
             dataset <- dataset %>%
@@ -371,7 +371,7 @@ plot_clinicaltrials_timpub_2a <- function (dataset, rt, color_palette) {
             dataset$published_2a <- dataset$is_summary_results_2y
         }
         
-        if (rt == "Publication only") {
+        if (rt == "Manuscript publication only") {
             dataset <- dataset %>%
                 filter(
                     has_followup_2y_pub
@@ -382,7 +382,7 @@ plot_clinicaltrials_timpub_2a <- function (dataset, rt, color_palette) {
     } else {
         dataset <- dataset %>%
             filter(
-                has_followup_2y_sumres | has_followup_2y_pub
+                has_followup_2y_sumres & has_followup_2y_pub
             )
         dataset$published_2a <- (dataset$has_followup_2y_sumres & dataset$is_summary_results_2y) | 
             (dataset$has_followup_2y_pub & dataset$is_publication_2y)
@@ -464,7 +464,7 @@ plot_clinicaltrials_timpub_2a <- function (dataset, rt, color_palette) {
 # Timely publication within 5 years
 plot_clinicaltrials_timpub_5a <- function (dataset, rt, color_palette) {
     
-    if (rt != "Summary results or publication") {
+    if (rt != "Summary results or manuscript publication") {
 
         if (rt == "Summary results only") {
             dataset <- dataset %>%
@@ -474,7 +474,7 @@ plot_clinicaltrials_timpub_5a <- function (dataset, rt, color_palette) {
             dataset$published_5a <- dataset$is_summary_results_5y
         }
         
-        if (rt == "Publication only") {
+        if (rt == "Manuscript publication only") {
             dataset <- dataset %>%
                 filter(
                     has_followup_5y_pub
@@ -485,7 +485,7 @@ plot_clinicaltrials_timpub_5a <- function (dataset, rt, color_palette) {
     } else {
         dataset <- dataset %>%
             filter(
-                has_followup_5y_sumres | has_followup_5y_pub
+                has_followup_5y_sumres & has_followup_5y_pub
             )
         dataset$published_5a <- (dataset$has_followup_5y_sumres & dataset$is_summary_results_5y) | 
             (dataset$has_followup_5y_pub & dataset$is_publication_5y)
@@ -522,11 +522,17 @@ plot_clinicaltrials_timpub_5a <- function (dataset, rt, color_palette) {
             nrow()
         all_percentage <- round(100*all_numer/all_denom, digits=1)
 
-        
+        manuscript_denom <- dataset %>%
+            filter(
+                completion_year == current_year &
+                has_followup_5y_pub &
+                is_publication_5y
+            ) %>%
+            nrow()
 
-        if (all_denom > 5) { ## This is because we only have 1 data
-                             ## point in 2013 with 5 years of
-                             ## follow-up
+        if (rt == "Summary results only" |
+            manuscript_denom > 5) { ## To remove years where there's
+                                    ## too few data points
 
             plot_data <- plot_data %>%
                 bind_rows(

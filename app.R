@@ -510,8 +510,8 @@ server <- function (input, output, session) {
                         "startreporttype2a",
                         strong("Reporting type"),
                         choices = c(
-                            #"Summary results or publication",
-                            "Publication only",
+                            "Summary results or manuscript publication",
+                            "Manuscript publication only",
                             "Summary results only"
                         )
                     )
@@ -523,8 +523,8 @@ server <- function (input, output, session) {
                         "startreporttype5a",
                         strong("Reporting type"),
                         choices = c(
-                            #"Summary results or publication",
-                            "Publication only",
+                            "Summary results or manuscript publication",
+                            "Manuscript publication only",
                             "Summary results only"
                         )
                     )
@@ -655,7 +655,7 @@ server <- function (input, output, session) {
                 nrow()
         }
 
-        if (input$startreporttype2a == "Publication only") {
+        if (input$startreporttype2a == "Manuscript publication only") {
             all_numer_timpub <- iv_data_unique %>%
                 filter(
                     has_followup_2y_pub,
@@ -694,7 +694,35 @@ server <- function (input, output, session) {
 
     ## Start page 5 year reporting toggle
     output$startreport5a <-  renderUI({
-       
+        
+        ## Filter for 2017 completion date for pink descriptor text
+        
+        max_completion_year <- iv_all %>%
+            filter(
+                has_followup_5y_pub &
+                is_publication_5y
+            ) %>%
+            count(completion_year) %>%
+            filter(n > 5) %>%
+            select(completion_year) %>%
+            max()
+            
+        iv_data_unique <- iv_all %>%
+            filter(completion_year == max_completion_year)
+
+        all_numer_timpub5a <- iv_data_unique %>%
+            filter(
+            (has_followup_5y_sumres & is_summary_results_5y) |
+            (has_followup_5y_pub & is_publication_5y)
+            ) %>%
+            nrow()
+        
+        all_denom_timpub5a <- iv_data_unique %>%
+            filter(
+                has_followup_5y_sumres & has_followup_5y_pub
+            ) %>%
+            nrow()
+        
         if (input$startreporttype5a == "Summary results only") {
 
             max_completion_year <- iv_all %>%
@@ -733,7 +761,7 @@ server <- function (input, output, session) {
                 nrow()
         }
 
-        if (input$startreporttype5a == "Publication only") {
+        if (input$startreporttype5a == "Manuscript publication only") {
             
             max_completion_year <- iv_all %>%
                 filter(
@@ -1206,8 +1234,8 @@ server <- function (input, output, session) {
                             "reporttype2a",
                             strong("Reporting type"),
                             choices = c(
-                                #"Summary results or publication",
-                                "Publication only",
+                                "Summary results or manuscript publication",
+                                "Manuscript publication only",
                                 "Summary results only"
                             )
                         )
@@ -1219,8 +1247,8 @@ server <- function (input, output, session) {
                             "reporttype5a",
                             strong("Reporting type"),
                             choices = c(
-                                #"Summary results or publication",
-                                "Publication only",
+                                "Summary results or manuscript publication",
+                                "Manuscript publication only",
                                 "Summary results only"
                             )
                         )
@@ -1333,7 +1361,7 @@ server <- function (input, output, session) {
         
         all_denom_timpub <- iv_data_unique %>%
             filter(
-                has_followup_2y_pub | has_followup_2y_sumres
+                has_followup_2y_pub & has_followup_2y_sumres
             ) %>%
             nrow()
 
@@ -1351,7 +1379,7 @@ server <- function (input, output, session) {
                 nrow()
         }
 
-        if (input$reporttype2a == "Publication only") {
+        if (input$reporttype2a == "Manuscript publication only") {
             all_numer_timpub <- iv_data_unique %>%
                 filter(
                     has_followup_2y_pub,
@@ -1393,7 +1421,34 @@ server <- function (input, output, session) {
         # Filter for 2015 completion date for the pink descriptor text
         iv_data_unique <- iv_umc %>%
             filter(city == input$selectUMC)
-        
+
+        if (input$reporttype5a == "Summary results or manuscript publication") {
+
+            max_completion_year <- iv_data_unique %>%
+                filter(
+                    has_followup_5y_sumres & has_followup_5y_pub
+                ) %>%
+                select(completion_year) %>%
+                max()
+
+            iv_data_unique <- iv_data_unique %>%
+                filter(completion_year == max_completion_year)
+            
+            all_numer_timpub <- iv_data_unique %>%
+                filter(
+                (has_followup_5y_sumres & is_summary_results_5y) |
+                (has_followup_5y_pub & is_publication_5y)
+                ) %>%
+                nrow()
+            
+            all_denom_timpub <- iv_data_unique %>%
+                filter(
+                    has_followup_5y_sumres & has_followup_5y_pub
+                ) %>%
+                nrow()
+            
+        }
+
         if (input$reporttype5a == "Summary results only") {
 
             max_completion_year <- iv_data_unique %>%
@@ -1419,7 +1474,7 @@ server <- function (input, output, session) {
                 nrow()
         }
 
-        if (input$reporttype5a == "Publication only") {
+        if (input$reporttype5a == "Manuscript publication only") {
             
             max_completion_year <- iv_data_unique %>%
                 filter(
@@ -1957,8 +2012,8 @@ server <- function (input, output, session) {
                         "allumcreporttype2a",
                         strong("Reporting type"),
                         choices = c(
-                            #"Summary results or publication",
-                            "Publication only",
+                            "Summary results or manuscript publication",
+                            "Manuscript publication only",
                             "Summary results only"
                         )
                     )
@@ -1972,8 +2027,8 @@ server <- function (input, output, session) {
                         "allumcreporttype5a",
                         strong("Reporting type"),
                         choices = c(
-                            #"Summary results or publication",
-                            "Publication only",
+                            "Summary results or manuscript publication",
+                            "Manuscript publication only",
                             "Summary results only"
                         )
                     )
@@ -2017,7 +2072,7 @@ server <- function (input, output, session) {
                 nrow()
         }
 
-        if (input$allumcreporttype2a == "Publication only") {
+        if (input$allumcreporttype2a == "Manuscript publication only") {
 
             all_numer_timpub <- iv_all %>%
                 filter(
@@ -2061,7 +2116,7 @@ server <- function (input, output, session) {
         
         all_denom_timpub5a <- iv_all %>%
             filter(
-                has_followup_5y_pub | has_followup_5y_sumres
+                has_followup_5y_pub & has_followup_5y_sumres
                 ) %>%
             nrow()
 
@@ -2081,7 +2136,7 @@ server <- function (input, output, session) {
                 nrow()
         }
 
-        if (input$allumcreporttype5a == "Publication only") {
+        if (input$allumcreporttype5a == "Manuscript publication only") {
 
             all_numer_timpub5a <- iv_all %>%
                 filter(

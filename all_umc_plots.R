@@ -386,7 +386,7 @@ plot_allumc_clinicaltrials_timpub <- function (dataset, rt, color_palette, color
         
         umc_denom <- dataset %>%
             filter(
-                has_followup_2y_pub | has_followup_2y_sumres,
+                has_followup_2y_pub & has_followup_2y_sumres,
                 city == umc) %>%
             nrow()
 
@@ -408,7 +408,7 @@ plot_allumc_clinicaltrials_timpub <- function (dataset, rt, color_palette, color
                 nrow()
         }
 
-        if (rt == "Publication only") {
+        if (rt == "Manuscript publication only") {
 
             umc_numer <- dataset %>%
                 filter(
@@ -509,7 +509,7 @@ plot_allumc_timpub_5a <- function (dataset, rt, color_palette, color_palette_bar
                 nrow()
         }
 
-        if (rt == "Publication only") {
+        if (rt == "Manuscript publication only") {
 
             umc_numer <- dataset %>%
                 filter(
