@@ -625,23 +625,45 @@ server <- function (input, output, session) {
     ## Start page 2 year reporting toggle
     output$startreport2a <- renderUI({
         
-        # Filter for 2017 completion date for pink descriptor text
+        # Filter for last completion date for pink descriptor text
+        max_completion_year <- iv_all %>%
+            filter(
+                has_followup_2y_pub & has_followup_2y_sumres
+            ) %>%
+            count(completion_year) %>%
+            filter(n > 5) %>%
+            select(completion_year) %>%
+            max()
+        
         iv_data_unique <- iv_all %>%
-            filter(completion_year == 2017)
+            filter(completion_year == max_completion_year)
 
         all_numer_timpub <- iv_data_unique %>%
             filter(
-                (has_followup_2y_sumres & is_summary_results_2y) | (has_followup_2y_pub & is_publication_2y)
+                has_followup_2y_sumres & has_followup_2y_pub,
+                is_summary_results_2y | is_publication_2y
             ) %>%
             nrow()
         
         all_denom_timpub <- iv_data_unique %>%
             filter(
-                has_followup_2y_sumres | has_followup_2y_pub
+                has_followup_2y_sumres & has_followup_2y_pub
                 ) %>%
             nrow()
 
         if (input$startreporttype2a == "Summary results only") {
+            
+            # Filter for last completion date for pink descriptor text
+            max_completion_year <- iv_all %>%
+                filter(
+                    has_followup_2y_sumres
+                ) %>%
+                select(completion_year) %>%
+                max()
+            
+            iv_data_unique <- iv_all %>%
+                filter(completion_year == max_completion_year)
+            
             all_numer_timpub <- iv_data_unique %>%
                 filter(
                     has_followup_2y_sumres,
@@ -656,6 +678,18 @@ server <- function (input, output, session) {
         }
 
         if (input$startreporttype2a == "Manuscript publication only") {
+            
+            # Filter for last completion date for pink descriptor text
+            max_completion_year <- iv_all %>%
+                filter(
+                    has_followup_2y_pub
+                ) %>%
+                select(completion_year) %>%
+                max()
+            
+            iv_data_unique <- iv_all %>%
+                filter(completion_year == max_completion_year)
+            
             all_numer_timpub <- iv_data_unique %>%
                 filter(
                     has_followup_2y_pub,
@@ -675,7 +709,7 @@ server <- function (input, output, session) {
         } else {
                         
             timpubval <- paste0(round(100*all_numer_timpub/all_denom_timpub), "%")
-            timpubvaltext <- paste0("of clinical trials completed in 2017 (n=", all_denom_timpub, ") reported results within 2 years")
+            timpubvaltext <- paste0("of clinical trials completed in ", max_completion_year, " with the appropriate follow-up period (n=", all_denom_timpub, ") reported results within 2 years")
         }
         
         metric_box(
@@ -695,36 +729,35 @@ server <- function (input, output, session) {
     ## Start page 5 year reporting toggle
     output$startreport5a <-  renderUI({
         
-        ## Filter for 2017 completion date for pink descriptor text
-        
-        max_completion_year <- iv_all %>%
-            filter(
-                has_followup_5y_pub &
-                is_publication_5y
-            ) %>%
-            count(completion_year) %>%
-            filter(n > 5) %>%
-            select(completion_year) %>%
-            max()
+        ## Filter for the last completion date for pink descriptor text
+            max_completion_year <- iv_all %>%
+                filter(
+                    has_followup_5y_pub & has_followup_5y_sumres
+                ) %>%
+                count(completion_year) %>%
+                filter(n > 5) %>%
+                select(completion_year) %>%
+                max()
             
-        iv_data_unique <- iv_all %>%
-            filter(completion_year == max_completion_year)
-
-        all_numer_timpub5a <- iv_data_unique %>%
-            filter(
-            (has_followup_5y_sumres & is_summary_results_5y) |
-            (has_followup_5y_pub & is_publication_5y)
-            ) %>%
-            nrow()
-        
-        all_denom_timpub5a <- iv_data_unique %>%
-            filter(
-                has_followup_5y_sumres & has_followup_5y_pub
-            ) %>%
-            nrow()
+            iv_data_unique <- iv_all %>%
+                filter(completion_year == max_completion_year)
+            
+            all_numer_timpub5a <- iv_data_unique %>%
+                filter(
+                    has_followup_5y_sumres & has_followup_5y_pub,
+                    is_summary_results_5y | is_publication_5y
+                ) %>%
+                nrow()
+            
+            all_denom_timpub5a <- iv_data_unique %>%
+                filter(
+                    has_followup_5y_sumres & has_followup_5y_pub
+                ) %>%
+                nrow()
         
         if (input$startreporttype5a == "Summary results only") {
 
+            ## Filter for the last completion date for pink descriptor text
             max_completion_year <- iv_all %>%
                 filter(
                     has_followup_5y_sumres
@@ -734,18 +767,6 @@ server <- function (input, output, session) {
 
             iv_data_unique <- iv_all %>%
                 filter(completion_year == max_completion_year)
-            
-            all_numer_timpub5a <- iv_data_unique %>%
-                filter(
-                (has_followup_5y_sumres & is_summary_results_5y) | (has_followup_5y_pub & is_publication_5y)
-                ) %>%
-                nrow()
-            
-            all_denom_timpub5a <- iv_data_unique %>%
-                filter(
-                    has_followup_5y_sumres | has_followup_5y_pub
-                ) %>%
-                nrow()
             
             all_numer_timpub5a <- iv_data_unique %>%
                 filter(
@@ -763,6 +784,7 @@ server <- function (input, output, session) {
 
         if (input$startreporttype5a == "Manuscript publication only") {
             
+            ## Filter for the last completion date for pink descriptor text
             max_completion_year <- iv_all %>%
                 filter(
                     has_followup_5y_pub
@@ -772,12 +794,6 @@ server <- function (input, output, session) {
 
             iv_data_unique <- iv_all %>%
                 filter(completion_year == max_completion_year)
-            
-            all_numer_timpub5a <- iv_data_unique %>%
-                filter(
-                (has_followup_5y_sumres & is_summary_results_5y) | (has_followup_5y_pub & is_publication_5y)
-                ) %>%
-                nrow()
             
             all_numer_timpub5a <- iv_data_unique %>%
                 filter(
@@ -797,7 +813,7 @@ server <- function (input, output, session) {
             timpubvaltext5a <- "No clinical trials for this metric were captured by this method for this UMC"
         } else {
             timpubval5a <- paste0(round(100*all_numer_timpub5a/all_denom_timpub5a), "%")
-            timpubvaltext5a <- paste0("of clinical trials completed in ", max_completion_year, " (n=", all_denom_timpub5a, ") reported results within 5 years")
+            timpubvaltext5a <- paste0("of clinical trials completed in ", max_completion_year, " with the appropriate follow-up period (n=", all_denom_timpub5a, ") reported results within 5 years")
         }
 
         metric_box(
@@ -1348,14 +1364,22 @@ server <- function (input, output, session) {
     ## One UMC page 2 year reporting toggle
     output$report2a <- renderUI({
         
-        # Filter for 2017 completion date for the pink descriptor text
+        # Filter for the last completion date for the pink descriptor text
+        max_completion_year <- iv_umc %>%
+            filter(city == input$selectUMC,
+                   has_followup_2y_pub & has_followup_2y_sumres
+                   ) %>%
+            select(completion_year) %>%
+            max()
+        
         iv_data_unique <- iv_umc %>%
-            filter(completion_year == 2017) %>%
+            filter(completion_year == max_completion_year) %>%
             filter(city == input$selectUMC)
 
         all_numer_timpub <- iv_data_unique %>%
             filter(
-                (has_followup_2y_pub & is_publication_2y) | (has_followup_2y_sumres & is_summary_results_2y)
+                has_followup_2y_pub & has_followup_2y_sumres,
+                is_publication_2y | is_summary_results_2y
                 ) %>%
             nrow()
         
@@ -1366,6 +1390,19 @@ server <- function (input, output, session) {
             nrow()
 
         if (input$reporttype2a == "Summary results only") {
+            
+            # Filter for the last completion date for the pink descriptor text
+            max_completion_year <- iv_umc %>%
+                filter(city == input$selectUMC,
+                       has_followup_2y_sumres
+                ) %>%
+                select(completion_year) %>%
+                max()
+            
+            iv_data_unique <- iv_umc %>%
+                filter(completion_year == max_completion_year) %>%
+                filter(city == input$selectUMC)
+            
             all_numer_timpub <- iv_data_unique %>%
                 filter(
                     has_followup_2y_sumres,
@@ -1380,6 +1417,19 @@ server <- function (input, output, session) {
         }
 
         if (input$reporttype2a == "Manuscript publication only") {
+            
+            # Filter for the last completion date for the pink descriptor text
+            max_completion_year <- iv_umc %>%
+                filter(city == input$selectUMC,
+                       has_followup_2y_pub
+                ) %>%
+                select(completion_year) %>%
+                max()
+            
+            iv_data_unique <- iv_umc %>%
+                filter(completion_year == max_completion_year) %>%
+                filter(city == input$selectUMC)
+            
             all_numer_timpub <- iv_data_unique %>%
                 filter(
                     has_followup_2y_pub,
@@ -1398,7 +1448,7 @@ server <- function (input, output, session) {
             timpubvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
         } else {
             timpubval <- paste0(round(100*all_numer_timpub/all_denom_timpub), "%")
-            timpubvaltext <- paste0("of clinical trials completed in 2017 (n=", all_denom_timpub, ") reported results within 2 years")
+            timpubvaltext <- paste0("of clinical trials completed in ", max_completion_year, " with the appropriate follow-up period (n=", all_denom_timpub, ") reported results within 2 years")
         }
         
         metric_box(
@@ -1418,48 +1468,43 @@ server <- function (input, output, session) {
     ## One UMC page 5 year reporting toggle
     output$report5a <- renderUI({
         
-        # Filter for 2015 completion date for the pink descriptor text
+        # Filter for the last completion date for the pink descriptor text
+        max_completion_year <- iv_umc %>%
+            filter(city == input$selectUMC,
+                   has_followup_5y_pub & has_followup_5y_sumres
+            ) %>%
+            select(completion_year) %>%
+            max()
+        
         iv_data_unique <- iv_umc %>%
+            filter(completion_year == max_completion_year) %>%
             filter(city == input$selectUMC)
-
-        if (input$reporttype5a == "Summary results or manuscript publication") {
-
-            max_completion_year <- iv_data_unique %>%
-                filter(
-                    has_followup_5y_sumres & has_followup_5y_pub
-                ) %>%
-                select(completion_year) %>%
-                max()
-
-            iv_data_unique <- iv_data_unique %>%
-                filter(completion_year == max_completion_year)
-            
-            all_numer_timpub <- iv_data_unique %>%
-                filter(
-                (has_followup_5y_sumres & is_summary_results_5y) |
-                (has_followup_5y_pub & is_publication_5y)
-                ) %>%
-                nrow()
-            
-            all_denom_timpub <- iv_data_unique %>%
-                filter(
-                    has_followup_5y_sumres & has_followup_5y_pub
-                ) %>%
-                nrow()
-            
-        }
+    
+        all_numer_timpub <- iv_data_unique %>%
+            filter(
+                has_followup_5y_sumres & has_followup_5y_pub,
+                is_summary_results_5y | is_publication_5y
+            ) %>%
+            nrow()
+        
+        all_denom_timpub <- iv_data_unique %>%
+            filter(
+                has_followup_5y_sumres & has_followup_5y_pub
+            ) %>%
+            nrow()
 
         if (input$reporttype5a == "Summary results only") {
 
-            max_completion_year <- iv_data_unique %>%
-                filter(
-                    has_followup_5y_sumres
+            max_completion_year <- iv_umc %>%
+                filter(city == input$selectUMC,
+                       has_followup_5y_sumres
                 ) %>%
                 select(completion_year) %>%
                 max()
-
-            iv_data_unique <- iv_data_unique %>%
-                filter(completion_year == max_completion_year)
+            
+            iv_data_unique <- iv_umc %>%
+                filter(completion_year == max_completion_year) %>%
+                filter(city == input$selectUMC)
             
             all_numer_timpub <- iv_data_unique %>%
                 filter(
@@ -1476,15 +1521,16 @@ server <- function (input, output, session) {
 
         if (input$reporttype5a == "Manuscript publication only") {
             
-            max_completion_year <- iv_data_unique %>%
-                filter(
-                    has_followup_5y_pub
+            max_completion_year <- iv_umc %>%
+                filter(city == input$selectUMC,
+                       has_followup_5y_pub
                 ) %>%
                 select(completion_year) %>%
                 max()
-
-            iv_data_unique <- iv_data_unique %>%
-                filter(completion_year == max_completion_year)
+            
+            iv_data_unique <- iv_umc %>%
+                filter(completion_year == max_completion_year) %>%
+                filter(city == input$selectUMC)
             
             all_numer_timpub <- iv_data_unique %>%
                 filter(
@@ -1503,7 +1549,7 @@ server <- function (input, output, session) {
             timpubvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
         } else {
             timpubval <- paste0(round(100*all_numer_timpub/all_denom_timpub), "%")
-            timpubvaltext <- paste0("of clinical trials completed in ", max_completion_year, " (n=", all_denom_timpub, ") reported results within 5 years")
+            timpubvaltext <- paste0("of clinical trials completed in ", max_completion_year, " with the appropriate follow-up period (n=", all_denom_timpub, ") reported results within 5 years")
         }
         
         metric_box(
@@ -2046,13 +2092,14 @@ server <- function (input, output, session) {
 
         all_numer_timpub <- iv_all %>%
             filter(
-                (has_followup_2y_pub & is_publication_2y) | (has_followup_2y_sumres & is_summary_results_2y)
+                has_followup_2y_pub & has_followup_2y_sumres,
+                is_publication_2y | is_summary_results_2y
             ) %>%
             nrow()
         
         all_denom_timpub <- iv_all %>%
             filter(
-                has_followup_2y_pub | has_followup_2y_sumres
+                has_followup_2y_pub & has_followup_2y_sumres
             ) %>%
             nrow()
 
@@ -2091,7 +2138,7 @@ server <- function (input, output, session) {
         metric_box(
             title = "Results reporting within 2 years of trial completion (timely)",
             value = paste0(round(100*all_numer_timpub/all_denom_timpub), "%"),
-            value_text = "of clinical trials reported results within 2 years",
+            value_text = "of clinical trials with the appropriate follow-up period reported results within 2 years",
             plot = plotlyOutput('plot_allumc_clinicaltrials_timpub', height="300px"),
             info_id = "infoALLUMCTimPub",
             info_title = "Results reporting (2 years) (All UMCs)",
@@ -2110,7 +2157,8 @@ server <- function (input, output, session) {
 
         all_numer_timpub5a <- iv_all %>%
             filter(
-                (has_followup_5y_pub & is_publication_5y) | (has_followup_5y_sumres & is_summary_results_5y)
+                has_followup_5y_pub & has_followup_5y_sumres,
+                is_publication_5y | is_summary_results_5y
             ) %>%
             nrow()
         
@@ -2155,7 +2203,7 @@ server <- function (input, output, session) {
         metric_box(
             title = "Results reporting within 5 years of trial completion",
             value = paste0(round(100*all_numer_timpub5a/all_denom_timpub5a), "%"),
-            value_text = "of clinical trials reported results within 5 years",
+            value_text = "of clinical trials with the appropriate follow-up period reported results within 5 years",
             plot = plotlyOutput('plot_allumc_timpub_5a', height="300px"),
             info_id = "infoALLUMCTimPub5a",
             info_title = "Results reporting (5 years) (All UMCs)",
