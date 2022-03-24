@@ -137,14 +137,14 @@ lim_allumc_clinicaltrials_prereg_tooltip <- strwrap("This data depends on regist
                              without a start date in the registry were excluded from this analysis.")
 
 allumc_clinicaltrials_timpub_tooltip5a <- strwrap("This metric shows the percentage of clinical trials
-                            that reported results within 5 years of trial completion as (a) a journal
+                            that reported results within 5 years of trial completion as (a) a manuscript
                             publication, and b) summary results in the registry. Select the reporting
                             route of interest in the drop-down menu. A fast dissemination of trial
                              results is crucial to make the evidence gained in those trials available.
                              This analysis was limited to trials registered in ClinicalTrials.gov or DRKS. 
                              <i>Results reporting as summary results in the registry</i>: we extracted this
                              information from ClinicalTrials.gov and DRKS via automated methods.
-                             <i>Results reporting as a journal publication</i>: a manual search for published results
+                             <i>Results reporting as a manuscript publication</i>: a manual search for published results
                              was conducted, searching the registry, PubMed, and Google. If multiple results
                              publications were found, only the earliest was included. Thus, the data presented
                              does not reflect all submitted results or publications of a given trial. 
@@ -158,21 +158,21 @@ lim_allumc_clinicaltrials_timpub_tooltip5a <- strwrap("<i>Results reporting as s
                             registry based on the presence on keywords in the
                              reference title. We did not perform a manual review of these results. The
                              data presented relies on the information in registry entries being accurate
-                               and complete. <i>Results reporting as a journal publication</i>: some of
+                               and complete. <i>Results reporting as a manuscript publication</i>: some of
                                the publications may have
                              been missed in the manual search procedure as the search was restricted to
                              a limited number of scientific databases and the 
                              responsible parties were not contacted.")
 
 allumc_clinicaltrials_timpub_tooltip <- strwrap("This metric shows the percentage of clinical trials that
-                            reported results within 2 years of trial completion as (a) a journal publication,
+                            reported results within 2 years of trial completion as (a) a manuscript publication,
                             and b) summary results in the registry. Select the reporting route of
                             interest in the drop-down menu. A fast dissemination of trial results
                             is crucial to make the evidence gained in those trials available. This analysis was
                              limited to trials registered in ClinicalTrials.gov or DRKS. <i>Results reporting
                              as summary results in the registry</i>: we extracted this
                              information from ClinicalTrials.gov and DRKS via automated methods.
-                             <i>Results reporting as a journal publication</i>: a manual search for published results
+                             <i>Results reporting as a manuscript publication</i>: a manual search for published results
                              was conducted, searching the registry, PubMed, and Google. If multiple
                              results publications were found, only the earliest was included. Thus, the data presented
                              does not reflect all submitted results or publications of a given trial. Publication
@@ -185,7 +185,7 @@ lim_allumc_clinicaltrials_timpub_tooltip <- strwrap("<i>Results reporting as sum
                             registry based on the presence on keywords in the
                              reference title. We did not perform a manual review of these results. The
                              data presented relies on the information in registry entries being accurate
-                               and complete. <i>Results reporting as a journal publication</i>: some of
+                               and complete. <i>Results reporting as a manuscript publication</i>: some of
                                the publications may have
                              been missed in the manual search procedure as the search was restricted to
                              a limited number of scientific databases and the 

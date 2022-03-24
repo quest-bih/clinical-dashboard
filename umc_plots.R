@@ -570,15 +570,13 @@ umc_plot_clinicaltrials_timpub_2a <- function (dataset, dataset_all, umc, rt, co
             filter(
                 has_followup_2y_pub & has_followup_2y_sumres
             )
-        dataset$published_2a <- (dataset$has_followup_2y_sumres & dataset$is_summary_results_2y) | 
-            (dataset$has_followup_2y_pub & dataset$is_publication_2y)
+        dataset$published_2a <- dataset$is_summary_results_2y | dataset$is_publication_2y
         
         dataset_all <- dataset_all %>%
             filter(
-                has_followup_2y_pub | has_followup_2y_sumres
+                has_followup_2y_pub & has_followup_2y_sumres
             )
-        dataset_all$published_2a <- (dataset_all$has_followup_2y_sumres & dataset_all$is_summary_results_2y) | 
-            (dataset_all$has_followup_2y_pub & dataset_all$is_publication_2y)
+        dataset_all$published_2a <- dataset_all$is_summary_results_2y | dataset_all$is_publication_2y
     }
 
     years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
@@ -719,15 +717,13 @@ umc_plot_clinicaltrials_timpub_5a <- function (dataset, dataset_all, umc, rt, co
             filter(
                 has_followup_5y_pub & has_followup_5y_sumres
             )
-        dataset$published_5a <- (dataset$has_followup_5y_sumres & dataset$is_summary_results_5y) | 
-            (dataset$has_followup_5y_pub & dataset$is_publication_5y)
+        dataset$published_5a <- dataset$is_summary_results_5y | dataset$is_publication_5y
         
         dataset_all <- dataset_all %>%
             filter(
                 has_followup_5y_pub & has_followup_5y_sumres
             )
-        dataset_all$published_5a <- (dataset_all$has_followup_5y_sumres & dataset_all$is_summary_results_5y) | 
-            (dataset_all$has_followup_5y_pub & dataset_all$is_publication_5y)
+        dataset_all$published_5a <- dataset_all$is_summary_results_5y | dataset_all$is_publication_5y
     }
 
     years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
@@ -784,8 +780,7 @@ umc_plot_clinicaltrials_timpub_5a <- function (dataset, dataset_all, umc, rt, co
         manuscript_denom <- dataset %>%
             filter(
                 completion_year == current_year &
-                has_followup_5y_pub &
-                is_publication_5y
+                has_followup_5y_pub
             ) %>%
             nrow()
 

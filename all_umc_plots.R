@@ -380,7 +380,8 @@ plot_allumc_clinicaltrials_timpub <- function (dataset, rt, color_palette, color
         umc_numer <- dataset %>%
             filter(
                 city == umc,
-                (has_followup_2y_sumres & is_summary_results_2y) | (has_followup_2y_pub & is_publication_2y)
+                has_followup_2y_pub & has_followup_2y_sumres,
+                is_summary_results_2y | is_publication_2y
             ) %>%
             nrow()
         
@@ -481,14 +482,15 @@ plot_allumc_timpub_5a <- function (dataset, rt, color_palette, color_palette_bar
         umc_numer <- dataset %>%
             filter(
                 city == umc,
-                (has_followup_5y_sumres & is_summary_results_5y) | (has_followup_5y_pub & is_publication_5y)
+                has_followup_5y_sumres & has_followup_5y_pub,
+                is_summary_results_5y | is_publication_5y
             ) %>%
             nrow()
         
         umc_denom <- dataset %>%
             filter(
                 city == umc,
-                has_followup_5y_sumres | has_followup_5y_pub) %>%
+                has_followup_5y_sumres & has_followup_5y_pub) %>%
             nrow()
 
         if (rt == "Summary results only") {
