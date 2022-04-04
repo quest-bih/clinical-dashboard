@@ -844,6 +844,9 @@ server <- function (input, output, session) {
             first_lim_align <- "right"
         }
 
+        ## Temporary, to remove Green OA plot
+        col_width <- 12
+
         ## Value for Open Access
         
         #Create set for OA percentage plot
@@ -924,22 +927,22 @@ server <- function (input, output, session) {
                         lim_text = lim_openaccess_tooltip,
                         lim_align = first_lim_align
                     )
-                ),
-                column(
-                    col_width,
-                    metric_box(
-                        title = "Realized potential of green Open Access (OA)",
-                        value = paste0(round(100*numer_greenoa/denom_greenoa), "%"),
-                        value_text = paste0("of paywalled publications from 2020 with a permission for green OA (n=", denom_greenoa, ") have been made openly accessible via this route"),
-                        plot = plotlyOutput('plot_opensci_green_oa', height="300px"),
-                        info_id = "infoGreenOA",
-                        info_title = "Realized potential of green OA",
-                        info_text = greenopenaccess_tooltip,
-                        lim_id = "limGreenOA",
-                        lim_title = "Limitations: Realized potential of green OA",
-                        lim_text = lim_greenopenaccess_tooltip
-                    )
-                )
+                )## ,
+                ## column(
+                ##     col_width,
+                ##     metric_box(
+                ##         title = "Realized potential of green Open Access (OA)",
+                ##         value = paste0(round(100*numer_greenoa/denom_greenoa), "%"),
+                ##         value_text = paste0("of paywalled publications from 2020 with a permission for green OA (n=", denom_greenoa, ") have been made openly accessible via this route"),
+                ##         plot = plotlyOutput('plot_opensci_green_oa', height="300px"),
+                ##         info_id = "infoGreenOA",
+                ##         info_title = "Realized potential of green OA",
+                ##         info_text = greenopenaccess_tooltip,
+                ##         lim_id = "limGreenOA",
+                ##         lim_title = "Limitations: Realized potential of green OA",
+                ##         lim_text = lim_greenopenaccess_tooltip
+                ##     )
+                ## )
                 
             )
         )
@@ -1584,6 +1587,9 @@ server <- function (input, output, session) {
                 first_lim_align <- "right"
             }
 
+            ## Temporary, to remove Green OA plot
+            col_width <- 12
+
             ## Value for Open Access
             
             ## Create set for OA percentage plot
@@ -1700,22 +1706,22 @@ server <- function (input, output, session) {
                             lim_text = lim_openaccess_tooltip,
                             lim_align = first_lim_align
                         )
-                    ),
-                    column(
-                        col_width,
-                        metric_box(
-                            title = "Realized potential of green Open Access (OA)",
-                            value = paste0(round(100*numer_greenoa/denom_greenoa), "%"),
-                            value_text = paste0("of paywalled publications published between ", min_oa_green, " and ", max_oa_green, " with a permission for green OA (n=", denom_greenoa, ") have been made openly accessible via this route"),
-                            plot = plotlyOutput('umc_plot_opensci_green_oa', height="300px"),
-                            info_id = "UMCinfoGreenOA",
-                            info_title = "Realized potential of green OA",
-                            info_text = greenopenaccess_tooltip,
-                            lim_id = "UMClimGreenOA",
-                            lim_title = "Limitations: Realized potential of green OA",
-                            lim_text = lim_greenopenaccess_tooltip
-                        )
-                    )
+                    )## ,
+                    ## column(
+                    ##     col_width,
+                    ##     metric_box(
+                    ##         title = "Realized potential of green Open Access (OA)",
+                    ##         value = paste0(round(100*numer_greenoa/denom_greenoa), "%"),
+                    ##         value_text = paste0("of paywalled publications published between ", min_oa_green, " and ", max_oa_green, " with a permission for green OA (n=", denom_greenoa, ") have been made openly accessible via this route"),
+                    ##         plot = plotlyOutput('umc_plot_opensci_green_oa', height="300px"),
+                    ##         info_id = "UMCinfoGreenOA",
+                    ##         info_title = "Realized potential of green OA",
+                    ##         info_text = greenopenaccess_tooltip,
+                    ##         lim_id = "UMClimGreenOA",
+                    ##         lim_title = "Limitations: Realized potential of green OA",
+                    ##         lim_text = lim_greenopenaccess_tooltip
+                    ##     )
+                    ## )
                     
                 )
             )
@@ -2279,24 +2285,24 @@ server <- function (input, output, session) {
                         lim_text = lim_allumc_openaccess_tooltip
                     )
                 )
-            ),
-            fluidRow(
-                column(
-                    12,
-                    metric_box(
-                        title = "Realized potential of green Open Access (OA)",
-                        value = paste0(round(100*numer_greenoa/denom_greenoa), "%"),
-                        value_text = "of paywalled publications with a permission for green OA have been made openly accessible via this route",
-                        plot = plotlyOutput('plot_allumc_greenoa', height="300px"),
-                        info_id = "infoALLUMCGreenOA",
-                        info_title = "Realized potential of green OA (All UMCs)",
-                        info_text = allumc_greenoa_tooltip,
-                        lim_id = "limALLUMCGreenOA",
-                        lim_title = "Limitations: Realized potential of green OA (All UMCs)",
-                        lim_text = lim_allumc_greenoa_tooltip
-                    )
-                )
-            )
+            )## ,
+            ## fluidRow(
+            ##     column(
+            ##         12,
+            ##         metric_box(
+            ##             title = "Realized potential of green Open Access (OA)",
+            ##             value = paste0(round(100*numer_greenoa/denom_greenoa), "%"),
+            ##             value_text = "of paywalled publications with a permission for green OA have been made openly accessible via this route",
+            ##             plot = plotlyOutput('plot_allumc_greenoa', height="300px"),
+            ##             info_id = "infoALLUMCGreenOA",
+            ##             info_title = "Realized potential of green OA (All UMCs)",
+            ##             info_text = allumc_greenoa_tooltip,
+            ##             lim_id = "limALLUMCGreenOA",
+            ##             lim_title = "Limitations: Realized potential of green OA (All UMCs)",
+            ##             lim_text = lim_allumc_greenoa_tooltip
+            ##         )
+            ##     )
+            ## )
             
         )
     })
