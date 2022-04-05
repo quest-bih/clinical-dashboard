@@ -359,58 +359,59 @@ methods_page <- tabPanel(
                         OA data was retrieved with UnpaywallR on 20 February 2022.'),
                              
                              "The OA status could only be obtained for publications with a DOI and
-                             which resolved in Unpaywall. We did not perform a manual check of the OA data."),
+                             which resolved in Unpaywall. We did not perform a manual check of the OA data.")## ,
                
-               methods_panel("Realized potential of green Open Access for paywalled publications",
+               ## methods_panel("Realized potential of green Open Access for paywalled publications",
                              
-                             HTML("How many paywalled publications with the potential to be archived
-                             in a repository have been made openly accessible via this route.
-                             In many cases, journal or publisher self-archiving policies allow researchers
-                             to make the accepted or published version of their publication openly
-                             accessible in an institutional repository upon publication or after an
-                             embargo period (green OA). This helps broaden the dissemination of research discoveries.
-                             However, several factors appear to limit the use of self-archiving: permissions
-                             for self-archiving vary based on the <i>version</i> of the publication to be
-                             deposited, <i>where</i> the publication is to be deposited, and <i>when</i>
-                             it is to be deposited. Moreover, in many cases only the accepted version
-                             of the publication can be archived after an embargo period of 6 or 12 months.
-                             It can be difficult to retrieve the correct version of the publication after this
-                             delay. Click on the toggle to view absolute numbers (light green shows the number
-                             of publications currently behind a paywall that have a permission for self-archiving
-                             in an institutional repository)."),
+               ##               HTML("How many paywalled publications with the potential to be archived
+               ##               in a repository have been made openly accessible via this route.
+               ##               In many cases, journal or publisher self-archiving policies allow researchers
+               ##               to make the accepted or published version of their publication openly
+               ##               accessible in an institutional repository upon publication or after an
+               ##               embargo period (green OA). This helps broaden the dissemination of research discoveries.
+               ##               However, several factors appear to limit the use of self-archiving: permissions
+               ##               for self-archiving vary based on the <i>version</i> of the publication to be
+               ##               deposited, <i>where</i> the publication is to be deposited, and <i>when</i>
+               ##               it is to be deposited. Moreover, in many cases only the accepted version
+               ##               of the publication can be archived after an embargo period of 6 or 12 months.
+               ##               It can be difficult to retrieve the correct version of the publication after this
+               ##               delay. Click on the toggle to view absolute numbers (light green shows the number
+               ##               of publications currently behind a paywall that have a permission for self-archiving
+               ##               in an institutional repository)."),
                              
-                             HTML('This analysis was limited to trials in the IntoValue dataset (registered
-                                in ClinicalTrials.gov or DRKS) with a journal publication and a DOI. The
-                                publication date from Unpaywall was used to display the data over
-                             time. Therefore, this analysis was also limited to publications with a
-                             publication date in Unpaywall. In the first step, we identified publications
-                             which are
-                             only accessible in a repository (Green OA only). To do so, we queried Unpaywall
-                             via its API using the <a href="https://github.com/NicoRiedel/unpaywallR">
-                             UnpaywallR R package</a>) with the following hierarchy: gold - hybrid - bronze - green - 
-                             closed. In the second step, we identified how many paywalled publications
-                             could technically be made openly accessible based on self-archiving permissions.
-                             We obtained article-level self-archiving permissions by querying
-                             Shareyourpaper.org (OA.Works) via its
-                             <a href="https://openaccessbutton.org/api">API</a>.
-                             Shareyourpaper combines publication metadata and policy information to provide
-                             permissions. Publications were considered to have the potential for green OA
-                             if: (1) a \"best permission\" was found; (2) this permission relates to either
-                             the accepted or published version of the publication; (3) this permission
-                             relates to archiving in an institutional repository; and (4) the embargo
-                             linked to this permission had elapsed (if applicable). We did not consider
-                             permissions relating to the submitted version. The date at which a
-                             publication can be made openly accessible via self-archiving depends on
-                             the publication date and the length of the embargo (if any). Therefore,
-                             the number of paywalled publications with the potential for green OA will
-                             change over time. The Unpaywall database and the Shareyourpaper permissions
-                             API were queried on 20 February 2022. The plots for this metric on the Start page
-                             only display data for years with more than 20 publications.'),
+               ##               HTML('This analysis was limited to trials in the IntoValue dataset (registered
+               ##                  in ClinicalTrials.gov or DRKS) with a journal publication and a DOI. The
+               ##                  publication date from Unpaywall was used to display the data over
+               ##               time. Therefore, this analysis was also limited to publications with a
+               ##               publication date in Unpaywall. In the first step, we identified publications
+               ##               which are
+               ##               only accessible in a repository (Green OA only). To do so, we queried Unpaywall
+               ##               via its API using the <a href="https://github.com/NicoRiedel/unpaywallR">
+               ##               UnpaywallR R package</a>) with the following hierarchy: gold - hybrid - bronze - green - 
+               ##               closed. In the second step, we identified how many paywalled publications
+               ##               could technically be made openly accessible based on self-archiving permissions.
+               ##               We obtained article-level self-archiving permissions by querying
+               ##               Shareyourpaper.org (OA.Works) via its
+               ##               <a href="https://openaccessbutton.org/api">API</a>.
+               ##               Shareyourpaper combines publication metadata and policy information to provide
+               ##               permissions. Publications were considered to have the potential for green OA
+               ##               if: (1) a \"best permission\" was found; (2) this permission relates to either
+               ##               the accepted or published version of the publication; (3) this permission
+               ##               relates to archiving in an institutional repository; and (4) the embargo
+               ##               linked to this permission had elapsed (if applicable). We did not consider
+               ##               permissions relating to the submitted version. The date at which a
+               ##               publication can be made openly accessible via self-archiving depends on
+               ##               the publication date and the length of the embargo (if any). Therefore,
+               ##               the number of paywalled publications with the potential for green OA will
+               ##               change over time. The Unpaywall database and the Shareyourpaper permissions
+               ##               API were queried on 20 February 2022. The plots for this metric on the Start page
+               ##               only display data for years with more than 20 publications.'),
                              
-                             "Not all queried publications resolved in Unpaywall and ShareYourPaper.
-                             Self-archiving permissions data was only extracted for publications with
-                             a known \"best permission\" in the Shareyourpaper.org database. We did
-                             not perform a manual check of self-archiving permissions.")),
+               ##               "Not all queried publications resolved in Unpaywall and ShareYourPaper.
+               ##               Self-archiving permissions data was only extracted for publications with
+               ##               a known \"best permission\" in the Shareyourpaper.org database. We did
+               ##               not perform a manual check of self-archiving permissions.")
+               ),
     
     h3("Dashboard development"),
     bsCollapse(id = "methodsPanels_DashboardDevelopment",

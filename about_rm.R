@@ -33,8 +33,8 @@ about_rm_page <- tabPanel(
     h4("Open Access"),
     helpText("Delwen Franzen (Conceptualization, Methodology, Technical Implementation);
              Nico Riedel (Conceptualization, Methodology, Technical Implementation)"),
-    h4("Realised potential of green Open Access"),
-    helpText("Delwen Franzen (Conceptualization, Methodology, Technical Implementation)"),
+    ## h4("Realised potential of green Open Access"),
+    ## helpText("Delwen Franzen (Conceptualization, Methodology, Technical Implementation)"),
     
     # br(),
     # h4("Robustness of animal studies"),
