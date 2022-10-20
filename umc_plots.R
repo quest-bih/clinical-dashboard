@@ -422,7 +422,10 @@ umc_plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, iv_all_dat
         city_data <- dataset %>%
             group_by(date) %>%
             filter(city == umc) %>%
-            mutate(mouseover = paste0(sum(total_reported), "/", sum(total_due)))
+            mutate(mouseover = paste0(sum(total_reported), "/", sum(total_due))) %>% 
+            select(date, hash, percent_reported, month,
+                   total_due, total_reported, mouseover, city) %>% 
+          ungroup()
         
     } else { ## The registry is not EUCTR
 
@@ -499,24 +502,29 @@ umc_plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, iv_all_dat
         
     }
 
-    plot_data <- rbind(all_data, city_data)
-
+    # plot_data <- rbind(all_data, city_data)
+    
     plot_ly(
-        plot_data,
-        x = ~date,
-        y = ~percent_reported,
-        name = ~city,
-        text = ~mouseover,
-        type = 'scatter',
-        mode = 'lines+markers',
-        marker = list(
-            color = color_palette[3],
-            line = list(
-                color = 'rgb(0,0,0)',
-                width = 1.5
-            )
+      all_data,
+      x = ~date,
+      y = ~percent_reported,
+      name = ~city,
+      text = ~mouseover,
+      type = 'scatter',
+      mode = 'lines+markers',
+      marker = list(
+        color = color_palette[3],
+        line = list(
+          color = 'rgb(0,0,0)',
+          width = 1.5
         )
-    ) %>%
+      )
+    ) %>%    
+      add_trace(
+        data = city_data,
+        text = ~mouseover,
+        marker = list(color = color_palette[2])
+      ) %>%
         layout(
             xaxis = list(
                 title = '<b>Date</b>'

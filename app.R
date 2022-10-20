@@ -7,6 +7,7 @@ library(ggplot2)
 library(shinythemes)
 library(shinyBS)
 library(shinyjs)
+library(shinycssloaders)
 library(DT)
 library(fs)
 library(gtsummary)
@@ -91,71 +92,56 @@ ui <- tagList(
 server <- function (input, output, session) {
 
     ## Define button actions
+  observe({
+    updateTabsetPanel(   
+      session, "navbarTabs",
+      selected = "tabUMC"
+    )}) %>% 
+    bindEvent(input$buttonUMC)
+  
+  observe({
+    updateTabsetPanel(   
+      session, "navbarTabs",
+      selected = "tabAllUMCs"
+    )}) %>% 
+    bindEvent(input$buttonAllUMCs)
+  
+  observe({
+    updateTabsetPanel(   
+      session, "navbarTabs",
+      selected = "tabMethods"
+    )}) %>% 
+    bindEvent(input$buttonMethods)
+  
+  observe({
+    updateTabsetPanel(   
+      session, "navbarTabs",
+      selected = "tabDatasets"
+    )}) %>% 
+    bindEvent(input$buttonDatasets)
+  
+  observe({
+    updateTabsetPanel(   
+      session, "navbarTabs",
+      selected = "tabMethods"
+    )}) %>% 
+    bindEvent(input$link_to_methods)
+  
+  observe({
+    updateTabsetPanel(   
+      session, "navbarTabs",
+      selected = "tabMethods"
+    )}) %>% 
+    bindEvent(input$link_to_methods2)
+  
+  observe({
+    updateTabsetPanel(   
+      session, "navbarTabs",
+      selected = "tabWhy"
+    )}) %>% 
+    bindEvent(input$link_to_why_these_practices)
 
-    observeEvent(
-        input$buttonUMC, {
-            updateTabsetPanel(
-                session, "navbarTabs",
-                selected = "tabUMC"
-            )
-        }
-    )
-
-    observeEvent(
-        input$buttonAllUMCs, {
-            updateTabsetPanel(
-                session, "navbarTabs",
-                selected = "tabAllUMCs"
-            )
-        }
-    )
-    
-    observeEvent(
-        input$buttonMethods, {
-            updateTabsetPanel(
-                session, "navbarTabs",
-                selected = "tabMethods"
-            )
-        }
-    )
-
-    observeEvent(
-        input$buttonDatasets, {
-            updateTabsetPanel(
-                session, "navbarTabs",
-                selected = "tabDatasets"
-            )
-        }
-    )
-
-    observeEvent(
-        input$link_to_methods, {
-            updateTabsetPanel(
-                session, "navbarTabs",
-                selected = "tabMethods"
-            )
-        }
-    )
-
-    observeEvent(
-        input$link_to_methods2, {
-            updateTabsetPanel(
-                session, "navbarTabs",
-                selected = "tabMethods"
-            )
-        }
-    )
-
-    observeEvent(
-        input$link_to_why_these_practices, {
-            updateTabsetPanel(
-                session, "navbarTabs",
-                selected = "tabWhy"
-            )
-        }
-    )
-
-    ## Dynamically generate options for UMC drop-down menu
+   ## Dynamically generate options for UMC drop-down menu
 
     output$startpage <- renderUI({
 
@@ -268,7 +254,8 @@ server <- function (input, output, session) {
             fluidRow(
                 column(
                     col_width,
-                    uiOutput("startprereg"),
+                    uiOutput("startprereg") %>% 
+                      shinycssloaders::withSpinner(color = "#007265"),
                     selectInput(
                         "startpreregregistry",
                         strong("Trial registry"),
@@ -284,7 +271,8 @@ server <- function (input, output, session) {
                         title = "Reporting of Trial Registration Number in publications",
                         value = paste0(round(100*all_numer_trn/all_denom_trn), "%"),
                         value_text = paste0("of trials with a publication (n=", all_denom_trn, ") reported a trial registration number in the abstract"),
-                        plot = plotlyOutput('plot_clinicaltrials_trn', height="300px"),
+                        plot = plotlyOutput('plot_clinicaltrials_trn', height="300px") %>% 
+                          shinycssloaders::withSpinner(color = "#007265"),
                         info_id = "infoTRN",
                         info_title = "Reporting of Trial Registration Number in publications",
                         info_text = trn_tooltip,
@@ -295,7 +283,8 @@ server <- function (input, output, session) {
                 ),
                 column(
                     col_width,
-                    uiOutput("startlinkage"),
+                    uiOutput("startlinkage") %>% 
+                      shinycssloaders::withSpinner(color = "#007265"),
                     selectInput(
                         "startlinkagechooser",
                         strong("Trial registry"),
@@ -393,7 +382,8 @@ server <- function (input, output, session) {
             title = "Prospective registration",
             value = preregval,
             value_text = preregvaltext,
-            plot = plotlyOutput('plot_clinicaltrials_prereg', height="300px"),
+            plot = plotlyOutput('plot_clinicaltrials_prereg', height="300px") %>% 
+              shinycssloaders::withSpinner(color = "#007265"),
             info_id = "infoPreReg",
             info_title = "Prospective registration",
             info_text = prereg_tooltip,
@@ -462,7 +452,8 @@ server <- function (input, output, session) {
             title = "Publication link in registry",
             value = linkage,
             value_text = paste0("of trials completed in 2017 with a publication (n=", link_den, ") provide a link to this publication in the registry entry"),
-            plot = plotlyOutput('plot_linkage', height="300px"),
+            plot = plotlyOutput('plot_linkage', height="300px") %>% 
+              shinycssloaders::withSpinner(color = "#007265"),
             info_id = "infoLinkage",
             info_title = "Publication link in registry",
             info_text = linkage_tooltip,
@@ -492,7 +483,8 @@ server <- function (input, output, session) {
             fluidRow(
                 column(
                     col_width,
-                    uiOutput("startsumres"),
+                    uiOutput("startsumres") %>% 
+                      shinycssloaders::withSpinner(color = "#007265"),
                     selectInput(
                         "startsumresregistry",
                         strong("Trial registry"),
@@ -505,7 +497,8 @@ server <- function (input, output, session) {
                 ),
                 column(
                     col_width,
-                    uiOutput("startreport2a"),
+                    uiOutput("startreport2a") %>% 
+                      shinycssloaders::withSpinner(color = "#007265"),
                     selectInput(
                         "startreporttype2a",
                         strong("Reporting type"),
@@ -518,7 +511,8 @@ server <- function (input, output, session) {
                 ),
                 column(
                     col_width,
-                    uiOutput("startreport5a"),
+                    uiOutput("startreport5a") %>% 
+                      shinycssloaders::withSpinner(color = "#007265"),
                     selectInput(
                         "startreporttype5a",
                         strong("Reporting type"),
@@ -611,7 +605,8 @@ server <- function (input, output, session) {
             title = "Summary Results Reporting",
             value = sumresval,
             value_text = sumresvaltext,
-            plot = plotlyOutput('plot_clinicaltrials_sumres', height="300px"),
+            plot = plotlyOutput('plot_clinicaltrials_sumres', height="300px") %>% 
+              shinycssloaders::withSpinner(color = "#007265"),
             info_id = "infoSumRes",
             info_title = "Summary Results Reporting",
             info_text = sumres_tooltip,
@@ -716,7 +711,8 @@ server <- function (input, output, session) {
             title = "Results reporting within 2 years of trial completion (timely)",
             value = timpubval,
             value_text = timpubvaltext,
-            plot = plotlyOutput('plot_clinicaltrials_timpub_2a', height="300px"),
+            plot = plotlyOutput('plot_clinicaltrials_timpub_2a', height="300px") %>% 
+              shinycssloaders::withSpinner(color = "#007265"),
             info_id = "infoTimPub2",
             info_title = "Results reporting (2 years)",
             info_text = timpub_tooltip2,
@@ -820,7 +816,8 @@ server <- function (input, output, session) {
             title = "Results reporting within 5 years of trial completion",
             value = timpubval5a,
             value_text = timpubvaltext5a,
-            plot = plotlyOutput('plot_clinicaltrials_timpub_5a', height="300px"),
+            plot = plotlyOutput('plot_clinicaltrials_timpub_5a', height="300px") %>% 
+              shinycssloaders::withSpinner(color = "#007265"),
             info_id = "infoTimPub5",
             info_title = "Results reporting (5 years)",
             info_text = timpub_tooltip5,
@@ -918,7 +915,8 @@ server <- function (input, output, session) {
                         title = "Open Access (OA)",
                         value = paste0(round(100*all_numer_oa/all_denom_oa), "%"),
                         value_text = paste0("of publications from 2020 (n=", all_denom_oa, ") are Open Access (Gold, Green or Hybrid)"),
-                        plot = plotlyOutput('plot_opensci_oa', height="300px"),
+                        plot = plotlyOutput('plot_opensci_oa', height="300px") %>% 
+                          shinycssloaders::withSpinner(color = "#007265"),
                         info_id = "infoOpenAccess",
                         info_title = "Open Access",
                         info_text = openaccess_tooltip,
@@ -993,7 +991,8 @@ server <- function (input, output, session) {
                 fluidRow(
                     column(
                         col_width,
-                        uiOutput("oneumcprereg"),
+                        uiOutput("oneumcprereg") %>% 
+                          shinycssloaders::withSpinner(color = "#007265"),
                         selectInput(
                             "oneumcpreregregistry",
                             strong("Trial registry"),
@@ -1009,7 +1008,8 @@ server <- function (input, output, session) {
                             title = "Reporting of Trial Registration Number in publications",
                             value = paste0(round(100*all_numer_trn/all_denom_trn), "%"),
                             value_text = paste0("of trials with a publication (n=", all_denom_trn, ") reported a trial registration number in the abstract"),
-                            plot = plotlyOutput('umc_plot_clinicaltrials_trn', height="300px"),
+                            plot = plotlyOutput('umc_plot_clinicaltrials_trn', height="300px") %>% 
+                              shinycssloaders::withSpinner(color = "#007265"),
                             info_id = "UMCinfoTRN",
                             info_title = "Reporting of Trial Registration Number in publications",
                             info_text = trn_tooltip,
@@ -1020,7 +1020,8 @@ server <- function (input, output, session) {
                     ),
                     column(
                         col_width,
-                        uiOutput("oneumclinkage"),
+                        uiOutput("oneumclinkage") %>% 
+                          shinycssloaders::withSpinner(color = "#007265"),
                         selectInput(
                             "oneumclinkagechooser",
                             strong("Trial registry"),
@@ -1123,7 +1124,8 @@ server <- function (input, output, session) {
             title = "Prospective registration",
             value = preregval,
             value_text = preregvaltext,
-            plot = plotlyOutput('umc_plot_clinicaltrials_prereg', height="300px"),
+            plot = plotlyOutput('umc_plot_clinicaltrials_prereg', height="300px") %>% 
+              shinycssloaders::withSpinner(color = "#007265"),
             info_id = "UMCinfoPreReg",
             info_title = "Prospective registration",
             info_text = prereg_tooltip,
@@ -1198,7 +1200,8 @@ server <- function (input, output, session) {
             title = "Publication link in registry",
             value = linkage,
             value_text = paste0("of trials completed in 2017 with a publication (n=", link_den, ") provide a link to this publication in the registry entry"),
-            plot = plotlyOutput('umc_plot_linkage', height="300px"),
+            plot = plotlyOutput('umc_plot_linkage', height="300px") %>% 
+              shinycssloaders::withSpinner(color = "#007265"),
             info_id = "UMCinfoLinkage",
             info_title = "Publication link in registry",
             info_text = linkage_tooltip,
@@ -1235,7 +1238,8 @@ server <- function (input, output, session) {
                 fluidRow(
                     column(
                         col_width,
-                        uiOutput("oneumcsumres"),
+                        uiOutput("oneumcsumres") %>% 
+                          shinycssloaders::withSpinner(color = "#007265"),
                         selectInput(
                             "oneumcsumresregistry",
                             strong("Trial registry"),
@@ -1248,7 +1252,8 @@ server <- function (input, output, session) {
                     ),
                     column(
                         col_width,
-                        uiOutput("report2a"),
+                        uiOutput("report2a") %>% 
+                          shinycssloaders::withSpinner(color = "#007265"),
                         selectInput(
                             "reporttype2a",
                             strong("Reporting type"),
@@ -1261,7 +1266,8 @@ server <- function (input, output, session) {
                     ),
                     column(
                         col_width,
-                        uiOutput("report5a"),
+                        uiOutput("report5a") %>% 
+                          shinycssloaders::withSpinner(color = "#007265"),
                         selectInput(
                             "reporttype5a",
                             strong("Reporting type"),
@@ -1352,7 +1358,8 @@ server <- function (input, output, session) {
             title = "Summary Results Reporting",
             value = sumresval,
             value_text = sumresvaltext,
-            plot = plotlyOutput('umc_plot_clinicaltrials_sumres', height="300px"),
+            plot = plotlyOutput('umc_plot_clinicaltrials_sumres', height="300px") %>% 
+              shinycssloaders::withSpinner(color = "#007265"),
             info_id = "UMCinfoSumRes",
             info_title = "Summary Results Reporting",
             info_text = sumres_tooltip,
@@ -1458,7 +1465,8 @@ server <- function (input, output, session) {
             title = "Results reporting within 2 years of trial completion (timely)",
             value = timpubval,
             value_text = timpubvaltext,
-            plot = plotlyOutput('umc_plot_clinicaltrials_timpub_2a', height="300px"),
+            plot = plotlyOutput('umc_plot_clinicaltrials_timpub_2a', height="300px") %>% 
+              shinycssloaders::withSpinner(color = "#007265"), 
             info_id = "UMCinfoTimPub2",
             info_title = "Results reporting (2 years)",
             info_text = timpub_tooltip2,
@@ -1559,7 +1567,8 @@ server <- function (input, output, session) {
             title = "Results reporting within 5 years of trial completion",
             value = timpubval,
             value_text = timpubvaltext,
-            plot = plotlyOutput('umc_plot_clinicaltrials_timpub_5a', height="300px"),
+            plot = plotlyOutput('umc_plot_clinicaltrials_timpub_5a', height="300px") %>% 
+              shinycssloaders::withSpinner(color = "#007265"),
             info_id = "UMCinfoTimPub5",
             info_title = "Results reporting (5 years)",
             info_text = timpub_tooltip5,
@@ -1697,7 +1706,8 @@ server <- function (input, output, session) {
                             title = "Open Access (OA)",
                             value = paste0(round(100*all_numer_oa/all_denom_oa), "%"),
                             value_text = paste0("of publications published between ", min_oa, " and ", max_oa, " (n=", all_denom_oa, ") are Open Access (Gold, Green or Hybrid)"),
-                            plot = plotlyOutput('umc_plot_opensci_oa', height="300px"),
+                            plot = plotlyOutput('umc_plot_opensci_oa', height="300px") %>% 
+                              shinycssloaders::withSpinner(color = "#007265"),
                             info_id = "UMCinfoOpenAccess",
                             info_title = "Open Access",
                             info_text = openaccess_tooltip,
@@ -1744,7 +1754,8 @@ server <- function (input, output, session) {
             fluidRow(
                 column(
                     12,
-                    uiOutput("prereg_all"),
+                    uiOutput("prereg_all") %>% 
+                      shinycssloaders::withSpinner(color = "#007265"),
                     selectInput(
                         "allumc_prereg_registry",
                         strong("Trial registry"),
@@ -1759,7 +1770,8 @@ server <- function (input, output, session) {
             fluidRow(
                 column(
                     12,
-                    uiOutput("trn_in_pubs_all"),
+                    uiOutput("trn_in_pubs_all") %>% 
+                      shinycssloaders::withSpinner(color = "#007265"),
                     selectInput(
                         "allumc_trnpub",
                         strong("Location of reported trial registration number"),
@@ -1775,7 +1787,8 @@ server <- function (input, output, session) {
             fluidRow(
                 column(
                     12,
-                    uiOutput("allumclinkage"),
+                    uiOutput("allumclinkage") %>% 
+                      shinycssloaders::withSpinner(color = "#007265"),
                     selectInput(
                         "allumc_linkagechooser",
                         strong("Trial registry"),
@@ -1829,7 +1842,8 @@ server <- function (input, output, session) {
             title = "Publication link in registry",
             value = paste0(round(100*all_numer_link/all_denom_link), "%"),
             value_text = "of trials with a publication provide a link to this publication in the registry entry",
-            plot = plotlyOutput('plot_allumc_linkage', height="300px"),
+            plot = plotlyOutput('plot_allumc_linkage', height="300px") %>% 
+              shinycssloaders::withSpinner(color = "#007265"),
             info_id = "infoALLUMCLinkage",
             info_title = "Publication link in registry (All UMCs)",
             info_text = allumc_linkage_tooltip,
@@ -1883,7 +1897,8 @@ server <- function (input, output, session) {
             title = "Summary Results Reporting",
             value = paste0(round(sumres_percent), "%"),
             value_text = sumresvaltext,
-            plot = plotlyOutput('plot_allumc_clinicaltrials_sumres', height="300px"),
+            plot = plotlyOutput('plot_allumc_clinicaltrials_sumres', height="300px") %>% 
+              shinycssloaders::withSpinner(color = "#007265"),
             info_id = "infoALLUMCSumRes",
             info_title = "Summary results reporting (All UMCs)",
             info_text = allumc_clinicaltrials_sumres_tooltip,
@@ -1928,7 +1943,8 @@ server <- function (input, output, session) {
             title = "Prospective registration",
             value = paste0(round(100*all_numer_prereg/all_denom_prereg), "%"),
             value_text = paste("of clinical trials registered on", input$allumc_prereg_registry, "were prospectively registered"),
-            plot = plotlyOutput('plot_allumc_clinicaltrials_prereg', height="300px"),
+            plot = plotlyOutput('plot_allumc_clinicaltrials_prereg', height="300px") %>% 
+              shinycssloaders::withSpinner(color = "#007265"),
             info_id = "infoALLUMCPreReg",
             info_title = "Prospective registration (All UMCs)",
             info_text = allumc_clinicaltrials_prereg_tooltip,
@@ -2024,7 +2040,8 @@ server <- function (input, output, session) {
             title = "Reporting of Trial Registration Number in publications",
             value = paste0(round(100*all_numer_trn/all_denom_trn), "%"),
             value_text = all_trn_value_text,
-            plot = plotlyOutput('plot_allumc_clinicaltrials_trn', height="300px"),
+            plot = plotlyOutput('plot_allumc_clinicaltrials_trn', height="300px") %>% 
+              shinycssloaders::withSpinner(color = "#007265"),
             info_id = "infoALLUMCTRN",
             info_title = "TRN reporting (All UMCs)",
             info_text = allumc_clinicaltrials_trn_tooltip,
@@ -2044,7 +2061,8 @@ server <- function (input, output, session) {
             fluidRow(
                 column(
                     12,
-                    uiOutput("allumcsumres"),
+                    uiOutput("allumcsumres") %>% 
+                      shinycssloaders::withSpinner(color = "#007265"),
                     selectInput(
                         "allumcsumresregistry",
                         strong("Trial registry"),
@@ -2059,7 +2077,8 @@ server <- function (input, output, session) {
             fluidRow(
                 column(
                     12,
-                    uiOutput("allumc_2a_pub"),
+                    uiOutput("allumc_2a_pub") %>% 
+                      shinycssloaders::withSpinner(color = "#007265"),
                     selectInput(
                         "allumcreporttype2a",
                         strong("Reporting type"),
@@ -2074,7 +2093,8 @@ server <- function (input, output, session) {
             fluidRow(
                 column(
                     12,
-                    uiOutput("allumc_5a_pub"),
+                    uiOutput("allumc_5a_pub") %>% 
+                      shinycssloaders::withSpinner(color = "#007265"),
                     selectInput(
                         "allumcreporttype5a",
                         strong("Reporting type"),
@@ -2145,7 +2165,8 @@ server <- function (input, output, session) {
             title = "Results reporting within 2 years of trial completion (timely)",
             value = paste0(round(100*all_numer_timpub/all_denom_timpub), "%"),
             value_text = "of clinical trials with the appropriate follow-up period reported results within 2 years",
-            plot = plotlyOutput('plot_allumc_clinicaltrials_timpub', height="300px"),
+            plot = plotlyOutput('plot_allumc_clinicaltrials_timpub', height="300px") %>% 
+              shinycssloaders::withSpinner(color = "#007265"),
             info_id = "infoALLUMCTimPub",
             info_title = "Results reporting (2 years) (All UMCs)",
             info_text = allumc_clinicaltrials_timpub_tooltip,
@@ -2210,7 +2231,8 @@ server <- function (input, output, session) {
             title = "Results reporting within 5 years of trial completion",
             value = paste0(round(100*all_numer_timpub5a/all_denom_timpub5a), "%"),
             value_text = "of clinical trials with the appropriate follow-up period reported results within 5 years",
-            plot = plotlyOutput('plot_allumc_timpub_5a', height="300px"),
+            plot = plotlyOutput('plot_allumc_timpub_5a', height="300px") %>% 
+              shinycssloaders::withSpinner(color = "#007265"),
             info_id = "infoALLUMCTimPub5a",
             info_title = "Results reporting (5 years) (All UMCs)",
             info_text = allumc_clinicaltrials_timpub_tooltip5a,
@@ -2276,7 +2298,8 @@ server <- function (input, output, session) {
                         title = "Open Access",
                         value = paste0(round(100*all_numer_oa/all_denom_oa), "%"),
                         value_text = "of publications are Open Access (Gold, Green or Hybrid)",
-                        plot = plotlyOutput('plot_allumc_openaccess', height="300px"),
+                        plot = plotlyOutput('plot_allumc_openaccess', height="300px") %>% 
+                          shinycssloaders::withSpinner(color = "#007265"),
                         info_id = "infoALLUMCOpenAccess",
                         info_title = "Open Access (All UMCs)",
                         info_text = allumc_openaccess_tooltip,

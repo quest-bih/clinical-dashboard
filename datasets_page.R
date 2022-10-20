@@ -26,30 +26,21 @@ make_datatable <- function(dataset) {
 datasets_page <- tabPanel(
     "Datasets", value = "tabDatasets",
     h3("Datasets"),
-    bsCollapse(
-        id="datasetPanels_prospective_reg_data",
-        bsCollapsePanel(
-            strong("Prospective registrations data set (ClinicalTrials.gov only)"),
-            DT::dataTableOutput("data_table_pros_reg_data"),
-            style="default"
-        )
-    ),
-    bsCollapse(
-        id="datasetPanels_eutt_data",
-        bsCollapsePanel(
-            strong("EU Trials Tracker data set"),
-            DT::dataTableOutput("data_table_eutt_data"),
-            style="default"
-        )
-    ),
-    bsCollapse(
-        id="datasetPanels_iv_data",
-        bsCollapsePanel(
-            strong("IntoValue"),
-            DT::dataTableOutput("data_table_iv_data"),
-            style="default"
-        )
-    ),
+    bsCollapsePanel(
+      strong("Prospective registrations data set (ClinicalTrials.gov only)"),
+      DT::dataTableOutput("data_table_pros_reg_data"),
+      style="default"
+      ),
+    bsCollapsePanel(
+      strong("EU Trials Tracker data set"),
+      DT::dataTableOutput("data_table_eutt_data"),
+      style="default"
+      ),
+    bsCollapsePanel(
+      strong("IntoValue"),
+      DT::dataTableOutput("data_table_iv_data"),
+      style="default"
+      ),
     bsCollapsePanel(strong("Impressum"),
                     impressum_text,
                     style = "default"),
