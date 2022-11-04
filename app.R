@@ -12,28 +12,32 @@ library(DT)
 library(fs)
 library(gtsummary)
 library(gt)
+library(vroom)
 
 ## Load data
 
 ## Generate this from the EUTT repo using the script in
 ## prep/eutt-history.R
-eutt_date <- "2022-02-18"
-eutt_hist <- read_csv(
-    paste0("data/", eutt_date, "-eutt-history.csv")
+
+eutt_file <- list.files("data/", "eutt")
+eutt_date <- str_extract(eutt_file, "^\\d{4}-\\d{2}-\\d{2}")
+
+eutt_hist <- vroom(
+    paste0("data/", eutt_file)
 )
 
 ## Data from the IntoValue 1-2 data set
 ## Generate these using the script in
 ## prep/transform-intovalue.R
-iv_all <- read_csv(
+iv_all <- vroom(
     "data/ct-dashboard-intovalue-all.csv"
 )
-iv_umc <- read_csv(
+iv_umc <- vroom(
     "data/ct-dashboard-intovalue-umc.csv"
 )
 
 ## Data from the prospective registration refresh
-pros_reg_data <- read_csv(
+pros_reg_data <- vroom(
     "data/prospective-reg-ctgov-2018-trials.csv"
 )
 
