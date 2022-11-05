@@ -142,8 +142,8 @@ methods_page <- tabPanel(
                              open source R sripts</a> to detect TRNs. Our regular-expression-based
                              approach searches text strings for matches to TRN patterns for all PubMed-indexed
                              and ICTRP-network registries. More information on this package and its
-                             application can be found in this <a href=https://www.medrxiv.org/content/10.1101/2021.08.23.21262478v1>
-                             preprint</a>. This analysis was limited to trials in the IntoValue dataset
+                             application can be found in this <a href=https://journals.sagepub.com/doi/10.1177/17407745221087456>
+                             publication</a>. This analysis was limited to trials in the IntoValue dataset
                              (registered in ClinicalTrials.gov or DRKS) for which a journal publication
                              was found. The analysis was further restricted to publications indexed in
                              PubMed (detection of TRN in abstract) or publications for which we could
@@ -169,7 +169,7 @@ methods_page <- tabPanel(
                              DRKS: custom-built web scraper; November 2022) and used regular expressions
                              to extract publication identifiers (DOIs and PMIDs) from these fields.
                              More information on this approach can be found in this
-                             <a href=https://www.medrxiv.org/content/10.1101/2021.08.23.21262478v1>preprint</a>.
+                             <a href=https://journals.sagepub.com/doi/10.1177/17407745221087456>publication</a>.
                              Note for the One UMC page: in case there were no trials (or associated publications)
                              for a given UMC and completion year (denominator = 0), the data point
                              for this completion year is omitted in the plot.'),
@@ -422,8 +422,8 @@ methods_page <- tabPanel(
   
   h3("Tools used for data collection"),
   helpText(HTML('<a href="https://github.com/NicoRiedel/unpaywallR"> UnpaywallR </a>')),
-  helpText(HTML('<a href="https://shareyourpaper.org/permissions/about">
-                  ShareYourPaper permissions checker API</a> from OA.Works')),
+  #helpText(HTML('<a href="https://shareyourpaper.org/permissions/about">
+  #                ShareYourPaper permissions checker API</a> from OA.Works')),
   helpText(HTML('<a href="https://github.com/maia-sh/ctregistries">ctregistries repository</a>')),
   helpText(HTML('<a href="https://eu.trialstracker.net/">EU Trials Tracker </a>')),
   bsCollapsePanel(strong("Impressum"),

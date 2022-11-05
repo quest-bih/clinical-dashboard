@@ -169,16 +169,16 @@ faq_page <- tabPanel(
                bsCollapsePanel(strong("Does the dashboard show the most recent data from ClinicalTrials.gov, DRKS, and the EU Trials Tracker?"),
                                p(HTML("We extracted updated registry data from
                                       ClinicalTrials.gov and DRKS for trials in
-                                      the ‘IntoValue’ cohort on <b>15 August 2021</b>.
+                                      the ‘IntoValue’ cohort on <b>1 November 2022</b>.
                                       <br>
                                       <br>For the more recent cohort of trials
                                       included for prospective registration in
                                       ClinialTrials.gov, we extracted updated
                                       registry data from ClinicalTrials.gov
-                                      on <b>6 October 2021</b>.<br>
+                                      on <b>1 November 2022</b>.<br>
                                       <br>For summary results reporting in the
                                       EUCTR, we extracted data from the EU Trials
-                                      Tracker on <b>18 February 2022</b>.")),
+                                      Tracker on <b>4 November 2022</b>.")),
                                value = "faqPanels_UpToDate",
                                style = "default")),
     bsCollapse(id = "faqPanels_MoreMethods",
@@ -212,7 +212,7 @@ faq_page <- tabPanel(
                                available and documented in <a href=https://github.com/maia-sh/intovalue-data>GitHub</a>.
                                More details on the methods to detect trial and
                                publication links can be found in this
-                               <a href=https://www.medrxiv.org/content/10.1101/2021.08.23.21262478v1>preprint</a>
+                               <a href=https://journals.sagepub.com/doi/10.1177/17407745221087456>publication</a>
                                and in <a href=https://github.com/maia-sh/reg-pub-link>GitHub</a>.
                                The dashboard was developed with Shiny and the
                                underlying code is openly available in <a href=https://github.com/quest-bih/clinical-dashboard>
@@ -222,13 +222,13 @@ faq_page <- tabPanel(
                                with different stakeholders on an institutional
                                dashboard with metrics for responsible research,
                                which you can find out more about in this
-                               <a href=https://www.medrxiv.org/content/10.1101/2021.09.16.21263493v1.supplementary-material>
-                               preprint</a>. We also conducted a review of
+                               <a href=https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0269492>
+                               publication</a>. We also conducted a review of
                                relevant UMC policies for mentions of indicators
                                of robust and transparent research and mentions
                                of more traditional metrics, which you can read
-                               about in this <a href=https://www.researchsquare.com/article/rs-871675/v1>
-                               preprint</a>.
+                               about in this <a href=https://health-policy-systems.biomedcentral.com/articles/10.1186/s12961-022-00841-2>
+                               publication</a>.
 ")),
                                value = "faqPanels_MoreMethods",
                                style = "default")),
