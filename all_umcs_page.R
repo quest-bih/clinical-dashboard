@@ -17,7 +17,7 @@ allumc_openaccess_tooltip <- strwrap("This metric shows the percentage of clinic
                               by clicking on the toggle above the plot. Note that the
                               OA percentage is not fixed but typically rises
                               retrospectively, as some publications become accessible
-                              with a delay. Query date: 20/02/2022.")
+                              with a delay. Query date: 01/11/2022.")
 
 lim_allumc_openaccess_tooltip <- strwrap("The OA status could only be obtained for publications
                                 with a DOI and which resolved in Unpaywall. We did not

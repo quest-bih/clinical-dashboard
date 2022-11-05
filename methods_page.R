@@ -54,8 +54,8 @@ methods_page <- tabPanel(
                                
                                The IntoValue dataset was adapted in the following ways
                                for the development of this dashboard: (1) we extracted updated
-                               registry data from ClinicalTrials.gov and DRKS on 15
-                               August 2021; (2) the date of summary results posting in
+                               registry data from ClinicalTrials.gov and DRKS on 1
+                               November 2022; (2) the date of summary results posting in
                                DRKS was extracted manually from the registry
                                using the registry's change history; (3)
                                we included additional information on the reporting
@@ -81,7 +81,7 @@ methods_page <- tabPanel(
                                       and considered as \"complete\" per the study
                                       status in the registry. We downloaded updated
                                       registry data for the trials in this cohort on
-                                      6 October 2021. In this cohort, Kiel and Lübeck are
+                                      1 November 2022. In this cohort, Kiel and Lübeck are
                                       represented as a single UMC (Schleswig-Holstein)<br>
                                       
                             <br>3. <b>Summary results reporting in the EUCTR</b>: this
@@ -166,7 +166,7 @@ methods_page <- tabPanel(
                              considered a publication “linked” if the PubMed IDentifier (PMID) or DOI was
                              included in the trial registration. We extracted the relevant fields from ClinicalTrials.gov
                              and DRKS using automated methods (ClinicalTrials.gov: via its API;
-                             DRKS: custom-built web scraper; August 2021) and used regular expressions
+                             DRKS: custom-built web scraper; November 2022) and used regular expressions
                              to extract publication identifiers (DOIs and PMIDs) from these fields.
                              More information on this approach can be found in this
                              <a href=https://www.medrxiv.org/content/10.1101/2021.08.23.21262478v1>preprint</a>.
@@ -456,7 +456,7 @@ openaccess_tooltip <- strwrap("This metric shows the percentage of clinical tria
                               by clicking on the toggle above the plot. Note that the
                               OA percentage is not fixed but typically rises
                               retrospectively, as some publications become accessible
-                              with a delay. Query date: 20/02/2022. Start page: only
+                              with a delay. Query date: 01/11/2022. Start page: only
                               publication years with more than 20 publications are shown.
                               More information can be found in the Methods page.") %>%
   paste(collapse = " ")
