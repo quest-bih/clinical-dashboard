@@ -855,7 +855,7 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
     ## Calculate the numerators and the denominator for the
     ## "all" bars
 
-    plot_data <- dataset %>%
+    oa_data_umc <- dataset %>%
         filter(
             has_publication == TRUE,
             publication_type == "journal publication",
@@ -865,7 +865,7 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
         ) %>%
         distinct(doi, .keep_all = TRUE)
 
-    plot_data_all <- dataset_all %>%
+    oa_data_all <- dataset_all %>%
         filter(
             has_publication == TRUE,
             publication_type == "journal publication",
@@ -874,87 +874,77 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
         ) %>%
         distinct(doi, .keep_all=TRUE)
 
-    all_denom <- plot_data_all %>%
+    all_denom <- oa_data_all %>%
         nrow()
 
-    all_gold <- plot_data_all %>%
+    all_gold <- oa_data_all %>%
         filter( color == "gold") %>%
         nrow()
 
-    all_green <- plot_data_all %>%
+    all_green <- oa_data_all %>%
         filter( color == "green") %>%
         nrow()
 
-    all_hybrid <- plot_data_all %>%
+    all_hybrid <- oa_data_all %>%
         filter( color == "hybrid") %>%
         nrow()
 
-    all_na <- plot_data_all %>%
+    all_na <- oa_data_all %>%
         filter( is.na(color) ) %>%
         nrow()
 
-    all_closed <- plot_data_all %>%
+    all_closed <- oa_data_all %>%
         filter( color == "closed") %>%
         nrow()
 
-    all_bronze <- plot_data_all %>%
+    all_bronze <- oa_data_all %>%
         filter( color == "bronze") %>%
         nrow()
 
 
-    umc_denom <- plot_data %>%
+    umc_denom <- oa_data_umc %>%
         nrow()
 
-    umc_gold <- plot_data %>%
+    umc_gold <- oa_data_umc %>%
         filter(
             color == "gold"
         ) %>%
         nrow()
 
-    umc_green <- plot_data %>%
+    umc_green <- oa_data_umc %>%
         filter(
             color == "green"
         ) %>%
         nrow()
 
-    umc_hybrid <- plot_data %>%
+    umc_hybrid <- oa_data_umc %>%
         filter(
             color == "hybrid"
         ) %>%
         nrow()
 
-    umc_na <- plot_data %>%
+    umc_na <- oa_data_umc %>%
         filter(
             is.na(color)
         ) %>%
         nrow()
 
-    umc_closed <- plot_data %>%
+    umc_closed <- oa_data_umc %>%
         filter(
             color == "closed"
         ) %>%
         nrow()
 
-    umc_bronze <- plot_data %>%
+    umc_bronze <- oa_data_umc %>%
         filter(
             color == "bronze"
         ) %>%
         nrow()
 
     if (absnum == "Show absolute numbers") {
-
-        dataset <- dataset %>%
-            filter(
-                has_publication == TRUE,
-                publication_type == "journal publication",
-                !is.na(doi),
-                ! is.na (publication_date_unpaywall),
-                city == umc
-            ) %>%
-            distinct(doi, .keep_all = TRUE)
-
-        dataset$oa_year <- dataset$publication_date_unpaywall %>%
-            format("%Y")
+      
+      oa_data_umc$oa_year <- oa_data_umc$publication_date_unpaywall %>%
+        format("%Y")
 
         plot_data <- tribble(
             ~x_label, ~gold,    ~green,    ~hybrid,    ~na,    ~closed,    ~bronze
@@ -962,53 +952,53 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
 
         upperlimit <- 0
         
-        years <- seq(from=min(dataset$oa_year, na.rm=TRUE), to=max(dataset$oa_year, na.rm=TRUE))
+        years <- seq(from=min(oa_data_umc$oa_year, na.rm=TRUE), to=max(oa_data_umc$oa_year, na.rm=TRUE))
 
         for (year in years) {
             
-            gold_num <- dataset %>%
+            gold_num <- oa_data_umc %>%
                 filter(
                     oa_year == year,
                     color == "gold"
                 ) %>%
                 nrow()
             
-            green_num <- dataset %>%
+            green_num <- oa_data_umc %>%
                 filter(
                     oa_year == year,
                     color == "green"
                 ) %>%
                 nrow()
 
-            hybrid_num <- dataset %>%
+            hybrid_num <- oa_data_umc %>%
                 filter(
                     oa_year == year,
                     color == "hybrid"
                 ) %>%
                 nrow()
 
-            na_num <- dataset %>%
+            na_num <- oa_data_umc %>%
                 filter(
                     oa_year == year,
                     is.na(color)
                 ) %>%
                 nrow()
             
-            closed_num <- dataset %>%
+            closed_num <- oa_data_umc %>%
                 filter(
                     oa_year == year,
                     color == "closed"
                 ) %>%
                 nrow()
 
-            bronze_num <- dataset %>%
+            bronze_num <- oa_data_umc %>%
                 filter(
                     oa_year == year,
                     color == "bronze"
                 ) %>%
                 nrow()
             
-            year_denom <- dataset %>%
+            year_denom <- oa_data_umc %>%
                 filter(
                     oa_year == year
                 ) %>%
@@ -1045,22 +1035,22 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
             )
         )
     ) %>%
+      add_trace(
+        y = ~hybrid,
+        name = "Hybrid",
+        marker = list(
+          color = color_palette[10],
+          line = list(
+            color = 'rgb(0,0,0)',
+            width = 1.5
+          )
+        )
+      ) %>%
         add_trace(
             y = ~green,
             name = "Green",
             marker = list(
                 color = color_palette[8],
-                line = list(
-                    color = 'rgb(0,0,0)',
-                    width = 1.5
-                )
-            )
-        ) %>%
-        add_trace(
-            y = ~hybrid,
-            name = "Hybrid",
-            marker = list(
-                color = color_palette[10],
                 line = list(
                     color = 'rgb(0,0,0)',
                     width = 1.5
@@ -1120,9 +1110,9 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
         ## Not "absolute numbers"
 
         plot_data <- tribble(
-            ~x_label, ~gold,                         ~green,                         ~hybrid,                         ~na,                         ~closed,                         ~bronze,     ~gold_numer, ~green_numer, ~hybrid_numer, ~sum,
-            "All",    round(100*all_gold/all_denom, digits=1), round(100*all_green/all_denom, digits=1), round(100*all_hybrid/all_denom, digits=1), round(100*all_na/all_denom, digits=1), round(100*all_closed/all_denom, digits=1), round(100*all_bronze/all_denom, digits=1), all_gold, all_green, all_hybrid, all_denom,
-            umc,      round(100*umc_gold/umc_denom, digits=1), round(100*umc_green/umc_denom, digits=1), round(100*umc_hybrid/umc_denom, digits=1), round(100*umc_na/umc_denom, digits=1), round(100*umc_closed/umc_denom, digits=1), round(100*umc_bronze/umc_denom, digits=1), umc_gold, umc_green, umc_hybrid, umc_denom
+            ~x_label, ~gold,                         ~green,                         ~hybrid,                         ~na,                         ~closed,                         ~bronze,     ~gold_numer, ~green_numer, ~hybrid_numer, ~bronze_numer, ~sum,
+            "All",    round(100*all_gold/all_denom, digits=1), round(100*all_green/all_denom, digits=1), round(100*all_hybrid/all_denom, digits=1), round(100*all_na/all_denom, digits=1), round(100*all_closed/all_denom, digits=1), round(100*all_bronze/all_denom, digits=1), all_gold, all_green, all_hybrid, all_bronze, all_denom,
+            umc,      round(100*umc_gold/umc_denom, digits=1), round(100*umc_green/umc_denom, digits=1), round(100*umc_hybrid/umc_denom, digits=1), round(100*umc_na/umc_denom, digits=1), round(100*umc_closed/umc_denom, digits=1), round(100*umc_bronze/umc_denom, digits=1), umc_gold, umc_green, umc_hybrid, umc_bronze, umc_denom
         )
 
         plot_data$x_label <- fct_relevel(plot_data$x_label, "All", after= Inf)
@@ -1145,6 +1135,18 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
             )
         )
     ) %>%
+      add_trace(
+        y = ~hybrid,
+        name = "Hybrid",
+        text = ~paste0(hybrid_numer, "/", sum),
+        marker = list(
+          color = color_palette[10],
+          line = list(
+            color = 'rgb(0,0,0)',
+            width = 1.5
+          )
+        )
+      ) %>%
         add_trace(
             y = ~green,
             name = "Green",
@@ -1157,18 +1159,18 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
                 )
             )
         ) %>%
-        add_trace(
-            y = ~hybrid,
-            name = "Hybrid",
-            text = ~paste0(hybrid_numer, "/", sum),
-            marker = list(
-                color = color_palette[10],
-                line = list(
-                    color = 'rgb(0,0,0)',
-                    width = 1.5
-                )
-            )
-        ) %>%
+      add_trace(
+        y = ~bronze,
+        name = "Bronze",
+        text = ~paste0(bronze_numer, "/", sum),
+        marker = list(
+          color = color_palette[4],
+          line = list(
+            color = 'rgb(0,0,0)',
+            width = 1.5
+          )
+        )
+      ) %>%
         layout(
             barmode = 'stack',
             xaxis = list(

@@ -679,32 +679,32 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
                 line = list(
                     color = 'rgb(0,0,0)',
                     width = 1.5
+                    )
                 )
-            )
-    ) %>%
-        add_trace(
-            y = ~green,
-            name = "Green",
-            marker = list(
-                color = color_palette[8],
-                line = list(
-                    color = 'rgb(0,0,0)',
-                    width = 1.5
+            ) %>% 
+            add_trace(
+                y = ~hybrid,
+                name = "Hybrid",
+                marker = list(
+                    color = color_palette[10],
+                    line = list(
+                        color = 'rgb(0,0,0)',
+                        width = 1.5
+                    )
                 )
-            )
-        ) %>%
-        add_trace(
-            y = ~hybrid,
-            name = "Hybrid",
-            marker = list(
-                color = color_palette[10],
-                line = list(
-                    color = 'rgb(0,0,0)',
-                    width = 1.5
-                )
-            )
-        ) %>%
-        add_trace(
+            ) %>% 
+            add_trace(
+                y = ~green,
+                name = "Green",
+                marker = list(
+                    color = color_palette[8],
+                    line = list(
+                        color = 'rgb(0,0,0)',
+                        width = 1.5
+                        )
+                    )
+                ) %>%
+            add_trace(
             y = ~bronze,
             name = "Bronze",
             marker = list(
@@ -712,17 +712,17 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
                 line = list(
                     color = 'rgb(0,0,0)',
                     width = 1.5
+                    )
                 )
-            )
-        ) %>%
-        add_trace(
-            y = ~closed,
-            name = "Closed",
-            marker = list(
-                color = color_palette[1],
-                line = list(
-                    color = 'rgb(0,0,0)',
-                    width = 1.5
+            ) %>%
+            add_trace(
+                y = ~closed,
+                name = "Closed",
+                marker = list(
+                    color = color_palette[1],
+                    line = list(
+                        color = 'rgb(0,0,0)',
+                        width = 1.5
                 )
             )
         ) %>%
@@ -756,7 +756,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
         ## Not "absolute numbers"
 
         plot_data <- tribble(
-            ~x_label, ~gold, ~green, ~hybrid, ~sum
+            ~x_label, ~gold, ~green, ~hybrid, ~bronze, ~sum
         )
 
         for (year in unique(dataset$oa_year)) {
@@ -782,6 +782,13 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
                 ) %>%
                 nrow()
             
+            bronze_num <- dataset %>%
+                filter(
+                    oa_year == year,
+                    color == "bronze"
+                ) %>%
+                nrow()
+            
             year_denom <- dataset %>%
                 filter(
                     oa_year == year
@@ -792,8 +799,8 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
                 plot_data <- plot_data %>%
                     bind_rows(
                         tribble(
-                            ~x_label, ~gold, ~gold_num,                         ~green, ~green_num,                        ~hybrid, ~hybrid_num,        ~sum,
-                            year, round(100*gold_num/year_denom), gold_num, round(100*green_num/year_denom), green_num, round(100*hybrid_num/year_denom), hybrid_num, year_denom
+                            ~x_label, ~gold, ~gold_num,                         ~green, ~green_num,                        ~hybrid, ~hybrid_num,        ~bronze, ~bronze_num, ~sum,
+                            year, round(100*gold_num/year_denom), gold_num, round(100*green_num/year_denom), green_num, round(100*hybrid_num/year_denom), hybrid_num, round(100*bronze_num/year_denom), bronze_num, year_denom
                         )
                     )
             }
@@ -813,50 +820,58 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
             line = list(
                 color = 'rgb(0,0,0)',
                 width = 1.5
-            )
-        )
-    ) %>%
-        add_trace(
-            y = ~green,
-            name = "Green",
-            text = ~paste0(green_num, "/", sum),
-            marker = list(
-                color = color_palette[8],
-                line = list(
-                    color = 'rgb(0,0,0)',
-                    width = 1.5
                 )
             )
         ) %>%
-        add_trace(
-            y = ~hybrid,
-            name = "Hybrid",
-            text = ~paste0(hybrid_num, "/", sum),
-            marker = list(
-                color = color_palette[10],
-                line = list(
-                    color = 'rgb(0,0,0)',
-                    width = 1.5
+            add_trace(
+                y = ~hybrid,
+                name = "Hybrid",
+                text = ~paste0(hybrid_num, "/", sum),
+                marker = list(
+                    color = color_palette[10],
+                    line = list(
+                        color = 'rgb(0,0,0)',
+                        width = 1.5
+                    )
                 )
-            )
-        ) %>%
-        layout(
-            barmode = 'stack',
-            xaxis = list(
-                title = '<b>Year of publication</b>'
-            ),
-            yaxis = list(
-                title = paste('<b>', ylabel, '</b>'),
-                range = c(0, 105)
-            ),
-            paper_bgcolor = color_palette[9],
-            plot_bgcolor = color_palette[9]
-        )
-
-
+            ) %>%
+            add_trace(
+                y = ~green,
+                name = "Green",
+                text = ~paste0(green_num, "/", sum),
+                marker = list(
+                    color = color_palette[8],
+                    line = list(
+                        color = 'rgb(0,0,0)',
+                        width = 1.5
+                        )
+                    )
+                ) %>%
+            add_trace(
+                y = ~bronze,
+                name = "Bronze",
+                text = ~paste0(bronze_num, "/", sum),
+                marker = list(
+                    color = color_palette[4],
+                    line = list(
+                        color = 'rgb(0,0,0)',
+                        width = 1.5
+                    )
+                )
+            ) %>%
+            layout(
+                barmode = 'stack',
+                xaxis = list(
+                    title = '<b>Year of publication</b>'
+                    ),
+                yaxis = list(
+                    title = paste('<b>', ylabel, '</b>'),
+                    range = c(0, 105)
+                    ),
+                paper_bgcolor = color_palette[9],
+                plot_bgcolor = color_palette[9]
+                )
     }
-
-        
 }
 
 plot_opensci_green_oa <- function (dataset, absnum, color_palette) {

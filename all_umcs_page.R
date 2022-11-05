@@ -2,21 +2,22 @@ allumc_openaccess_tooltip <- strwrap("This metric shows the percentage of clinic
                               publications that are Open Access (OA). This analysis was
                               limited to trials registered in ClinicalTrials.gov
                               or DRKS with a journal publication and a DOI that
-                              resolved in Unpaywall.
-                              Publications can have different OA statuses which are color-coded.
-                              Gold OA denotes a publication in an OA journal. Green
-                              OA denotes a freely available repository version.
+                              resolved in Unpaywall. Publications can have
+                              different OA statuses which are color-coded.
+                              Gold OA denotes a publication in an OA journal. 
                               Hybrid OA denotes an OA publication in a journal
                               which offers both a subscription based model as well
-                              as an OA option. As publications can have several
-                              OA versions, we defined a hierarchy for categories
-                              and for each publication only assigned the category 
-                              with the highest priority. Here, we used a hierarchy
-                              of gold - hybrid - green. Note that the
+                              as an OA option. Green OA denotes a freely available
+                              repository version. Bronze OA denotes publications
+                              which are freely available on the journal page, but
+                             without a clear open license. As publications can have several
+                              OA versions, we defined a hierarchy for categories:
+                              gold - hybrid - green - bronze - closed. The absolute
+                              number of publications and their OA status can be visualised
+                              by clicking on the toggle above the plot. Note that the
                               OA percentage is not fixed but typically rises
                               retrospectively, as some publications become accessible
-                              with a delay. Query date: 20/02/2022. More information
-                              can be found in the Methods page.")
+                              with a delay. Query date: 20/02/2022.")
 
 lim_allumc_openaccess_tooltip <- strwrap("The OA status could only be obtained for publications
                                 with a DOI and which resolved in Unpaywall. We did not

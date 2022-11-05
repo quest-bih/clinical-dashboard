@@ -332,22 +332,21 @@ methods_page <- tabPanel(
                              obtain information
                              on the OA status of publications. Publications can have different OA
                              statuses which are color-coded. Gold OA denotes a publication in an
-                             OA journal. Green OA denotes a freely available repository version.
-                             Hybrid OA denotes an OA publication in a journal which offers
-                             both a subscription based model as well as an OA option. Bronze OA denotes
+                             OA journal. Hybrid OA denotes an OA publication in a journal which offers
+                             both a subscription based model as well as an OA option. Green OA denotes
+                             a freely available repository version. Bronze OA denotes
                              publications which are freely available on the journal page, but
                              without a clear open license. These can be articles in a non-OA journal
                              which have been made available voluntarily by the journal,
-                             but which might at some stage lose their OA status again. Therefore, we
-                             only considered the OA categories Gold, Green, and Hybrid. As publications
+                             but which might at some stage lose their OA status again. As publications
                              can have several OA versions (e.g., a gold version
                              in an OA journal as well as a green version
                              in a repository), we defined a hierarchy for categories and
                              for each publication only assigned the category with the highest priority.
-                             We used a hierarchy of gold - hybrid - green. A more detailed breakdown
-                             of the absolute number of publications across all categories can be
-                             visualised by clicking on the toggle above the plot. The plots for
-                             this metric on the Start page only display data for years with more
+                             We used a hierarchy of gold - hybrid - green - bronze - closed. A more
+                             detailed breakdown of the absolute number of publications across all
+                             categories can be visualised by clicking on the toggle above the plot.
+                             The plots for this metric on the Start page only display data for years with more
                              than 20 publications.
                         <br>
                         <br>OA status is not fixed but rather changes over time, as repository versions
@@ -444,19 +443,17 @@ openaccess_tooltip <- strwrap("This metric shows the percentage of clinical tria
                               or DRKS with a journal publication and a DOI that
                               resolved in Unpaywall. Publications can have
                               different OA statuses which are color-coded.
-                              Gold OA denotes a publication in an OA journal. Green
-                              OA denotes a freely available repository version.
+                              Gold OA denotes a publication in an OA journal. 
                               Hybrid OA denotes an OA publication in a journal
                               which offers both a subscription based model as well
-                              as an OA option. As publications can have several
-                              OA versions, we defined a hierarchy for categories
-                              and for each publication only assigned the category 
-                              with the highest priority. Here, we used a hierarchy
-                              of gold - hybrid - green. The absolute number of
-                              publications and their OA status can be visualised
-                              by clicking on the toggle above the plot. Here,
-                              further categories not considered as Open Access
-                              in this dashboard are also included. Note that the
+                              as an OA option. Green OA denotes a freely available
+                              repository version. Bronze OA denotes publications
+                              which are freely available on the journal page, but
+                             without a clear open license. As publications can have several
+                              OA versions, we defined a hierarchy for categories:
+                              gold - hybrid - green - bronze - closed. The absolute
+                              number of publications and their OA status can be visualised
+                              by clicking on the toggle above the plot. Note that the
                               OA percentage is not fixed but typically rises
                               retrospectively, as some publications become accessible
                               with a delay. Query date: 20/02/2022. Start page: only

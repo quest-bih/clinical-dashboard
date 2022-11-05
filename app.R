@@ -918,7 +918,7 @@ server <- function (input, output, session) {
                     metric_box(
                         title = "Open Access (OA)",
                         value = paste0(round(100*all_numer_oa/all_denom_oa), "%"),
-                        value_text = paste0("of publications from 2020 (n=", all_denom_oa, ") are Open Access (Gold, Green or Hybrid)"),
+                        value_text = paste0("of publications from 2020 (n=", all_denom_oa, ") are Open Access"),
                         plot = plotlyOutput('plot_opensci_oa', height="300px") %>% 
                           shinycssloaders::withSpinner(color = "#007265"),
                         info_id = "infoOpenAccess",
@@ -1709,7 +1709,7 @@ server <- function (input, output, session) {
                         metric_box(
                             title = "Open Access (OA)",
                             value = paste0(round(100*all_numer_oa/all_denom_oa), "%"),
-                            value_text = paste0("of publications published between ", min_oa, " and ", max_oa, " (n=", all_denom_oa, ") are Open Access (Gold, Green or Hybrid)"),
+                            value_text = paste0("of publications published between ", min_oa, " and ", max_oa, " (n=", all_denom_oa, ") are Open Access"),
                             plot = plotlyOutput('umc_plot_opensci_oa', height="300px") %>% 
                               shinycssloaders::withSpinner(color = "#007265"),
                             info_id = "UMCinfoOpenAccess",
@@ -2301,7 +2301,7 @@ server <- function (input, output, session) {
                     metric_box(
                         title = "Open Access",
                         value = paste0(round(100*all_numer_oa/all_denom_oa), "%"),
-                        value_text = "of publications are Open Access (Gold, Green or Hybrid)",
+                        value_text = "of publications are Open Access",
                         plot = plotlyOutput('plot_allumc_openaccess', height="300px") %>% 
                           shinycssloaders::withSpinner(color = "#007265"),
                         info_id = "infoALLUMCOpenAccess",
