@@ -1,8 +1,6 @@
 *~
 data/*
 prep/*.csv
-prep/prep-intovalue.R
-prep/eutt-history.R
 *.rds
 .htpasswd
 .gitignore

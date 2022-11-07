@@ -37,7 +37,7 @@ methods_page <- tabPanel(
                                of interventional clinical trials registered in
                                ClinicalTrials.gov or DRKS (German Clinical Trials
                                Register), conducted
-                               at a German UMC (i.e., led either as sponsor,
+                               by a German UMC (i.e., led either as sponsor,
                                responsible party, or as host of the principal
                                investigator), and considered as \"complete\" between 2009
                                and 2017 per the registry status. In line with WHO and ICMJE
@@ -45,7 +45,12 @@ methods_page <- tabPanel(
                                studies and are not limited to Clinical Trials of
                                an Investigational Medicinal Product that are regulated by
                                the EU's Clinical Trials Directive or Germany's
-                               drug or medical device laws. Results publications of
+                               drug or medical device laws. Trials were searched for
+                               38 German UMCs based on their inclusion as members
+                               on the website of the association of medical faculties
+                               at the time of data collection (Bielefeld UMC was not yet founded).
+                               Kiel and Lübeck are represented as a single UMC
+                               (Schleswig-Holstein). Results publications of
                                trials in this cohort were identified through a manual
                                search. More information on how this cohort was developed
                                can be found in the <a href=https://doi.org/10.1016/j.jclinepi.2019.06.002>
@@ -54,8 +59,8 @@ methods_page <- tabPanel(
                                
                                The IntoValue dataset was adapted in the following ways
                                for the development of this dashboard: (1) we extracted updated
-                               registry data from ClinicalTrials.gov and DRKS on 15
-                               August 2021; (2) the date of summary results posting in
+                               registry data from ClinicalTrials.gov and DRKS on 1
+                               November 2022; (2) the date of summary results posting in
                                DRKS was extracted manually from the registry
                                using the registry's change history; (3)
                                we included additional information on the reporting
@@ -68,11 +73,7 @@ methods_page <- tabPanel(
                                information on how the IntoValue dataset was adapted
                                for use in this dashboard can be found in the
                                <a href=https://github.com/maia-sh/intovalue-data>
-                               associated code repository in GitHub</a>. Three German UMCs
-                               (Augsburg, Bielefeld, and Oldenburg) were founded after
-                               the start of data collection. In this cohort,
-                               Kiel and Lübeck are represented as a single UMC
-                               (Schleswig-Holstein).<br>
+                               associated code repository in GitHub</a>.<br>
                                 
                             <br>2. <b>Prospective registration in ClinicalTrials.gov</b>: 
                                       this assessment was based on a more recent cohort of
@@ -81,16 +82,18 @@ methods_page <- tabPanel(
                                       and considered as \"complete\" per the study
                                       status in the registry. We downloaded updated
                                       registry data for the trials in this cohort on
-                                      6 October 2021. In this cohort, Kiel and Lübeck are
+                                      2 November 2022. In this cohort, Kiel and Lübeck are
                                       represented as a single UMC (Schleswig-Holstein)<br>
                                       
                             <br>3. <b>Summary results reporting in the EUCTR</b>: this
                             assessment was based on the
                             <a href=https://eu.trialstracker.net>EU Trials Tracker</a>.
                             We searched the EU Trials Tracker for sponsor names
-                            corresponding to included UMCs (August 2021). If more than one
-                            corresponding sponsor name was found for a given UMC, we
-                            selected the sponsor with the most trials.")),
+                            corresponding to included UMCs (as of August 2021).
+                            If more than one corresponding sponsor name was found
+                            for a given UMC, we selected the sponsor with the most
+                         trials. We downloaded the data from the EU Trials Tracker
+                         on 4 November 2022)")),
                   value = "methodsPanels_IdentificationTrials",
                   style = "default"
   ),
@@ -142,8 +145,8 @@ methods_page <- tabPanel(
                              open source R sripts</a> to detect TRNs. Our regular-expression-based
                              approach searches text strings for matches to TRN patterns for all PubMed-indexed
                              and ICTRP-network registries. More information on this package and its
-                             application can be found in this <a href=https://www.medrxiv.org/content/10.1101/2021.08.23.21262478v1>
-                             preprint</a>. This analysis was limited to trials in the IntoValue dataset
+                             application can be found in this <a href=https://journals.sagepub.com/doi/10.1177/17407745221087456>
+                             publication</a>. This analysis was limited to trials in the IntoValue dataset
                              (registered in ClinicalTrials.gov or DRKS) for which a journal publication
                              was found. The analysis was further restricted to publications indexed in
                              PubMed (detection of TRN in abstract) or publications for which we could
@@ -166,10 +169,10 @@ methods_page <- tabPanel(
                              considered a publication “linked” if the PubMed IDentifier (PMID) or DOI was
                              included in the trial registration. We extracted the relevant fields from ClinicalTrials.gov
                              and DRKS using automated methods (ClinicalTrials.gov: via its API;
-                             DRKS: custom-built web scraper; August 2021) and used regular expressions
+                             DRKS: custom-built web scraper; November 2022) and used regular expressions
                              to extract publication identifiers (DOIs and PMIDs) from these fields.
                              More information on this approach can be found in this
-                             <a href=https://www.medrxiv.org/content/10.1101/2021.08.23.21262478v1>preprint</a>.
+                             <a href=https://journals.sagepub.com/doi/10.1177/17407745221087456>publication</a>.
                              Note for the One UMC page: in case there were no trials (or associated publications)
                              for a given UMC and completion year (denominator = 0), the data point
                              for this completion year is omitted in the plot.'),
@@ -226,7 +229,7 @@ methods_page <- tabPanel(
                              trials, and total number of trials that reported results) from historical
                              versions of the EU Trials Tracker&#39s (EBM DataLab) 
                              <a href=https://github.com/ebmdatalab/euctr-tracker-data>code repository</a>
-                             (latest data extracted on 18 February 2022). While the EU Trials Tracker is
+                             (latest data extracted on 4 November 2022). While the EU Trials Tracker is
                              usually updated monthly, in some cases there was more than one update within
                              the same month. In these cases, only the latest data point within that month
                              was displayed. Note that some trials registered in EudraCT and captured in
@@ -332,22 +335,21 @@ methods_page <- tabPanel(
                              obtain information
                              on the OA status of publications. Publications can have different OA
                              statuses which are color-coded. Gold OA denotes a publication in an
-                             OA journal. Green OA denotes a freely available repository version.
-                             Hybrid OA denotes an OA publication in a journal which offers
-                             both a subscription based model as well as an OA option. Bronze OA denotes
+                             OA journal. Hybrid OA denotes an OA publication in a journal which offers
+                             both a subscription based model as well as an OA option. Green OA denotes
+                             a freely available repository version. Bronze OA denotes
                              publications which are freely available on the journal page, but
                              without a clear open license. These can be articles in a non-OA journal
                              which have been made available voluntarily by the journal,
-                             but which might at some stage lose their OA status again. Therefore, we
-                             only considered the OA categories Gold, Green, and Hybrid. As publications
+                             but which might at some stage lose their OA status again. As publications
                              can have several OA versions (e.g., a gold version
                              in an OA journal as well as a green version
                              in a repository), we defined a hierarchy for categories and
                              for each publication only assigned the category with the highest priority.
-                             We used a hierarchy of gold - hybrid - green. A more detailed breakdown
-                             of the absolute number of publications across all categories can be
-                             visualised by clicking on the toggle above the plot. The plots for
-                             this metric on the Start page only display data for years with more
+                             We used a hierarchy of gold - hybrid - green - bronze - closed. A more
+                             detailed breakdown of the absolute number of publications across all
+                             categories can be visualised by clicking on the toggle above the plot.
+                             The plots for this metric on the Start page only display data for years with more
                              than 20 publications.
                         <br>
                         <br>OA status is not fixed but rather changes over time, as repository versions
@@ -423,8 +425,8 @@ methods_page <- tabPanel(
   
   h3("Tools used for data collection"),
   helpText(HTML('<a href="https://github.com/NicoRiedel/unpaywallR"> UnpaywallR </a>')),
-  helpText(HTML('<a href="https://shareyourpaper.org/permissions/about">
-                  ShareYourPaper permissions checker API</a> from OA.Works')),
+  #helpText(HTML('<a href="https://shareyourpaper.org/permissions/about">
+  #                ShareYourPaper permissions checker API</a> from OA.Works')),
   helpText(HTML('<a href="https://github.com/maia-sh/ctregistries">ctregistries repository</a>')),
   helpText(HTML('<a href="https://eu.trialstracker.net/">EU Trials Tracker </a>')),
   bsCollapsePanel(strong("Impressum"),
@@ -444,22 +446,20 @@ openaccess_tooltip <- strwrap("This metric shows the percentage of clinical tria
                               or DRKS with a journal publication and a DOI that
                               resolved in Unpaywall. Publications can have
                               different OA statuses which are color-coded.
-                              Gold OA denotes a publication in an OA journal. Green
-                              OA denotes a freely available repository version.
+                              Gold OA denotes a publication in an OA journal. 
                               Hybrid OA denotes an OA publication in a journal
                               which offers both a subscription based model as well
-                              as an OA option. As publications can have several
-                              OA versions, we defined a hierarchy for categories
-                              and for each publication only assigned the category 
-                              with the highest priority. Here, we used a hierarchy
-                              of gold - hybrid - green. The absolute number of
-                              publications and their OA status can be visualised
-                              by clicking on the toggle above the plot. Here,
-                              further categories not considered as Open Access
-                              in this dashboard are also included. Note that the
+                              as an OA option. Green OA denotes a freely available
+                              repository version. Bronze OA denotes publications
+                              which are freely available on the journal page, but
+                             without a clear open license. As publications can have several
+                              OA versions, we defined a hierarchy for categories:
+                              gold - hybrid - green - bronze - closed. The absolute
+                              number of publications and their OA status can be visualised
+                              by clicking on the toggle above the plot. Note that the
                               OA percentage is not fixed but typically rises
                               retrospectively, as some publications become accessible
-                              with a delay. Query date: 20/02/2022. Start page: only
+                              with a delay. Query date: 01/11/2022. Start page: only
                               publication years with more than 20 publications are shown.
                               More information can be found in the Methods page.") %>%
   paste(collapse = " ")

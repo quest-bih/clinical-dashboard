@@ -47,6 +47,7 @@ about_rm_page <- tabPanel(
     helpText('Carlisle, Benjamin Gregory (Conceptualization, Technical Implementation);
                 Franzen, Delwen (Conceptualization, Technical Implementation);
                 Riedel, Nico (Conceptualization, Technical Implementation);
+                Nachev, Vladislav (Conceptualization, Technical Implementation);
                 Maia Salholz-Hillel (Conceptualization);
                 Holst, Martin (Conceptualization);
                 Haven, Tamarinde (Conceptualization);

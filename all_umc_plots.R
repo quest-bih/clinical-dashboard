@@ -583,7 +583,7 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
         )
 
     plot_data <- tribble (
-        ~x_label, ~colour, ~percentage
+        ~x_label, ~gold, ~hybrid, ~green, ~bronze
     )
 
     for (umc in unique(dataset$city)) {
@@ -591,6 +591,14 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
         umc_gold <- dataset %>%
             filter(
                 color == "gold",
+                city == umc
+            ) %>%
+            distinct(doi, .keep_all = TRUE) %>%
+            nrow()
+        
+        umc_hybrid <- dataset %>%
+            filter(
+                color == "hybrid",
                 city == umc
             ) %>%
             distinct(doi, .keep_all = TRUE) %>%
@@ -603,16 +611,16 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
             ) %>%
             distinct(doi, .keep_all = TRUE) %>%
             nrow()
-
-        umc_hybrid <- dataset %>%
+        
+        umc_bronze <- dataset %>%
             filter(
-                color == "hybrid",
+                color == "bronze",
                 city == umc
             ) %>%
             distinct(doi, .keep_all = TRUE) %>%
             nrow()
 
-        umc_sum <- umc_gold + umc_green + umc_hybrid
+        umc_sum <- umc_gold + umc_hybrid + umc_green + umc_bronze
 
         umc_denom <- dataset %>%
             filter(city == umc) %>%
@@ -622,39 +630,69 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
         plot_data <- plot_data %>%
             bind_rows(
                 tribble(
-                    ~x_label, ~colour, ~percentage,                       ~sum,      ~numer, ~sort,
-                    umc, "Gold", round(100*umc_gold/umc_denom, digits=1), umc_denom, umc_gold, 1-(umc_gold + umc_green + umc_hybrid)/umc_denom,
-                    umc, "Green", round(100*umc_green/umc_denom, digits=1),umc_denom, umc_green, 1-(umc_gold + umc_green + umc_hybrid)/umc_denom,
-                    umc, "Hybrid", round(100*umc_hybrid/umc_denom, digits=1), umc_denom, umc_hybrid, 1-(umc_gold + umc_green + umc_hybrid)/umc_denom
+                    ~x_label, ~gold, ~hybrid, ~green, ~bronze, ~gold_numer, ~hybrid_numer, ~green_numer, ~bronze_numer, ~denom, ~sum,
+                    umc, round(100*umc_gold/umc_denom, digits=1), round(100*umc_hybrid/umc_denom, digits=1), round(100*umc_green/umc_denom, digits=1), round(100*umc_bronze/umc_denom, digits=1), umc_gold, umc_hybrid, umc_green, umc_bronze, umc_denom, round(100*umc_sum/umc_denom, digits=1)
                 )
             )
     
     }
-
+    
     plot_data$x_label <- factor(
         plot_data$x_label,
-        levels = unique(plot_data$x_label)[order(plot_data$sort, decreasing=TRUE)]
+        levels = unique(plot_data$x_label)[order(plot_data$sum, decreasing=TRUE)]
     )
-
+    
     plot_ly(
         plot_data,
-        x = ~reorder(x_label, sort),
-        color = ~colour,
-        text = ~paste0(numer, "/", sum),
-        y = ~percentage,
+        x = ~x_label,
+        y = ~gold,
+        name = "Gold",
+        text = ~paste0(gold_numer, "/", denom),
         type = 'bar',
-        colors = c(
-            "#F1BA50",
-            "#007265",
-            "#634587"
-        ),
         marker = list(
+            color = "#F1BA50",
             line = list(
                 color = 'rgb(0,0,0)',
                 width = 1.5
             )
         )
     ) %>%
+        add_trace(
+            y = ~hybrid,
+            name = "Hybrid",
+            text = ~paste0(hybrid_numer, "/", denom),
+            marker = list(
+                color = "#634587",
+                line = list(
+                    color = 'rgb(0,0,0)',
+                    width = 1.5
+                )
+            )
+        ) %>%
+        add_trace(
+            y = ~green,
+            name = "Green",
+            text = ~paste0(green_numer, "/", denom),
+            marker = list(
+                color = "#007265",
+                line = list(
+                    color = 'rgb(0,0,0)',
+                    width = 1.5
+                )
+            )
+        )  %>%
+        add_trace(
+            y = ~bronze,
+            name = "Bronze",
+            text = ~paste0(bronze_numer, "/", denom),
+            marker = list(
+                color = "#cf9188",
+                line = list(
+                    color = 'rgb(0,0,0)',
+                    width = 1.5
+                )
+            )
+        ) %>%
         layout(
             barmode = 'stack',
             xaxis = list(
@@ -667,8 +705,8 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9]
         )
-    
 }
+
 
 ## Green OA
 plot_allumc_greenoa <- function (dataset, color_palette, color_palette_bars) {
