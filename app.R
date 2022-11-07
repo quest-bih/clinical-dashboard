@@ -865,7 +865,7 @@ server <- function (input, output, session) {
         
         all_numer_oa <- oa_set %>%
             filter(
-                color == "gold" | color == "green" | color == "hybrid",
+                color == "gold" | color == "green" | color == "hybrid" | color == "bronze",
                 oa_year == "2020"
             ) %>%
             nrow()
@@ -1617,7 +1617,7 @@ server <- function (input, output, session) {
             all_numer_oa <- oa_set %>%
                 filter(
                     city == input$selectUMC,
-                    color == "gold" | color == "green" | color == "hybrid"
+                    color == "gold" | color == "green" | color == "hybrid" | color == "bronze"
                     ) %>%
                 distinct(doi, .keep_all = TRUE) %>%
                 nrow()
@@ -2264,7 +2264,7 @@ server <- function (input, output, session) {
         
         all_numer_oa <- oa_set %>%
             filter(
-                color == "gold" | color == "green" | color == "hybrid"
+                color == "gold" | color == "green" | color == "hybrid" | color == "bronze"
             ) %>%
             nrow()
 
