@@ -175,7 +175,7 @@ faq_page <- tabPanel(
                                       included for prospective registration in
                                       ClinialTrials.gov, we extracted updated
                                       registry data from ClinicalTrials.gov
-                                      on <b>1 November 2022</b>.<br>
+                                      on <b>2 November 2022</b>.<br>
                                       <br>For summary results reporting in the
                                       EUCTR, we extracted data from the EU Trials
                                       Tracker on <b>4 November 2022</b>.")),
@@ -250,15 +250,14 @@ faq_page <- tabPanel(
                                style = "default")),
     bsCollapse(id = "faqPanels_CTIS",
                bsCollapsePanel(strong("How is this dashboard relevant given the launch of EU Clinical Trials Information System?"),
-                               p(HTML("The European Commission has confirmed the
-                                      launch of the EU Clinical Trials Information
-                                      System (CTIS) at the beginning of 2022,
-                                      when the <a href=https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014R0536>
-                                      EU Clinical Trials Regulation</a> comes
-                                      into application. CTIS will serve as a
+                               p(HTML("The EU Clinical Trials Information
+                                      System (CTIS) launched when the
+                                      <a href=https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014R0536>
+                                      EU Clinical Trials Regulation</a> came
+                                      into application. CTIS serves as a
                                       single-entry point for clinical trial
-                                      information in the EU. Sponsors will still
-                                      be required to submit summary results of
+                                      information in the EU. Sponsors are still
+                                      required to submit summary results of
                                       clinical trials to the EU database within
                                       one year of trial completion. The EU
                                       Clinical Trials Regulation will undoubtedly

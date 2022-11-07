@@ -160,7 +160,7 @@ server <- function (input, output, session) {
                        Medical Centers (UMCs) in Germany on established registration
                        and reporting practices for clinical research transparency.
                        The dashboard displays data for interventional
-                       clinical trials conducted at German UMCs, registered in
+                       clinical trials conducted by German UMCs, registered in
                        ClinicalTrials.gov or the German Clinical Trials Registry
                        (DRKS), and reported as complete between 2009 - 2017. For
                        summary results reporting, we additionally included trials
