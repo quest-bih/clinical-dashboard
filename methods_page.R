@@ -4,7 +4,7 @@ methods_page <- tabPanel(
   
   h4(HTML('This dashboard displays the performance of University
                        Medical Centers (UMCs) in Germany on established registration
-                       and reporting practices for clinical research transparency.
+                       and reporting practices for clinical trial transparency.
                        The dashboard displays data for interventional
                        clinical trials conducted at German UMCs, registered in
                        ClinicalTrials.gov or the German Clinical Trials Registry

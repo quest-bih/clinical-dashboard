@@ -5,7 +5,7 @@ about_rm_page <- tabPanel(
     br(),
     helpText('We would like to thank all those who contributed to this dashboard. We would
              particularly like to thank Nico Riedel who created the prototype of this dashboard, which
-             we adapted for clinical research transparency at the level of UMCs in Germany.'),
+             we adapted for clinical trial transparency at the level of UMCs in Germany.'),
     # br(),
     # h4("UMC publication search"),
     # helpText('Franzen, Delwen (Conceptualization, Methodology, Technical Implementation, Validation); Saksone, Lana (Conceptualization, Methodology, Validation); Grabitz, Peter (Conceptualization, Methodology); Riedel, Nico (Conceptualization, Methodology, Technical Implementation); Carlisle, Benjamin Gregory (Methodology, Technical Implementation, Validation), Holst, Martin (Conceptualization, Validation); Salholz-Hillel, Maia (Conceptualization, Methodology); Strech, Daniel (Conceptualization, Methodology)'),

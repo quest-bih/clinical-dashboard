@@ -67,7 +67,7 @@ source("trial_characteristics_page.R")
 ui <- tagList(
     tags$head(tags$script(type="text/javascript", src = "code.js")),
     navbarPage(
-        "Dashboard for clinical research transparency", theme = shinytheme("flatly"), id = "navbarTabs",
+        "Dashboard for clinical trial transparency", theme = shinytheme("flatly"), id = "navbarTabs",
         start_page,
         all_umcs_page,
         umc_page,
@@ -154,11 +154,11 @@ server <- function (input, output, session) {
             fluidRow(
                 column(
                     8,
-                    h1(style = "margin-left:0cm", strong("Dashboard for clinical research transparency"), align = "left"),
+                    h1(style = "margin-left:0cm", strong("Dashboard for clinical trial transparency"), align = "left"),
                     h4(style = "margin-left:0cm",
                        "This dashboard displays the performance of University
                        Medical Centers (UMCs) in Germany on established registration
-                       and reporting practices for clinical research transparency.
+                       and reporting practices for clinical trial transparency.
                        The dashboard displays data for interventional
                        clinical trials conducted by German UMCs, registered in
                        ClinicalTrials.gov or the German Clinical Trials Registry

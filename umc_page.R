@@ -13,14 +13,14 @@ umc_page <- tabPanel(
                 12,
                 h1(
                     style = "margin-left: 0",
-                    strong("Dashboard for clinical research transparency: Individual UMC data"),
+                    strong("Dashboard for clinical trial transparency: Individual UMC data"),
                     align = "left"
                 ),
                 h4(
                     style = "margin-left: 0",
                     "This dashboard displays the performance of University Medical
                     Centers (UMCs) in Germany on established registration and
-                    reporting practices for clinical research transparency. On
+                    reporting practices for clinical trial transparency. On
                     this page, you can view the data for a UMC of interest
                     contextualized to that across all included UMCs. Select
                     the UMC of interest from the drop-down menu below. More
