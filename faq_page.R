@@ -4,7 +4,7 @@ faq_page <- tabPanel(
     h2("Frequently Asked Questions"),
     bsCollapse(id = "faqPanels_Development",
                bsCollapsePanel(strong("How was this dashboard developed?"),
-                               p(HTML("This dashboard for clinical research
+                               p(HTML("This dashboard for clinical trial
                                       transparency was developed as part of a
                                       scientific research project conducted at
                                       the QUEST Center for Responsible Research
@@ -24,7 +24,7 @@ faq_page <- tabPanel(
                                       responsible research practices at
                                       University Medical Centers (UMCs). It
                                       displays assessments of select
-                                      practices for clinical research
+                                      practices for clinical trial
                                       transparency at UMCs in Germany. The
                                       dashboard allows institutions to assess
                                       how they are performing in relation to 

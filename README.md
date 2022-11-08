@@ -1,4 +1,4 @@
-# Responsible Metrics dashboard for clinical research transparency
+# Responsible Metrics dashboard for clinical trial transparency
 
 **Please note that this dashboard is still under active development**
 
