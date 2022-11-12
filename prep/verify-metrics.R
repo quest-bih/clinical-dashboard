@@ -3,8 +3,42 @@
 library(tidyverse)
 library(here)
 
+# Trial registration in ClinicalTrials.gov ------------------------------------------------------
+
+pros_reg_ctgov <-
+  read_csv(here("data", "prospective-reg-ctgov-2018-trials.csv"))
+
+# Create start_year variable
+
+pros_reg_ctgov$start_year <- pros_reg_ctgov$start_date %>%
+  format(
+    "%Y"
+  )
+
+pros_reg_ctgov %>%
+  
+  filter(!is.na(start_date)) %>%
+  
+  # dashboard highlights 2018
+  filter(start_year == 2018) %>%
+  
+  summarize(
+    denom = n(),
+    num = sum(is_prospective),
+    prop = num/denom
+  )
+
+# Load IV dataset for all other metrics
+
 iv_all <-
   read_csv(here("data", "ct-dashboard-intovalue-all.csv"))
+
+# Create start_year variable
+
+iv_all$start_year <- iv_all$start_date %>%
+  format(
+    "%Y"
+  )
 
 # All publication metrics are limited to trials with journal publication
 # Each metric has additional limitations as needed to maximize accuracy
@@ -16,15 +50,18 @@ iv_all %>%
   nrow()
 
 
-# Trial registration ------------------------------------------------------
+# Trial registration in DRKS ------------------------------------------------------
 
 # Prospective registration (given start date available in registry)
+
 iv_all %>%
+  
+  filter(registry == "DRKS") %>%
 
   filter(!is.na(start_date)) %>%
 
   # dashboard highlights 2017
-  filter(completion_year == 2017) %>%
+  filter(start_year == 2017) %>%
 
   summarize(
     denom = n(),
@@ -87,7 +124,7 @@ iv_all %>%
 # Publication or summary results
 iv_all %>%
 
-  filter(has_followup_2y) %>%
+  filter(has_followup_2y_pub & has_followup_2y_sumres) %>%
 
   # NA indicates no summary results regardless of dates so recode to FALSE
   mutate(
@@ -107,7 +144,7 @@ iv_all %>%
 # Summary results only
 iv_all %>%
 
-  filter(has_followup_2y) %>%
+  filter(has_followup_2y_sumres) %>%
 
   # NA indicates no summary results regardless of dates so recode to FALSE
   mutate(is_summary_results_2y = replace_na(is_summary_results_2y, FALSE)) %>%
@@ -124,7 +161,7 @@ iv_all %>%
 # Publication-only
 iv_all %>%
 
-  filter(has_followup_2y) %>%
+  filter(has_followup_2y_pub) %>%
 
   # NA indicates no publication regardless of dates so recode to FALSE
   mutate(is_publication_2y = replace_na(is_publication_2y, FALSE)) %>%
@@ -142,7 +179,7 @@ iv_all %>%
 # Publication or summary results
 iv_all %>%
 
-  filter(has_followup_5y) %>%
+  filter(has_followup_5y_pub & has_followup_5y_sumres) %>%
 
   # NA indicates no summary results regardless of dates so recode to FALSE
   mutate(
@@ -162,13 +199,13 @@ iv_all %>%
 # Summary results only
 iv_all %>%
 
-  filter(has_followup_5y) %>%
+  filter(has_followup_5y_sumres) %>%
 
   # NA indicates no summary results regardless of dates so recode to FALSE
   mutate(is_summary_results_5y = replace_na(is_summary_results_5y, FALSE)) %>%
 
   # dashboard highlights 2015
-  filter(completion_year == 2015) %>%
+  filter(completion_year == 2017) %>%
 
   summarize(
     denom = n(),
@@ -179,7 +216,7 @@ iv_all %>%
 # Publication-only
 iv_all %>%
 
-  filter(has_followup_5y) %>%
+  filter(has_followup_5y_pub) %>%
 
   # NA indicates no publication regardless of dates so recode to FALSE
   mutate(is_publication_5y = replace_na(is_publication_5y, FALSE)) %>%
@@ -202,8 +239,11 @@ iv_all %>%
   filter(
     has_publication,
     publication_type == "journal publication",
+    !is.na(publication_date_unpaywall),
     !is.na(doi)
   ) %>%
+  
+  distinct(doi, .keep_all = TRUE) %>%
 
   # convert unresolved pubs in unpaywall to false
   #mutate(is_oa = replace_na(is_oa, FALSE)) %>%
@@ -226,8 +266,11 @@ iv_all %>%
   filter(
     has_publication,
     publication_type == "journal publication",
+    !is.na(publication_date_unpaywall),
     !is.na(doi)
   ) %>%
+  
+  distinct(doi, .keep_all = TRUE) %>%
   
   # dashboard highlights 2020
   filter(publication_date_unpaywall %>% format("%Y") == 2020) %>%
