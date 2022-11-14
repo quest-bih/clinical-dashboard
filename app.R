@@ -241,7 +241,12 @@ server <- function (input, output, session) {
         ## Value for TRN in abstract
         
         all_numer_trn <- iv_all %>%
-            filter(has_iv_trn_abstract == TRUE) %>%
+            filter(
+              has_publication == TRUE,
+              publication_type == "journal publication",
+              has_pubmed == TRUE,
+              has_iv_trn_abstract == TRUE
+              ) %>%
             nrow()
         
         all_denom_trn <- iv_all %>%
@@ -325,7 +330,9 @@ server <- function (input, output, session) {
             ## Value for prereg
 
             pr_unique <- pros_reg_data %>%
-                filter(! is.na (start_date))
+                filter(
+                  !is.na(start_date)
+                  )
 
             pr_unique$start_year <- format(pr_unique$start_date, "%Y")
 
@@ -333,13 +340,17 @@ server <- function (input, output, session) {
             
                                         # Filter for max start date for the pink descriptor text
             all_numer_prereg <- pr_unique %>%
-                filter(start_year == max_start_year) %>%
-                filter(is_prospective) %>%
+                filter(
+                  start_year == max_start_year,
+                  is_prospective
+                  ) %>%
                 nrow()
             
                                         # Filter for 2017 completion date for the pink descriptor text
             all_denom_prereg <- pr_unique %>%
-                filter(start_year == max_start_year) %>%
+                filter(
+                  start_year == max_start_year
+                  ) %>%
                 nrow()
 
             if (all_denom_prereg == 0) {
@@ -357,19 +368,27 @@ server <- function (input, output, session) {
             ## Value for prereg
 
             iv_data_unique <- iv_all %>%
-                filter(! is.na (start_date)) %>%
-                filter(registry == input$startpreregregistry) %>%
-                mutate(start_year = format(start_date, "%Y"))
+                filter(
+                  !is.na(start_date),
+                  registry == input$startpreregregistry
+                  ) %>%
+              mutate(
+                start_year = format(start_date, "%Y")
+                )
             
             ## Filter for 2017 completion date for the pink descriptor text
             all_numer_prereg <- iv_data_unique %>%
-                filter(start_year == 2017) %>%
-                filter(is_prospective) %>%
+                filter(
+                  start_year == 2017,
+                  is_prospective
+                  ) %>%
                 nrow()
             
             ## Filter for 2017 completion date for the pink descriptor text
             all_denom_prereg <- iv_data_unique %>%
-                filter(start_year == 2017) %>%
+                filter(
+                  start_year == 2017
+                  ) %>%
                 nrow()
 
             if (all_denom_prereg == 0) {
@@ -416,17 +435,23 @@ server <- function (input, output, session) {
             ## Value for linkage
 
             link_num <- iv_all %>%
-                filter(has_reg_pub_link == TRUE) %>%
-                filter(publication_type == "journal publication") %>%
-                filter(completion_year == 2017) %>%
-                nrow()
+                filter(
+                  has_publication,
+                  publication_type == "journal publication",
+                  has_pubmed | !is.na(doi),
+                  completion_year == 2017,
+                  has_reg_pub_link == TRUE
+                  ) %>%
+              nrow()
 
             link_den <- iv_all %>%
-                filter(has_publication == TRUE) %>%
-                filter(publication_type == "journal publication") %>%
-                filter(completion_year == 2017) %>%
-                filter(has_pubmed == TRUE | ! is.na (doi)) %>%
-                nrow()
+              filter(
+                has_publication,
+                publication_type == "journal publication",
+                has_pubmed | !is.na(doi),
+                completion_year == 2017
+              ) %>%
+              nrow()
             
             linkage <- paste0(round(100*link_num/link_den), "%")
 
@@ -435,19 +460,25 @@ server <- function (input, output, session) {
             ## Value for linkage
 
             link_num <- iv_all %>%
-                filter(registry == input$startlinkagechooser) %>%
-                filter(has_reg_pub_link == TRUE) %>%
-                filter(publication_type == "journal publication") %>%
-                filter(completion_year == 2017) %>%
-                nrow()
+                filter(
+                  has_publication,
+                  publication_type == "journal publication",
+                  has_pubmed | !is.na(doi),
+                  registry == input$startlinkagechooser,
+                  completion_year == 2017,
+                  has_reg_pub_link == TRUE
+                  ) %>%
+              nrow()
 
             link_den <- iv_all %>%
-                filter(registry == input$startlinkagechooser) %>%
-                filter(has_publication == TRUE) %>%
-                filter(publication_type == "journal publication") %>%
-                filter(completion_year == 2017) %>%
-                filter(has_pubmed == TRUE | ! is.na (doi)) %>%
-                nrow()
+              filter(
+                has_publication,
+                publication_type == "journal publication",
+                has_pubmed | !is.na(doi),
+                registry == input$startlinkagechooser,
+                completion_year == 2017
+              ) %>%
+              nrow()
             
             linkage <- paste0(round(100*link_num/link_den), "%")
         }
@@ -558,8 +589,9 @@ server <- function (input, output, session) {
                 ungroup() %>%
                 slice_tail() %>%
                 select(avg) %>%
-                pull() %>%
-                format(digits=2)
+                pull()
+            
+            sumres_percent <- round(sumres_percent)
 
             n_eutt_records <- eutt_hist %>%
                 nrow()
@@ -597,7 +629,7 @@ server <- function (input, output, session) {
                 ) %>%
                 nrow()
 
-            sumres_percent <- format(100*sumres_numer/sumres_denom, digits=2)
+            sumres_percent <- round(100*sumres_numer/sumres_denom)
 
             sumresval <- paste0(sumres_percent, "%")
 
@@ -855,8 +887,8 @@ server <- function (input, output, session) {
             filter(
                 has_publication == TRUE,
                 publication_type == "journal publication",
-                ! is.na(doi),
-                ! is.na(publication_date_unpaywall)
+                !is.na(doi),
+                !is.na(publication_date_unpaywall)
             ) %>%
             distinct(doi, .keep_all=TRUE)
 
@@ -872,7 +904,9 @@ server <- function (input, output, session) {
 
         # Keep pubs with NA color for now 
         all_denom_oa <- oa_set %>%
-            filter(oa_year == "2020") %>%
+            filter(
+              oa_year == "2020"
+              ) %>%
             nrow()
         
         #Create set for Green OA percentage plot
@@ -974,20 +1008,23 @@ server <- function (input, output, session) {
             ## Value for TRN in abstract
 
             all_numer_trn <- iv_umc %>%
-                filter(city == input$selectUMC) %>%
-                filter(has_iv_trn_abstract == TRUE) %>%
+                filter(
+                  city == input$selectUMC,
+                  has_publication == TRUE,
+                  publication_type == "journal publication",
+                  has_pubmed == TRUE,
+                  has_iv_trn_abstract == TRUE
+                  ) %>%
                 nrow()
             
             all_denom_trn <- iv_umc %>%
-                filter(city == input$selectUMC) %>%
                 filter(
-                    has_publication == TRUE,
-                    publication_type == "journal publication",
-                    has_pubmed == TRUE
-                ) %>%
-                nrow()
-
-
+                  city == input$selectUMC,
+                  has_publication == TRUE,
+                  publication_type == "journal publication",
+                  has_pubmed == TRUE
+                  ) %>%
+              nrow()
 
             wellPanel(
                 style="padding-top: 0px; padding-bottom: 0px;",
@@ -1063,21 +1100,29 @@ server <- function (input, output, session) {
             ## Value for prereg
 
             pr_unique <- pros_reg_data_umc %>%
-                filter(city == input$selectUMC) %>%
-                filter(! is.na (start_date)) %>%
-                mutate(start_year = format(start_date, "%Y"))
+                filter(
+                  city == input$selectUMC,
+                  !is.na(start_date)
+                  ) %>%
+              mutate(
+                start_year = format(start_date, "%Y")
+                )
 
             max_start_year <- max(pr_unique$start_year)
             
                                         # Filter for latest completion date for the pink descriptor text
             all_numer_prereg <- pr_unique %>%
-                filter(start_year == max_start_year) %>%
-                filter(is_prospective) %>%
+                filter(
+                  start_year == max_start_year,
+                  is_prospective
+                  ) %>%
                 nrow()
             
                                         # Filter for latest completion date for the pink descriptor text
             all_denom_prereg <- pr_unique %>%
-                filter(start_year == max_start_year) %>%
+                filter(
+                  start_year == max_start_year
+                  ) %>%
                 nrow()
 
             if (all_denom_prereg == 0) {
@@ -1096,22 +1141,30 @@ server <- function (input, output, session) {
             ## Value for prereg
 
             iv_data_unique <- iv_umc %>%
-                filter(city == input$selectUMC) %>%
-                filter(! is.na (start_date)) %>%
-                filter(registry == input$oneumcpreregregistry) %>%
-                mutate(start_year = format(start_date, "%Y"))
+                filter(
+                  city == input$selectUMC,
+                  !is.na(start_date),
+                  registry == input$oneumcpreregregistry
+                  ) %>%
+              mutate(
+                start_year = format(start_date, "%Y")
+                )
 
             max_start_year <- max(iv_data_unique$start_year)
             
             ## Filter for latest completion date for the pink descriptor text
             all_numer_prereg <- iv_data_unique %>%
-                filter(start_year == max_start_year) %>%
-                filter(is_prospective) %>%
+                filter(
+                  start_year == max_start_year,
+                  is_prospective
+                  ) %>%
                 nrow()
             
             ## Filter for latest completion date for the pink descriptor text
             all_denom_prereg <- iv_data_unique %>%
-                filter(start_year == max_start_year) %>%
+                filter(
+                  start_year == max_start_year
+                  ) %>%
                 nrow()
 
             if (all_denom_prereg == 0) {
@@ -1159,19 +1212,25 @@ server <- function (input, output, session) {
             ## Value for linkage
 
             link_num <- iv_umc %>%
-                filter(city == input$selectUMC) %>%
-                filter(has_reg_pub_link == TRUE) %>%
-                filter(publication_type == "journal publication") %>%
-                filter(completion_year == 2017) %>%
+                filter(
+                  city == input$selectUMC,
+                  has_publication,
+                  publication_type == "journal publication",
+                  has_pubmed | !is.na(doi),
+                  completion_year == 2017,
+                  has_reg_pub_link == TRUE
+                  ) %>%
                 nrow()
 
             link_den <- iv_umc %>%
-                filter(city == input$selectUMC) %>%
-                filter(has_publication == TRUE) %>%
-                filter(publication_type == "journal publication") %>%
-                filter (has_pubmed == TRUE | ! is.na (doi)) %>%
-                filter(completion_year == 2017) %>%
-                nrow()
+              filter(
+                city == input$selectUMC,
+                has_publication,
+                publication_type == "journal publication",
+                has_pubmed | !is.na(doi),
+                completion_year == 2017
+              ) %>%
+              nrow()
 
             linkage <- paste0(round(100*link_num/link_den), "%")
             
@@ -1180,21 +1239,27 @@ server <- function (input, output, session) {
             ## Value for linkage
 
             link_num <- iv_umc %>%
-                filter(registry == input$oneumclinkagechooser) %>%
-                filter(city == input$selectUMC) %>%
-                filter(has_reg_pub_link == TRUE) %>%
-                filter(publication_type == "journal publication") %>%
-                filter(completion_year == 2017) %>%
+                filter(
+                  registry == input$oneumclinkagechooser,
+                  city == input$selectUMC,
+                  has_publication,
+                  publication_type == "journal publication",
+                  has_pubmed | !is.na(doi),
+                  completion_year == 2017,
+                  has_reg_pub_link == TRUE
+                  ) %>%
                 nrow()
 
             link_den <- iv_umc %>%
-                filter(registry == input$oneumclinkagechooser) %>%
-                filter(city == input$selectUMC) %>%
-                filter(has_publication == TRUE) %>%
-                filter(publication_type == "journal publication") %>%
-                filter (has_pubmed == TRUE | ! is.na (doi)) %>%
-                filter(completion_year == 2017) %>%
-                nrow()
+              filter(
+                registry == input$oneumclinkagechooser,
+                city == input$selectUMC,
+                has_publication,
+                publication_type == "journal publication",
+                has_pubmed | !is.na(doi),
+                completion_year == 2017
+              ) %>%
+              nrow()
 
             linkage <- paste0(round(100*link_num/link_den), "%")
             
@@ -1327,7 +1392,7 @@ server <- function (input, output, session) {
                 sumresval <- "Not applicable"
                 sumresvaltext <- "No clinical trials for this metric were captured by this method for this UMC"
             } else {
-                sumresval <- paste0(sumres_percent, "%")
+                sumresval <- paste0(round(sumres_percent), "%")
                 sumresvaltext <- paste0("of due clinical trials registered in EUCTR (n=", sumres_denom, ") reported summary results (as of: ", eutt_date, ")")
             }
             
@@ -1349,7 +1414,7 @@ server <- function (input, output, session) {
                 ) %>%
                 nrow()
 
-            sumres_percent <- format(100*sumres_numer/sumres_denom, digits=2)
+            sumres_percent <- round(100*sumres_numer/sumres_denom)
 
             sumresval <- paste0(sumres_percent, "%")
 
@@ -1380,15 +1445,18 @@ server <- function (input, output, session) {
         
         # Filter for the last completion date for the pink descriptor text
         max_completion_year <- iv_umc %>%
-            filter(city == input$selectUMC,
-                   has_followup_2y_pub & has_followup_2y_sumres
-                   ) %>%
+            filter(
+              city == input$selectUMC,
+              has_followup_2y_pub & has_followup_2y_sumres
+              ) %>%
             select(completion_year) %>%
             max()
         
         iv_data_unique <- iv_umc %>%
-            filter(completion_year == max_completion_year) %>%
-            filter(city == input$selectUMC)
+            filter(
+              completion_year == max_completion_year,
+              city == input$selectUMC
+              )
 
         all_numer_timpub <- iv_data_unique %>%
             filter(
@@ -1407,48 +1475,56 @@ server <- function (input, output, session) {
             
             # Filter for the last completion date for the pink descriptor text
             max_completion_year <- iv_umc %>%
-                filter(city == input$selectUMC,
-                       has_followup_2y_sumres
+                filter(
+                  city == input$selectUMC,
+                  has_followup_2y_sumres
                 ) %>%
                 select(completion_year) %>%
                 max()
             
             iv_data_unique <- iv_umc %>%
-                filter(completion_year == max_completion_year) %>%
-                filter(city == input$selectUMC)
+                filter(
+                  completion_year == max_completion_year,
+                  city == input$selectUMC
+                  )
             
             all_numer_timpub <- iv_data_unique %>%
                 filter(
                     has_followup_2y_sumres,
-                    is_summary_results_2y) %>%
-                nrow()
+                    is_summary_results_2y
+                    ) %>%
+              nrow()
             
             all_denom_timpub <- iv_data_unique %>%
                 filter(
                     has_followup_2y_sumres
-                ) %>%
-                nrow()
+                    ) %>%
+              nrow()
         }
 
         if (input$reporttype2a == "Manuscript publication only") {
             
             # Filter for the last completion date for the pink descriptor text
             max_completion_year <- iv_umc %>%
-                filter(city == input$selectUMC,
-                       has_followup_2y_pub
-                ) %>%
-                select(completion_year) %>%
-                max()
+                filter(
+                  city == input$selectUMC,
+                  has_followup_2y_pub
+                  ) %>%
+              select(completion_year) %>%
+              max()
             
             iv_data_unique <- iv_umc %>%
-                filter(completion_year == max_completion_year) %>%
-                filter(city == input$selectUMC)
+                filter(
+                  completion_year == max_completion_year,
+                  city == input$selectUMC
+                  )
             
             all_numer_timpub <- iv_data_unique %>%
                 filter(
                     has_followup_2y_pub,
-                    is_publication_2y) %>%
-                nrow()
+                    is_publication_2y
+                    ) %>%
+              nrow()
             
             all_denom_timpub <- iv_data_unique %>%
                 filter(
@@ -1485,15 +1561,18 @@ server <- function (input, output, session) {
         
         # Filter for the last completion date for the pink descriptor text
         max_completion_year <- iv_umc %>%
-            filter(city == input$selectUMC,
-                   has_followup_5y_pub & has_followup_5y_sumres
+            filter(
+              city == input$selectUMC,
+              has_followup_5y_pub & has_followup_5y_sumres
             ) %>%
-            select(completion_year) %>%
-            max()
+          select(completion_year) %>%
+          max()
         
         iv_data_unique <- iv_umc %>%
-            filter(completion_year == max_completion_year) %>%
-            filter(city == input$selectUMC)
+            filter(
+              completion_year == max_completion_year,
+              city == input$selectUMC
+              )
     
         all_numer_timpub <- iv_data_unique %>%
             filter(
@@ -1511,21 +1590,25 @@ server <- function (input, output, session) {
         if (input$reporttype5a == "Summary results only") {
 
             max_completion_year <- iv_umc %>%
-                filter(city == input$selectUMC,
-                       has_followup_5y_sumres
-                ) %>%
-                select(completion_year) %>%
-                max()
+                filter(
+                  city == input$selectUMC,
+                  has_followup_5y_sumres
+                  ) %>%
+              select(completion_year) %>%
+              max()
             
             iv_data_unique <- iv_umc %>%
-                filter(completion_year == max_completion_year) %>%
-                filter(city == input$selectUMC)
+                filter(
+                  completion_year == max_completion_year,
+                  city == input$selectUMC
+                  )
             
             all_numer_timpub <- iv_data_unique %>%
                 filter(
                     has_followup_5y_sumres,
-                    is_summary_results_5y) %>%
-                nrow()
+                    is_summary_results_5y
+                    ) %>%
+              nrow()
             
             all_denom_timpub <- iv_data_unique %>%
                 filter(
@@ -1537,26 +1620,31 @@ server <- function (input, output, session) {
         if (input$reporttype5a == "Manuscript publication only") {
             
             max_completion_year <- iv_umc %>%
-                filter(city == input$selectUMC,
-                       has_followup_5y_pub
-                ) %>%
-                select(completion_year) %>%
-                max()
+                filter(
+                  city == input$selectUMC,
+                  has_followup_5y_pub
+                  ) %>%
+              select(completion_year) %>%
+              max()
             
             iv_data_unique <- iv_umc %>%
-                filter(completion_year == max_completion_year) %>%
-                filter(city == input$selectUMC)
+                filter(
+                  completion_year == max_completion_year,
+                  city == input$selectUMC
+                  )
             
             all_numer_timpub <- iv_data_unique %>%
                 filter(
                     has_followup_5y_pub,
-                    is_publication_5y) %>%
-                nrow()
+                    is_publication_5y
+                    ) %>%
+              nrow()
             
             all_denom_timpub <- iv_data_unique %>%
                 filter(
-                    has_followup_5y_pub
-                ) %>% nrow()
+                  has_followup_5y_pub
+                  ) %>% 
+              nrow()
         }
 
         if (all_denom_timpub == 0) {
@@ -1610,9 +1698,9 @@ server <- function (input, output, session) {
                 filter(
                     has_publication == TRUE,
                     publication_type == "journal publication",
-                    ! is.na(doi),
-                    ! is.na(publication_date_unpaywall)
-                )
+                    !is.na(doi),
+                    !is.na(publication_date_unpaywall)
+                    )
 
             all_numer_oa <- oa_set %>%
                 filter(
@@ -1815,30 +1903,42 @@ server <- function (input, output, session) {
         if (input$allumc_linkagechooser == "All") {
 
             all_numer_link <- iv_all %>%
-                filter(has_reg_pub_link == TRUE) %>%
-                filter(publication_type == "journal publication") %>%
-                nrow()
+                filter(
+                  has_publication,
+                  publication_type == "journal publication",
+                  has_pubmed | !is.na(doi),
+                  has_reg_pub_link == TRUE
+                  ) %>% 
+              nrow()
 
             all_denom_link <- iv_all %>%
-                filter(has_publication == TRUE) %>%
-                filter(publication_type == "journal publication") %>%
-                filter(has_pubmed == TRUE | ! is.na(doi)) %>%
-                nrow()
+              filter(
+                has_publication,
+                publication_type == "journal publication",
+                has_pubmed | !is.na(doi)
+              ) %>% 
+              nrow()
             
         } else {
 
             all_numer_link <- iv_all %>%
-                filter(registry == input$allumc_linkagechooser) %>%
-                filter(has_reg_pub_link == TRUE) %>%
-                filter(publication_type == "journal publication") %>%
-                nrow()
+                filter(
+                  registry == input$allumc_linkagechooser,
+                  has_publication,
+                  publication_type == "journal publication",
+                  has_pubmed | !is.na(doi),
+                  has_reg_pub_link == TRUE
+                  ) %>% 
+              nrow()
 
             all_denom_link <- iv_all %>%
-                filter(registry == input$allumc_linkagechooser) %>%
-                filter(has_publication == TRUE) %>%
-                filter(publication_type == "journal publication") %>%
-                filter(has_pubmed == TRUE | ! is.na(doi)) %>%
-                nrow()
+              filter(
+                registry == input$allumc_linkagechooser,
+                has_publication,
+                publication_type == "journal publication",
+                has_pubmed | !is.na(doi)
+              ) %>% 
+              nrow()
             
         }
 
@@ -1863,35 +1963,35 @@ server <- function (input, output, session) {
         ## Value for All UMC summary results reporting
 
         if (input$allumcsumresregistry == "EUCTR") {
-           
-            sumres_percent <- eutt_hist %>%
-                group_by(date) %>%
-                mutate(avg = mean(percent_reported)) %>%
-                slice_head() %>%
-                ungroup() %>%
-                slice_tail() %>%
-                select(avg) %>%
-                pull()
+          
+          sumres_percent <- eutt_hist %>%
+            group_by(date) %>%
+            mutate(avg = 100*sum(total_reported)/sum(total_due)) %>%
+            slice_head() %>%
+            ungroup() %>%
+            slice_tail() %>%
+            select(avg) %>%
+            pull()
 
             sumresvaltext <- paste("of due clinical trials registered in EUCTR reported summary results (as of:", eutt_date, ")")
             
         } else {
             ## Summary results for CT dot gov and DRKS
             
-            sumres_numer <- iv_umc %>%
+            sumres_numer <- iv_all %>%
                 filter(
                     registry == input$allumcsumresregistry,
                     has_summary_results == TRUE
                 ) %>%
                 nrow()
             
-            sumres_denom <- iv_umc %>%
+            sumres_denom <- iv_all %>%
                 filter(
                     registry == input$allumcsumresregistry
                 ) %>%
                 nrow()
 
-            sumres_percent <- 100*sumres_numer/sumres_denom
+            sumres_percent <- round(100*sumres_numer/sumres_denom)
 
             sumresvaltext <- paste0("of due clinical trials registered in ", input$allumcsumresregistry, " reported summary results")
             
@@ -1920,26 +2020,36 @@ server <- function (input, output, session) {
         if (input$allumc_prereg_registry == "ClinicalTrials.gov") {
             
             all_numer_prereg <- pros_reg_data %>%
-                filter(is_prospective == TRUE) %>%
+                filter(
+                  !is.na(start_date),
+                  is_prospective == TRUE
+                  ) %>%
                 nrow()
 
             all_denom_prereg <- pros_reg_data %>%
-                filter(! is.na(start_date)) %>%
-                nrow()
+                filter(
+                  !is.na(start_date)
+                  ) %>% 
+              nrow()
         
         }
 
         if (input$allumc_prereg_registry == "DRKS") {
             
             all_numer_prereg <- iv_all %>%
-                filter(is_prospective == TRUE) %>%
-                filter(registry == "DRKS") %>%
-                nrow()
+                filter(
+                  registry == "DRKS",
+                  !is.na(start_date),
+                  is_prospective == TRUE
+                  ) %>% 
+              nrow()
 
             all_denom_prereg <- iv_all %>%
-                filter(! is.na(start_date)) %>%
-                filter(registry == "DRKS") %>%
-                nrow()
+                filter(
+                  registry == "DRKS",
+                  !is.na(start_date)
+                  ) %>% 
+              nrow()
             
         }
 
@@ -1965,15 +2075,21 @@ server <- function (input, output, session) {
         if (input$allumc_trnpub == "In abstract") {
 
             all_numer_trn <- iv_all %>%
-                filter(has_iv_trn_abstract == TRUE) %>%
-                nrow()
+                filter(
+                  has_publication == TRUE,
+                  publication_type == "journal publication",
+                  has_pubmed == TRUE,
+                  has_iv_trn_abstract == TRUE
+                  ) %>% 
+              nrow()
             
             all_denom_trn <- iv_all %>%
-                filter(
-                    has_publication == TRUE,
-                    publication_type == "journal publication",
-                    has_pubmed == TRUE) %>%
-                nrow()
+              filter(
+                has_publication == TRUE,
+                publication_type == "journal publication",
+                has_pubmed == TRUE
+              ) %>% 
+              nrow()
 
             all_trn_value_text <- "of trials with a publication reported a trial registration number in the abstract"
 
@@ -1982,17 +2098,21 @@ server <- function (input, output, session) {
         if (input$allumc_trnpub == "In full-text") {
             
             all_numer_trn <- iv_all %>%
-                filter(has_iv_trn_ft == TRUE) %>%
-                nrow()
+                filter(
+                  has_publication == TRUE,
+                  publication_type == "journal publication",
+                  has_ft,
+                  has_iv_trn_ft == TRUE
+                  ) %>% 
+              nrow()
 
             all_denom_trn <- iv_all %>%
-                filter(
-                    has_publication == TRUE,
-                    publication_type == "journal publication",
-                    has_ft,
-                    ! is.na(has_iv_trn_ft)
-                ) %>%
-                nrow()
+              filter(
+                has_publication == TRUE,
+                publication_type == "journal publication",
+                has_ft
+              ) %>% 
+              nrow()
 
             all_trn_value_text <- "of trials with a publication reported a trial registration number in the full-text"
 
@@ -2002,18 +2122,20 @@ server <- function (input, output, session) {
 
             all_numer_trn <- iv_all %>%
                 filter(
-                    has_iv_trn_abstract == TRUE | has_iv_trn_ft == TRUE
-                ) %>%
-                nrow()
+                  has_publication == TRUE,
+                  publication_type == "journal publication",
+                  has_ft | has_pubmed,
+                  has_iv_trn_abstract == TRUE | has_iv_trn_ft == TRUE
+                  ) %>% 
+              nrow()
 
             all_denom_trn <- iv_all %>%
-                filter(
-                    has_publication == TRUE,
-                    publication_type == "journal publication",
-                    has_ft | has_pubmed,
-                    ! is.na(has_iv_trn_ft) | ! is.na(has_iv_trn_abstract)
-                ) %>%
-                nrow()
+              filter(
+                has_publication == TRUE,
+                publication_type == "journal publication",
+                has_ft | has_pubmed
+              ) %>% 
+              nrow()
 
             all_trn_value_text <- "of trials with a publication reported a trial registration number in the abstract or the full-text"
             
@@ -2023,18 +2145,20 @@ server <- function (input, output, session) {
 
             all_numer_trn <- iv_all %>%
                 filter(
-                    has_iv_trn_abstract == TRUE & has_iv_trn_ft == TRUE
-                ) %>%
-                nrow()
+                  has_publication == TRUE,
+                  publication_type == "journal publication",
+                  has_ft & has_pubmed,
+                  has_iv_trn_abstract == TRUE & has_iv_trn_ft == TRUE
+                  ) %>% 
+              nrow()
 
             all_denom_trn <- iv_all %>%
-                filter(
-                    has_publication == TRUE,
-                    publication_type == "journal publication",
-                    has_ft | has_pubmed,
-                    ! is.na(has_iv_trn_ft) & ! is.na(has_iv_trn_abstract)
-                ) %>%
-                nrow()
+              filter(
+                has_publication == TRUE,
+                publication_type == "journal publication",
+                has_ft & has_pubmed
+              ) %>% 
+              nrow()
 
             all_trn_value_text <- "of trials with a publication reported a trial registration number in the abstract or the full-text"
             
@@ -2257,16 +2381,16 @@ server <- function (input, output, session) {
             filter(
                 has_publication == TRUE,
                 publication_type == "journal publication",
-                ! is.na(doi),
-                ! is.na(publication_date_unpaywall)
-            ) %>%
-            distinct(doi, .keep_all = TRUE)
+                !is.na(doi),
+                !is.na(publication_date_unpaywall)
+                ) %>% 
+          distinct(doi, .keep_all = TRUE)
         
         all_numer_oa <- oa_set %>%
             filter(
                 color == "gold" | color == "green" | color == "hybrid" | color == "bronze"
-            ) %>%
-            nrow()
+                ) %>% 
+          nrow()
 
         # Keep NA color for now
         all_denom_oa <- oa_set %>%

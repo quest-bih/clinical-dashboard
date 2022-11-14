@@ -4,12 +4,20 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, dataset_iv_umc
     if (toggled_registry == "ClinicalTrials.gov") {
         
         dataset <- dataset %>%
-            filter( ! is.na (start_date) ) %>%
-            mutate(start_year = format(start_date, "%Y"))
+            filter(
+              !is.na(start_date)
+              ) %>% 
+          mutate(
+            start_year = format(start_date, "%Y")
+            )
 
         dataset_all <- dataset_all %>%
-            filter( ! is.na (start_date) ) %>%
-            mutate(start_year = format(start_date, "%Y"))
+            filter(
+              !is.na(start_date)
+              ) %>% 
+          mutate(
+            start_year = format(start_date, "%Y")
+            )
 
         years <- seq(from=min(dataset$start_year, na.rm=TRUE), to=max(dataset$start_year, na.rm=TRUE))
 
@@ -34,7 +42,7 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, dataset_iv_umc
                 ) %>%
                 nrow()
 
-            all_numer_for_year <-  dataset_all %>%
+            all_numer_for_year <- dataset_all %>%
                 filter(
                     start_year == current_year,
                     is_prospective == TRUE
@@ -48,12 +56,12 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, dataset_iv_umc
                 nrow()
 
             if (denom_for_year > 0) {
-                percentage_for_year <- round(100*numer_for_year/denom_for_year, digits=1)
+                percentage_for_year <- round(100*numer_for_year/denom_for_year)
             } else {
                 percentage_for_year <- NA
             }
 
-            all_percentage_for_year <- round(100*all_numer_for_year/all_denom_for_year, digits=1)
+            all_percentage_for_year <- round(100*all_numer_for_year/all_denom_for_year)
             
             plot_data <- plot_data %>%
                 bind_rows(
@@ -70,16 +78,28 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, dataset_iv_umc
     if (toggled_registry == "DRKS") {
 
         dataset <- dataset_iv_umc %>%
-            filter( ! is.na (start_date) ) %>%
-            filter(registry == toggled_registry) %>%
-            mutate(start_year = format(start_date, "%Y")) %>%
-            filter(start_year >= 2006)
+            filter(
+              registry == toggled_registry,
+              !is.na(start_date)
+              ) %>% 
+          mutate(
+            start_year = format(start_date, "%Y")
+            ) %>% 
+          filter(
+            start_year >= 2006
+            )
 
         dataset_all <- dataset_iv_all %>%
-            filter( ! is.na (start_date) ) %>%
-            filter(registry == toggled_registry) %>%
-            mutate(start_year = format(start_date, "%Y")) %>%
-            filter(start_year >= 2006)
+            filter(
+              registry == toggled_registry,
+              !is.na(start_date)
+              ) %>% 
+          mutate(
+            start_year = format(start_date, "%Y")
+            ) %>% 
+          filter(
+            start_year >= 2006
+            )
 
         years <- seq(from=min(dataset$start_year), to=max(dataset$start_year))
 
@@ -104,7 +124,7 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, dataset_iv_umc
                 ) %>%
                 nrow()
 
-            all_numer_for_year <-  dataset_all %>%
+            all_numer_for_year <- dataset_all %>%
                 filter(
                     start_year == current_year,
                     is_prospective == TRUE
@@ -118,12 +138,12 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, dataset_iv_umc
                 nrow()
 
             if (denom_for_year > 0) {
-                percentage_for_year <- round(100*numer_for_year/denom_for_year, digits=1)
+                percentage_for_year <- round(100*numer_for_year/denom_for_year)
             } else {
                 percentage_for_year <- NA
             }
 
-            all_percentage_for_year <- round(100*all_numer_for_year/all_denom_for_year, digits=1)
+            all_percentage_for_year <- round(100*all_numer_for_year/all_denom_for_year)
             
             plot_data <- plot_data %>%
                 bind_rows(
@@ -180,6 +200,7 @@ umc_plot_clinicaltrials_prereg <- function (dataset, dataset_all, dataset_iv_umc
 
 umc_plot_clinicaltrials_trn <- function (dataset, dataset_all, umc, color_palette) {
 
+    # Abstract One UMC
     plot_data_abs <- dataset %>%
         filter(
             has_publication == TRUE,
@@ -187,6 +208,7 @@ umc_plot_clinicaltrials_trn <- function (dataset, dataset_all, umc, color_palett
             has_pubmed == TRUE
         )
     
+    # Abstract All
     plot_data_abs_all <- dataset_all %>%
         filter(
             has_publication == TRUE,
@@ -194,6 +216,7 @@ umc_plot_clinicaltrials_trn <- function (dataset, dataset_all, umc, color_palett
             has_pubmed == TRUE
         )
     
+    # Full text One UMC
     plot_data_ft <- dataset %>%
         filter(
             has_publication == TRUE,
@@ -201,6 +224,7 @@ umc_plot_clinicaltrials_trn <- function (dataset, dataset_all, umc, color_palett
             has_ft == TRUE
         )
     
+    # Full text All
     plot_data_ft_all <- dataset_all %>%
         filter(
             has_publication == TRUE,
@@ -208,44 +232,60 @@ umc_plot_clinicaltrials_trn <- function (dataset, dataset_all, umc, color_palett
             has_ft == TRUE
         )
     
+    # Abstract All
     all_numer_abs <- sum(plot_data_abs_all$has_iv_trn_abstract, na.rm=TRUE)
-    abs_denom <- plot_data_abs_all %>%
-        filter(! is.na(has_iv_trn_abstract)) %>%
-        nrow()
     
+    abs_denom <- plot_data_abs_all %>%
+        filter(
+          !is.na(has_iv_trn_abstract)
+          ) %>% 
+      nrow()
+    
+    # Full text All
     all_numer_ft <- sum(plot_data_ft_all$has_iv_trn_ft, na.rm=TRUE)
+    
     ft_denom <- plot_data_ft_all %>%
-        filter(! is.na(has_iv_trn_ft)) %>%
-        nrow()
+        filter(
+          !is.na(has_iv_trn_ft)
+          ) %>% 
+      nrow()
 
-    umc_abs_denom <- plot_data_abs %>%
-        filter(city == umc) %>%
-        filter(! is.na(has_iv_trn_abstract)) %>%
-        nrow()
-
+    # Abstract One UMC
     umc_numer_abs <- plot_data_abs %>%
-        filter(city == umc) %>%
-        select(has_iv_trn_abstract) %>%
-        filter(has_iv_trn_abstract == TRUE) %>%
-        nrow()
+      filter(
+        city == umc,
+        has_iv_trn_abstract == TRUE
+      ) %>% 
+      nrow()
+    
+    umc_abs_denom <- plot_data_abs %>%
+        filter(
+          city == umc,
+          !is.na(has_iv_trn_abstract)
+        ) %>% 
+      nrow()
 
+    # Full text One UMC
     umc_numer_ft <- plot_data_ft %>%
-        filter(city == umc) %>%
-        select(has_iv_trn_ft) %>%
-        filter(has_iv_trn_ft == TRUE) %>%
-        nrow()
+        filter(
+          city == umc,
+          has_iv_trn_ft == TRUE
+          ) %>% 
+      nrow()
 
     umc_ft_denom <- plot_data_ft %>%
-        filter(city == umc) %>%
-        filter(! is.na(has_iv_trn_ft)) %>%
-        nrow()
+        filter(
+          city == umc,
+          !is.na(has_iv_trn_ft)
+          ) %>% 
+      nrow()
 
     plot_data <- tribble(
         ~x_label, ~colour, ~percentage, ~mouseover,
-        "All", "In abstract", round(100*all_numer_abs/abs_denom, digits=1), paste0(all_numer_abs, "/", abs_denom),
-        "All", "In full text", round(100*all_numer_ft/ft_denom, digits=1), paste0(all_numer_ft, "/", ft_denom),
-        umc, "In abstract", round(100*umc_numer_abs/umc_abs_denom, digits=1), paste0(umc_numer_abs, "/", umc_abs_denom),
-        umc, "In full text", round(100*umc_numer_ft/umc_ft_denom, digits=1), paste0(umc_numer_ft, "/", umc_ft_denom)
+        "All", "In abstract", round(100*all_numer_abs/abs_denom), paste0(all_numer_abs, "/", abs_denom),
+        "All", "In full text", round(100*all_numer_ft/ft_denom), paste0(all_numer_ft, "/", ft_denom),
+        umc, "In abstract", round(100*umc_numer_abs/umc_abs_denom), paste0(umc_numer_abs, "/", umc_abs_denom),
+        umc, "In full text", round(100*umc_numer_ft/umc_ft_denom), paste0(umc_numer_ft, "/", umc_ft_denom)
     )
 
     plot_data$x_label <- fct_relevel(plot_data$x_label, "All", after= Inf)
@@ -288,27 +328,37 @@ umc_plot_clinicaltrials_trn <- function (dataset, dataset_all, umc, color_palett
 umc_plot_linkage <- function (dataset, dataset_all, chosenregistry, umc, color_palette) {
 
     dataset <- dataset %>%
-        filter(has_publication == TRUE) %>%
-        filter(publication_type == "journal publication") %>%
-        filter(has_pubmed == TRUE | ! is.na (doi))
+        filter(
+          has_publication,
+          publication_type == "journal publication",
+          has_pubmed | !is.na(doi)
+          )
     
     dataset_all <- dataset_all %>%
-        filter(has_publication == TRUE) %>%
-        filter(publication_type == "journal publication") %>%
-        filter(has_pubmed == TRUE | ! is.na (doi))
+        filter(
+          has_publication,
+          publication_type == "journal publication",
+          has_pubmed | !is.na (doi)
+          )
 
     if (chosenregistry != "All") {
         dataset <- dataset %>%
-            filter(registry == chosenregistry)
+            filter(
+              registry == chosenregistry
+              )
 
         dataset_all <- dataset_all %>%
-            filter(registry == chosenregistry)
+            filter(
+              registry == chosenregistry
+              )
     }
     
     years <- seq(from=min(dataset_all$completion_year), to=max(dataset_all$completion_year))
     
     umcdata <- dataset %>%
-        filter (city == umc)
+        filter(
+          city == umc
+          )
     
     plot_data <- tribble(
         ~year, ~all_percentage, ~umc_percentage, ~all_mouseover, ~umc_mouseover
@@ -317,30 +367,38 @@ umc_plot_linkage <- function (dataset, dataset_all, chosenregistry, umc, color_p
     for (current_year in years) {
 
         umc_numer <- umcdata %>%
-            filter(has_reg_pub_link == TRUE) %>%
-            filter(completion_year == current_year) %>%
-            nrow()
+            filter(
+              has_reg_pub_link == TRUE,
+              completion_year == current_year
+              ) %>% 
+          nrow()
 
         umc_denom <- umcdata %>%
-            filter(completion_year == current_year) %>%
-            nrow()
+            filter(
+              completion_year == current_year
+              ) %>% 
+          nrow()
 
         all_numer <- dataset_all %>%
-            filter(has_reg_pub_link == TRUE) %>%
-            filter(completion_year == current_year) %>%
-            nrow()
+            filter(
+              has_reg_pub_link == TRUE,
+              completion_year == current_year
+              ) %>% 
+          nrow()
 
         all_denom <- dataset_all %>%
-            filter(completion_year == current_year) %>%
-            nrow()
+            filter(
+              completion_year == current_year
+              ) %>% 
+          nrow()
 
         if (umc_denom > 0) {
-            percentage_for_year <- round(100*umc_numer/umc_denom, digits=1)
+            percentage_for_year <- round(100*umc_numer/umc_denom)
         } else {
             percentage_for_year <- NA
         }
         
-        all_percentage_for_year <- round(100*all_numer/all_denom, digits=1)
+        all_percentage_for_year <- round(100*all_numer/all_denom)
         
         plot_data <- plot_data %>%
             bind_rows(
@@ -397,7 +455,7 @@ umc_plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, iv_all_dat
     if (toggled_registry == "EUCTR") {
 
         dataset <- eutt_dataset %>%
-            filter (date > Sys.Date()-365*1.5) ## Only look at the last year and a half
+            filter (date > as.Date("2022-02-18")-365*1.5) ## Only look at the last year and a half
 
         ## Only take the latest data point per month
         dataset$month <- dataset$date %>%
@@ -455,14 +513,16 @@ umc_plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, iv_all_dat
             currentyear_denom <- nrow(currentyear_trials)
 
             currentyear_numer <- currentyear_trials %>%
-                filter(has_summary_results == TRUE) %>%
-                nrow()
+                filter(
+                  has_summary_results == TRUE
+                  ) %>% 
+              nrow()
 
             city_data <- city_data %>%
                 bind_rows(
                     tribble(
                         ~date, ~percent_reported, ~city, ~mouseover,
-                        currentyear, round(100*currentyear_numer/currentyear_denom, digits=1), umc, paste0(currentyear_numer, "/", currentyear_denom)
+                        currentyear, round(100*currentyear_numer/currentyear_denom), umc, paste0(currentyear_numer, "/", currentyear_denom)
                     )
                 )
             
@@ -487,14 +547,16 @@ umc_plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, iv_all_dat
             currentyear_denom <- nrow(currentyear_trials)
 
             currentyear_numer <- currentyear_trials %>%
-                filter(has_summary_results == TRUE) %>%
-                nrow()
+                filter(
+                  has_summary_results == TRUE
+                  ) %>% 
+              nrow()
 
             all_data <- all_data %>%
                 bind_rows(
                     tribble(
                         ~date, ~percent_reported, ~city, ~mouseover,
-                        currentyear, round(100*currentyear_numer/currentyear_denom, digits=1), "All", paste0(currentyear_numer, "/", currentyear_denom)
+                        currentyear, round(100*currentyear_numer/currentyear_denom), "All", paste0(currentyear_numer, "/", currentyear_denom)
                     )
                 )
             
@@ -589,20 +651,13 @@ umc_plot_clinicaltrials_timpub_2a <- function (dataset, dataset_all, umc, rt, co
 
     years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
 
-    all_denom <- dataset_all %>%
-        nrow()
-    
-    all_numer <- dataset_all %>%
-        filter(published_2a) %>%
-        nrow()
-
     plot_data <- tribble(
         ~year, ~all_percentage, ~umc_percentage
     )
 
     for (current_year in years) {
 
-        umc_numer <-  dataset %>%
+        umc_numer <- dataset %>%
             filter(
                 city == umc,
                 completion_year == current_year,
@@ -610,33 +665,33 @@ umc_plot_clinicaltrials_timpub_2a <- function (dataset, dataset_all, umc, rt, co
             ) %>%
             nrow()
 
-        umc_denom <-  dataset %>%
+        umc_denom <- dataset %>%
             filter(
                 city == umc,
                 completion_year == current_year
             ) %>%
             nrow()
 
-        all_numer <-  dataset_all %>%
+        all_numer <- dataset_all %>%
             filter(
                 completion_year == current_year,
                 published_2a
             ) %>%
             nrow()
 
-        all_denom <-  dataset_all %>%
+        all_denom <- dataset_all %>%
             filter(
                 completion_year == current_year
             ) %>%
             nrow()
 
         if (umc_denom > 0) {
-            umc_percentage <- round(100*umc_numer/umc_denom, digits=1)
+            umc_percentage <- round(100*umc_numer/umc_denom)
         } else {
             umc_percentage <- NA
         }
         
-        all_percentage <- round(100*all_numer/all_denom, digits=1)
+        all_percentage <- round(100*all_numer/all_denom)
 
         plot_data <- plot_data %>%
             bind_rows(
@@ -735,13 +790,6 @@ umc_plot_clinicaltrials_timpub_5a <- function (dataset, dataset_all, umc, rt, co
     }
 
     years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
-
-    all_denom <- dataset_all %>%
-        nrow()
-    
-    all_numer <- dataset_all %>%
-        filter(published_5a) %>%
-        nrow()
     
     plot_data <- tribble(
         ~year, ~all_percentage, ~umc_percentage, ~all_mouseover, ~umc_mouseover
@@ -749,7 +797,7 @@ umc_plot_clinicaltrials_timpub_5a <- function (dataset, dataset_all, umc, rt, co
 
     for (current_year in years) {
 
-        umc_numer <-  dataset %>%
+        umc_numer <- dataset %>%
             filter(
                 city == umc,
                 completion_year == current_year,
@@ -757,33 +805,33 @@ umc_plot_clinicaltrials_timpub_5a <- function (dataset, dataset_all, umc, rt, co
             ) %>%
             nrow()
 
-        umc_denom <-  dataset %>%
+        umc_denom <- dataset %>%
             filter(
                 city == umc,
                 completion_year == current_year
             ) %>%
             nrow()
 
-        all_numer <-  dataset_all %>%
+        all_numer <- dataset_all %>%
             filter(
                 completion_year == current_year,
                 published_5a
             ) %>%
             nrow()
 
-        all_denom <-  dataset_all %>%
+        all_denom <- dataset_all %>%
             filter(
                 completion_year == current_year
             ) %>%
             nrow()
         
         if (umc_denom > 0) {
-            umc_percentage <- round(100*umc_numer/umc_denom, digits=1)
+            umc_percentage <- round(100*umc_numer/umc_denom)
         } else {
             umc_percentage <- NA
         }
         
-        all_percentage <- round(100*all_numer/all_denom, digits=1)
+        all_percentage <- round(100*all_numer/all_denom)
 
         manuscript_denom <- dataset %>%
             filter(
@@ -878,29 +926,40 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
         nrow()
 
     all_gold <- oa_data_all %>%
-        filter( color == "gold") %>%
-        nrow()
+        filter(
+          color == "gold"
+          ) %>% 
+      nrow()
 
     all_green <- oa_data_all %>%
-        filter( color == "green") %>%
-        nrow()
+        filter(
+          color == "green"
+          ) %>% 
+      nrow()
 
     all_hybrid <- oa_data_all %>%
-        filter( color == "hybrid") %>%
-        nrow()
+        filter(
+          color == "hybrid"
+          ) %>% 
+      nrow()
 
     all_na <- oa_data_all %>%
-        filter( is.na(color) ) %>%
-        nrow()
+        filter(
+          is.na(color)
+          ) %>% 
+      nrow()
 
     all_closed <- oa_data_all %>%
-        filter( color == "closed") %>%
-        nrow()
+        filter(
+          color == "closed"
+          ) %>% 
+      nrow()
 
     all_bronze <- oa_data_all %>%
-        filter( color == "bronze") %>%
-        nrow()
-
+        filter(
+          color == "bronze"
+          ) %>% 
+      nrow()
 
     umc_denom <- oa_data_umc %>%
         nrow()
@@ -908,8 +967,8 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
     umc_gold <- oa_data_umc %>%
         filter(
             color == "gold"
-        ) %>%
-        nrow()
+        ) %>% 
+      nrow()
 
     umc_green <- oa_data_umc %>%
         filter(
@@ -1111,8 +1170,8 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
 
         plot_data <- tribble(
             ~x_label, ~gold,                         ~green,                         ~hybrid,                         ~na,                         ~closed,                         ~bronze,     ~gold_numer, ~green_numer, ~hybrid_numer, ~bronze_numer, ~sum,
-            "All",    round(100*all_gold/all_denom, digits=1), round(100*all_green/all_denom, digits=1), round(100*all_hybrid/all_denom, digits=1), round(100*all_na/all_denom, digits=1), round(100*all_closed/all_denom, digits=1), round(100*all_bronze/all_denom, digits=1), all_gold, all_green, all_hybrid, all_bronze, all_denom,
-            umc,      round(100*umc_gold/umc_denom, digits=1), round(100*umc_green/umc_denom, digits=1), round(100*umc_hybrid/umc_denom, digits=1), round(100*umc_na/umc_denom, digits=1), round(100*umc_closed/umc_denom, digits=1), round(100*umc_bronze/umc_denom, digits=1), umc_gold, umc_green, umc_hybrid, umc_bronze, umc_denom
+            "All",    round(100*all_gold/all_denom), round(100*all_green/all_denom), round(100*all_hybrid/all_denom), round(100*all_na/all_denom), round(100*all_closed/all_denom), round(100*all_bronze/all_denom), all_gold, all_green, all_hybrid, all_bronze, all_denom,
+            umc,      round(100*umc_gold/umc_denom), round(100*umc_green/umc_denom), round(100*umc_hybrid/umc_denom), round(100*umc_na/umc_denom), round(100*umc_closed/umc_denom), round(100*umc_bronze/umc_denom), umc_gold, umc_green, umc_hybrid, umc_bronze, umc_denom
         )
 
         plot_data$x_label <- fct_relevel(plot_data$x_label, "All", after= Inf)

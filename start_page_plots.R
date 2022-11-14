@@ -4,7 +4,9 @@ plot_clinicaltrials_prereg <- function (dataset, iv_dataset, toggled_registry, c
     if (toggled_registry == "ClinicalTrials.gov") {
         
         dataset <- dataset %>%
-            filter( ! is.na (start_date) )
+            filter(
+                !is.na(start_date)
+                )
 
         dataset$start_year <- dataset$start_date %>%
             format("%Y")
@@ -30,7 +32,7 @@ plot_clinicaltrials_prereg <- function (dataset, iv_dataset, toggled_registry, c
                 ) %>%
                 nrow()
 
-            percentage_for_year <- round(100*numer_for_year/denom_for_year, digits=1)
+            percentage_for_year <- round(100*numer_for_year/denom_for_year)
             
             plot_data <- plot_data %>%
                 bind_rows(
@@ -47,10 +49,16 @@ plot_clinicaltrials_prereg <- function (dataset, iv_dataset, toggled_registry, c
     if (toggled_registry == "DRKS") {
 
         dataset <- iv_dataset %>%
-            filter( ! is.na (start_date) ) %>%
-            filter(registry == toggled_registry) %>%
-            mutate(start_year = format(start_date, "%Y")) %>%
-            filter(start_year >= 2006)
+            filter(
+                !is.na(start_date),
+                registry == toggled_registry,
+                ) %>%
+            mutate(
+                start_year = format(start_date, "%Y")
+                ) %>%
+            filter(
+                start_year >= 2006
+                )
 
         years <- seq(from=min(dataset$start_year), to=max(dataset$start_year))
 
@@ -73,7 +81,7 @@ plot_clinicaltrials_prereg <- function (dataset, iv_dataset, toggled_registry, c
                 ) %>%
                 nrow()
 
-            percentage_for_year <- round(100*numer_for_year/denom_for_year, digits=1)
+            percentage_for_year <- round(100*numer_for_year/denom_for_year)
             
             plot_data <- plot_data %>%
                 bind_rows(
@@ -125,31 +133,43 @@ plot_clinicaltrials_trn <- function (dataset, color_palette) {
     umc <- "All"
  
     all_numer_abs <- dataset %>%
-        filter(has_iv_trn_abstract == TRUE) %>%
+        filter(
+            has_publication == TRUE,
+            publication_type == "journal publication",
+            has_pubmed == TRUE,
+            has_iv_trn_abstract == TRUE
+            ) %>% 
         nrow()
+    
     abs_denom <- dataset %>%
         filter(
             has_publication == TRUE,
             publication_type == "journal publication",
             has_pubmed == TRUE
-        ) %>%
+            ) %>% 
         nrow()
     
     all_numer_ft <- dataset %>%
-        filter(has_iv_trn_ft == TRUE) %>%
+        filter(
+            has_publication == TRUE,
+            publication_type == "journal publication",
+            has_ft == TRUE,
+            has_iv_trn_ft == TRUE
+            ) %>% 
         nrow()
+    
     ft_denom <- dataset %>%
         filter(
             has_publication == TRUE,
             publication_type == "journal publication",
             has_ft == TRUE
-        ) %>%
+            ) %>% 
         nrow()
     
     plot_data <- tribble(
         ~x_label, ~colour, ~percentage, ~mouseover,
-        "All", "In abstract", round(100*all_numer_abs/abs_denom, digits=1), paste0(all_numer_abs, "/", abs_denom),
-        "All", "In full text", round(100*all_numer_ft/ft_denom, digits=1), paste0(all_numer_ft, "/", ft_denom)
+        "All", "In abstract", round(100*all_numer_abs/abs_denom), paste0(all_numer_abs, "/", abs_denom),
+        "All", "In full text", round(100*all_numer_ft/ft_denom), paste0(all_numer_ft, "/", ft_denom)
     )
 
     plot_ly(
@@ -189,13 +209,17 @@ plot_clinicaltrials_trn <- function (dataset, color_palette) {
 plot_linkage <- function (dataset, color_palette, chosenregistry) {
 
     dataset <- dataset %>%
-        filter(has_publication == TRUE) %>%
-        filter(publication_type == "journal publication") %>%
-        filter(has_pubmed == TRUE | ! is.na (doi))
+        filter(
+            has_publication == TRUE,
+            publication_type == "journal publication",
+            has_pubmed | !is.na(doi)
+            )
 
     if (chosenregistry != "All") {
         dataset <- dataset %>%
-            filter(registry == chosenregistry)
+            filter(
+                registry == chosenregistry
+                )
     }
 
     years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
@@ -207,15 +231,19 @@ plot_linkage <- function (dataset, color_palette, chosenregistry) {
     for (current_year in years) {
         
         numer_for_year <- dataset %>%
-            filter(has_reg_pub_link == TRUE) %>%
-            filter(completion_year == current_year) %>%
+            filter(
+                has_reg_pub_link == TRUE,
+                completion_year == current_year
+                ) %>% 
             nrow()
 
         denom_for_year <- dataset %>%
-            filter(completion_year == current_year) %>%
+            filter(
+                completion_year == current_year
+                ) %>% 
             nrow()
 
-        percentage_for_year <- round(100*numer_for_year/denom_for_year, digits=1)
+        percentage_for_year <- round(100*numer_for_year/denom_for_year)
 
         plot_data <- plot_data %>%
             bind_rows(
@@ -277,7 +305,7 @@ plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, toggled_regist
 
         plot_data <- dataset %>%
             group_by(date) %>%
-            mutate(avg = round(100*sum(total_reported)/sum(total_due), digits=1)) %>%
+            mutate(avg = round(100*sum(total_reported)/sum(total_due),1)) %>%
             mutate(mouseover = paste0(sum(total_reported), "/", sum(total_due))) %>%
             slice_head() %>%
             select(date, avg, mouseover) %>%
@@ -312,14 +340,16 @@ plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, toggled_regist
             currentyear_denom <- nrow(currentyear_trials)
 
             currentyear_numer <- currentyear_trials %>%
-                filter(has_summary_results == TRUE) %>%
+                filter(
+                    has_summary_results == TRUE
+                    ) %>% 
                 nrow()
 
             plot_data <- plot_data %>%
                 bind_rows(
                     tribble(
                         ~date, ~percent_reported, ~mouseover,
-                        currentyear, round(100*currentyear_numer/currentyear_denom, digits=1), paste0(currentyear_numer, "/", currentyear_denom)
+                        currentyear, round(100*currentyear_numer/currentyear_denom), paste0(currentyear_numer, "/", currentyear_denom)
                     )
                 )
             
@@ -367,7 +397,8 @@ plot_clinicaltrials_timpub_2a <- function (dataset, rt, color_palette) {
             dataset <- dataset %>%
                 filter(
                     has_followup_2y_sumres
-                )
+                    )
+            
             dataset$published_2a <- dataset$is_summary_results_2y
         }
         
@@ -376,6 +407,7 @@ plot_clinicaltrials_timpub_2a <- function (dataset, rt, color_palette) {
                 filter(
                     has_followup_2y_pub
                 )
+            
             dataset$published_2a <- dataset$is_publication_2y
         }
         
@@ -384,6 +416,7 @@ plot_clinicaltrials_timpub_2a <- function (dataset, rt, color_palette) {
             filter(
                 has_followup_2y_sumres & has_followup_2y_pub
             )
+        
         dataset$published_2a <- dataset$is_summary_results_2y | dataset$is_publication_2y
     }
 
@@ -391,32 +424,26 @@ plot_clinicaltrials_timpub_2a <- function (dataset, rt, color_palette) {
 
     years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
 
-    all_denom <- dataset %>%
-        nrow()
-    
-    all_numer <- dataset %>%
-        filter(published_2a) %>%
-        nrow()
-
     plot_data <- tribble(
         ~year, ~all_percentage, ~mouseover
     )
 
     for (current_year in years) {
 
-        all_numer <-  dataset %>%
+        all_numer <- dataset %>%
             filter(
                 completion_year == current_year,
                 published_2a
             ) %>%
             nrow()
 
-        all_denom <-  dataset %>%
+        all_denom <- dataset %>%
             filter(
                 completion_year == current_year
             ) %>%
             nrow()
-        all_percentage <- round(100*all_numer/all_denom, digits=1)
+        
+        all_percentage <- round(100*all_numer/all_denom)
         
         plot_data <- plot_data %>%
             bind_rows(
@@ -470,6 +497,7 @@ plot_clinicaltrials_timpub_5a <- function (dataset, rt, color_palette) {
                 filter(
                     has_followup_5y_sumres
                 )
+            
             dataset$published_5a <- dataset$is_summary_results_5y
         }
         
@@ -478,6 +506,7 @@ plot_clinicaltrials_timpub_5a <- function (dataset, rt, color_palette) {
                 filter(
                     has_followup_5y_pub
                 )
+            
             dataset$published_5a <- dataset$is_publication_5y
         }
         
@@ -486,6 +515,7 @@ plot_clinicaltrials_timpub_5a <- function (dataset, rt, color_palette) {
             filter(
                 has_followup_5y_sumres & has_followup_5y_pub
             )
+        
         dataset$published_5a <- dataset$is_summary_results_5y | dataset$is_publication_5y
     }
 
@@ -493,32 +523,26 @@ plot_clinicaltrials_timpub_5a <- function (dataset, rt, color_palette) {
 
     years <- seq(from=min(dataset$completion_year), to=max(dataset$completion_year))
 
-    all_denom <- dataset %>%
-        nrow()
-    
-    all_numer <- dataset %>%
-        filter(published_5a) %>%
-        nrow()
-
     plot_data <- tribble(
         ~year, ~all_percentage, ~mouseover
     )
 
     for (current_year in years) {
 
-        all_numer <-  dataset %>%
+        all_numer <- dataset %>%
             filter(
                 completion_year == current_year,
                 published_5a
             ) %>%
             nrow()
 
-        all_denom <-  dataset %>%
+        all_denom <- dataset %>%
             filter(
                 completion_year == current_year
             ) %>%
             nrow()
-        all_percentage <- round(100*all_numer/all_denom, digits=1)
+        
+        all_percentage <- round(100*all_numer/all_denom)
 
         manuscript_denom <- dataset %>%
             filter(
@@ -586,7 +610,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
             has_publication == TRUE,
             publication_type == "journal publication",
             !is.na(doi),
-            ! is.na (publication_date_unpaywall)
+            !is.na(publication_date_unpaywall)
         ) %>%
         distinct(doi, .keep_all=TRUE)
 
