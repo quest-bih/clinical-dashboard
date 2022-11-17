@@ -1184,7 +1184,9 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
         x = ~x_label,
         y = ~gold,
         name = "Gold",
-        text = ~paste0(gold_numer, "/", sum),
+        text = ~paste0(gold_numer, " out of ", sum),
+        hovertemplate = paste0('<b>%{x} : </b>', '%{y}%',
+                               ', %{text}'),
         type = 'bar',
         marker = list(
             color = color_palette[3],
@@ -1197,7 +1199,7 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
       add_trace(
         y = ~hybrid,
         name = "Hybrid",
-        text = ~paste0(hybrid_numer, "/", sum),
+        text = ~paste0(hybrid_numer, " out of ", sum),
         marker = list(
           color = color_palette[10],
           line = list(
@@ -1209,7 +1211,7 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
         add_trace(
             y = ~green,
             name = "Green",
-            text = ~paste0(green_numer, "/", sum),
+            text = ~paste0(green_numer, " out of ", sum),
             marker = list(
                 color = color_palette[8],
                 line = list(
@@ -1221,7 +1223,7 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
       add_trace(
         y = ~bronze,
         name = "Bronze",
-        text = ~paste0(bronze_numer, "/", sum),
+        text = ~paste0(bronze_numer, " out of ", sum),
         marker = list(
           color = color_palette[4],
           line = list(

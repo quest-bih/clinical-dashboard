@@ -599,7 +599,7 @@ plot_allumc_timpub_5a <- function (dataset, rt, color_palette, color_palette_bar
 
 ## Open Access
 plot_allumc_openaccess <- function (dataset, color_palette) {
-
+  # dataset <- iv_umc
     dataset <- dataset %>%
         filter(
             has_publication == TRUE,
@@ -675,7 +675,10 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
         x = ~x_label,
         y = ~gold,
         name = "Gold",
-        text = ~paste0(gold_numer, "/", denom),
+        text = ~paste0(gold_numer, " out of ", denom),
+        textposition = "none",
+        hoverinfo = "text",
+        hovertemplate = paste0('%{y}%, %{text}'),
         type = 'bar',
         marker = list(
             color = "#F1BA50",
@@ -688,7 +691,7 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
         add_trace(
             y = ~hybrid,
             name = "Hybrid",
-            text = ~paste0(hybrid_numer, "/", denom),
+            text = ~paste0(hybrid_numer, " out of ", denom),
             marker = list(
                 color = "#634587",
                 line = list(
@@ -700,7 +703,7 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
         add_trace(
             y = ~green,
             name = "Green",
-            text = ~paste0(green_numer, "/", denom),
+            text = ~paste0(green_numer, " out of ", denom),
             marker = list(
                 color = "#007265",
                 line = list(
@@ -712,7 +715,7 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
         add_trace(
             y = ~bronze,
             name = "Bronze",
-            text = ~paste0(bronze_numer, "/", denom),
+            text = ~paste0(bronze_numer, " out of ", denom),
             marker = list(
                 color = "#cf9188",
                 line = list(
@@ -730,6 +733,7 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
                 title = '<b>Percentage Open Access (%)</b>',
                 range = c(0, 100)
             ),
+            hovermode = "x unified",
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9]
         )

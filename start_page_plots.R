@@ -837,7 +837,10 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
         x = ~x_label,
         y = ~gold,
         name = "Gold",
-        text = ~paste0(gold_num, "/", sum),
+        text = ~paste0(gold_num, " out of ", sum),
+        textposition = "none",
+        hoverinfo = "text",
+        hovertemplate = paste0('%{y}%, %{text}'),
         type = 'bar',
         marker = list(
             color = color_palette[3],
@@ -850,7 +853,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
             add_trace(
                 y = ~hybrid,
                 name = "Hybrid",
-                text = ~paste0(hybrid_num, "/", sum),
+                text = ~paste0(hybrid_num, " out of ", sum),
                 marker = list(
                     color = color_palette[10],
                     line = list(
@@ -862,7 +865,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
             add_trace(
                 y = ~green,
                 name = "Green",
-                text = ~paste0(green_num, "/", sum),
+                text = ~paste0(green_num, " out of ", sum),
                 marker = list(
                     color = color_palette[8],
                     line = list(
@@ -874,7 +877,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
             add_trace(
                 y = ~bronze,
                 name = "Bronze",
-                text = ~paste0(bronze_num, "/", sum),
+                text = ~paste0(bronze_num, " out of ", sum),
                 marker = list(
                     color = color_palette[4],
                     line = list(
@@ -892,6 +895,7 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
                     title = paste('<b>', ylabel, '</b>'),
                     range = c(0, 105)
                     ),
+                hovermode = "x unified",
                 paper_bgcolor = color_palette[9],
                 plot_bgcolor = color_palette[9]
                 )
