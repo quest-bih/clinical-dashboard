@@ -160,15 +160,14 @@ server <- function (input, output, session) {
                        Medical Centers (UMCs) in Germany on established registration
                        and reporting practices for clinical trial transparency.
                        The dashboard displays data for interventional
-                       clinical trials conducted by German UMCs, registered in
-                       ClinicalTrials.gov or the German Clinical Trials Registry
-                       (DRKS), and reported as complete between 2009 - 2017. For
-                       summary results reporting, we additionally included trials
+                       clinical trials conducted at German UMCs, registered in
+                       ClinicalTrials.gov or the German Clinical Trials Register
+                       (DRKS), and considered as complete between 2009 - 2017 per
+                       the registry. For summary results reporting, we additionally included trials
                        conducted at German UMCs and registered in the EU Clinical
                        Trials Register (EUCTR). The dashboard was developed as part
                        of a scientific research project with the overall aim to support
                        the adoption of responsible research practices at UMCs.
-                       The dashboard is a pilot and continues to be updated.
                        More metrics may be added in the future."),
                     h4(style = "margin-left:0cm",
                        HTML("The <i>Start page</i> displays data across all
@@ -183,12 +182,13 @@ server <- function (input, output, session) {
                        the practices displayed in this dashboard, visit the <i>Methods</i>
                        and <i>Datasets</i> pages. The <i>Trial Characteristics</i> page
                        provides an overview of the characteristics of trials included
-                       in the dashboard.The <i>FAQ</i> and <i>Why these practices?</i>
+                       in the dashboard. The <i>FAQ</i> and <i>Why these practices?</i>
                        pages provide more general information about this
                        dashboard and our selection of practices.")),
                     h3(style = "margin-left:0cm; color: purple",
-                       "More information on the overall aim and methodology can be
-                       found in the associated publication [enter DOI]. "),
+                       HTML("More information on the overall aim and methodology can be
+                       found in the <a href=https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1004175>
+                       associated publication</a>.")),
                     br()
                 ),
                 column(
