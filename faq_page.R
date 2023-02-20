@@ -38,12 +38,24 @@ faq_page <- tabPanel(
                                style = "default")),
     bsCollapse(id = "faqPanels_RegistryFocus",
                bsCollapsePanel(strong("Why does the dashboard focus on ClinicalTrials.gov, DRKS, and EUCTR?"),
-                               p(HTML("The EU Clinical Trials Register (EUCTR),
-                               ClinicalTrials.gov, and the German Clinical Trials
-                               Register (DRKS) are part of the ICTRP Registry Network
-                               and are commonly used for Germany.<br>
+                               p(HTML("ClinicalTrials.gov, the German Clinical Trials Register (DRKS), 
+                               and the EU Clinical Trials Register (EUCTR) are part of the
+                               ICTRP Registry Network and are commonly used for Germany.<br>
                                <br>
-                               The EUCTR provides
+                               <b>ClinicalTrials.gov and DRKS (all trials)</b>: most of the metrics
+                               presented in the dashboard are based 
+                               on a previously generated cohort of interventional
+                               clinical trials completed at German UMCs and registered
+                               in ClinicalTrials.gov or DRKS. This cohort is
+                               referred to as the <a href=https://zenodo.org/record/5141343#.YV2m-S0RqRs>
+                               'IntoValue' dataset </a>. More information on how
+                               this cohort was generated can be found in the
+                               <a href=https://doi.org/10.1016/j.jclinepi.2019.06.002>
+                               IntoValue1</a> and follow-up
+                               <a href=https://doi.org/10.1016/j.jclinepi.2021.12.012>
+                               IntoValue2</a> publications.<br>
+                               <br>
+                               <b>EUCTR (drug trials only)</b>: the EUCTR provides
                                information on interventional clinical trials on
                                medicines conducted in the European Economic Area
                                (EEA) started after 1 May 2004. These trials are
@@ -51,36 +63,26 @@ faq_page <- tabPanel(
                                database and provide summary results in the EUCTR
                                within 12 months of trial completion
                                (see <a href=https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52012XC1006(01)&from=EN>
-                               Commission guideline 2012/C 302/03</a>). The
-                               <a href=https://eu.trialstracker.net/>EU Trials Tracker</a>
-                               (EBM DataLab) is an interactive website which tracks
-                               reporting rates in the EUCTR. Only one metric in
-                               the dashboard relates to the EUCTR (summary results
-                               reporting in the EUCTR).<br>
-                               <br>
-                               All other metrics are based
-                               on two previously generated cohorts of interventional
-                               clinical trials completed at German UMCs and registered
-                               in ClinicalTrials.gov or DRKS. These cohorts are
-                               referred to as the <a href=https://zenodo.org/record/5141343#.YV2m-S0RqRs>
-                               'IntoValue' dataset </a>. More information on how
-                               these cohorts were generated can be found in the
-                               <a href=https://doi.org/10.1016/j.jclinepi.2019.06.002>
-                               IntoValue1</a> and follow-up
-                               <a href=https://doi.org/10.1016/j.jclinepi.2021.12.012>
-                               IntoValue2</a> publications. Trials registered in other
-                               registries may be incorporated in the future.")),
+                               Commission guideline 2012/C 302/03</a>). Only one metric in
+                               the dashboard relates exclusively to the EUCTR (summary results
+                               reporting in the EUCTR).")),
                                value = "faqPanels_RegistryFocus",
                                style = "default")),
     bsCollapse(id = "faqPanels_TrialTypes",
                bsCollapsePanel(strong("What types of trials are included in this dashboard?"),
-                               p(HTML("Interventional clinical trials registered in
-                                    ClinicalTrials.gov or DRKS, conducted at
-                                      a German UMC, completed between 2009 – 2017,
-                                      and whose study status is considered \"complete\".
-                                      Trials may be cross-registered across registries. Trials
-                                      include all interventional studies and are
-                                      not limited to investigational medicinal
+                               p(HTML("<b>For all metrics except for prospective registration
+                                      (ClinicalTrials.gov only) and summary results reporting
+                                      in the EUCTR</b>: this analysis was performed on a cohort of
+                                      clinical trials registered in ClinicalTrials.gov or DRKS, conducted at
+                                      a German UMC, with a completion date between 2009 – 2017,
+                                      and considered as complete per the registry (status in
+                                      ClinicalTrials.gov: \"Completed\", \"Terminated\",
+                                      \"Suspended\", or \"Unknown\"; status in DRKS:
+                                      \"Recruiting complete, follow-up complete\",
+                                      \"Recruiting stopped after recruiting started\",
+                                      or \"Recruiting suspended on temporary hold\").
+                                      Trials in this cohort include all interventional studies
+                                      and are not limited to investigational medicinal
                                       products trials regulated by the EU's
                                       Clinical Trials Directive or Germany's drug
                                       or medical device laws. A combination
@@ -90,24 +92,38 @@ faq_page <- tabPanel(
                                       were also included, providing a German UMC
                                       was listed under `sponsors`, `overall officials`, or
                                       `responsible parties` (ClinicalTrials.gov), or
-                                      `any addresses` (DRKS). More details can be
-                                      found in the
+                                      `any addresses` (DRKS). We deduplicated trials
+                                      in this cohort that were cross-registered in
+                                      ClinicalTrials.gov and DRKS (the registration
+                                      in ClinicalTrials.gov was favored).
+                                      More details can be found in the
                                       <a href=https://doi.org/10.1016/j.jclinepi.2019.06.002>
                                       IntoValue1</a> and follow-up
                                       <a href=https://doi.org/10.1016/j.jclinepi.2021.12.012>
                                       IntoValue2</a> publications.
                                       <br>
                                       <br><b>For prospective registration
-                                      (ClinicalTrials.gov only)</b>, we used a more
-                                      recent cohort of trials registered in
+                                      (ClinicalTrials.gov only)</b>: this analysis was perfomed on
+                                      a more recent cohort of trials registered in
                                       ClinicalTrials.gov, conducted at a German
-                                      UMC, started between 2006 and 2018, and
-                                      whose study status is considered \"complete\".
+                                      UMC, with a start date between 2006 and 2018, and
+                                      considered as complete per the registry (status in
+                                      ClinicalTrials.gov: \"Completed\", \"Terminated\",
+                                      \"Suspended\", or \"Unknown\"). Trials in this
+                                      cohort include all interventional studies
+                                      and are not limited to investigational medicinal
+                                      products trials regulated by the EU's
+                                      Clinical Trials Directive or Germany's drug
+                                      or medical device laws. 
                                       <br>
-                                      <br><b>For summary results reporting in EUCTR</b>,
-                                      we extracted the data from the <a href=https://eu.trialstracker.net>
-                                      EU Trials Tracker</a>. We searched the
-                                      EU Trials Tracker for trials with a sponsor
+                                      <br><b>For summary results reporting in EUCTR</b>: only
+                                      applies to investigational medicinal products trials regulated by
+                                      the EU's Clinical Trials Directive or Germany's drug
+                                      or medical device laws. This data is based 
+                                      on the <a href=https://eu.trialstracker.net>
+                                      EU Trials Tracker</a> (EBM DataLab), an interactive
+                                      website which tracks reporting rates in the EUCTR. We
+                                      searched the EU Trials Tracker for trials with a sponsor
                                       name corresponding to UMCs included in this
                                       dashboard.")),
                                value = "faqPanels_TrialTypes",
@@ -250,34 +266,25 @@ faq_page <- tabPanel(
                                style = "default")),
     bsCollapse(id = "faqPanels_CTIS",
                bsCollapsePanel(strong("How is this dashboard relevant given the launch of EU Clinical Trials Information System?"),
-                               p(HTML("The EU Clinical Trials Information
-                                      System (CTIS) launched when the
-                                      <a href=https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014R0536>
-                                      EU Clinical Trials Regulation</a> came
-                                      into application. CTIS serves as a
-                                      single-entry point for clinical trial
-                                      information in the EU. Sponsors are still
-                                      required to submit summary results of
-                                      clinical trials to the EU database within
-                                      one year of trial completion. The EU
-                                      Clinical Trials Regulation will undoubtedly
-                                      lead to changes in the way clinical trials
-                                      are conducted in the EU. However, most of
-                                      the practices in this dashboard are
-                                      recommended by international bodies
-                                      (e.g., World Health Organization) and
-                                      ethical guidelines (e.g., Declaration of
-                                      Helsinki). In our view, there is still
-                                      value in raising awareness of practices
-                                      that increase the transparency of clinical
-                                      research, even if the underlying administrative
-                                      procedures are subject to change. Moreover,
-                                      the majority of trials included in the dashboard
-                                      is not medicinal products trials regulated by
-                                      the EU's Clinical Trials Regulation. Finally, the
-                                      dashboard also provides baseline assessments
-                                      that allow the impact of interventions or
-                                      changes in policy to be evaluated.")),
+                               p(HTML("The EU Clinical Trials Information System (CTIS)
+                               launched when the <a href=https://www.ema.europa.eu/en/human-regulatory/research-development/clinical-trials/clinical-trials-regulation>
+                                      EU Clinical Trials Regulation</a> came into application.
+                                      CTIS serves as a single-entry point for drug trial
+                                      information in the EU. Sponsors are still required
+                                      to submit summary results of drug trials to the EU
+                                      database within one year of trial completion. The EU
+                                      Clinical Trials Regulation will undoubtedly lead to
+                                      changes in the way clinical trials are conducted in
+                                      the EU. However, most of the practices in this dashboard
+                                      are recommended by international bodies (e.g., World
+                                      Health Organization) and ethical guidelines (e.g.,
+                                      Declaration of Helsinki) and therefore apply to all
+                                      clinical trials and not only to those investigating
+                                      drugs. The majority of trials included in the dashboard
+                                      are not drug trials regulated by the EU's Clinical
+                                      Trials Regulation. Finally, the dashboard also provides
+                                      baseline assessments that allow the impact of
+                                      interventions or changes in policy to be evaluated.")),
                                value = "faqPanels_CTIS",
                                style = "default")),
     bsCollapse(id = "faqPanels_Contact",
