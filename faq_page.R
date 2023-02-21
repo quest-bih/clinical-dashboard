@@ -42,7 +42,7 @@ faq_page <- tabPanel(
                                and the EU Clinical Trials Register (EUCTR) are part of the
                                ICTRP Registry Network and are commonly used for Germany.<br>
                                <br>
-                               <b>ClinicalTrials.gov and DRKS (all trials)</b>: most of the metrics
+                               <b>ClinicalTrials.gov and DRKS</b>: most of the metrics
                                presented in the dashboard are based 
                                on a previously generated cohort of interventional
                                clinical trials completed at German UMCs and registered
