@@ -766,12 +766,15 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
         layout(
             barmode = 'stack',
             xaxis = list(
-                title = '<b>Year of publication</b>'
+                title = '<b>Year of publication</b>',
+                spikemode = 'marker',
+                spikethickness = 0
             ),
             yaxis = list(
                 title = paste('<b>', ylabel, '</b>'),
                 range = c(0, upperlimit)
             ),
+            hovermode = "x unified",
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9]
         )
@@ -890,7 +893,9 @@ plot_opensci_oa <- function (dataset, absnum, color_palette) {
             layout(
                 barmode = 'stack',
                 xaxis = list(
-                    title = '<b>Year of publication</b>'
+                    title = '<b>Year of publication</b>',
+                    spikemode = 'marker',
+                    spikethickness = 0
                     ),
                 yaxis = list(
                     title = paste('<b>', ylabel, '</b>'),

@@ -1154,12 +1154,15 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
         layout(
             barmode = 'stack',
             xaxis = list(
-                title = '<b>Year of publication</b>'
+                title = '<b>Year of publication</b>',
+                spikemode = 'marker',
+                spikethickness = 0
             ),
             yaxis = list(
                 title = paste('<b>', ylabel, '</b>'),
                 range = c(0, upperlimit)
             ),
+            hovermode = "x unified",
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9]
         )
@@ -1186,6 +1189,7 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
         y = ~gold,
         name = "Gold",
         text = ~paste0(gold_numer, " out of ", sum),
+        textposition = "none",
         hovertemplate = paste0('<b>%{x} : </b>', '%{y}%',
                                ', %{text}'),
         type = 'bar',
@@ -1236,12 +1240,15 @@ umc_plot_opensci_oa <- function (dataset, dataset_all, umc, absnum, color_palett
         layout(
             barmode = 'stack',
             xaxis = list(
-                title = '<b>UMC</b>'
+                title = '<b>UMC</b>',
+                spikemode = 'marker',
+                spikethickness = 0
             ),
             yaxis = list(
                 title = paste('<b>', ylabel, '</b>'),
                 range = c(0, 105)
             ),
+            hovermode = "x unified",
             paper_bgcolor = color_palette[9],
             plot_bgcolor = color_palette[9]
         )
