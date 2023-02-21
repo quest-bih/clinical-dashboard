@@ -454,8 +454,9 @@ umc_plot_clinicaltrials_sumres <- function (eutt_dataset, iv_dataset, iv_all_dat
     
     if (toggled_registry == "EUCTR") {
 
-        dataset <- eutt_dataset |>
-            filter (date > as.Date("2022-02-18")-365*1.5) ## Only look at the last year and a half
+        dataset <- eutt_dataset 
+        # |>
+           # filter (date > as.Date("2022-02-18")-365*1.5) ## Only look at the last year and a half
 
         ## Only take the latest data point per month
         dataset$month <- dataset$date |>
