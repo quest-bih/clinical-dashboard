@@ -31,8 +31,7 @@ umc_page <- tabPanel(
                 h4(style = "margin-left:0cm",
                    "The dashboard was developed as part of a scientific research
                    project with the overall aim to support the adoption of responsible
-                   research practices at UMCs. The dashboard is a pilot and continues
-                       to be updated. More metrics may be added in the future."),
+                   research practices at UMCs. More metrics may be added in the future."),
                 br()
             )
         ),
@@ -47,8 +46,8 @@ umc_page <- tabPanel(
                     choices = c(
                         "Select a UMC",
                         iv_umc %>%
-                        arrange(city) %>%
-                        distinct(city) %>%
+                        arrange(city)  |> 
+                        distinct(city) |> 
                         pull()
                     ),
                     selected = NA
