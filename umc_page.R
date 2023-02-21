@@ -46,8 +46,8 @@ umc_page <- tabPanel(
                     choices = c(
                         "Select a UMC",
                         iv_umc %>%
-                        arrange(city) %>%
-                        distinct(city) %>%
+                        arrange(city)  |> 
+                        distinct(city) |> 
                         pull()
                     ),
                     selected = NA

@@ -10,28 +10,28 @@ iv_all <- read_csv(
 # ClinicalTrials.gov and DRKS use different phase names
 # We use IntoValue's lookup table to coalesce names
 
-phase_lookup <- read_csv("data/iv_data_lookup_registries.csv") %>%
-    filter(name == "phase") %>%
+phase_lookup <- read_csv("data/iv_data_lookup_registries.csv") |>
+    filter(name == "phase") |>
     select(phase = level_registry, phase_unified = level_unified)
 
-trial_characteristics <- iv_all %>%
+trial_characteristics <- iv_all |>
 
   # Prepare industry sponsor
-  mutate(industry_sponsor = ifelse(main_sponsor == "Industry", TRUE, FALSE)) %>%
+  mutate(industry_sponsor = ifelse(main_sponsor == "Industry", TRUE, FALSE)) |>
 
   # Prepare registration and start year
   mutate(
     # registration_year = lubridate::year(registration_date),
     start_year = lubridate::year(start_date)
-  ) %>%
+  ) |>
 
-  mutate(across(ends_with("_year"), factor)) %>%
+  mutate(across(ends_with("_year"), factor)) |>
 
   # Prepare phase
-  left_join(phase_lookup, by = "phase") %>%
+  left_join(phase_lookup, by = "phase") |>
 
   # Tidy center size
-  # mutate(center_size = str_to_title(center_size)) %>%
+  # mutate(center_size = str_to_title(center_size)) |>
 
   select(
     registry,
@@ -52,7 +52,7 @@ trial_characteristics <- iv_all %>%
     # registration_year,
     start_year,
     completion_year
-  ) %>%
+  ) |>
 
   gtsummary::tbl_summary(
     by = registry,
@@ -76,19 +76,19 @@ trial_characteristics <- iv_all %>%
       # start_date ~ "Trial start date",
       # completion_date ~ "Trial completion date"
     )
-  ) %>%
+  ) |>
 
-  add_overall() %>%
+  add_overall() |>
 
   # Move stats legend to each line
-  add_stat_label() %>%
+  add_stat_label() |>
 
-  modify_caption("**Characteristics of German UMC-conducted trials** A trial was considered randomized if allocation included randomization. Trials were considered to be conducted by a German UMC if the UMC was listed in `sponsors`, `overall officials`, or `responsible parties` in ClinicalTrials.gov, or in any `addresses` in DRKS. 'Unknowns' are not counted in the denominator for percentages.") %>%
+  modify_caption("**Characteristics of German UMC-conducted trials** A trial was considered randomized if allocation included randomization. Trials were considered to be conducted by a German UMC if the UMC was listed in `sponsors`, `overall officials`, or `responsible parties` in ClinicalTrials.gov, or in any `addresses` in DRKS. 'Unknowns' are not counted in the denominator for percentages.") |>
 
-  bold_labels() %>%
+  bold_labels() |>
 
   # Remove rowname label
-    modify_header(label = "") %>%
+    modify_header(label = "") |>
     as_gt()
 
 # Center size is considered 'large' if it conducted more trials than the median trial number per UMC across all UMCs included in the IntoValue1 or Intovalue2 studies, respectively.
@@ -100,24 +100,24 @@ pros_reg_data <- read_csv(
     "data/prospective-reg-ctgov-2018-trials.csv"
 )
 
-pros_reg_trial_characteristics <- pros_reg_data %>%
+pros_reg_trial_characteristics <- pros_reg_data |>
 
   # Prepare industry sponsor
-  mutate(industry_sponsor = ifelse(main_sponsor == "Industry", TRUE, FALSE)) %>%
+  mutate(industry_sponsor = ifelse(main_sponsor == "Industry", TRUE, FALSE)) |>
 
   # Prepare registration and start year
   mutate(
     # registration_year = lubridate::year(registration_date),
     start_year = lubridate::year(start_date)
-  ) %>%
+  ) |>
 
-  mutate(across(ends_with("_year"), factor)) %>%
+  mutate(across(ends_with("_year"), factor)) |>
 
   # Prepare phase
-  left_join(phase_lookup, by = "phase") %>%
+  left_join(phase_lookup, by = "phase") |>
 
   # Tidy center size
-  # mutate(center_size = str_to_title(center_size)) %>%
+  # mutate(center_size = str_to_title(center_size)) |>
 
   select(
     registry,
@@ -138,7 +138,7 @@ pros_reg_trial_characteristics <- pros_reg_data %>%
     # registration_year,
     start_year,
     completion_year
-  ) %>%
+  ) |>
 
   gtsummary::tbl_summary(
     by = registry,
@@ -162,17 +162,17 @@ pros_reg_trial_characteristics <- pros_reg_data %>%
       # start_date ~ "Trial start date",
       # completion_date ~ "Trial completion date"
     )
-  ) %>%
+  ) |>
 
   # Move stats legend to each line
-  add_stat_label() %>%
+  add_stat_label() |>
 
-  modify_caption("**Characteristics of German UMC-conducted trials** A trial was considered randomized if allocation included randomization. Trials were considered to be conducted by a German UMC if the UMC was listed in `sponsors`, `overall officials`, or `responsible parties` in ClinicalTrials.gov. 'Unknowns' are not counted in the denominator for percentages.") %>%
+  modify_caption("**Characteristics of German UMC-conducted trials** A trial was considered randomized if allocation included randomization. Trials were considered to be conducted by a German UMC if the UMC was listed in `sponsors`, `overall officials`, or `responsible parties` in ClinicalTrials.gov. 'Unknowns' are not counted in the denominator for percentages.") |>
 
-  bold_labels() %>%
+  bold_labels() |>
 
   # Remove rowname label
-    modify_header(label = "") %>%
+    modify_header(label = "") |>
     as_gt()
 
 # Center size is considered 'large' if it conducted more trials than the median trial number per UMC across all UMCs included in the IntoValue1 or Intovalue2 studies, respectively.

@@ -467,7 +467,7 @@ openaccess_tooltip <- strwrap("This metric shows the percentage of clinical tria
                               retrospectively, as some publications become accessible
                               with a delay. Query date: 01/11/2022. Start page: only
                               publication years with more than 20 publications are shown.
-                              More information can be found in the Methods page.") %>%
+                              More information can be found in the Methods page.") |>
   paste(collapse = " ")
 
 lim_openaccess_tooltip <- strwrap("The OA status could only be obtained for publications
@@ -493,7 +493,7 @@ greenopenaccess_tooltip <- strwrap('This metric shows the percentage of paywalle
                              The Shareyourpaper permissions API was queried on
                              20/02/2022. Start page: only publication years with more than
                              20 publications are shown. More information can be
-                             found in the Methods page.') %>%
+                             found in the Methods page.') |>
   paste(collapse = " ")
 
 lim_greenopenaccess_tooltip <- strwrap("The OA status and self-archiving permission could
@@ -507,7 +507,7 @@ opendata_tooltip <- strwrap("This metric measures the percentage of screened pub
                                 ODDPub to identify publications which share research data.
                                 Openly shared data makes research more transparent, as research findings can
                                 be reproduced. Additionally, shared datasets can be reused and combined by other
-                            scientists to answer new research questions.") %>%
+                            scientists to answer new research questions.") |>
   
   paste(collapse = " ")
 
@@ -517,7 +517,7 @@ opencode_tooltip <- strwrap("The Open Code metric measures the percentage of scr
                              that state that they shared their analysis code. We used the text-mining
                              algorithm ODDPub to identify publications which share analysis code.
                             Like openly shared data, Open Code makes research more transparent, as research
-                            findings can be reproduced.") %>%
+                            findings can be reproduced.") |>
   
   paste(collapse = " ")
 
@@ -535,7 +535,7 @@ trn_tooltip <- strwrap("This metric measures how many clinical trials with a jou
                         The analysis was further restricted to publications indexed in PubMed
                         (detection of TRN in abstract) and publications for which we could obtain
                         the full text (detection of TRN in full text). More information can be
-                        found in the Methods page.") %>%
+                        found in the Methods page.") |>
   
   paste(collapse = " ")
 
@@ -574,7 +574,7 @@ sumres_tooltip <- strwrap("This metric displays the cumulative percentage of due
                              A semi-automated approach was used to detect summary results reporting
                              in ClinicalTrials.gov and DRKS. Summary results reporting in the EUCTR
                              were retrieved from the EU Trials Tracker. 
-                             More information can be found in the Methods page.") %>%
+                             More information can be found in the Methods page.") |>
   
   paste(collapse = " ")
 
@@ -598,7 +598,7 @@ prereg_tooltip <- strwrap("This metric reflects whether a clinical trial was pro
                         We defined a trial to be prospectively registered if the trial was registered
                         in the same or a previous month to the trial start date, as some registrations
                         provide only a start month rather than an exact date. More information can be
-                          found in the Methods page.") %>%
+                          found in the Methods page.") |>
   
   paste(collapse = " ")
 
@@ -621,7 +621,7 @@ timpub_tooltip2 <- strwrap("This metric shows the percentage of clinical trials 
                              Publication dates were manually entered during publication searches.
                              When calculating the 2-year reporting rates, we only
                              considered trials for which we had 2 years follow-up time since trial completion. 
-                             More information can be found in the Methods page.") %>%
+                             More information can be found in the Methods page.") |>
   
   paste(collapse = " ")
 
@@ -653,7 +653,7 @@ timpub_tooltip5 <- strwrap("This metric shows the percentage of clinical trials 
                              5-year reporting rates, we only considered trials for which we had 5 years
                              follow-up time since trial completion. The plot only displays data for
                              completion years with more than 5 trials across all UMCs. More information
-                           can be found in the Methods page.") %>%
+                           can be found in the Methods page.") |>
   
   paste(collapse = " ")
 
@@ -676,7 +676,7 @@ randomization_tooltip <- strwrap("This metric measures how many animal studies r
                             with SciScore, an automated tool which evaluates research articles based on their
                             adherence to rigour and reproducibility criteria. Only animal studies in English
                             and contained in the PubMed Central corpus (for which we have SciScore data) could
-                            be analyzed.") %>%
+                            be analyzed.") |>
   
   paste(collapse = " ")
 
@@ -687,7 +687,7 @@ blinding_tooltip <- strwrap("This metric measures how many animal studies report
                             of blinding was evaluated with SciScore, an automated tool which evaluates research
                             articles based on their adherence to rigour and reproducibility criteria. Only animal studies in English
                             and contained in the PubMed Central corpus (for which we have SciScore data) could
-                            be analyzed.") %>%
+                            be analyzed.") |>
   
   paste(collapse = " ")
 
@@ -698,13 +698,13 @@ power_tooltip <- strwrap("This metric measures how many animal studies report a 
                          tool which evaluates research articles based on their adherence to rigour and
                          reproducibility criteria. Only animal studies in English
                             and contained in the PubMed Central corpus (for which we have SciScore data) could
-                            be analyzed.") %>%
+                            be analyzed.") |> 
   
   paste(collapse = " ")
 
 
 # iacuc_tooltip <- strwrap("This metric measures how many animal studies report an Institutional animal care and
-#                          use committee statement.") %>%
+#                          use committee statement.") |>
 #     
 # paste(collapse = " ")
 
