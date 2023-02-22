@@ -886,16 +886,6 @@ server <- function (input, output, session) {
     ## Start page: Open Access
     output$openscience_metrics <- renderUI({
 
-        req(input$width)
-
-        if (input$width < 1400) {
-            col_width <- 6
-            first_lim_align <- "left"
-        } else {
-            col_width <- 6
-            first_lim_align <- "right"
-        }
-
         ## Temporary, to remove Green OA plot
         col_width <- 12
 
@@ -980,7 +970,7 @@ server <- function (input, output, session) {
                         lim_id = "limOpenAccess",
                         lim_title = "Limitations: Open Access",
                         lim_text = lim_openaccess_tooltip,
-                        lim_align = first_lim_align
+                        lim_align = "left"
                     )
                 )## ,
                 ## column(
@@ -1696,16 +1686,9 @@ server <- function (input, output, session) {
             ## Nothing will be diplayed if the selector is still on
             ## "Select a UMC"
 
-            req(input$width)
             req(input$selectUMC)
 
-            if (input$width < 1400) {
-                col_width <- 6
-                first_lim_align <- "left"
-            } else {
-                col_width <- 6
-                first_lim_align <- "right"
-            }
+
 
             ## Temporary, to remove Green OA plot
             col_width <- 12
@@ -1825,7 +1808,7 @@ server <- function (input, output, session) {
                             lim_id = "UMClimOpenAccess",
                             lim_title = "Limitations: Open Access",
                             lim_text = lim_openaccess_tooltip,
-                            lim_align = first_lim_align
+                            lim_align = "left"
                         )
                     )## ,
                     ## column(
