@@ -3,7 +3,7 @@
 ## Data from the IntoValue 1-2 data set
 ## Generate these using the script in
 ## prep/transform-intovalue.R
-iv_all <- read_csv(
+iv_all <- vroom::vroom(
     "data/ct-dashboard-intovalue-all.csv"
 )
 
@@ -17,13 +17,11 @@ phase_lookup <- read_csv("data/iv_data_lookup_registries.csv") |>
 trial_characteristics <- iv_all |>
 
   # Prepare industry sponsor
-  mutate(industry_sponsor = ifelse(main_sponsor == "Industry", TRUE, FALSE)) |>
+  mutate(industry_sponsor = ifelse(str_detect(tolower(main_sponsor), "industry"), TRUE, FALSE),
 
   # Prepare registration and start year
-  mutate(
-    # registration_year = lubridate::year(registration_date),
-    start_year = lubridate::year(start_date)
-  ) |>
+  # registration_year = lubridate::year(registration_date),
+  start_year = lubridate::year(start_date)) |>  
 
   mutate(across(ends_with("_year"), factor)) |>
 
@@ -103,12 +101,11 @@ pros_reg_data <- read_csv(
 pros_reg_trial_characteristics <- pros_reg_data |>
 
   # Prepare industry sponsor
-  mutate(industry_sponsor = ifelse(main_sponsor == "Industry", TRUE, FALSE)) |>
+  mutate(industry_sponsor = ifelse(str_detect(tolower(main_sponsor), "industry"), TRUE, FALSE),
 
   # Prepare registration and start year
-  mutate(
-    # registration_year = lubridate::year(registration_date),
-    start_year = lubridate::year(start_date)
+  # registration_year = lubridate::year(registration_date),
+  start_year = lubridate::year(start_date)
   ) |>
 
   mutate(across(ends_with("_year"), factor)) |>
