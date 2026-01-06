@@ -4,11 +4,11 @@ impressum_text <- HTML("<b>Berliner Institut für Gesundheitsforschung in der Ch
                                        Berlin Institute of Health an der Charité - Universitätsmedizin Berlin<br>
                                        Anna-Louisa-Karsch-Str. 2<br>
                                        10178 Berlin<br>
-                                       Tel.: 030 450 543 043<br>
                                        E-Mail: quest@bih-charite.de<br>
                                        <br>
                                        <b>Vertretungsberechtigt</b><br>
-                                       Prof. Dr. Ulrich Dirnagl<br>
+                                       Dr. Ulf Tölch | QUEST Spokesperson<br>
+                                       Sarah McCann, PhD | QUEST Deputy Spokesperson<br>
                                        <br>
                                        <b>Kontakt</b><br>
                                        Prof. Dr. Daniel Strech<br>
@@ -67,7 +67,8 @@ Telefon: <a href="tel:030 450 543 043">030 450 543 043</a>
 <br />
 <br />
 Vertretungsberechtigt<br />
-Prof. Dr. Ulrich Dirnagl<br />
+Dr. Ulf Tölch | QUEST Spokesperson<br />
+Sarah McCann, PhD | QUEST Deputy Spokesperson<br />
 <br />
 Kontakt<br />
 Prof. Dr. Daniel Strech<br />
