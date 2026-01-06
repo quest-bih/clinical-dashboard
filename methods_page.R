@@ -7,9 +7,9 @@ methods_page <- tabPanel(
                        and reporting practices for clinical trial transparency.
                        The dashboard displays data for interventional
                        clinical trials conducted at German UMCs, registered in
-                       ClinicalTrials.gov or the German Clinical Trials Registry
-                       (DRKS), and reported as complete between 2009 - 2017. For
-                       summary results reporting, we additionally included trials
+                       ClinicalTrials.gov or the German Clinical Trials Register
+                       (DRKS), and considered as complete between 2009 - 2017 per
+                       the registry. For summary results reporting, we additionally included trials
                        conducted at German UMCs and registered in the EU Clinical
                        Trials Register (EUCTR). The dashboard was developed as part
                        of a scientific research project with the overall aim to support
@@ -24,8 +24,8 @@ methods_page <- tabPanel(
   
   h4(style = "margin-left:0cm; color: purple",
      HTML("More information on the overall aim and methodology can be
-                       found in the publication asssociated with this dashboard
-            [enter DOI]. ")),
+                       found in the <a href=https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1004175>
+                       associated publication</a>.")),
   
   h3("Identification of clinical trials"),
   bsCollapsePanel(strong("Identification of clinical trials"),
@@ -39,13 +39,19 @@ methods_page <- tabPanel(
                                Register), conducted
                                by a German UMC (i.e., led either as sponsor,
                                responsible party, or as host of the principal
-                               investigator), and considered as \"complete\" between 2009
-                               and 2017 per the registry status. In line with WHO and ICMJE
-                               definitions, trials include all interventional
-                               studies and are not limited to Clinical Trials of
-                               an Investigational Medicinal Product that are regulated by
-                               the EU's Clinical Trials Directive or Germany's
-                               drug or medical device laws. Trials were searched for
+                               investigator), with a completion date between 2009
+                               - 2017, and considered as complete per the registry (status in
+                                      ClinicalTrials.gov: \"Completed\", \"Terminated\",
+                                      \"Suspended\", or \"Unknown\"; status in DRKS:
+                                      \"Recruiting complete, follow-up complete\",
+                                      \"Recruiting stopped after recruiting started\",
+                                      or \"Recruiting suspended on temporary hold\").
+                                      In line with WHO and ICMJE
+                               definitions, trials include all interventional studies
+                                      and are not limited to investigational medicinal
+                                      products trials regulated by the EU's
+                                      Clinical Trials Directive or Germany's drug
+                                      or medical device laws. Trials were searched for
                                38 German UMCs based on their inclusion as members
                                on the website of the association of medical faculties
                                at the time of data collection (Bielefeld UMC was not yet founded).
@@ -78,12 +84,12 @@ methods_page <- tabPanel(
                             <br>2. <b>Prospective registration in ClinicalTrials.gov</b>: 
                                       this assessment was based on a more recent cohort of
                                       interventional trials registered in ClinicalTrials.gov,
-                                      conducted at a German UMC, started between 2006 and 2018,
-                                      and considered as \"complete\" per the study
-                                      status in the registry. We downloaded updated
+                                      conducted at a German UMC, with a start date between 2006 - 2018,
+                                      and considered as complete per the registry (status: \"Completed\",
+                                      \"Terminated\", \"Suspended\", or \"Unknown\"). We downloaded updated
                                       registry data for the trials in this cohort on
                                       2 November 2022. In this cohort, Kiel and Lübeck are
-                                      represented as a single UMC (Schleswig-Holstein)<br>
+                                      represented as a single UMC (Schleswig-Holstein).<br>
                                       
                             <br>3. <b>Summary results reporting in the EUCTR</b>: this
                             assessment was based on the
@@ -461,7 +467,7 @@ openaccess_tooltip <- strwrap("This metric shows the percentage of clinical tria
                               retrospectively, as some publications become accessible
                               with a delay. Query date: 01/11/2022. Start page: only
                               publication years with more than 20 publications are shown.
-                              More information can be found in the Methods page.") %>%
+                              More information can be found in the Methods page.") |>
   paste(collapse = " ")
 
 lim_openaccess_tooltip <- strwrap("The OA status could only be obtained for publications
@@ -487,7 +493,7 @@ greenopenaccess_tooltip <- strwrap('This metric shows the percentage of paywalle
                              The Shareyourpaper permissions API was queried on
                              20/02/2022. Start page: only publication years with more than
                              20 publications are shown. More information can be
-                             found in the Methods page.') %>%
+                             found in the Methods page.') |>
   paste(collapse = " ")
 
 lim_greenopenaccess_tooltip <- strwrap("The OA status and self-archiving permission could
@@ -501,7 +507,7 @@ opendata_tooltip <- strwrap("This metric measures the percentage of screened pub
                                 ODDPub to identify publications which share research data.
                                 Openly shared data makes research more transparent, as research findings can
                                 be reproduced. Additionally, shared datasets can be reused and combined by other
-                            scientists to answer new research questions.") %>%
+                            scientists to answer new research questions.") |>
   
   paste(collapse = " ")
 
@@ -511,7 +517,7 @@ opencode_tooltip <- strwrap("The Open Code metric measures the percentage of scr
                              that state that they shared their analysis code. We used the text-mining
                              algorithm ODDPub to identify publications which share analysis code.
                             Like openly shared data, Open Code makes research more transparent, as research
-                            findings can be reproduced.") %>%
+                            findings can be reproduced.") |>
   
   paste(collapse = " ")
 
@@ -529,7 +535,7 @@ trn_tooltip <- strwrap("This metric measures how many clinical trials with a jou
                         The analysis was further restricted to publications indexed in PubMed
                         (detection of TRN in abstract) and publications for which we could obtain
                         the full text (detection of TRN in full text). More information can be
-                        found in the Methods page.") %>%
+                        found in the Methods page.") |>
   
   paste(collapse = " ")
 
@@ -568,7 +574,7 @@ sumres_tooltip <- strwrap("This metric displays the cumulative percentage of due
                              A semi-automated approach was used to detect summary results reporting
                              in ClinicalTrials.gov and DRKS. Summary results reporting in the EUCTR
                              were retrieved from the EU Trials Tracker. 
-                             More information can be found in the Methods page.") %>%
+                             More information can be found in the Methods page.") |>
   
   paste(collapse = " ")
 
@@ -592,7 +598,7 @@ prereg_tooltip <- strwrap("This metric reflects whether a clinical trial was pro
                         We defined a trial to be prospectively registered if the trial was registered
                         in the same or a previous month to the trial start date, as some registrations
                         provide only a start month rather than an exact date. More information can be
-                          found in the Methods page.") %>%
+                          found in the Methods page.") |>
   
   paste(collapse = " ")
 
@@ -615,7 +621,7 @@ timpub_tooltip2 <- strwrap("This metric shows the percentage of clinical trials 
                              Publication dates were manually entered during publication searches.
                              When calculating the 2-year reporting rates, we only
                              considered trials for which we had 2 years follow-up time since trial completion. 
-                             More information can be found in the Methods page.") %>%
+                             More information can be found in the Methods page.") |>
   
   paste(collapse = " ")
 
@@ -647,7 +653,7 @@ timpub_tooltip5 <- strwrap("This metric shows the percentage of clinical trials 
                              5-year reporting rates, we only considered trials for which we had 5 years
                              follow-up time since trial completion. The plot only displays data for
                              completion years with more than 5 trials across all UMCs. More information
-                           can be found in the Methods page.") %>%
+                           can be found in the Methods page.") |>
   
   paste(collapse = " ")
 
@@ -670,7 +676,7 @@ randomization_tooltip <- strwrap("This metric measures how many animal studies r
                             with SciScore, an automated tool which evaluates research articles based on their
                             adherence to rigour and reproducibility criteria. Only animal studies in English
                             and contained in the PubMed Central corpus (for which we have SciScore data) could
-                            be analyzed.") %>%
+                            be analyzed.") |>
   
   paste(collapse = " ")
 
@@ -681,7 +687,7 @@ blinding_tooltip <- strwrap("This metric measures how many animal studies report
                             of blinding was evaluated with SciScore, an automated tool which evaluates research
                             articles based on their adherence to rigour and reproducibility criteria. Only animal studies in English
                             and contained in the PubMed Central corpus (for which we have SciScore data) could
-                            be analyzed.") %>%
+                            be analyzed.") |>
   
   paste(collapse = " ")
 
@@ -692,13 +698,13 @@ power_tooltip <- strwrap("This metric measures how many animal studies report a 
                          tool which evaluates research articles based on their adherence to rigour and
                          reproducibility criteria. Only animal studies in English
                             and contained in the PubMed Central corpus (for which we have SciScore data) could
-                            be analyzed.") %>%
+                            be analyzed.") |> 
   
   paste(collapse = " ")
 
 
 # iacuc_tooltip <- strwrap("This metric measures how many animal studies report an Institutional animal care and
-#                          use committee statement.") %>%
+#                          use committee statement.") |>
 #     
 # paste(collapse = " ")
 

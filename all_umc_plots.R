@@ -727,7 +727,9 @@ plot_allumc_openaccess <- function (dataset, color_palette) {
         layout(
             barmode = 'stack',
             xaxis = list(
-                title = '<b>UMC</b>'
+                title = '<b>UMC</b>',
+                spikemode = 'marker',
+                spikethickness = 0
             ),
             yaxis = list(
                 title = '<b>Percentage Open Access (%)</b>',
